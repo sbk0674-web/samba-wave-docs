@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SambaWave Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06060a;
+    --bg-card: #0e0e14;
+    --bg-card-hover: #14141c;
+    --border: #1a1a24;
+    --text: #e4e4ec;
+    --text-muted: #7a7a94;
+    --accent: #ff8c00;
+    --accent2: #ff6b35;
+    --green: #3ecf8e;
+    --blue: #5c9aff;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: rgba(255, 140, 0, 0.3); color: #fff; }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #2a2a34; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  .hero {
+    position: relative;
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.6s ease;
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  .hero h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.6s ease 0.1s both;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 480px;
+    margin: 0 auto;
+    animation: fadeIn 0.6s ease 0.2s both;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 0 2rem 6rem; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    padding-left: 0.25rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+    animation: fadeUp 0.5s ease both;
+  }
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.1s; }
+  .card:nth-child(3) { animation-delay: 0.15s; }
+  .card:nth-child(4) { animation-delay: 0.2s; }
+  .card:nth-child(5) { animation-delay: 0.25s; }
+  .card:nth-child(6) { animation-delay: 0.3s; }
+  .card:nth-child(7) { animation-delay: 0.35s; }
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(255, 140, 0, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 140, 0, 0.08);
+  }
+  .card-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+  .card-title { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; }
+  .card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+  .card-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+    margin-top: auto;
+  }
+  .card-tag .arrow { transition: transform 0.2s ease; }
+  .card:hover .card-tag .arrow { transform: translateX(3px); }
+
+  .icon-orange { background: rgba(255, 140, 0, 0.1); color: var(--accent); }
+  .icon-green { background: rgba(62, 207, 142, 0.1); color: var(--green); }
+  .icon-blue { background: rgba(92, 154, 255, 0.1); color: var(--blue); }
+  .icon-purple { background: rgba(167, 139, 250, 0.1); color: var(--purple); }
+  .icon-pink { background: rgba(244, 114, 182, 0.1); color: var(--pink); }
+
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  @media (max-width: 640px) {
+    .hero { padding: 4rem 1.5rem 3rem; }
+    .container { padding: 0 1.25rem 4rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge"><span class="dot"></span> Internal Documentation</div>
+  <h1><span class="grad">SambaWave</span> Docs</h1>
+  <p>무재고 위탁판매 관리 솔루션 개발 문서</p>
+</div>
+
+<div class="container">
+  <div class="section-label">// 개발 가이드</div>
+  <div class="grid">
+    <a href="samba-dev-guide.html" class="card">
+      <div class="card-icon icon-orange">&#9776;</div>
+      <div class="card-title">개발 가이드</div>
+      <div class="card-desc">아키텍처, 기술 스택, 플러그인 시스템, 도메인 구조 등 전체 개발 가이드</div>
+      <div class="card-tag">samba-dev-guide.html <span class="arrow">&rarr;</span></div>
+    </a>
+    <a href="deploy-guide.html" class="card">
+      <div class="card-icon icon-green">&#9650;</div>
+      <div class="card-title">배포 가이드</div>
+      <div class="card-desc">Vercel, Railway 배포 프로세스 및 CI/CD 파이프라인 설정</div>
+      <div class="card-tag">deploy-guide.html <span class="arrow">&rarr;</span></div>
+    </a>
+    <a href="extension-analysis.html" class="card">
+      <div class="card-icon icon-purple">&#10697;</div>
+      <div class="card-title">확장앱 분석</div>
+      <div class="card-desc">Chrome 확장앱 아키텍처 분석 및 소싱처 연동 구조</div>
+      <div class="card-tag">extension-analysis.html <span class="arrow">&rarr;</span></div>
+    </a>
+  </div>
+
+  <div class="section-label">// 소싱처 매뉴얼</div>
+  <div class="grid">
+    <a href="kream-dev-manual.html" class="card">
+      <div class="card-icon icon-pink">&#9830;</div>
+      <div class="card-title">KREAM 개발 매뉴얼</div>
+      <div class="card-desc">KREAM 상품 수집, 큐 방식 처리, 로그인 연동 등 소싱 가이드</div>
+      <div class="card-tag">kream-dev-manual.html <span class="arrow">&rarr;</span></div>
+    </a>
+  </div>
+
+  <div class="section-label">// 협업 & 대시보드</div>
+  <div class="grid">
+    <a href="collaboration-guide.html" class="card">
+      <div class="card-icon icon-blue">&#9733;</div>
+      <div class="card-title">협업 가이드</div>
+      <div class="card-desc">팀 협업 규칙, Git 워크플로우, 코드 리뷰 프로세스</div>
+      <div class="card-tag">collaboration-guide.html <span class="arrow">&rarr;</span></div>
+    </a>
+    <a href="collaboration-guide-cafe.html" class="card">
+      <div class="card-icon icon-blue">&#9749;</div>
+      <div class="card-title">협업 가이드 (카페)</div>
+      <div class="card-desc">외부 협업용 간소화 버전 가이드</div>
+      <div class="card-tag">collaboration-guide-cafe.html <span class="arrow">&rarr;</span></div>
+    </a>
+    <a href="project-dashboard.html" class="card">
+      <div class="card-icon icon-green">&#9679;</div>
+      <div class="card-title">프로젝트 대시보드</div>
+      <div class="card-desc">현재 진행 상황, 마켓 연동 현황, 로드맵 대시보드</div>
+      <div class="card-tag">project-dashboard.html <span class="arrow">&rarr;</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="footer">
+  SambaWave &copy; 2026 &middot; <a href="https://github.com/sbk0674-web/samba-wave">GitHub</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>왜 확장앱을 쓸까? — 더망고 vs 오버링크 분석</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    /* ── 히어로 ── */
+    .hero {
+      position: relative;
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 24px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255, 140, 0, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-badge {
+      position: relative;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #FF8C00;
+      background: rgba(255, 140, 0, 0.1);
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero h1 {
+      position: relative;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #FF8C00, #FFB84D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      position: relative;
+      font-size: 18px;
+      color: #888;
+      max-width: 600px;
+    }
+
+    /* ── 섹션 공통 ── */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    .section-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: #FF8C00;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    section h2 em {
+      font-style: normal;
+      color: #FF8C00;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: #999;
+      margin-bottom: 40px;
+      max-width: 680px;
+    }
+
+    /* ── 비유 카드 ── */
+    .analogy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    @media (max-width: 640px) { .analogy-grid { grid-template-columns: 1fr; } }
+
+    .analogy-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid #1e1e1e;
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: border-color 0.3s;
+    }
+
+    .analogy-card:hover {
+      border-color: rgba(255, 140, 0, 0.3);
+    }
+
+    .analogy-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+
+    .analogy-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .analogy-card p {
+      font-size: 14px;
+      color: #aaa;
+      line-height: 1.7;
+    }
+
+    .analogy-card .highlight {
+      color: #FFB84D;
+      font-weight: 600;
+    }
+
+    /* ── 플로우 다이어그램 ── */
+    .flow-container {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin: 40px 0;
+    }
+
+    .flow-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid #1e1e1e;
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+    }
+
+    .flow-box.mango { border-left: 3px solid #22c55e; }
+    .flow-box.overlink { border-left: 3px solid #ef4444; }
+
+    .flow-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .flow-label .tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .flow-label .tag.good {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .flow-label .tag.bad {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+
+    .flow-step {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 10px 16px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .flow-step.user { border-color: rgba(59, 130, 246, 0.4); color: #93c5fd; }
+    .flow-step.ext { border-color: rgba(255, 140, 0, 0.4); color: #FFB84D; }
+    .flow-step.server { border-color: rgba(168, 85, 247, 0.4); color: #c084fc; }
+    .flow-step.fail { border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; background: rgba(239, 68, 68, 0.05); }
+
+    .flow-arrow {
+      color: #444;
+      font-size: 18px;
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+
+    .flow-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #666;
+      padding-left: 16px;
+      border-left: 2px solid #2a2a2a;
+    }
+
+    .flow-note strong { color: #aaa; }
+
+    /* ── 비교 테이블 ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 40px 0;
+      font-size: 14px;
+    }
+
+    .compare-table thead th {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 16px 20px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .compare-table thead th:first-child { border-radius: 12px 0 0 0; }
+    .compare-table thead th:last-child { border-radius: 0 12px 0 0; }
+
+    .compare-table tbody td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #1a1a1a;
+      color: #bbb;
+    }
+
+    .compare-table tbody td:first-child {
+      color: #888;
+      font-weight: 500;
+      width: 140px;
+    }
+
+    .compare-table tbody tr:last-child td:first-child { border-radius: 0 0 0 12px; }
+    .compare-table tbody tr:last-child td:last-child { border-radius: 0 0 12px 0; }
+
+    .badge-good {
+      display: inline-block;
+      font-size: 11px;
+      background: rgba(34, 197, 94, 0.12);
+      color: #22c55e;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .badge-bad {
+      display: inline-block;
+      font-size: 11px;
+      background: rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* ── 난이도 비주얼 ── */
+    .difficulty-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    @media (max-width: 640px) { .difficulty-grid { grid-template-columns: 1fr; } }
+
+    .diff-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid #1e1e1e;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .diff-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .diff-bar-group { display: flex; flex-direction: column; gap: 12px; }
+
+    .diff-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .diff-site {
+      width: 70px;
+      text-align: right;
+      color: #888;
+      flex-shrink: 0;
+    }
+
+    .diff-bar-wrap {
+      flex: 1;
+      height: 8px;
+      background: #1a1a1a;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .diff-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+
+    .diff-bar.easy { background: linear-gradient(90deg, #22c55e, #4ade80); }
+    .diff-bar.hard { background: linear-gradient(90deg, #ef4444, #f97316); }
+
+    .diff-stars {
+      width: 60px;
+      font-size: 11px;
+      color: #666;
+      flex-shrink: 0;
+    }
+
+    /* ── 정리 카드 ── */
+    .summary-card {
+      background: linear-gradient(135deg, rgba(255, 140, 0, 0.06) 0%, rgba(255, 140, 0, 0.02) 100%);
+      border: 1px solid rgba(255, 140, 0, 0.15);
+      border-radius: 20px;
+      padding: 40px 36px;
+      margin: 40px 0 20px;
+    }
+
+    .summary-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #FFB84D;
+    }
+
+    .summary-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .summary-list li {
+      font-size: 15px;
+      color: #ccc;
+      padding-left: 28px;
+      position: relative;
+    }
+
+    .summary-list li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: #FF8C00;
+      font-weight: 700;
+      font-family: monospace;
+      font-size: 16px;
+    }
+
+    /* ── 푸터 ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 12px;
+      color: #444;
+      border-top: 1px solid #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 히어로 -->
+  <div class="hero">
+    <div class="hero-badge">SAMBA-WAVE 기술 분석</div>
+    <h1>왜 <em>확장앱</em>을 쓸까?</h1>
+    <p class="hero-sub">
+      더망고와 오버링크, 두 솔루션이 브라우저 확장앱을 사용하는 이유와<br>
+      서로 다른 서버 운영 방식이 안정성에 미치는 영향을 비교합니다
+    </p>
+  </div>
+
+  <!-- 섹션 1: 비유 -->
+  <section>
+    <div class="section-num">CHAPTER 01</div>
+    <h2>먼저 쉬운 비유로 <em>이해</em>하기</h2>
+    <p class="section-desc">
+      인터넷 쇼핑몰에서 상품 정보를 가져오는 걸, 도서관에서 책 내용을 베끼는 것에 비유해볼게요.
+    </p>
+
+    <div class="analogy-grid">
+      <div class="analogy-card">
+        <div class="analogy-icon">🤖</div>
+        <h3>확장앱 없이 (서버가 직접)</h3>
+        <p>
+          <span class="highlight">로봇</span>을 도서관에 보내서 책을 읽게 하는 것과 같아요.
+          그런데 도서관 입구에서 "로봇은 출입금지!"라는 표지판을 보고 쫓겨납니다.
+          도서관 회원증(로그인)도 없고, 사서가 로봇을 의심해서 책을 안 보여줘요.
+        </p>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-icon">👤</div>
+        <h3>확장앱으로 (사람이 직접)</h3>
+        <p>
+          <span class="highlight">내가 직접</span> 도서관에 가서 회원증을 보여주고,
+          책을 펼쳐 읽으면서 중요한 내용만 메모하는 거예요.
+          사서는 아무런 의심 없이 책을 보여주고, 나는 편하게 메모를 가져옵니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="analogy-grid">
+      <div class="analogy-card">
+        <div class="analogy-icon">👓</div>
+        <h3>확장앱 = "특수 안경"</h3>
+        <p>
+          브라우저 확장앱은 <span class="highlight">특수 안경</span> 같은 거예요.
+          내가 평소처럼 쇼핑몰을 구경하면, 안경이 자동으로 상품 정보를 읽어서 메모장(서버)에 적어줘요.
+          쇼핑몰 입장에서는 그냥 평범한 손님이 구경하는 것처럼 보입니다.
+        </p>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-icon">📋</div>
+        <h3>왜 둘 다 확장앱을 쓸까?</h3>
+        <p>
+          쇼핑몰들은 로봇(서버)이 데이터를 긁어가는 걸 <span class="highlight">적극적으로 차단</span>해요.
+          CAPTCHA, 로그인 강제, IP 차단 등...
+          하지만 실제 사람(브라우저 확장앱)은 차단할 수 없어요.
+          그래서 더망고와 오버링크 모두 확장앱을 사용합니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 2: 확장앱을 쓰는 이유 -->
+  <section>
+    <div class="section-num">CHAPTER 02</div>
+    <h2>확장앱을 쓰는 <em>진짜 이유</em> 5가지</h2>
+    <p class="section-desc">
+      더망고와 오버링크 모두 확장앱을 사용하는 건 같습니다.
+      서버가 직접 사이트에 접근하면 생기는 문제들을 확장앱이 해결해주기 때문이에요.
+    </p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>문제</th>
+          <th>서버가 직접 접근하면</th>
+          <th>확장앱을 쓰면</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>봇 감지</td>
+          <td>"로봇이 접속 중입니다" 차단 <span class="badge-bad">차단됨</span></td>
+          <td>실제 사람이 보는 브라우저 <span class="badge-good">통과</span></td>
+        </tr>
+        <tr>
+          <td>로그인</td>
+          <td>CAPTCHA, 2단계 인증 등 자동 로그인 거의 불가능</td>
+          <td>이미 로그인된 브라우저 세션 그대로 사용</td>
+        </tr>
+        <tr>
+          <td>쿠키/세션</td>
+          <td>서버가 직접 관리해야 함 (만료, 갱신, 암호화 복호화...)</td>
+          <td>브라우저가 알아서 관리해줌</td>
+        </tr>
+        <tr>
+          <td>자바스크립트</td>
+          <td>SPA 사이트는 Puppeteer로 무거운 브라우저를 돌려야 함</td>
+          <td>브라우저가 이미 다 실행해놓은 완성된 화면을 읽음</td>
+        </tr>
+        <tr>
+          <td>개발 난이도</td>
+          <td>사이트마다 1~2주 개발, 봇 우회 기법 연구 <span class="badge-bad">매우 어려움</span></td>
+          <td>개발자도구에서 셀렉터만 찾으면 끝 <span class="badge-good">1~2시간</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 섹션 3: 더망고 vs 오버링크 -->
+  <section>
+    <div class="section-num">CHAPTER 03</div>
+    <h2>그럼 더망고와 오버링크는 <em>뭐가 다를까?</em></h2>
+    <p class="section-desc">
+      둘 다 확장앱을 쓰고, 둘 다 확장앱 리로드가 필요 없는 건 같아요.
+      차이는 <strong>서버를 어떻게 운영하느냐</strong>에 있습니다.
+    </p>
+
+    <div class="flow-container">
+      <!-- 더망고 -->
+      <div class="flow-box mango">
+        <div class="flow-label">
+          더망고 <span class="tag good">2년간 끊김 0회</span>
+        </div>
+        <div class="flow-steps">
+          <div class="flow-step user">내가 쇼핑몰 구경</div>
+          <span class="flow-arrow">></span>
+          <div class="flow-step ext">확장앱이 DOM 읽기</div>
+          <span class="flow-arrow">></span>
+          <div class="flow-step server">서버에 POST 전송</div>
+        </div>
+        <div class="flow-note">
+          <strong>핵심:</strong> 확장앱은 "보고 보내기"만 한다.
+          서버 코드가 바뀌어도 확장앱에는 영향이 없다.
+          서버가 항상 켜져있는 호스팅(mycafe24)이라 <strong>배포 개념이 없다</strong>.
+        </div>
+      </div>
+
+      <!-- 오버링크 -->
+      <div class="flow-box overlink">
+        <div class="flow-label">
+          오버링크 <span class="tag bad">배포 시 서비스 중단</span>
+        </div>
+        <div class="flow-steps">
+          <div class="flow-step user">내가 쇼핑몰 구경</div>
+          <span class="flow-arrow">></span>
+          <div class="flow-step ext">확장앱이 DOM 읽기</div>
+          <span class="flow-arrow">></span>
+          <div class="flow-step fail">서버 배포 중... 꺼짐</div>
+        </div>
+        <div class="flow-note">
+          <strong>핵심:</strong> 확장앱 동작은 같지만,
+          서버가 자체 운영 서버라서 <strong>코드 업데이트(배포) = 서버 재시작 = 서비스 중단</strong>.
+          배포를 자주 할수록 사용자에게 끊김이 잦아진다.
+        </div>
+      </div>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>더망고</th>
+          <th>오버링크</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>확장앱 역할</td>
+          <td>DOM 읽기 + 서버 전송</td>
+          <td>DOM 읽기 + 서버 전송</td>
+        </tr>
+        <tr>
+          <td>확장앱 리로드</td>
+          <td>필요 없음</td>
+          <td>필요 없음</td>
+        </tr>
+        <tr>
+          <td>서버 호스팅</td>
+          <td>mycafe24 (관리형 호스팅) <span class="badge-good">항상 켜짐</span></td>
+          <td>자체 서버 (직접 관리) <span class="badge-bad">배포 시 꺼짐</span></td>
+        </tr>
+        <tr>
+          <td>서버 배포</td>
+          <td>배포 개념 없음 (코드가 호스팅에서 바로 반영)</td>
+          <td>코드 수정 → 서버 재시작 → 서비스 중단</td>
+        </tr>
+        <tr>
+          <td>2년간 끊김</td>
+          <td><span class="badge-good">0회</span></td>
+          <td><span class="badge-bad">수시로</span></td>
+        </tr>
+        <tr>
+          <td>안정성 비결</td>
+          <td>서버가 죽을 일이 없는 구조</td>
+          <td>서버 배포 전략(무중단 등)이 필요</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 섹션 4: 배포 문제 심층 -->
+  <section>
+    <div class="section-num">CHAPTER 04</div>
+    <h2>왜 오버링크는 배포하면 <em>끊길까?</em></h2>
+    <p class="section-desc">
+      "배포"라는 건 서버의 코드를 새 버전으로 바꾸는 작업이에요.
+      이걸 식당에 비유하면 이해가 쉬워요.
+    </p>
+
+    <div class="analogy-grid">
+      <div class="analogy-card">
+        <div class="analogy-icon">🏪</div>
+        <h3>더망고 = 프랜차이즈 식당</h3>
+        <p>
+          본사(mycafe24)가 운영하는 식당이에요.
+          메뉴를 바꿔도 <span class="highlight">주방이 멈추지 않아요</span>.
+          메뉴판만 슬쩍 바꾸면 끝.
+          손님(확장앱)은 항상 주문할 수 있어요.
+        </p>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-icon">🍳</div>
+        <h3>오버링크 = 1인 식당</h3>
+        <p>
+          사장님이 직접 요리도 하고 서빙도 하는 식당이에요.
+          메뉴를 바꾸려면 <span class="highlight">가게 문을 닫고</span> 주방을 정비해야 해요.
+          그 동안 손님(확장앱)은 "문 닫았네..." 하고 돌아가야 합니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="analogy-grid">
+      <div class="analogy-card" style="grid-column: 1 / -1;">
+        <div class="analogy-icon">💡</div>
+        <h3>해결 방법: 무중단 배포</h3>
+        <p>
+          오버링크도 끊김 없이 배포할 수 있어요. 핵심은 <span class="highlight">"교대 근무"</span>입니다.
+          새 버전 서버를 먼저 켜놓고, 준비가 되면 손님을 새 서버로 안내하고, 옛 서버를 끄는 거예요.
+          이걸 IT에서는 "블루-그린 배포" 또는 "롤링 배포"라고 불러요.
+          하지만 구현이 복잡하고, 소규모 서비스에서는 "잠깐 끄고 켜는 게 더 빠르니까..."
+          하고 넘어가는 경우가 많습니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 5: 난이도 비교 -->
+  <section>
+    <div class="section-num">CHAPTER 05</div>
+    <h2>확장앱 유무에 따른 <em>개발 난이도</em></h2>
+    <p class="section-desc">
+      같은 쇼핑몰에서 같은 상품 데이터를 가져오더라도,
+      확장앱이 있냐 없냐에 따라 난이도가 하늘과 땅 차이입니다.
+    </p>
+
+    <div class="difficulty-grid">
+      <div class="diff-card">
+        <h4>
+          <span style="color: #22c55e;">&#9679;</span>
+          확장앱으로 수집할 때
+        </h4>
+        <div class="diff-bar-group">
+          <div class="diff-row">
+            <span class="diff-site">KREAM</span>
+            <div class="diff-bar-wrap"><div class="diff-bar easy" style="width: 10%;"></div></div>
+            <span class="diff-stars">쉬움</span>
+          </div>
+          <div class="diff-row">
+            <span class="diff-site">무신사</span>
+            <div class="diff-bar-wrap"><div class="diff-bar easy" style="width: 20%;"></div></div>
+            <span class="diff-stars">쉬움</span>
+          </div>
+          <div class="diff-row">
+            <span class="diff-site">Nike</span>
+            <div class="diff-bar-wrap"><div class="diff-bar easy" style="width: 10%;"></div></div>
+            <span class="diff-stars">쉬움</span>
+          </div>
+          <div class="diff-row">
+            <span class="diff-site">SSG</span>
+            <div class="diff-bar-wrap"><div class="diff-bar easy" style="width: 10%;"></div></div>
+            <span class="diff-stars">쉬움</span>
+          </div>
+          <div class="diff-row">
+            <span class="diff-site">올리브영</span>
+            <div class="diff-bar-wrap"><div class="diff-bar easy" style="width: 10%;"></div></div>
+            <span class="diff-stars">쉬움</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <h4>
+          <span style="color: #ef4444;">&#9679;</span>
+          서버에서 직접 수집할 때
+        </h4>
+        <div class="diff-bar-group">
+          <div class="diff-row">
+            <span class="diff-site">KREAM</span>
+            <div class="diff-bar-wrap"><div class="diff-bar hard" style="width: 100%;"></div></div>
+            <span class="diff-stars">극악</span>
+          </div>
+          <div class="diff-row">
+            <span class="diff-site">무신사</span>
+            <div class="diff-bar-wrap"><div class="diff-bar hard" style="width: 80%;"></div></div>
+            <span class="diff-stars">매우 어려움</span>
+          </div>
+          <div class="diff-row">
+            <span class="diff-site">Nike</span>
+            <div class="diff-bar-wrap"><div class="diff-bar hard" style="width: 100%;"></div></div>
+            <span class="diff-stars">극악</span>
+          </div>
+          <div class="diff-row">
+            <span class="diff-site">SSG</span>
+            <div class="diff-bar-wrap"><div class="diff-bar hard" style="width: 60%;"></div></div>
+            <span class="diff-stars">어려움</span>
+          </div>
+          <div class="diff-row">
+            <span class="diff-site">올리브영</span>
+            <div class="diff-bar-wrap"><div class="diff-bar hard" style="width: 40%;"></div></div>
+            <span class="diff-stars">보통</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analogy-card" style="margin-top: 0;">
+      <div class="analogy-icon">🔍</div>
+      <h3>왜 이렇게 차이가 날까?</h3>
+      <p>
+        확장앱은 <span class="highlight">"이미 완성된 화면을 보고 메모"</span>하는 거예요.
+        개발자도구(F12)에서 원하는 부분의 이름(셀렉터)만 찾으면 끝이에요.
+        <br><br>
+        서버에서 직접 수집하면 <span class="highlight">"빈 종이부터 그림을 다시 그려야"</span> 해요.
+        봇 감지 우회, 로그인 자동화, 쿠키 암호화 복호화, JavaScript 실행 환경 구축...
+        같은 데이터를 얻는데 10~50배 더 어렵습니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 섹션 6: 정리 -->
+  <section>
+    <div class="section-num">SUMMARY</div>
+    <h2>정리</h2>
+
+    <div class="summary-card">
+      <h3>확장앱을 쓰는 이유</h3>
+      <ul class="summary-list">
+        <li>쇼핑몰의 봇 차단을 피할 수 있다 (실제 사람의 브라우저이니까)</li>
+        <li>이미 로그인된 상태를 그대로 쓸 수 있다 (로그인 자동화 불필요)</li>
+        <li>브라우저가 다 그려놓은 완성된 화면을 읽으면 된다 (JS 렌더링 불필요)</li>
+        <li>개발이 10배 이상 쉽고, 유지보수도 간단하다</li>
+      </ul>
+    </div>
+
+    <div class="summary-card">
+      <h3>더망고 vs 오버링크 차이</h3>
+      <ul class="summary-list">
+        <li>둘 다 확장앱을 사용하고, 둘 다 확장앱 리로드가 필요 없는 건 같다</li>
+        <li>차이는 "서버 운영 방식"에 있다</li>
+        <li>더망고: 관리형 호스팅 → 배포 개념 자체가 없다 → 2년간 끊김 0회</li>
+        <li>오버링크: 자체 서버 → 코드 수정할 때마다 배포(재시작) → 서비스 중단 발생</li>
+        <li>오버링크도 "무중단 배포"를 도입하면 해결 가능하지만, 추가 구현이 필요하다</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    SAMBA-WAVE Technical Analysis &mdash; 2026.03.14
+  </footer>
+
+</body>
+</html>

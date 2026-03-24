@@ -1,0 +1,293 @@
+<div style="max-width:800px;margin:0 auto;font-family:'맑은 고딕',sans-serif;color:#333;line-height:1.8">
+
+<!-- 헤더 -->
+<div style="text-align:center;padding:30px 0 20px">
+<div style="font-size:3rem">🏄‍♂️</div>
+<h1 style="font-size:1.8rem;font-weight:900;color:#FF8C00;margin:8px 0">삼바웨이브 협업 가이드</h1>
+<p style="color:#888;font-size:0.95rem">직원 5명이 함께 코드를 수정해도 절대 망가지지 않는 방법</p>
+</div>
+
+<!-- 1. 전체 그림 -->
+<div style="background:#f8f8f8;border:2px solid #eee;border-radius:16px;padding:24px;margin-bottom:20px">
+<h2 style="font-size:1.2rem;color:#333;margin-bottom:16px">🔢 1. 전체 그림 — 코드가 어떻게 흘러가나요?</h2>
+
+<div style="text-align:center">
+<!-- 직원들 -->
+<table style="margin:0 auto;border:none;border-collapse:separate;border-spacing:8px">
+<tr>
+<td style="background:#fff3e0;border:2px solid #FF8C00;border-radius:12px;padding:12px 20px;text-align:center;width:130px">
+<div style="font-size:1.8rem">👨‍💼</div>
+<div style="font-weight:700;color:#FF8C00">사장님</div>
+<div style="font-size:0.75rem;color:#888">코드 수정</div>
+</td>
+<td style="background:#fff3e0;border:2px solid #FF8C00;border-radius:12px;padding:12px 20px;text-align:center;width:130px">
+<div style="font-size:1.8rem">👩‍💻</div>
+<div style="font-weight:700;color:#FF8C00">직원A</div>
+<div style="font-size:0.75rem;color:#888">코드 수정</div>
+</td>
+<td style="background:#fff3e0;border:2px solid #FF8C00;border-radius:12px;padding:12px 20px;text-align:center;width:130px">
+<div style="font-size:1.8rem">👨‍💻</div>
+<div style="font-weight:700;color:#FF8C00">직원B</div>
+<div style="font-size:0.75rem;color:#888">코드 수정</div>
+</td>
+</tr>
+</table>
+
+<div style="font-size:1.5rem;color:#FF8C00;padding:4px 0">⬇ ⬇ ⬇</div>
+
+<!-- GitHub -->
+<div style="background:#e8eaf6;border:2px solid #5c6bc0;border-radius:12px;padding:14px 24px;display:inline-block;margin:4px 0">
+<span style="font-size:1.5rem">📦</span>
+<strong style="color:#5c6bc0;margin-left:6px">GitHub (코드 금고)</strong>
+<div style="font-size:0.8rem;color:#888">모든 코드가 안전하게 보관 + 누가 뭘 바꿨는지 기록</div>
+</div>
+
+<div style="font-size:1.5rem;color:#FF8C00;padding:4px 0">⬇</div>
+
+<!-- 승인 -->
+<div style="background:#e8f5e9;border:2px solid #4caf50;border-radius:12px;padding:14px 24px;display:inline-block;margin:4px 0">
+<span style="font-size:1.5rem">✅</span>
+<strong style="color:#4caf50;margin-left:6px">사장님 승인 후 자동 배포</strong>
+</div>
+
+<div style="font-size:1.5rem;color:#FF8C00;padding:4px 0">⬇</div>
+
+<!-- 실서비스 -->
+<div style="background:#fff8e1;border:2px solid #FF8C00;border-radius:12px;padding:14px 24px;display:inline-block;margin:4px 0">
+<span style="font-size:1.5rem">🌐</span>
+<strong style="color:#FF8C00;margin-left:6px">실서비스 (고객이 보는 화면)</strong>
+</div>
+</div>
+</div>
+
+<!-- 2. 안전장치 -->
+<div style="background:#f8f8f8;border:2px solid #eee;border-radius:16px;padding:24px;margin-bottom:20px">
+<h2 style="font-size:1.2rem;color:#333;margin-bottom:16px">🔢 2. 안전장치 — 왜 망가지지 않나요?</h2>
+
+<table style="width:100%;border:none;border-collapse:separate;border-spacing:10px">
+<tr>
+<td style="background:#ffebee;border:2px solid #ef5350;border-radius:12px;padding:20px;text-align:center;width:50%;vertical-align:top">
+<div style="font-size:2.5rem">😱</div>
+<h3 style="color:#ef5350;margin:8px 0">안전장치 없을 때</h3>
+<p style="font-size:0.85rem;color:#888;line-height:1.6">
+직원이 실수로 코드 덮어쓰기<br>
+→ 실서비스 즉시 망가짐<br>
+→ 고객이 접속 불가<br>
+→ 복구하느라 밤샘 😭
+</p>
+</td>
+<td style="background:#e8f5e9;border:2px solid #4caf50;border-radius:12px;padding:20px;text-align:center;width:50%;vertical-align:top">
+<div style="font-size:2.5rem">😊</div>
+<h3 style="color:#4caf50;margin:8px 0">안전장치 있을 때</h3>
+<p style="font-size:0.85rem;color:#888;line-height:1.6">
+직원이 아무리 실수해도<br>
+→ 자기 공간에서만 영향<br>
+→ 사장님 승인 전까지 반영 안 됨<br>
+→ 실서비스는 항상 안전 👍
+</p>
+</td>
+</tr>
+</table>
+
+<!-- 핵심 안전장치 -->
+<div style="background:#e8f5e9;border:2px solid #a5d6a7;border-radius:12px;padding:20px;margin-top:12px">
+<h3 style="color:#4caf50;margin-bottom:12px">🛡️ 핵심 안전장치 3가지</h3>
+
+<div style="background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:8px;border-left:4px solid #FF8C00">
+<strong style="color:#FF8C00">① 브랜치 분리</strong><br>
+<span style="font-size:0.88rem;color:#666">각 직원은 자기만의 작업 공간(브랜치)에서 수정합니다.<br>다른 사람 작업에 절대 영향을 주지 않아요!</span>
+</div>
+
+<div style="background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:8px;border-left:4px solid #FF8C00">
+<strong style="color:#FF8C00">② PR (Pull Request)</strong><br>
+<span style="font-size:0.88rem;color:#666">"사장님, 제가 이렇게 수정했는데 확인해주세요" 라고 요청하는 것입니다.<br>사장님이 OK 해야만 반영됩니다.</span>
+</div>
+
+<div style="background:#fff;border-radius:10px;padding:14px 16px;border-left:4px solid #FF8C00">
+<strong style="color:#FF8C00">③ main 보호</strong><br>
+<span style="font-size:0.88rem;color:#666">실서비스에 연결된 main 브랜치는 직접 수정이 불가능합니다.<br>반드시 PR → 승인을 거쳐야 합니다.</span>
+</div>
+</div>
+</div>
+
+<!-- 3. 직원 작업 순서 -->
+<div style="background:#f8f8f8;border:2px solid #eee;border-radius:16px;padding:24px;margin-bottom:20px">
+<h2 style="font-size:1.2rem;color:#333;margin-bottom:16px">🔢 3. 직원 작업 순서 — 이것만 따라하세요!</h2>
+
+<div style="text-align:center">
+
+<div style="background:#e3f2fd;border:2px solid #42a5f5;border-radius:12px;padding:14px 20px;display:inline-block;margin:4px 0;min-width:300px">
+<span style="font-size:1.5rem">📥</span>
+<strong> ① 최신 코드 받기</strong>
+<div style="font-size:0.8rem;color:#888;margin-top:4px">
+<code style="background:#ddd;padding:2px 8px;border-radius:4px">git checkout main</code> →
+<code style="background:#ddd;padding:2px 8px;border-radius:4px">git pull</code>
+</div>
+</div>
+
+<div style="font-size:1.3rem;color:#42a5f5;padding:2px 0">⬇</div>
+
+<div style="background:#e3f2fd;border:2px solid #42a5f5;border-radius:12px;padding:14px 20px;display:inline-block;margin:4px 0;min-width:300px">
+<span style="font-size:1.5rem">🌿</span>
+<strong> ② 내 작업 공간 만들기</strong>
+<div style="font-size:0.8rem;color:#888;margin-top:4px">
+<code style="background:#ddd;padding:2px 8px;border-radius:4px">git checkout -b feature/내이름-작업내용</code>
+</div>
+</div>
+
+<div style="font-size:1.3rem;color:#42a5f5;padding:2px 0">⬇</div>
+
+<div style="background:#e3f2fd;border:2px solid #42a5f5;border-radius:12px;padding:14px 20px;display:inline-block;margin:4px 0;min-width:300px">
+<span style="font-size:1.5rem">✏️</span>
+<strong> ③ 코드 수정하기</strong>
+<div style="font-size:0.8rem;color:#888;margin-top:4px">Claude Code 등으로 마음껏 수정!<br>실수해도 내 공간이라 안전해요</div>
+</div>
+
+<div style="font-size:1.3rem;color:#42a5f5;padding:2px 0">⬇</div>
+
+<div style="background:#e3f2fd;border:2px solid #42a5f5;border-radius:12px;padding:14px 20px;display:inline-block;margin:4px 0;min-width:300px">
+<span style="font-size:1.5rem">💾</span>
+<strong> ④ 저장하고 올리기</strong>
+<div style="font-size:0.8rem;color:#888;margin-top:4px">
+<code style="background:#ddd;padding:2px 8px;border-radius:4px">git add .</code> →
+<code style="background:#ddd;padding:2px 8px;border-radius:4px">git commit -m "설명"</code> →
+<code style="background:#ddd;padding:2px 8px;border-radius:4px">git push</code>
+</div>
+</div>
+
+<div style="font-size:1.3rem;color:#42a5f5;padding:2px 0">⬇</div>
+
+<div style="background:#fff3e0;border:2px solid #FF8C00;border-radius:12px;padding:14px 20px;display:inline-block;margin:4px 0;min-width:300px">
+<span style="font-size:1.5rem">📮</span>
+<strong style="color:#FF8C00"> ⑤ PR 생성 (확인 요청)</strong>
+<div style="font-size:0.8rem;color:#888;margin-top:4px">GitHub에서 "Pull Request" 버튼 클릭<br>→ 사장님한테 "PR 올렸어요~" 연락</div>
+</div>
+
+<div style="font-size:1.3rem;color:#42a5f5;padding:2px 0">⬇</div>
+
+<div style="background:#e8f5e9;border:2px solid #4caf50;border-radius:12px;padding:14px 20px;display:inline-block;margin:4px 0;min-width:300px">
+<span style="font-size:1.5rem">✅</span>
+<strong style="color:#4caf50"> ⑥ 사장님 승인 → 자동 배포!</strong>
+<div style="font-size:0.8rem;color:#888;margin-top:4px">코드 확인 후 Merge 버튼 클릭<br>→ 실서비스에 자동 반영</div>
+</div>
+
+</div>
+</div>
+
+<!-- 4. 실수 대처 -->
+<div style="background:#f8f8f8;border:2px solid #eee;border-radius:16px;padding:24px;margin-bottom:20px">
+<h2 style="font-size:1.2rem;color:#333;margin-bottom:16px">🔢 4. 실수했을 때 — 전혀 걱정 마세요!</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.88rem">
+<tr style="background:#f5f5f5">
+<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #ddd;color:#888">😰 이런 실수를 했어요</th>
+<th style="padding:10px 12px;text-align:center;border-bottom:2px solid #ddd;color:#888">피해는?</th>
+<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #ddd;color:#888">해결 방법</th>
+</tr>
+<tr>
+<td style="padding:10px 12px;border-bottom:1px solid #eee">코드를 다 날려버렸어요</td>
+<td style="padding:10px 12px;border-bottom:1px solid #eee;text-align:center"><span style="background:#e8f5e9;color:#4caf50;padding:2px 10px;border-radius:10px;font-size:0.78rem;font-weight:600">내 브랜치만</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #eee">브랜치 삭제 후 다시 만들면 끝!</td>
+</tr>
+<tr>
+<td style="padding:10px 12px;border-bottom:1px solid #eee">main에 직접 push 했어요</td>
+<td style="padding:10px 12px;border-bottom:1px solid #eee;text-align:center"><span style="background:#e8f5e9;color:#4caf50;padding:2px 10px;border-radius:10px;font-size:0.78rem;font-weight:600">피해 없음</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #eee">보호 설정으로 자동 거부됨!</td>
+</tr>
+<tr>
+<td style="padding:10px 12px;border-bottom:1px solid #eee">이상한 PR을 보냈어요</td>
+<td style="padding:10px 12px;border-bottom:1px solid #eee;text-align:center"><span style="background:#e8f5e9;color:#4caf50;padding:2px 10px;border-radius:10px;font-size:0.78rem;font-weight:600">피해 없음</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #eee">사장님이 승인 안 하면 반영 안 됨!</td>
+</tr>
+<tr>
+<td style="padding:10px 12px;border-bottom:1px solid #eee">PC가 고장났어요</td>
+<td style="padding:10px 12px;border-bottom:1px solid #eee;text-align:center"><span style="background:#e8f5e9;color:#4caf50;padding:2px 10px;border-radius:10px;font-size:0.78rem;font-weight:600">피해 없음</span></td>
+<td style="padding:10px 12px;border-bottom:1px solid #eee">GitHub에 코드 다 있음. 새 PC에서 다시 받기!</td>
+</tr>
+<tr>
+<td style="padding:10px 12px">다른 직원 파일을 수정했어요</td>
+<td style="padding:10px 12px;text-align:center"><span style="background:#fff8e1;color:#f9a825;padding:2px 10px;border-radius:10px;font-size:0.78rem;font-weight:600">충돌 가능</span></td>
+<td style="padding:10px 12px">PR에서 충돌 표시됨 → 사장님이 정리!</td>
+</tr>
+</table>
+
+<!-- 금지사항 -->
+<div style="background:#ffebee;border:2px solid #ef9a9a;border-radius:12px;padding:18px 20px;margin-top:16px">
+<h3 style="color:#ef5350;margin-bottom:10px">🚫 이것만은 하지 마세요</h3>
+<div style="background:#fff;border-radius:8px;padding:10px 14px;margin-bottom:6px;border-left:4px solid #ef5350;font-size:0.88rem">
+<strong style="color:#ef5350">① .env 파일을 git에 올리지 마세요</strong> — 비밀번호가 들어있어요!
+</div>
+<div style="background:#fff;border-radius:8px;padding:10px 14px;border-left:4px solid #ef5350;font-size:0.88rem">
+<strong style="color:#ef5350">② 다른 직원의 브랜치를 건드리지 마세요</strong> — 자기 브랜치에서만 작업!
+</div>
+</div>
+</div>
+
+<!-- 5. 작업 분담 -->
+<div style="background:#f8f8f8;border:2px solid #eee;border-radius:16px;padding:24px;margin-bottom:20px">
+<h2 style="font-size:1.2rem;color:#333;margin-bottom:16px">🔢 5. 작업 분담 예시</h2>
+
+<table style="margin:0 auto;border:none;border-collapse:separate;border-spacing:8px">
+<tr>
+<td style="background:#ffebee;border:2px solid #ef5350;border-radius:12px;padding:14px 18px;text-align:center;width:120px">
+<div style="font-size:1.5rem">🛒</div>
+<div style="font-weight:700;font-size:0.85rem">직원A</div>
+<div style="font-size:0.75rem;color:#888">주문관리</div>
+</td>
+<td style="background:#e3f2fd;border:2px solid #42a5f5;border-radius:12px;padding:14px 18px;text-align:center;width:120px">
+<div style="font-size:1.5rem">📦</div>
+<div style="font-weight:700;font-size:0.85rem">직원B</div>
+<div style="font-size:0.75rem;color:#888">상품 수집</div>
+</td>
+<td style="background:#e8f5e9;border:2px solid #4caf50;border-radius:12px;padding:14px 18px;text-align:center;width:120px">
+<div style="font-size:1.5rem">💬</div>
+<div style="font-weight:700;font-size:0.85rem">직원C</div>
+<div style="font-size:0.75rem;color:#888">CS 응답</div>
+</td>
+<td style="background:#f3e5f5;border:2px solid #ab47bc;border-radius:12px;padding:14px 18px;text-align:center;width:120px">
+<div style="font-size:1.5rem">🔗</div>
+<div style="font-weight:700;font-size:0.85rem">직원D</div>
+<div style="font-size:0.75rem;color:#888">마켓 연동</div>
+</td>
+<td style="background:#fff8e1;border:2px solid #f9a825;border-radius:12px;padding:14px 18px;text-align:center;width:120px">
+<div style="font-size:1.5rem">📊</div>
+<div style="font-weight:700;font-size:0.85rem">직원E</div>
+<div style="font-size:0.75rem;color:#888">통계/리포트</div>
+</td>
+</tr>
+</table>
+<p style="text-align:center;color:#888;font-size:0.85rem;margin-top:12px">서로 다른 영역을 맡으면 충돌이 거의 없어요!</p>
+</div>
+
+<!-- 요약 -->
+<div style="background:#fff3e0;border:2px solid #FF8C00;border-radius:16px;padding:24px;margin-bottom:20px">
+<h2 style="font-size:1.2rem;color:#FF8C00;margin-bottom:16px;text-align:center">✨ 한줄 요약</h2>
+
+<table style="margin:0 auto;border:none;border-collapse:separate;border-spacing:10px">
+<tr>
+<td style="background:#fff;border:2px solid #eee;border-radius:12px;padding:16px 20px;text-align:center;width:180px">
+<div style="font-size:2rem">🌿</div>
+<div style="font-weight:700;margin:4px 0">각자 브랜치</div>
+<div style="font-size:0.8rem;color:#888">서로 영향 없음</div>
+</td>
+<td style="background:#fff;border:2px solid #eee;border-radius:12px;padding:16px 20px;text-align:center;width:180px">
+<div style="font-size:2rem">📮</div>
+<div style="font-weight:700;margin:4px 0">PR로 요청</div>
+<div style="font-size:0.8rem;color:#888">사장님 승인 필수</div>
+</td>
+<td style="background:#fff;border:2px solid #eee;border-radius:12px;padding:16px 20px;text-align:center;width:180px">
+<div style="font-size:2rem">🛡️</div>
+<div style="font-weight:700;margin:4px 0">main 보호</div>
+<div style="font-size:0.8rem;color:#888">실서비스 항상 안전</div>
+</td>
+</tr>
+</table>
+
+<p style="text-align:center;font-size:1.2rem;font-weight:700;color:#4caf50;margin-top:20px">
+아무리 실수해도 실서비스는 망가지지 않습니다 👍
+</p>
+</div>
+
+<p style="text-align:center;color:#bbb;font-size:0.8rem;padding:20px 0">삼바웨이브 팀 협업 가이드 &copy; 2026</p>
+
+</div>

@@ -859,6 +859,123 @@ p.desc {
   margin-bottom: 1.25rem;
 }
 
+/* ─── Claude Code Prompt ─── */
+.claude-prompt {
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(255,140,0,0.08), rgba(255,107,53,0.04));
+  border: 1px solid rgba(255,140,0,0.2);
+  border-radius: var(--radius-sm);
+  margin: 0.75rem 0;
+}
+
+.claude-prompt-label {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.claude-prompt-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+/* ─── Antigravity GUI Guide ─── */
+.gui-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 1rem 0;
+}
+
+.gui-step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.gui-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  background: var(--blue-dim);
+  border: 1px solid rgba(92,154,255,0.25);
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.gui-step-content h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.gui-step-content p {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.gui-highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  background: var(--blue-dim);
+  border: 1px solid rgba(92,154,255,0.2);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--blue);
+}
+
+.gui-keyboard {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.gui-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(92,154,255,0.15);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.gui-card-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--blue);
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 1024px) {
   .sidebar { transform: translateX(-100%); }
@@ -887,7 +1004,7 @@ p.desc {
 <nav class="sidebar">
   <div class="sidebar-logo">
     <h1>SambaWave</h1>
-    <p>Team Dev Guide v1.0</p>
+    <p>Team Dev Guide v2.0</p>
   </div>
 
   <div class="sidebar-section">
@@ -902,6 +1019,7 @@ p.desc {
     <a href="#git-basic" class="sidebar-link"><span class="icon">🌿</span> Git이 뭔가요?</a>
     <a href="#git-daily" class="sidebar-link"><span class="icon">📅</span> 매일 하는 Git 루틴</a>
     <a href="#git-commit" class="sidebar-link"><span class="icon">💾</span> 커밋하기</a>
+    <a href="#git-gui" class="sidebar-link"><span class="icon">🖱️</span> Antigravity GUI</a>
     <a href="#git-push" class="sidebar-link"><span class="icon">☁️</span> 푸시 & PR</a>
     <a href="#git-conflict" class="sidebar-link"><span class="icon">⚡</span> 충돌 해결</a>
   </div>
@@ -1168,7 +1286,7 @@ p.desc {
         <code style="display:block;margin:0.5rem 0;padding:0.4rem 0.8rem;font-size:0.8rem">powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code>
         설치 후 터미널을 껐다 다시 열고, <code>uv --version</code> 입력해서 버전이 나오면 성공<br>
         • <strong>Docker Desktop</strong> — docker.com 에서 다운로드. 로컬 DB를 띄우는 데 필요<br>
-        • <strong>Antigravity</strong> (코드 에디터) — 팀장이 제공하는 설치 파일로 설치
+        • <strong>Claude Code</strong> (AI 코딩 도우미) — 코드 작성, Git 관리, 파일 생성을 대화로 처리. 팀장이 제공하는 설치 가이드로 설치
       </div>
     </div>
 
@@ -1200,7 +1318,7 @@ p.desc {
             <div class="alert-content">
               <strong>Git Bash 여는 법</strong>
               Windows에서 바탕화면 우클릭 → "Git Bash Here" 클릭.<br>
-              또는 Antigravity에서 터미널(Ctrl+`) 열기 → bash 선택.
+              또는 Claude Code에서 바로 작업할 수도 있습니다. <code>프로젝트 클론해줘</code> 라고 말해도 됩니다.
             </div>
           </div>
         </div>
@@ -1387,75 +1505,89 @@ p.desc {
     <div class="subsection">
       <div class="subsection-title"><span class="sub-icon">🌅</span> 아침 — 최신 코드 가져오기</div>
 
-      <div class="steps">
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot blue">1</div>
-            <div class="step-connector"></div>
-          </div>
-          <div class="step-content">
-            <h4>main 브랜치로 이동</h4>
-            <p>먼저 "진짜 원본"이 있는 곳으로 갑니다.</p>
-            <div class="code-block">
-              <div class="code-header">
-                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
-              </div>
-              <div class="code-body"><span class="keyword">git</span> checkout main</div>
-            </div>
-            <div class="alert alert-warning">
-              <div class="alert-icon">⚠️</div>
-              <div class="alert-content">
-                에러가 나면? → 아직 저장 안 한 변경이 있다는 뜻입니다.<br>
-                먼저 <code>git stash</code>를 입력하세요 (임시 보관). 나중에 <code>git stash pop</code>으로 복구.
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"main에서 최신 코드 가져와서 내 브랜치에 merge해줘"</div>
+      </div>
 
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot blue">2</div>
-            <div class="step-connector"></div>
-          </div>
-          <div class="step-content">
-            <h4>GitHub에서 최신 코드 다운로드</h4>
-            <p>다른 사람이 밤사이에 합친(merge한) 코드를 가져옵니다.</p>
-            <div class="code-block">
-              <div class="code-header">
-                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
-              </div>
-              <div class="code-body"><span class="keyword">git</span> pull origin main</div>
-            </div>
-          </div>
-        </div>
+      <p class="text-sm text-muted" style="margin:0.5rem 0">
+        한 줄이면 Claude Code가 알아서 checkout, pull, merge를 다 해줍니다.
+      </p>
 
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot blue">3</div>
-          </div>
-          <div class="step-content">
-            <h4>내 브랜치로 돌아가서 최신 코드 합치기</h4>
-            <p>내 작업 브랜치에도 최신 코드를 반영합니다.</p>
-            <div class="code-block">
-              <div class="code-header">
-                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+      <details style="margin-top:0.75rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="steps">
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot blue">1</div>
+                <div class="step-connector"></div>
               </div>
-              <div class="code-body"><span class="comment"># 내 브랜치로 돌아가기</span>
+              <div class="step-content">
+                <h4>main 브랜치로 이동</h4>
+                <p>먼저 "진짜 원본"이 있는 곳으로 갑니다.</p>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+                  </div>
+                  <div class="code-body"><span class="keyword">git</span> checkout main</div>
+                </div>
+                <div class="alert alert-warning">
+                  <div class="alert-icon">⚠️</div>
+                  <div class="alert-content">
+                    에러가 나면? → 아직 저장 안 한 변경이 있다는 뜻입니다.<br>
+                    먼저 <code>git stash</code>를 입력하세요 (임시 보관). 나중에 <code>git stash pop</code>으로 복구.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot blue">2</div>
+                <div class="step-connector"></div>
+              </div>
+              <div class="step-content">
+                <h4>GitHub에서 최신 코드 다운로드</h4>
+                <p>다른 사람이 밤사이에 합친(merge한) 코드를 가져옵니다.</p>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+                  </div>
+                  <div class="code-body"><span class="keyword">git</span> pull origin main</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot blue">3</div>
+              </div>
+              <div class="step-content">
+                <h4>내 브랜치로 돌아가서 최신 코드 합치기</h4>
+                <p>내 작업 브랜치에도 최신 코드를 반영합니다.</p>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+                  </div>
+                  <div class="code-body"><span class="comment"># 내 브랜치로 돌아가기</span>
 <span class="keyword">git</span> checkout feature/tmon-plugin
 
 <span class="comment"># main의 최신 코드를 내 브랜치에 합치기</span>
 <span class="keyword">git</span> merge main</div>
-            </div>
-            <div class="alert alert-success">
-              <div class="alert-icon">✅</div>
-              <div class="alert-content">
-                이제 내 브랜치에도 다른 사람들의 최신 코드가 반영되었습니다.<br>
-                안심하고 작업을 시작하세요!
+                </div>
+                <div class="alert alert-success">
+                  <div class="alert-icon">✅</div>
+                  <div class="alert-content">
+                    이제 내 브랜치에도 다른 사람들의 최신 코드가 반영되었습니다.<br>
+                    안심하고 작업을 시작하세요!
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </details>
     </div>
 
     <div class="subsection">
@@ -1463,11 +1595,23 @@ p.desc {
 
       <p class="desc">프로젝트에 처음 참여할 때, 또는 새로운 작업을 시작할 때 한 번 합니다.</p>
 
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
-        </div>
-        <div class="code-body"><span class="comment"># 1. 먼저 main에서 최신 코드 가져오기</span>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"티몬 플러그인 작업할 브랜치 만들어줘"</div>
+      </div>
+
+      <p class="text-sm text-muted" style="margin:0.5rem 0">
+        Claude Code가 main에서 최신 코드를 가져온 후, 브랜치 이름 규칙에 맞게 자동으로 만들어줍니다.
+      </p>
+
+      <details style="margin-top:0.75rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 1. 먼저 main에서 최신 코드 가져오기</span>
 <span class="keyword">git</span> checkout main
 <span class="keyword">git</span> pull origin main
 
@@ -1478,9 +1622,11 @@ p.desc {
 <span class="keyword">git</span> checkout -b feature/tmon-plugin          <span class="comment"># 판매처: 티몬</span>
 <span class="keyword">git</span> checkout -b feature/oliveyoung-sourcing   <span class="comment"># 소싱처: 올리브영</span>
 <span class="keyword">git</span> checkout -b feature/interpark-plugin       <span class="comment"># 판매처: 인터파크</span></div>
-      </div>
+          </div>
+        </div>
+      </details>
 
-      <div class="table-wrap">
+      <div class="table-wrap" style="margin-top:1rem">
         <table>
           <thead>
             <tr>
@@ -1531,100 +1677,123 @@ p.desc {
     </div>
 
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📝</span> 커밋 3단계</div>
+      <div class="subsection-title"><span class="sub-icon">📝</span> Claude Code로 커밋하기</div>
 
-      <div class="steps">
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot purple">1</div>
-            <div class="step-connector"></div>
-          </div>
-          <div class="step-content">
-            <h4>변경 사항 확인하기</h4>
-            <p>"내가 뭘 바꿨지?" 확인합니다.</p>
-            <div class="code-block">
-              <div class="code-header">
-                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">/commit</div>
+      </div>
+
+      <p class="text-sm text-muted" style="margin:0.5rem 0">또는</p>
+
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"지금까지 작업한 거 커밋해줘"</div>
+      </div>
+
+      <p class="text-sm text-muted" style="margin:0.75rem 0">
+        Claude Code가 변경 파일 확인 → 내 파일만 선택 → 커밋 메시지 작성까지 자동으로 해줍니다.
+      </p>
+
+      <div class="alert alert-danger">
+        <div class="alert-icon">🚨</div>
+        <div class="alert-content">
+          <strong>왜 <code>git add .</code>이 위험한가요?</strong>
+          <code>git add .</code>은 폴더 안의 <strong>모든 파일</strong>을 추가합니다.<br>
+          내가 모르는 사이에 .env(비밀번호), 다른 사람 파일, 불필요한 파일이 함께 올라갈 수 있습니다.<br>
+          반드시 <strong>내 파일만 이름을 지정해서</strong> 추가하세요.<br><br>
+          <strong style="color:var(--green)">Claude Code를 쓰면 이런 실수를 할 일이 없습니다.</strong> Claude Code가 변경된 파일을 보여주고, 내 파일만 골라서 커밋해줍니다.
+        </div>
+      </div>
+
+      <details style="margin-top:0.75rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="steps">
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot purple">1</div>
+                <div class="step-connector"></div>
               </div>
-              <div class="code-body"><span class="keyword">git</span> status</div>
-            </div>
-            <p>그러면 이런 결과가 나옵니다:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">결과 예시</span></div>
-              </div>
-              <div class="code-body"><span class="comment">On branch feature/tmon-plugin</span>
+              <div class="step-content">
+                <h4>변경 사항 확인하기</h4>
+                <p>"내가 뭘 바꿨지?" 확인합니다.</p>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+                  </div>
+                  <div class="code-body"><span class="keyword">git</span> status</div>
+                </div>
+                <p>그러면 이런 결과가 나옵니다:</p>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">결과 예시</span></div>
+                  </div>
+                  <div class="code-body"><span class="comment">On branch feature/tmon-plugin</span>
 
 <span class="string">Untracked files:</span>                          <span class="comment">← "새로 만든 파일"이라는 뜻</span>
   backend/backend/domain/samba/plugins/markets/<span class="important">tmon.py</span>
   backend/backend/domain/samba/proxy/<span class="important">tmon.py</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot purple">2</div>
-            <div class="step-connector"></div>
-          </div>
-          <div class="step-content">
-            <h4>파일을 스테이징하기 (커밋할 파일 선택)</h4>
-            <p><strong>"이 파일을 커밋에 포함시킬게요"</strong>라고 Git에게 알려줍니다.</p>
-            <div class="comparison">
-              <div class="comparison-card good">
-                <div class="comparison-label">✅ 올바른 방법 — 파일을 하나씩 지정</div>
-                <div class="code-block">
-                  <div class="code-body"><span class="keyword">git</span> add backend/backend/domain/samba/plugins/markets/tmon.py
-<span class="keyword">git</span> add backend/backend/domain/samba/proxy/tmon.py</div>
                 </div>
               </div>
-              <div class="comparison-card bad">
-                <div class="comparison-label">❌ 틀린 방법 — 전부 다 추가</div>
-                <div class="code-block">
-                  <div class="code-body"><span class="comment"># 절대 이렇게 하지 마세요!!!</span>
+            </div>
+
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot purple">2</div>
+                <div class="step-connector"></div>
+              </div>
+              <div class="step-content">
+                <h4>파일을 스테이징하기 (커밋할 파일 선택)</h4>
+                <p><strong>"이 파일을 커밋에 포함시킬게요"</strong>라고 Git에게 알려줍니다.</p>
+                <div class="comparison">
+                  <div class="comparison-card good">
+                    <div class="comparison-label">✅ 올바른 방법 — 파일을 하나씩 지정</div>
+                    <div class="code-block">
+                      <div class="code-body"><span class="keyword">git</span> add backend/backend/domain/samba/plugins/markets/tmon.py
+<span class="keyword">git</span> add backend/backend/domain/samba/proxy/tmon.py</div>
+                    </div>
+                  </div>
+                  <div class="comparison-card bad">
+                    <div class="comparison-label">❌ 틀린 방법 — 전부 다 추가</div>
+                    <div class="code-block">
+                      <div class="code-body"><span class="comment"># 절대 이렇게 하지 마세요!!!</span>
 <span class="keyword">git</span> add .
 <span class="keyword">git</span> add -A</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="alert alert-danger">
-              <div class="alert-icon">🚨</div>
-              <div class="alert-content">
-                <strong>왜 <code>git add .</code>이 위험한가요?</strong>
-                <code>git add .</code>은 폴더 안의 <strong>모든 파일</strong>을 추가합니다.<br>
-                내가 모르는 사이에 .env(비밀번호), 다른 사람 파일, 불필요한 파일이 함께 올라갈 수 있습니다.<br>
-                반드시 <strong>내 파일만 이름을 지정해서</strong> 추가하세요.
+
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot purple">3</div>
+              </div>
+              <div class="step-content">
+                <h4>커밋하기 (저장!)</h4>
+                <p>메시지와 함께 저장합니다. 메시지는 <strong>"뭘 했는지"</strong> 적어주세요.</p>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+                  </div>
+                  <div class="code-body"><span class="keyword">git</span> commit -m <span class="string">"[마켓] 티몬 플러그인 — transform 구현"</span></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </details>
 
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot purple">3</div>
-          </div>
-          <div class="step-content">
-            <h4>커밋하기 (저장!)</h4>
-            <p>메시지와 함께 저장합니다. 메시지는 <strong>"뭘 했는지"</strong> 적어주세요.</p>
-            <div class="code-block">
-              <div class="code-header">
-                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
-              </div>
-              <div class="code-body"><span class="keyword">git</span> commit -m <span class="string">"[마켓] 티몬 플러그인 — transform 구현"</span></div>
-            </div>
-
-            <div class="alert alert-info">
-              <div class="alert-icon">📝</div>
-              <div class="alert-content">
-                <strong>커밋 메시지 규칙</strong>
-                <code>[마켓] 티몬 플러그인 — transform 구현</code><br>
-                <code>[마켓] 티몬 프록시 — 상품 등록 API 연동</code><br>
-                <code>[소싱] 올리브영 플러그인 — search 구현</code><br>
-                <code>[소싱] 올리브영 프록시 — 검색 파싱 로직</code><br>
-                <code>[수정] 티몬 플러그인 — 인증 에러 처리 추가</code>
-              </div>
-            </div>
-          </div>
+      <div class="alert alert-info" style="margin-top:1rem">
+        <div class="alert-icon">📝</div>
+        <div class="alert-content">
+          <strong>커밋 메시지 규칙</strong>
+          <code>[마켓] 티몬 플러그인 — transform 구현</code><br>
+          <code>[마켓] 티몬 프록시 — 상품 등록 API 연동</code><br>
+          <code>[소싱] 올리브영 플러그인 — search 구현</code><br>
+          <code>[소싱] 올리브영 프록시 — 검색 파싱 로직</code><br>
+          <code>[수정] 티몬 플러그인 — 인증 에러 처리 추가</code>
         </div>
       </div>
 
@@ -1635,6 +1804,222 @@ p.desc {
           하루에 한 번 큰 커밋보다, 기능 하나 완성할 때마다 작은 커밋이 좋습니다.<br>
           문제가 생겼을 때 "어디서부터 잘못됐지?" 찾기가 쉬워집니다.
         </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 6.5: Antigravity GUI로 Git 관리 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="git-gui">
+    <div class="section-header">
+      <div class="section-number" style="background:linear-gradient(135deg, var(--blue), var(--purple))">G</div>
+      <h3 class="section-title">Antigravity GUI로 Git 관리하기</h3>
+    </div>
+
+    <p class="desc">
+      Claude Code 대신 <strong>Antigravity의 Source Control 패널</strong>로도 커밋/푸시/풀 할 수 있습니다.<br>
+      마우스 클릭만으로 되니까, 명령어 실수 걱정이 없어요.
+    </p>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">💡</div>
+      <div class="alert-content">
+        <strong>언제 이 방법을 쓰나요?</strong>
+        Claude Code에 잘못 말해서 의도치 않은 결과가 나올까 걱정될 때,<br>
+        또는 눈으로 직접 확인하면서 하고 싶을 때 이 방법을 쓰세요.
+      </div>
+    </div>
+
+    <!-- 커밋 -->
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">💾</span> 커밋하기 (Antigravity)</div>
+
+      <div class="gui-card">
+        <div class="gui-card-title">🖱️ Source Control 패널 사용법</div>
+        <div class="gui-steps">
+          <div class="gui-step">
+            <div class="gui-step-number">1</div>
+            <div class="gui-step-content">
+              <h4>Source Control 패널 열기</h4>
+              <p>왼쪽 사이드바에서 <span class="gui-highlight">🔀 Source Control</span> 아이콘 클릭 (또는 <span class="gui-keyboard">Ctrl+Shift+G</span>)</p>
+            </div>
+          </div>
+          <div class="gui-step">
+            <div class="gui-step-number">2</div>
+            <div class="gui-step-content">
+              <h4>변경된 파일 확인</h4>
+              <p><strong>Changes</strong> 목록에서 내 파일을 확인합니다.<br>
+              <span class="badge badge-green">U</span> = 새로 만든 파일 (Untracked)<br>
+              <span class="badge badge-yellow">M</span> = 수정한 파일 (Modified)</p>
+            </div>
+          </div>
+          <div class="gui-step">
+            <div class="gui-step-number">3</div>
+            <div class="gui-step-content">
+              <h4>내 파일만 스테이징하기</h4>
+              <p>커밋할 파일 옆의 <span class="gui-highlight">+</span> 버튼을 클릭하면 "Staged Changes"로 올라갑니다.<br>
+              <strong>내 파일만 + 클릭!</strong> 모르는 파일은 절대 추가하지 마세요.</p>
+            </div>
+          </div>
+          <div class="gui-step">
+            <div class="gui-step-number">4</div>
+            <div class="gui-step-content">
+              <h4>커밋 메시지 작성</h4>
+              <p>상단 입력창에 메시지를 입력합니다. 또는 <span class="gui-highlight">Generate</span> 버튼을 누르면 AI가 자동으로 메시지를 만들어줍니다.</p>
+              <p style="margin-top:0.3rem"><strong>예시:</strong> <code>[마켓] 티몬 플러그인 — transform 구현</code></p>
+            </div>
+          </div>
+          <div class="gui-step">
+            <div class="gui-step-number">5</div>
+            <div class="gui-step-content">
+              <h4>커밋 버튼 클릭</h4>
+              <p><span class="gui-highlight">✓ Commit</span> 버튼 클릭 (또는 <span class="gui-keyboard">Ctrl+Enter</span>)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-danger">
+        <div class="alert-icon">🚨</div>
+        <div class="alert-content">
+          <strong>주의: Changes 목록에 다른 사람 파일이 보여도 절대 + 누르지 마세요!</strong>
+          내가 만든 파일(tmon.py 등)만 스테이징하세요. 모르는 파일은 무시하면 됩니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- 푸시 -->
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">☁️</span> 푸시하기 (Antigravity)</div>
+
+      <div class="gui-card">
+        <div class="gui-card-title">🖱️ 푸시 방법</div>
+        <div class="gui-steps">
+          <div class="gui-step">
+            <div class="gui-step-number">1</div>
+            <div class="gui-step-content">
+              <h4>커밋 완료 후</h4>
+              <p>Source Control 패널 상단의 <span class="gui-highlight">⋯</span> (점 3개) 메뉴 클릭</p>
+            </div>
+          </div>
+          <div class="gui-step">
+            <div class="gui-step-number">2</div>
+            <div class="gui-step-content">
+              <h4>Push 선택</h4>
+              <p>메뉴에서 <span class="gui-highlight">Push</span> 클릭. 끝!</p>
+              <p style="margin-top:0.3rem;font-size:0.78rem;color:var(--text-dim)">처음 푸시할 때 "Publish Branch" 라고 나올 수 있어요. 그것도 클릭하면 됩니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 풀 -->
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">⬇️</span> 풀하기 — 최신 코드 가져오기 (Antigravity)</div>
+
+      <div class="gui-card">
+        <div class="gui-card-title">🖱️ 풀 방법</div>
+        <div class="gui-steps">
+          <div class="gui-step">
+            <div class="gui-step-number">1</div>
+            <div class="gui-step-content">
+              <h4>하단 상태바에서 브랜치 확인</h4>
+              <p>왼쪽 하단에 <span class="gui-highlight">🔀 main</span> 또는 <span class="gui-highlight">🔀 feature/tmon-plugin</span> 처럼 현재 브랜치가 표시됩니다.</p>
+            </div>
+          </div>
+          <div class="gui-step">
+            <div class="gui-step-number">2</div>
+            <div class="gui-step-content">
+              <h4>동기화 버튼 클릭</h4>
+              <p>상태바의 <span class="gui-highlight">🔄 Sync Changes</span> 아이콘 클릭. 또는 Source Control의 <span class="gui-highlight">⋯</span> → <span class="gui-highlight">Pull</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 브랜치 전환 -->
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🌿</span> 브랜치 전환/생성 (Antigravity)</div>
+
+      <div class="gui-card">
+        <div class="gui-card-title">🖱️ 브랜치 바꾸기</div>
+        <div class="gui-steps">
+          <div class="gui-step">
+            <div class="gui-step-number">1</div>
+            <div class="gui-step-content">
+              <h4>하단 상태바의 브랜치 이름 클릭</h4>
+              <p>왼쪽 하단의 <span class="gui-highlight">🔀 main</span>을 클릭하면 브랜치 목록이 나옵니다.</p>
+            </div>
+          </div>
+          <div class="gui-step">
+            <div class="gui-step-number">2</div>
+            <div class="gui-step-content">
+              <h4>이동하거나 새로 만들기</h4>
+              <p><strong>기존 브랜치로 이동:</strong> 목록에서 클릭<br>
+              <strong>새 브랜치 만들기:</strong> 상단에 <code>feature/tmon-plugin</code> 입력 → "Create new branch" 선택</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 방법 비교 -->
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">⚖️</span> 어떤 방법을 쓸까?</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>작업</th>
+              <th>Claude Code</th>
+              <th>Antigravity GUI</th>
+              <th>추천</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>파일 생성/수정</strong></td>
+              <td>"티몬 플러그인 만들어줘"</td>
+              <td>직접 코드 작성</td>
+              <td><span class="badge badge-orange">Claude Code</span></td>
+            </tr>
+            <tr>
+              <td><strong>커밋</strong></td>
+              <td>/commit</td>
+              <td>Source Control → + → Commit</td>
+              <td><span class="badge badge-blue">둘 다 OK</span></td>
+            </tr>
+            <tr>
+              <td><strong>푸시</strong></td>
+              <td>"푸시해줘"</td>
+              <td>⋯ → Push</td>
+              <td><span class="badge badge-blue">둘 다 OK</span></td>
+            </tr>
+            <tr>
+              <td><strong>풀 (최신 코드)</strong></td>
+              <td>"main 최신 코드 가져와줘"</td>
+              <td>⋯ → Pull</td>
+              <td><span class="badge badge-blue">둘 다 OK</span></td>
+            </tr>
+            <tr>
+              <td><strong>브랜치 전환</strong></td>
+              <td>"main으로 이동해줘"</td>
+              <td>하단 브랜치 이름 클릭</td>
+              <td><span class="badge badge-green">GUI가 직관적</span></td>
+            </tr>
+            <tr>
+              <td><strong>충돌 해결</strong></td>
+              <td>"충돌 해결해줘"</td>
+              <td>충돌 파일 열기 → 버튼 클릭</td>
+              <td><span class="badge badge-orange">Claude Code</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -1661,18 +2046,32 @@ p.desc {
         </p>
       </div>
 
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
-        </div>
-        <div class="code-body"><span class="comment"># 내 브랜치를 GitHub에 올리기</span>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"GitHub에 푸시해줘"</div>
+      </div>
+
+      <p class="text-sm text-muted" style="margin:0.5rem 0">
+        Claude Code가 현재 브랜치를 확인하고, 올바른 remote에 push해줍니다. 처음 푸시할 때 upstream 설정도 자동으로 해줍니다.
+      </p>
+
+      <details style="margin-top:0.75rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 내 브랜치를 GitHub에 올리기</span>
 <span class="keyword">git</span> push origin feature/tmon-plugin
 
 <span class="comment"># 처음 푸시할 때 이런 메시지가 나올 수 있어요:</span>
 <span class="comment"># "To push the current branch and set the remote as upstream..."</span>
 <span class="comment"># 그러면 이렇게 입력:</span>
 <span class="keyword">git</span> push --set-upstream origin feature/tmon-plugin</div>
-      </div>
+          </div>
+        </div>
+      </details>
     </div>
 
     <div class="subsection">
@@ -1687,39 +2086,51 @@ p.desc {
         </p>
       </div>
 
-      <div class="steps">
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot green">1</div>
-            <div class="step-connector"></div>
-          </div>
-          <div class="step-content">
-            <h4>GitHub 웹사이트 열기</h4>
-            <p>브라우저에서 우리 프로젝트 GitHub 페이지로 갑니다.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot green">2</div>
-            <div class="step-connector"></div>
-          </div>
-          <div class="step-content">
-            <h4>"Compare & pull request" 버튼 클릭</h4>
-            <p>푸시하면 GitHub에 노란색 배너가 뜹니다. 그 버튼을 누르세요.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot green">3</div>
-            <div class="step-connector"></div>
-          </div>
-          <div class="step-content">
-            <h4>PR 내용 작성</h4>
-            <div class="code-block">
-              <div class="code-header">
-                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">PR 작성 예시</span></div>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"PR 만들어줘"</div>
+      </div>
+
+      <p class="text-sm text-muted" style="margin:0.5rem 0">
+        Claude Code가 push + PR 생성까지 한번에 해줍니다. 제목과 본문도 변경 내용을 분석해서 자동으로 작성해줍니다.
+      </p>
+
+      <details style="margin-top:0.75rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 GitHub 웹사이트에서 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="steps">
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot green">1</div>
+                <div class="step-connector"></div>
               </div>
-              <div class="code-body"><span class="important">제목:</span> [마켓] 티몬 플러그인 추가
+              <div class="step-content">
+                <h4>GitHub 웹사이트 열기</h4>
+                <p>브라우저에서 우리 프로젝트 GitHub 페이지로 갑니다.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot green">2</div>
+                <div class="step-connector"></div>
+              </div>
+              <div class="step-content">
+                <h4>"Compare & pull request" 버튼 클릭</h4>
+                <p>푸시하면 GitHub에 노란색 배너가 뜹니다. 그 버튼을 누르세요.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot green">3</div>
+                <div class="step-connector"></div>
+              </div>
+              <div class="step-content">
+                <h4>PR 내용 작성</h4>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">PR 작성 예시</span></div>
+                  </div>
+                  <div class="code-body"><span class="important">제목:</span> [마켓] 티몬 플러그인 추가
 
 <span class="important">본문:</span>
 ## 작업 내용
@@ -1731,19 +2142,21 @@ p.desc {
 - [x] 서버 재시작 시 플러그인 자동 등록 확인
 - [x] transform 함수 데이터 변환 확인
 - [ ] 실제 API 호출 테스트 (테스트 계정 필요)</div>
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-line">
+                <div class="step-dot green">4</div>
+              </div>
+              <div class="step-content">
+                <h4>"Create Pull Request" 클릭 → 팀장 리뷰 대기</h4>
+                <p>팀장이 코드를 검토하고, 수정 요청이나 승인을 해줍니다.</p>
+              </div>
             </div>
           </div>
         </div>
-        <div class="step">
-          <div class="step-line">
-            <div class="step-dot green">4</div>
-          </div>
-          <div class="step-content">
-            <h4>"Create Pull Request" 클릭 → 팀장 리뷰 대기</h4>
-            <p>팀장이 코드를 검토하고, 수정 요청이나 승인을 해줍니다.</p>
-          </div>
-        </div>
-      </div>
+      </details>
     </div>
   </div>
 
@@ -1767,46 +2180,61 @@ p.desc {
     </div>
 
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">⚡</span> 충돌이 생기면 이렇게 보입니다</div>
+      <div class="subsection-title"><span class="sub-icon">⚡</span> 충돌이 생기면</div>
 
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">충돌이 발생한 파일 (예시)</span></div>
-        </div>
-        <div class="code-body"><span class="red"><<<<<<< HEAD</span>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"충돌 해결해줘"</div>
+      </div>
+
+      <p class="text-sm text-muted" style="margin:0.5rem 0">
+        Claude Code가 충돌 파일을 찾아서 내용을 분석하고, 어떤 코드를 남길지 판단해서 해결해줍니다.
+      </p>
+
+      <details style="margin-top:0.75rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="subsection">
+            <div class="subsection-title"><span class="sub-icon">⚡</span> 충돌이 생기면 이렇게 보입니다</div>
+
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">충돌이 발생한 파일 (예시)</span></div>
+              </div>
+              <div class="code-body"><span class="red"><<<<<<< HEAD</span>
 <span class="comment">내가 수정한 코드</span>
 market_type = <span class="string">"tmon"</span>
 <span class="red">=======</span>
 <span class="comment">다른 사람이 수정한 코드</span>
 market_type = <span class="string">"tmon_v2"</span>
 <span class="red">>>>>>>> main</span></div>
-      </div>
+            </div>
 
-      <ul class="explain-list">
-        <li>
-          <span class="explain-num">1</span>
-          <span class="explain-text"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> ~ <code>=======</code> 사이 = <strong>내 코드</strong></span>
-        </li>
-        <li>
-          <span class="explain-num">2</span>
-          <span class="explain-text"><code>=======</code> ~ <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; main</code> 사이 = <strong>상대방 코드</strong></span>
-        </li>
-        <li>
-          <span class="explain-num">3</span>
-          <span class="explain-text">둘 중 맞는 코드를 남기고, 나머지와 <code>&lt;&lt;&lt;</code> <code>===</code> <code>&gt;&gt;&gt;</code> 표시를 <strong>전부 삭제</strong></span>
-        </li>
-      </ul>
-    </div>
+            <ul class="explain-list">
+              <li>
+                <span class="explain-num">1</span>
+                <span class="explain-text"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> ~ <code>=======</code> 사이 = <strong>내 코드</strong></span>
+              </li>
+              <li>
+                <span class="explain-num">2</span>
+                <span class="explain-text"><code>=======</code> ~ <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; main</code> 사이 = <strong>상대방 코드</strong></span>
+              </li>
+              <li>
+                <span class="explain-num">3</span>
+                <span class="explain-text">둘 중 맞는 코드를 남기고, 나머지와 <code>&lt;&lt;&lt;</code> <code>===</code> <code>&gt;&gt;&gt;</code> 표시를 <strong>전부 삭제</strong></span>
+              </li>
+            </ul>
+          </div>
 
-    <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">🔧</span> 해결 순서</div>
+          <div class="subsection">
+            <div class="subsection-title"><span class="sub-icon">🔧</span> 해결 순서</div>
 
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
-        </div>
-        <div class="code-body"><span class="comment"># 1. 충돌 파일을 Antigravity에서 열기 (에디터에서 직접 수정)</span>
-<span class="comment">#    → Antigravity는 충돌 부분을 색깔로 보여주고</span>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+              </div>
+              <div class="code-body"><span class="comment"># 1. 충돌 파일을 에디터에서 열기 (에디터에서 직접 수정)</span>
+<span class="comment">#    → 충돌 부분을 색깔로 보여주고</span>
 <span class="comment">#    → "Accept Current Change" / "Accept Incoming Change" 버튼이 나옴</span>
 <span class="comment">#    → 맞는 걸 클릭하면 됨</span>
 
@@ -1817,7 +2245,10 @@ market_type = <span class="string">"tmon_v2"</span>
 
 <span class="comment"># 4. 충돌 해결 커밋</span>
 <span class="keyword">git</span> commit -m <span class="string">"충돌 해결 — main merge"</span></div>
-      </div>
+            </div>
+          </div>
+        </div>
+      </details>
 
       <div class="alert alert-warning">
         <div class="alert-icon">⚠️</div>
@@ -1900,8 +2331,17 @@ backend/backend/domain/samba/
       "티몬" 판매처 플러그인을 예시로, 한 줄 한 줄 설명합니다.
     </p>
 
+    <div class="claude-prompt">
+      <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+      <div class="claude-prompt-text">"티몬 판매처 플러그인 만들어줘. 기존 coupang.py 참고해서"</div>
+    </div>
+
+    <p class="text-sm text-muted" style="margin:0.5rem 0 1.5rem">
+      Claude Code가 플러그인 파일 + 프록시 파일을 한번에 생성해줍니다. 아래는 Claude Code가 생성하는 코드의 예시입니다.
+    </p>
+
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📄</span> 파일 1 — 플러그인 (plugins/markets/tmon.py)</div>
+      <div class="subsection-title"><span class="sub-icon">📄</span> Claude Code가 생성하는 코드 — 플러그인 (plugins/markets/tmon.py)</div>
 
       <div class="code-block">
         <div class="code-header">
@@ -1974,7 +2414,7 @@ backend/backend/domain/samba/
     </div>
 
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📄</span> 파일 2 — 프록시 클라이언트 (proxy/tmon.py)</div>
+      <div class="subsection-title"><span class="sub-icon">📄</span> Claude Code가 생성하는 코드 — 프록시 클라이언트 (proxy/tmon.py)</div>
 
       <div class="code-block">
         <div class="code-header">
@@ -2114,8 +2554,17 @@ BASE_URL = <span class="string">"https://api.tmon.co.kr"</span>
       "올리브영" 소싱처 플러그인을 예시로 설명합니다.
     </p>
 
+    <div class="claude-prompt">
+      <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+      <div class="claude-prompt-text">"올리브영 소싱처 플러그인 만들어줘. musinsa.py 참고해서"</div>
+    </div>
+
+    <p class="text-sm text-muted" style="margin:0.5rem 0 1.5rem">
+      Claude Code가 플러그인 파일 + 프록시 파일을 한번에 생성해줍니다. 아래는 Claude Code가 생성하는 코드의 예시입니다.
+    </p>
+
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📄</span> 파일 1 — 플러그인 (plugins/sourcing/oliveyoung.py)</div>
+      <div class="subsection-title"><span class="sub-icon">📄</span> Claude Code가 생성하는 코드 — 플러그인 (plugins/sourcing/oliveyoung.py)</div>
 
       <div class="code-block">
         <div class="code-header">
@@ -2234,17 +2683,31 @@ logger = logging.getLogger(__name__)
     <div class="subsection">
       <div class="subsection-title"><span class="sub-icon">🔍</span> 1단계 — 서버에서 인식되는지 확인</div>
 
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
-        </div>
-        <div class="code-body"><span class="comment"># 백엔드 서버 재시작</span>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"서버 재시작해서 플러그인 등록 확인해줘"</div>
+      </div>
+
+      <p class="text-sm text-muted" style="margin:0.5rem 0">
+        Claude Code가 서버를 재시작하고, 로그에서 플러그인 숫자가 늘어났는지 확인해줍니다.
+      </p>
+
+      <details style="margin-top:0.75rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 백엔드 서버 재시작</span>
 <span class="keyword">cd</span> backend && .venv/Scripts/python.exe run.py
 
 <span class="comment"># 로그에서 확인:</span>
 <span class="comment"># 기존: [플러그인] 마켓 18개, 소싱 3개 등록 완료</span>
 <span class="comment"># 기대: [플러그인] 마켓 19개, 소싱 3개 등록 완료  ← 숫자가 1 늘어야 함!</span></div>
-      </div>
+          </div>
+        </div>
+      </details>
 
       <div class="alert alert-warning">
         <div class="alert-icon">⚠️</div>
@@ -2261,13 +2724,25 @@ logger = logging.getLogger(__name__)
     </div>
 
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">🧪</span> 2단계 — Python으로 직접 테스트</div>
+      <div class="subsection-title"><span class="sub-icon">🧪</span> 2단계 — transform 함수 테스트</div>
 
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Python 쉘)</span></div>
-        </div>
-        <div class="code-body"><span class="comment"># 파이썬 쉘 열기</span>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"transform 함수 테스트해줘"</div>
+      </div>
+
+      <p class="text-sm text-muted" style="margin:0.5rem 0">
+        Claude Code가 가짜 상품 데이터로 transform 함수를 실행해서 결과를 보여줍니다.
+      </p>
+
+      <details style="margin-top:0.75rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Python 쉘)</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 파이썬 쉘 열기</span>
 <span class="keyword">cd</span> backend
 .venv/Scripts/python.exe
 
@@ -2280,18 +2755,9 @@ logger = logging.getLogger(__name__)
 >>> <span class="function">print</span>(plugin.market_type)
 <span class="comment"># → tmon</span>
 >>> <span class="function">print</span>(plugin.policy_key)
-<span class="comment"># → 티몬</span></div>
-      </div>
-    </div>
+<span class="comment"># → 티몬</span>
 
-    <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">🧪</span> 3단계 — transform 함수 테스트</div>
-
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Python 쉘)</span></div>
-        </div>
-        <div class="code-body"><span class="comment"># 가짜 상품 데이터로 transform 테스트</span>
+<span class="comment"># 가짜 상품 데이터로 transform 테스트</span>
 >>> fake_product = {
 ...   <span class="string">"name"</span>: <span class="string">"나이키 에어맥스 97"</span>,
 ...   <span class="string">"sale_price"</span>: <span class="number">159000</span>,
@@ -2301,7 +2767,9 @@ logger = logging.getLogger(__name__)
 >>> <span class="function">print</span>(result)
 <span class="comment"># → {'productName': '나이키 에어맥스 97', 'salePrice': 159000, ...}</span>
 <span class="comment"># 마켓 API 형식으로 잘 변환되는지 확인!</span></div>
-      </div>
+          </div>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -2447,24 +2915,26 @@ logger = logging.getLogger(__name__)
     <div class="card">
       <div class="card-title">🌅 아침 (작업 시작 전)</div>
       <ul class="checklist">
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>git checkout main</code> → <code>git pull origin main</code></span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>git checkout feature/내브랜치</code> → <code>git merge main</code></span></li>
+        <li>
+          <div class="check-box" onclick="this.classList.toggle('checked')">✓</div>
+          <span>Claude Code에 <strong>"main 최신 코드 가져와서 내 브랜치에 merge해줘"</strong></span>
+        </li>
       </ul>
     </div>
 
     <div class="card">
       <div class="card-title">💻 작업 중</div>
       <ul class="checklist">
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>내 파일만 수정하고 있는지 확인 (<code>git status</code>로 수시 체크)</span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>기능 하나 완성할 때마다 커밋 (<code>git add 내파일.py</code> → <code>git commit</code>)</span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>내 파일만 수정하고 있는지 확인</span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>기능 하나 완성할 때마다 Claude Code에 <strong>/commit</strong></span></li>
       </ul>
     </div>
 
     <div class="card">
       <div class="card-title">🌙 퇴근 전</div>
       <ul class="checklist">
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>git push origin feature/내브랜치</code></span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>작업 완료 시 GitHub에서 PR 생성</span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>Claude Code에 <strong>"GitHub에 푸시해줘"</strong></span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>작업 완료 시 Claude Code에 <strong>"PR 만들어줘"</strong></span></li>
       </ul>
     </div>
 
@@ -2474,7 +2944,7 @@ logger = logging.getLogger(__name__)
         <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>market_type</code> / <code>site_name</code>이 다른 마켓과 안 겹치는지?</span></li>
         <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>서버 재시작 시 플러그인 숫자가 늘어나는지?</span></li>
         <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>transform() 함수로 데이터 변환이 되는지?</span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>다른 사람 파일은 안 건드렸는지? (<code>git status</code> 확인)</span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>다른 사람 파일은 안 건드렸는지?</span></li>
       </ul>
     </div>
   </div>
@@ -2491,39 +2961,63 @@ logger = logging.getLogger(__name__)
 
     <div class="card">
       <div class="card-title" style="color:var(--accent)">Q. 내가 어떤 브랜치에 있는지 어떻게 알아요?</div>
-      <div class="code-block">
-        <div class="code-body"><span class="keyword">git</span> branch
+      <p class="text-sm text-muted mb-1">Claude Code에서는 항상 현재 브랜치가 표시되어 있습니다. 별도로 확인할 필요 없어요.</p>
+      <details style="margin-top:0.5rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 확인하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <div class="code-block">
+            <div class="code-body"><span class="keyword">git</span> branch
 <span class="comment"># 별표(*)가 붙은 게 지금 있는 브랜치</span>
 <span class="comment">#   main</span>
 <span class="comment"># * feature/tmon-plugin  ← 여기 있음</span></div>
-      </div>
+          </div>
+        </div>
+      </details>
     </div>
 
     <div class="card">
       <div class="card-title" style="color:var(--accent)">Q. 실수로 main에 커밋해버렸어요!</div>
-      <p class="text-sm text-muted mb-1">아직 push 안 했다면:</p>
-      <div class="code-block">
-        <div class="code-body"><span class="comment"># 커밋을 되돌리기 (코드는 유지, 커밋만 취소)</span>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+        <div class="claude-prompt-text">"방금 커밋 되돌려줘"</div>
+      </div>
+      <p class="text-sm text-muted" style="margin-top:0.5rem">Claude Code가 커밋을 되돌리고, 올바른 브랜치에서 다시 커밋하도록 안내해줍니다.</p>
+      <details style="margin-top:0.5rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+        <div style="margin-top:0.5rem">
+          <p class="text-sm text-muted mb-1">아직 push 안 했다면:</p>
+          <div class="code-block">
+            <div class="code-body"><span class="comment"># 커밋을 되돌리기 (코드는 유지, 커밋만 취소)</span>
 <span class="keyword">git</span> reset --soft HEAD~1
 
 <span class="comment"># 새 브랜치 만들고 거기서 다시 커밋</span>
 <span class="keyword">git</span> checkout -b feature/내마켓-plugin
 <span class="keyword">git</span> add 내파일.py
 <span class="keyword">git</span> commit -m <span class="string">"메시지"</span></div>
-      </div>
-      <p class="text-sm text-muted">이미 push 했다면 → <strong>팀장에게 즉시 연락</strong>하세요.</p>
+          </div>
+          <p class="text-sm text-muted">이미 push 했다면 → <strong>팀장에게 즉시 연락</strong>하세요.</p>
+        </div>
+      </details>
     </div>
 
     <div class="card">
       <div class="card-title" style="color:var(--accent)">Q. git pull 했더니 이상한 에디터가 열렸어요!</div>
-      <p class="text-sm text-muted mb-1">merge 커밋 메시지를 작성하라는 뜻입니다.</p>
-      <div class="code-block">
-        <div class="code-body"><span class="comment"># vim 에디터가 열렸을 때:</span>
+      <p class="text-sm text-muted">
+        Claude Code를 쓰면 이런 상황이 발생하지 않습니다. Claude Code가 Git 명령어를 대신 실행하기 때문에 vim 에디터 같은 문제를 걱정할 필요가 없습니다.
+      </p>
+      <details style="margin-top:0.5rem">
+        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널에서 이 상황이 발생했다면</summary>
+        <div style="margin-top:0.5rem">
+          <p class="text-sm text-muted mb-1">merge 커밋 메시지를 작성하라는 뜻입니다.</p>
+          <div class="code-block">
+            <div class="code-body"><span class="comment"># vim 에디터가 열렸을 때:</span>
 <span class="comment"># 1. :q 입력하고 Enter (그냥 나가기)</span>
 <span class="comment"># 또는</span>
 <span class="comment"># 1. Esc 키 누르기</span>
 <span class="comment"># 2. :wq 입력하고 Enter (저장하고 나가기)</span></div>
-      </div>
+          </div>
+        </div>
+      </details>
     </div>
 
     <div class="card">
@@ -2551,10 +3045,11 @@ logger = logging.getLogger(__name__)
     <div class="card">
       <div class="card-title" style="color:var(--accent)">Q. 모르겠으면 어떡하나요?</div>
       <p class="text-sm text-muted">
-        1. 이 가이드를 다시 읽어보기<br>
-        2. 기존 코드 파일 열어서 참고하기 (복사 → 수정하면 됨!)<br>
-        3. 팀 채팅방에 질문하기<br>
-        4. 팀장에게 화면 공유하며 도움 요청
+        1. Claude Code에 질문하기 — 코드 관련 질문은 대부분 해결됩니다<br>
+        2. 이 가이드를 다시 읽어보기<br>
+        3. 기존 코드 파일 열어서 참고하기 (복사 → 수정하면 됨!)<br>
+        4. 팀 채팅방에 질문하기<br>
+        5. 팀장에게 화면 공유하며 도움 요청
       </p>
     </div>
   </div>
@@ -2565,7 +3060,7 @@ logger = logging.getLogger(__name__)
   <!-- ─── Footer ─── -->
   <div style="text-align:center; padding:2rem 0;">
     <p style="color:var(--text-dim); font-size:0.75rem; font-family:var(--font-mono);">
-      SambaWave Team Dev Guide v1.0 — Last updated 2026-03-25
+      SambaWave Team Dev Guide v2.0 — Last updated 2026-03-25
     </p>
   </div>
 

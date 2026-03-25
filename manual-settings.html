@@ -289,8 +289,43 @@
       <li><strong>저장</strong>을 클릭합니다.</li>
     </ol>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 마켓 연결 설정 화면 — 각 마켓 카드에 연결 상태(연결됨/미연결)와 연결 버튼 표시
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:16px 0">
+      <!-- 스마트스토어 카드 -->
+      <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font-size:13px;font-weight:600;color:#E5E5E5">스마트스토어</span>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:6px;height:6px;background:#51CF66;border-radius:50%"></div><span style="font-size:10px;color:#51CF66">연결됨</span></div>
+        </div>
+        <div style="font-size:11px;color:#666;margin-bottom:8px">Client ID: nKx...abc</div>
+        <span style="padding:4px 12px;background:rgba(76,154,255,0.1);border:1px solid rgba(76,154,255,0.3);border-radius:4px;font-size:11px;color:#4C9AFF">설정 변경</span>
+      </div>
+      <!-- 쿠팡 카드 -->
+      <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font-size:13px;font-weight:600;color:#E5E5E5">쿠팡</span>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:6px;height:6px;background:#51CF66;border-radius:50%"></div><span style="font-size:10px;color:#51CF66">연결됨</span></div>
+        </div>
+        <div style="font-size:11px;color:#666;margin-bottom:8px">Vendor ID: A00...xyz</div>
+        <span style="padding:4px 12px;background:rgba(76,154,255,0.1);border:1px solid rgba(76,154,255,0.3);border-radius:4px;font-size:11px;color:#4C9AFF">설정 변경</span>
+      </div>
+      <!-- 11번가 카드 -->
+      <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font-size:13px;font-weight:600;color:#E5E5E5">11번가</span>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:6px;height:6px;background:#f87171;border-radius:50%"></div><span style="font-size:10px;color:#f87171">미연결</span></div>
+        </div>
+        <div style="font-size:11px;color:#666;margin-bottom:8px">API Key 미설정</div>
+        <span style="padding:4px 12px;background:#FF8C00;border-radius:4px;font-size:11px;color:#000;font-weight:600">연결하기</span>
+      </div>
+      <!-- 롯데ON 카드 -->
+      <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font-size:13px;font-weight:600;color:#E5E5E5">롯데ON</span>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:6px;height:6px;background:#f87171;border-radius:50%"></div><span style="font-size:10px;color:#f87171">미연결</span></div>
+        </div>
+        <div style="font-size:11px;color:#666;margin-bottom:8px">API Token 미설정</div>
+        <span style="padding:4px 12px;background:#FF8C00;border-radius:4px;font-size:11px;color:#000;font-weight:600">연결하기</span>
+      </div>
     </div>
 
     <h3>지원 마켓 목록</h3>
@@ -368,8 +403,28 @@
       <li>연결 실패 시 에러 메시지를 확인하고 정보를 재확인합니다.</li>
     </ol>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 인증 테스트 결과 — 연결 성공 시 녹색 체크마크, 실패 시 빨간 에러 메시지
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">스마트스토어 설정</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="color:#888;font-size:12px;min-width:100px">사업자명</span>
+        <span style="flex:1;padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">삼바웨이브</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="color:#888;font-size:12px;min-width:100px">Client ID</span>
+        <span style="flex:1;padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">nKxJm2...</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="color:#888;font-size:12px;min-width:100px">Client Secret</span>
+        <span style="flex:1;padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#555">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="padding:6px 14px;background:#FF8C00;border-radius:4px;font-size:11px;color:#000;font-weight:600">인증 테스트</span>
+        <span style="padding:6px 14px;background:rgba(76,154,255,0.1);border:1px solid rgba(76,154,255,0.3);border-radius:4px;font-size:11px;color:#4C9AFF">API 발급</span>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
+          <div style="width:8px;height:8px;background:#51CF66;border-radius:50%"></div>
+          <span style="font-size:11px;color:#51CF66">연결 성공</span>
+        </div>
+      </div>
     </div>
 
     <h3>자주 발생하는 인증 오류</h3>
@@ -413,8 +468,34 @@
       <li><strong>리뷰 혜택</strong> — 리뷰 작성 시 제공할 혜택 (포인트, 쿠폰 등)</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 공통 설정 화면 — A/S 안내, 배송비, 재고, 할인/혜택 설정 폼
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">공통 설정</div>
+      <!-- A/S 안내 -->
+      <div style="font-size:11px;font-weight:600;color:#FF8C00;margin-bottom:8px">A/S 안내</div>
+      <div style="display:grid;grid-template-columns:120px 1fr;gap:6px 8px;font-size:12px;margin-bottom:16px">
+        <span style="color:#888">A/S 전화번호</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">02-1234-5678</div>
+        <span style="color:#888">교환/반품 주소</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">서울시 강남구 ...</div>
+      </div>
+      <!-- 배송비 설정 -->
+      <div style="font-size:11px;font-weight:600;color:#FF8C00;margin-bottom:8px">배송비 설정</div>
+      <div style="display:grid;grid-template-columns:120px 1fr;gap:6px 8px;font-size:12px;margin-bottom:16px">
+        <span style="color:#888">무료배송 기준</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">50,000원</div>
+        <span style="color:#888">기본 배송비</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">3,000원</div>
+        <span style="color:#888">도서산간 추가</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">3,000원</div>
+      </div>
+      <!-- 재고 설정 -->
+      <div style="font-size:11px;font-weight:600;color:#FF8C00;margin-bottom:8px">재고 설정</div>
+      <div style="display:grid;grid-template-columns:120px 1fr;gap:6px 8px;font-size:12px">
+        <span style="color:#888">기본 재고 수량</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">999</div>
+        <span style="color:#888">품절 시 자동중지</span>
+        <div style="display:flex;align-items:center;gap:6px"><input type="checkbox" checked disabled><span style="color:#ccc">사용</span></div>
+      </div>
     </div>
 
     <div class="tip-box">

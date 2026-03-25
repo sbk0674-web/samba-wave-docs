@@ -274,8 +274,27 @@
       <li>기타 문의</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] CS 문의 가져오기 버튼 — "전체마켓 가져오기" 버튼과 마켓별 동기화 상태 표시
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+        <span style="padding:8px 18px;background:#FF8C00;border-radius:6px;font-size:12px;color:#000;font-weight:600">전체마켓 가져오기</span>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#0D1117;border:1px solid #2A3040;border-radius:6px">
+          <div style="width:6px;height:6px;background:#51CF66;border-radius:50%"></div>
+          <span style="font-size:11px;color:#ccc">스마트스토어</span>
+          <span style="font-size:10px;color:#666">동기화됨</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#0D1117;border:1px solid #2A3040;border-radius:6px">
+          <div style="width:6px;height:6px;background:#51CF66;border-radius:50%"></div>
+          <span style="font-size:11px;color:#ccc">쿠팡</span>
+          <span style="font-size:10px;color:#666">동기화됨</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#0D1117;border:1px solid #2A3040;border-radius:6px">
+          <div style="width:6px;height:6px;background:#FFD93D;border-radius:50%"></div>
+          <span style="font-size:11px;color:#ccc">11번가</span>
+          <span style="font-size:10px;color:#666">대기중</span>
+        </div>
+      </div>
     </div>
 
     <div class="tip-box">
@@ -300,8 +319,45 @@
       <li><strong>문의일시</strong> — 문의가 등록된 날짜와 시간</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] CS 문의 목록 테이블 — 마켓, 주문번호, 문의유형, 고객, 문의내용, 답변여부 컬럼이 표시된 목록
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;overflow:hidden;margin:16px 0">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#0D1117;border-bottom:1px solid #1C2333">
+            <th style="padding:8px;color:#888;text-align:center">상품</th>
+            <th style="padding:8px;color:#888;text-align:center">마켓</th>
+            <th style="padding:8px;color:#888;text-align:center">문의유형</th>
+            <th style="padding:8px;color:#888;text-align:center">고객</th>
+            <th style="padding:8px;color:#888;text-align:left">문의내용</th>
+            <th style="padding:8px;color:#888;text-align:center">답변여부</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;text-align:center"><div style="width:40px;height:40px;background:#1A1A1A;border-radius:4px;margin:0 auto"></div></td>
+            <td style="padding:8px;text-align:center;color:#E5E5E5">스마트스토어</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(76,154,255,0.15);border-radius:12px;color:#4C9AFF;font-size:11px">상품문의</span></td>
+            <td style="padding:8px;text-align:center;color:#AAA">carn*****</td>
+            <td style="padding:8px;color:#ccc">재고있나요?</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(255,211,61,0.15);border-radius:12px;color:#FFD93D;font-size:11px">미답변</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;text-align:center"><div style="width:40px;height:40px;background:#1A1A1A;border-radius:4px;margin:0 auto"></div></td>
+            <td style="padding:8px;text-align:center;color:#E5E5E5">쿠팡</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(255,140,0,0.15);border-radius:12px;color:#FF8C00;font-size:11px">배송문의</span></td>
+            <td style="padding:8px;text-align:center;color:#AAA">shop****</td>
+            <td style="padding:8px;color:#ccc">배송 언제 되나요?</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(255,211,61,0.15);border-radius:12px;color:#FFD93D;font-size:11px">미답변</span></td>
+          </tr>
+          <tr>
+            <td style="padding:8px;text-align:center"><div style="width:40px;height:40px;background:#1A1A1A;border-radius:4px;margin:0 auto"></div></td>
+            <td style="padding:8px;text-align:center;color:#E5E5E5">스마트스토어</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(108,92,231,0.15);border-radius:12px;color:#6C5CE7;font-size:11px">교환/반품</span></td>
+            <td style="padding:8px;text-align:center;color:#AAA">user****</td>
+            <td style="padding:8px;color:#ccc">사이즈 교환 가능할까요?</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(81,207,102,0.15);border-radius:12px;color:#51CF66;font-size:11px">답변완료</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <h3>필터 및 검색</h3>
@@ -326,8 +382,30 @@
       <li><strong>답변 전송</strong> 버튼을 클릭합니다.</li>
     </ol>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 답변 모달 — 문의 내용 표시, 템플릿 선택 드롭다운, 답변 작성 텍스트 영역, 전송 버튼
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1.25rem;margin:16px 0;max-width:500px">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">답변 작성</div>
+      <!-- 문의 내용 -->
+      <div style="background:#0D1117;border:1px solid #2A3040;border-radius:6px;padding:10px 12px;margin-bottom:12px">
+        <div style="font-size:10px;color:#666;margin-bottom:4px">고객 문의</div>
+        <div style="font-size:12px;color:#ccc">재고있나요? 270mm 사이즈 구매하고 싶습니다.</div>
+        <div style="font-size:10px;color:#555;margin-top:6px">carn***** | 2026-03-25 14:32</div>
+      </div>
+      <!-- 템플릿 선택 -->
+      <div style="margin-bottom:10px">
+        <div style="padding:6px 10px;background:#0D1117;border:1px solid #2A3040;border-radius:6px;font-size:12px;color:#888;display:flex;justify-content:space-between;align-items:center">
+          <span>템플릿 선택...</span>
+          <span style="color:#555;font-size:10px">&#9660;</span>
+        </div>
+      </div>
+      <!-- 답변 텍스트 -->
+      <div style="padding:10px 12px;background:#0D1117;border:1px solid #2A3040;border-radius:6px;font-size:12px;color:#888;min-height:80px;margin-bottom:12px">
+        안녕하세요, 문의해 주셔서 감사합니다.<br>해당 상품 270mm 사이즈 재고 있습니다...
+      </div>
+      <!-- 버튼 -->
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <span style="padding:6px 16px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">취소</span>
+        <span style="padding:6px 16px;background:#FF8C00;border-radius:6px;font-size:12px;color:#000;font-weight:600">답변 전송</span>
+      </div>
     </div>
 
     <h3>답변 작성 요령</h3>

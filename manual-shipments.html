@@ -291,8 +291,23 @@
       <li>해당 마켓에 연결된 계정을 선택합니다.</li>
     </ol>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 전송 대상 선택 모달 — 마켓 목록과 연결된 계정 드롭다운
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1.25rem;margin:16px 0;max-width:420px">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">전송 대상 선택</div>
+      <div style="font-size:11px;color:#888;margin-bottom:6px">마켓 선택</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+        <span style="padding:5px 12px;background:rgba(76,154,255,0.2);border:1px solid rgba(76,154,255,0.4);border-radius:6px;font-size:12px;color:#4C9AFF">스마트스토어</span>
+        <span style="padding:5px 12px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#888">쿠팡</span>
+        <span style="padding:5px 12px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#888">11번가</span>
+        <span style="padding:5px 12px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#888">롯데ON</span>
+      </div>
+      <div style="font-size:11px;color:#888;margin-bottom:6px">계정 선택</div>
+      <div style="padding:6px 10px;background:#0D1117;border:1px solid #2A3040;border-radius:6px;font-size:12px;color:#ccc;display:flex;justify-content:space-between;margin-bottom:14px">
+        <span>삼바웨이브 스토어</span><span style="color:#555;font-size:10px">&#9660;</span>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <span style="padding:6px 16px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">취소</span>
+        <span style="padding:6px 16px;background:#FF8C00;border-radius:6px;font-size:12px;color:#000;font-weight:600">전송 시작</span>
+      </div>
     </div>
   </div>
 
@@ -308,8 +323,31 @@
       <li>전송이 완료되면 요약 결과가 표시됩니다.</li>
     </ol>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 전송 진행 화면 — 전체 진행률 바, 개별 상품 전송 상태 목록
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <div style="font-size:12px;font-weight:600;color:#E5E5E5;margin-bottom:10px">전송 진행중 — 스마트스토어</div>
+      <!-- 진행률 바 -->
+      <div style="background:#1A1A1A;border-radius:4px;height:8px;margin-bottom:6px;overflow:hidden">
+        <div style="width:66%;height:100%;background:linear-gradient(90deg,#FF8C00,#FFB84D);border-radius:4px"></div>
+      </div>
+      <div style="font-size:10px;color:#888;margin-bottom:14px;text-align:right">2 / 3 완료 (66%)</div>
+      <!-- 개별 상태 -->
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+        <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#0D1117;border-radius:4px">
+          <span style="color:#51CF66">&#10003;</span>
+          <span style="flex:1;color:#ccc">나이키 에어맥스 97 블랙</span>
+          <span style="color:#51CF66;font-size:11px">성공</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#0D1117;border-radius:4px">
+          <span style="color:#51CF66">&#10003;</span>
+          <span style="flex:1;color:#ccc">아디다스 스탠스미스 화이트</span>
+          <span style="color:#51CF66;font-size:11px">성공</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#0D1117;border-radius:4px">
+          <span style="color:#FF8C00">&#9679;</span>
+          <span style="flex:1;color:#ccc">뉴발란스 993 그레이</span>
+          <span style="color:#FF8C00;font-size:11px">전송중...</span>
+        </div>
+      </div>
     </div>
 
     <div class="tip-box">
@@ -332,8 +370,41 @@
       <li><strong>에러 메시지</strong> — 실패한 경우 에러 상세 내용</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 전송 로그 테이블 — 전송일시, 마켓, 상품명, 상태, 에러메시지 컬럼
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;overflow:hidden;margin:16px 0">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#0D1117;border-bottom:1px solid #1C2333">
+            <th style="padding:8px;color:#888;text-align:center">전송일시</th>
+            <th style="padding:8px;color:#888;text-align:center">마켓</th>
+            <th style="padding:8px;color:#888;text-align:left">상품명</th>
+            <th style="padding:8px;color:#888;text-align:center">상태</th>
+            <th style="padding:8px;color:#888;text-align:left">에러메시지</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;text-align:center;color:#aaa;font-size:11px">03-25 15:32</td>
+            <td style="padding:8px;text-align:center;color:#ccc">스마트스토어</td>
+            <td style="padding:8px;color:#ccc">나이키 에어맥스 97 블랙</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(81,207,102,0.15);border-radius:12px;color:#51CF66;font-size:11px">성공</span></td>
+            <td style="padding:8px;color:#555">-</td>
+          </tr>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;text-align:center;color:#aaa;font-size:11px">03-25 15:33</td>
+            <td style="padding:8px;text-align:center;color:#ccc">스마트스토어</td>
+            <td style="padding:8px;color:#ccc">아디다스 스탠스미스</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(81,207,102,0.15);border-radius:12px;color:#51CF66;font-size:11px">성공</span></td>
+            <td style="padding:8px;color:#555">-</td>
+          </tr>
+          <tr>
+            <td style="padding:8px;text-align:center;color:#aaa;font-size:11px">03-25 15:34</td>
+            <td style="padding:8px;text-align:center;color:#ccc">쿠팡</td>
+            <td style="padding:8px;color:#ccc">뉴발란스 993 그레이</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(248,113,113,0.15);border-radius:12px;color:#f87171;font-size:11px">실패</span></td>
+            <td style="padding:8px;color:#f87171;font-size:11px">카테고리 미매핑</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 

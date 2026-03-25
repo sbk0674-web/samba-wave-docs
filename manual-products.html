@@ -250,8 +250,24 @@
     <h3>이미지만보기</h3>
     <p>상품 이미지를 그리드 형태로 표시합니다. 시각적으로 상품을 확인하고 선택할 때 편리합니다.</p>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 보기 모드 전환 버튼 — 간단보기 / 건별보기 / 이미지만보기 탭 전환 영역
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <div style="display:flex;gap:0;margin-bottom:12px">
+        <span style="padding:6px 16px;background:#FF8C00;border-radius:6px 0 0 6px;font-size:12px;color:#000;font-weight:600">간단보기</span>
+        <span style="padding:6px 16px;background:rgba(50,50,50,0.8);border-top:1px solid #3D3D3D;border-bottom:1px solid #3D3D3D;font-size:12px;color:#C5C5C5">건별보기</span>
+        <span style="padding:6px 16px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-left:0;border-radius:0 6px 6px 0;font-size:12px;color:#C5C5C5">이미지만보기</span>
+      </div>
+      <!-- 간단보기 미리보기 -->
+      <div style="display:flex;gap:10px;overflow:hidden">
+        <div style="flex:0 0 80px;height:80px;background:#1A1A1A;border-radius:6px"></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;color:#E5E5E5;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">나이키 에어맥스 97 OG 블랙/화이트</div>
+          <div style="font-size:11px;color:#888;margin-bottom:2px">원가: <span style="color:#ccc">159,000원</span></div>
+          <div style="font-size:11px;color:#888">판매가: <span style="color:#FF8C00;font-weight:600">209,000원</span></div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <span style="padding:2px 8px;background:rgba(81,207,102,0.15);border-radius:12px;color:#51CF66;font-size:11px">전송완료</span>
+        </div>
+      </div>
     </div>
 
     <div class="tip-box">
@@ -274,8 +290,15 @@
       <li><strong>정책</strong> — 특정 정책이 적용된 상품만 표시합니다.</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 검색 필터 영역 — 드롭다운으로 검색 유형을 선택하고 키워드를 입력하는 필드
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:12px;margin:16px 0">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div style="padding:6px 10px;background:#0D1117;border:1px solid #2A3040;border-radius:6px;font-size:12px;color:#ccc;display:flex;align-items:center;gap:6px;min-width:120px">
+          <span>상품명</span>
+          <span style="color:#555;font-size:10px">&#9660;</span>
+        </div>
+        <div style="flex:1;padding:6px 10px;background:#0D1117;border:1px solid #2A3040;border-radius:6px;font-size:12px;color:#555;min-width:200px">검색어를 입력하세요...</div>
+        <span style="padding:6px 14px;background:#FF8C00;border-radius:6px;font-size:12px;color:#000;font-weight:600">검색</span>
+      </div>
     </div>
 
     <ol class="step-list">
@@ -298,8 +321,24 @@
       <li><strong>일문 상품명</strong> — 라쿠텐 등 일본 마켓 전송 시 사용됩니다.</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 상품 편집 화면 — 상품명, 등록명, 영문명, 일문명 입력 필드가 표시된 편집 폼
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0;max-width:500px">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">상품 편집</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="color:#888;font-size:12px;min-width:90px">원 상품명</span>
+        <div style="flex:1;padding:6px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">나이키 에어맥스 97 OG 블랙/화이트</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="color:#888;font-size:12px;min-width:90px">등록 상품명</span>
+        <div style="flex:1;padding:6px 8px;background:#0D1117;border:1px solid #FF8C00;border-radius:4px;font-size:12px;color:#E5E5E5">[나이키] 에어맥스 97 OG 블랙 화이트 DM0028-002</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="color:#888;font-size:12px;min-width:90px">영문 상품명</span>
+        <div style="flex:1;padding:6px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#888">Nike Air Max 97 OG Black White</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="color:#888;font-size:12px;min-width:90px">일문 상품명</span>
+        <div style="flex:1;padding:6px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#555">입력하세요...</div>
+      </div>
     </div>
 
     <div class="note-box">
@@ -323,8 +362,25 @@
     <h3>마켓별 판매가 확인</h3>
     <p>정책이 적용된 상품의 건별보기에서 각 마켓별 판매가를 확인할 수 있습니다.</p>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 마켓별 판매가 표시 — 스마트스토어, 쿠팡, 11번가 등 각 마켓의 계산된 판매가 목록
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <div style="font-size:12px;font-weight:600;color:#E5E5E5;margin-bottom:10px">마켓별 판매가 (정책: 기본정책 30%)</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px">
+        <div style="padding:10px;background:#0D1117;border:1px solid #2A3040;border-radius:6px;text-align:center">
+          <div style="font-size:11px;color:#888;margin-bottom:4px">스마트스토어</div>
+          <div style="font-size:16px;font-weight:700;color:#FF8C00">219,000원</div>
+          <div style="font-size:10px;color:#51CF66;margin-top:2px">수익 +48,660원</div>
+        </div>
+        <div style="padding:10px;background:#0D1117;border:1px solid #2A3040;border-radius:6px;text-align:center">
+          <div style="font-size:11px;color:#888;margin-bottom:4px">쿠팡</div>
+          <div style="font-size:16px;font-weight:700;color:#FF8C00">239,000원</div>
+          <div style="font-size:10px;color:#51CF66;margin-top:2px">수익 +44,150원</div>
+        </div>
+        <div style="padding:10px;background:#0D1117;border:1px solid #2A3040;border-radius:6px;text-align:center">
+          <div style="font-size:11px;color:#888;margin-bottom:4px">11번가</div>
+          <div style="font-size:16px;font-weight:700;color:#FF8C00">229,000원</div>
+          <div style="font-size:10px;color:#51CF66;margin-top:2px">수익 +42,520원</div>
+        </div>
+      </div>
     </div>
 
     <div class="tip-box">
@@ -350,8 +406,17 @@
     <h3>영상 생성</h3>
     <p>상품 이미지들을 조합하여 간단한 상품 소개 영상을 자동 생성합니다.</p>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] AI 기능 메뉴 — AI 상품명변경, AI태그, 이미지변환, 영상생성 버튼이 나열된 도구 모음
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:12px;margin:16px 0">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="padding:6px 14px;background:linear-gradient(135deg,rgba(108,92,231,0.2),rgba(76,154,255,0.2));border:1px solid rgba(108,92,231,0.4);border-radius:6px;font-size:12px;color:#A78BFA;font-weight:500">AI 상품명변경</span>
+        <span style="padding:6px 14px;background:linear-gradient(135deg,rgba(108,92,231,0.2),rgba(76,154,255,0.2));border:1px solid rgba(108,92,231,0.4);border-radius:6px;font-size:12px;color:#A78BFA;font-weight:500">AI 태그</span>
+        <span style="padding:6px 14px;background:linear-gradient(135deg,rgba(255,140,0,0.15),rgba(255,184,77,0.15));border:1px solid rgba(255,140,0,0.4);border-radius:6px;font-size:12px;color:#FFB84D;font-weight:500">이미지변환</span>
+        <span style="padding:6px 14px;background:linear-gradient(135deg,rgba(255,140,0,0.15),rgba(255,184,77,0.15));border:1px solid rgba(255,140,0,0.4);border-radius:6px;font-size:12px;color:#FFB84D;font-weight:500">영상생성</span>
+        <span style="color:#333;margin:0 2px;display:flex;align-items:center">|</span>
+        <span style="padding:6px 14px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">상품전송</span>
+        <span style="padding:6px 14px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">마켓삭제</span>
+        <span style="padding:6px 14px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">정책 적용</span>
+      </div>
     </div>
 
     <ol class="step-list">

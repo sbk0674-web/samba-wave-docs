@@ -269,8 +269,27 @@
       <li><strong>추가비용 (원)</strong> — 포장비, 기타 비용 등 추가로 반영할 금액</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 정책 생성 폼 — 정책명, 마진율, 배송비, 추가비용 입력 필드
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0;max-width:420px">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">정책 생성</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="color:#888;font-size:12px;min-width:80px">정책명</span>
+        <div style="flex:1;padding:6px 8px;background:#0D1117;border:1px solid #FF8C00;border-radius:4px;font-size:12px;color:#E5E5E5">기본정책</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="color:#888;font-size:12px;min-width:80px">마진율 (%)</span>
+        <div style="flex:1;padding:6px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">30</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="color:#888;font-size:12px;min-width:80px">배송비 (원)</span>
+        <div style="flex:1;padding:6px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">3,000</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+        <span style="color:#888;font-size:12px;min-width:80px">추가비용 (원)</span>
+        <div style="flex:1;padding:6px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">1,000</div>
+      </div>
+      <div style="display:flex;justify-content:flex-end">
+        <span style="padding:6px 20px;background:#FF8C00;border-radius:6px;font-size:12px;color:#000;font-weight:600">저장</span>
+      </div>
     </div>
   </div>
 
@@ -287,8 +306,26 @@
       <li><strong>재고 제한 (개)</strong> — 마켓에 등록할 재고 수량 제한</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 마켓별 정책 설정 — 스마트스토어, 쿠팡, 11번가 등 각 마켓 탭별 수수료/배송비/출고일 설정
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <!-- 마켓 탭 -->
+      <div style="display:flex;gap:0;margin-bottom:14px;border-bottom:1px solid #2D2D2D">
+        <span style="padding:6px 14px;border-bottom:2px solid #FF8C00;font-size:12px;color:#FF8C00;font-weight:500">스마트스토어</span>
+        <span style="padding:6px 14px;font-size:12px;color:#888">쿠팡</span>
+        <span style="padding:6px 14px;font-size:12px;color:#888">11번가</span>
+        <span style="padding:6px 14px;font-size:12px;color:#888">롯데ON</span>
+        <span style="padding:6px 14px;font-size:12px;color:#888">SSG</span>
+      </div>
+      <!-- 설정 필드 -->
+      <div style="display:grid;grid-template-columns:100px 1fr 100px 1fr;gap:8px;align-items:center;font-size:12px">
+        <span style="color:#888">수수료 (%)</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">6.0</div>
+        <span style="color:#888">배송비 (원)</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">0 (무료)</div>
+        <span style="color:#888">출고일 (일)</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">3</div>
+        <span style="color:#888">재고 제한</span>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;color:#ccc">999</div>
+      </div>
     </div>
 
     <div class="tip-box">

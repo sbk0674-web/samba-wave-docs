@@ -277,8 +277,18 @@
     <h3>전체 마켓 가져오기</h3>
     <p><strong>전체마켓 가져오기</strong> 버튼을 클릭하면 연결된 모든 마켓에서 한 번에 주문을 수집합니다.</p>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 주문 가져오기 버튼 영역 — "가져오기" 버튼과 "전체마켓 가져오기" 버튼
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span style="padding:8px 18px;background:#FF8C00;border-radius:6px;font-size:12px;color:#000;font-weight:600">전체마켓 가져오기</span>
+        <span style="padding:8px 18px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">스마트스토어</span>
+        <span style="padding:8px 18px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">쿠팡</span>
+        <span style="padding:8px 18px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">11번가</span>
+        <div style="margin-left:auto;display:flex;gap:4px;align-items:center">
+          <span style="padding:2px 8px;background:#8B1A1A;border:1px solid #C0392B;border-radius:5px;font-size:11px;color:#fff">오늘</span>
+          <span style="padding:2px 8px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">1주일</span>
+          <span style="padding:2px 8px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">1개월</span>
+        </div>
+      </div>
     </div>
 
     <div class="tip-box">
@@ -300,8 +310,62 @@
       <li><strong>검색</strong> — 주문번호, 상품명, 구매자명으로 검색합니다.</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 주문 목록 테이블 — 주문번호, 마켓, 상품명, 옵션, 수량, 가격, 상태 컬럼이 표시된 목록
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;overflow:hidden;margin:16px 0">
+      <!-- 필터 바 -->
+      <div style="padding:8px 12px;border-bottom:1px solid #1C2333;display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+        <span style="padding:2px 8px;background:#8B1A1A;border:1px solid #C0392B;border-radius:5px;font-size:11px;color:#fff">오늘</span>
+        <span style="padding:2px 8px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">1주일</span>
+        <span style="padding:2px 8px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">1개월</span>
+        <span style="padding:2px 8px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">올해</span>
+        <span style="padding:2px 8px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">전체</span>
+        <span style="color:#333;margin:0 4px">|</span>
+        <span style="padding:2px 6px;background:#1A1A1A;border:1px solid #2D2D2D;border-radius:4px;font-size:11px;color:#888">2026-01-01</span>
+        <span style="font-size:11px;color:#555">~</span>
+        <span style="padding:2px 6px;background:#1A1A1A;border:1px solid #2D2D2D;border-radius:4px;font-size:11px;color:#888">2026-03-25</span>
+        <div style="margin-left:auto;padding:4px 10px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:11px;color:#555;min-width:140px">검색어 입력...</div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#0D1117;border-bottom:1px solid #1C2333">
+            <th style="padding:8px;color:#888;text-align:center">주문번호</th>
+            <th style="padding:8px;color:#888;text-align:center">마켓</th>
+            <th style="padding:8px;color:#888;text-align:left">상품명</th>
+            <th style="padding:8px;color:#888;text-align:center">옵션</th>
+            <th style="padding:8px;color:#888;text-align:center">수량</th>
+            <th style="padding:8px;color:#888;text-align:right">결제금액</th>
+            <th style="padding:8px;color:#888;text-align:center">상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;text-align:center;color:#4C9AFF;font-size:11px">2026032500001</td>
+            <td style="padding:8px;text-align:center;color:#E5E5E5">스마트스토어</td>
+            <td style="padding:8px;color:#ccc">나이키 에어맥스 97 블랙</td>
+            <td style="padding:8px;text-align:center;color:#aaa">270mm</td>
+            <td style="padding:8px;text-align:center;color:#ccc">1</td>
+            <td style="padding:8px;text-align:right;color:#ccc">189,000</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(255,140,0,0.15);border-radius:12px;color:#FF8C00;font-size:11px">신규주문</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;text-align:center;color:#4C9AFF;font-size:11px">2026032500002</td>
+            <td style="padding:8px;text-align:center;color:#E5E5E5">쿠팡</td>
+            <td style="padding:8px;color:#ccc">아디다스 스탠스미스 화이트</td>
+            <td style="padding:8px;text-align:center;color:#aaa">265mm</td>
+            <td style="padding:8px;text-align:center;color:#ccc">1</td>
+            <td style="padding:8px;text-align:right;color:#ccc">149,000</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(76,154,255,0.15);border-radius:12px;color:#4C9AFF;font-size:11px">발주확인</span></td>
+          </tr>
+          <tr>
+            <td style="padding:8px;text-align:center;color:#4C9AFF;font-size:11px">2026032400015</td>
+            <td style="padding:8px;text-align:center;color:#E5E5E5">11번가</td>
+            <td style="padding:8px;color:#ccc">뉴발란스 993 그레이</td>
+            <td style="padding:8px;text-align:center;color:#aaa">280mm</td>
+            <td style="padding:8px;text-align:center;color:#ccc">2</td>
+            <td style="padding:8px;text-align:right;color:#ccc">318,000</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(81,207,102,0.15);border-radius:12px;color:#51CF66;font-size:11px">배송중</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <h3>테이블 컬럼 설명</h3>
@@ -329,8 +393,37 @@
       <li><strong>수익 정보</strong> — 판매가, 원가, 수수료, 예상 수익</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 주문 상세 모달 — 주문 정보, 상품 정보, 배송 정보, 수익 정보가 섹션별로 표시
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1.25rem;margin:16px 0;max-width:500px">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">주문 상세</div>
+      <!-- 주문 정보 -->
+      <div style="font-size:11px;font-weight:600;color:#FF8C00;margin-bottom:6px">주문 정보</div>
+      <div style="display:grid;grid-template-columns:100px 1fr;gap:4px 8px;font-size:12px;margin-bottom:14px">
+        <span style="color:#666">주문번호</span><span style="color:#4C9AFF">2026032500001</span>
+        <span style="color:#666">주문일시</span><span style="color:#ccc">2026-03-25 14:32</span>
+        <span style="color:#666">결제수단</span><span style="color:#ccc">카드결제</span>
+      </div>
+      <!-- 상품 정보 -->
+      <div style="font-size:11px;font-weight:600;color:#FF8C00;margin-bottom:6px">상품 정보</div>
+      <div style="display:grid;grid-template-columns:100px 1fr;gap:4px 8px;font-size:12px;margin-bottom:14px">
+        <span style="color:#666">상품명</span><span style="color:#ccc">나이키 에어맥스 97 블랙</span>
+        <span style="color:#666">옵션</span><span style="color:#ccc">270mm</span>
+        <span style="color:#666">수량 / 단가</span><span style="color:#ccc">1 / 189,000원</span>
+      </div>
+      <!-- 배송 정보 -->
+      <div style="font-size:11px;font-weight:600;color:#FF8C00;margin-bottom:6px">배송 정보</div>
+      <div style="display:grid;grid-template-columns:100px 1fr;gap:4px 8px;font-size:12px;margin-bottom:14px">
+        <span style="color:#666">수령인</span><span style="color:#ccc">김*수</span>
+        <span style="color:#666">연락처</span><span style="color:#ccc">010-****-1234</span>
+        <span style="color:#666">배송지</span><span style="color:#ccc">서울시 강남구 ***</span>
+      </div>
+      <!-- 수익 정보 -->
+      <div style="font-size:11px;font-weight:600;color:#FF8C00;margin-bottom:6px">수익 정보</div>
+      <div style="display:grid;grid-template-columns:100px 1fr;gap:4px 8px;font-size:12px">
+        <span style="color:#666">판매가</span><span style="color:#ccc">189,000원</span>
+        <span style="color:#666">원가</span><span style="color:#ccc">159,000원</span>
+        <span style="color:#666">수수료</span><span style="color:#f87171">-11,340원</span>
+        <span style="color:#666">예상 수익</span><span style="color:#51CF66;font-weight:600">18,660원</span>
+      </div>
     </div>
   </div>
 
@@ -389,8 +482,14 @@
       <li><strong>네이버 검색</strong> — 네이버에서 해당 상품을 검색합니다.</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 주문 상세의 외부 링크 버튼 — 원문링크, 판매마켓, 다나와, 네이버 아이콘 버튼 영역
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
+      <div style="font-size:11px;color:#666;margin-bottom:8px">외부 링크</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="padding:6px 14px;background:rgba(76,154,255,0.1);border:1px solid rgba(76,154,255,0.3);border-radius:6px;font-size:12px;color:#4C9AFF">원문링크</span>
+        <span style="padding:6px 14px;background:rgba(81,207,102,0.1);border:1px solid rgba(81,207,102,0.3);border-radius:6px;font-size:12px;color:#51CF66">판매마켓</span>
+        <span style="padding:6px 14px;background:rgba(255,140,0,0.1);border:1px solid rgba(255,140,0,0.3);border-radius:6px;font-size:12px;color:#FF8C00">다나와 검색</span>
+        <span style="padding:6px 14px;background:rgba(108,92,231,0.1);border:1px solid rgba(108,92,231,0.3);border-radius:6px;font-size:12px;color:#6C5CE7">네이버 검색</span>
+      </div>
     </div>
   </div>
 

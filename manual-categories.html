@@ -315,8 +315,32 @@
       <li><strong>매핑 저장</strong> 버튼을 클릭합니다.</li>
     </ol>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 카테고리 매핑 화면 — 좌측에 소싱처 카테고리 트리, 우측에 마켓 카테고리 트리, 중앙에 매핑 연결선
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:start;margin:16px 0">
+      <!-- 소싱처 카테고리 -->
+      <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:12px">
+        <div style="font-size:11px;font-weight:600;color:#FF8C00;margin-bottom:8px">소싱처 (무신사)</div>
+        <div style="font-size:12px;line-height:2;color:#ccc;padding-left:4px">
+          <div style="color:#FF8C00;font-weight:500">&#9660; 상의</div>
+          <div style="padding-left:14px;background:rgba(76,154,255,0.1);border-radius:4px;margin:1px 0;padding:0 6px;color:#4C9AFF">반소매 티셔츠</div>
+          <div style="padding-left:14px;color:#aaa">긴소매 티셔츠</div>
+          <div style="padding-left:14px;color:#aaa">맨투맨/스웨트</div>
+          <div style="color:#ccc;margin-top:2px">&#9654; 하의</div>
+          <div style="color:#ccc;margin-top:2px">&#9654; 신발</div>
+        </div>
+      </div>
+      <!-- 화살표 -->
+      <div style="display:flex;align-items:center;padding-top:60px;font-size:24px;color:#FF8C00">&#8594;</div>
+      <!-- 마켓 카테고리 -->
+      <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:12px">
+        <div style="font-size:11px;font-weight:600;color:#4C9AFF;margin-bottom:8px">마켓 (스마트스토어)</div>
+        <div style="font-size:12px;line-height:2;color:#ccc;padding-left:4px">
+          <div style="color:#ccc">&#9660; 패션의류</div>
+          <div style="padding-left:14px;color:#ccc">&#9660; 남성의류</div>
+          <div style="padding-left:28px;background:rgba(76,154,255,0.1);border-radius:4px;margin:1px 0;padding:0 6px;color:#4C9AFF">티셔츠</div>
+          <div style="padding-left:28px;color:#aaa">맨투맨</div>
+          <div style="padding-left:14px;color:#aaa">&#9654; 여성의류</div>
+        </div>
+      </div>
     </div>
 
     <div class="tip-box">
@@ -337,8 +361,20 @@
       <li>확인 모달에서 매핑 내용을 검토하고 <strong>적용</strong>을 클릭합니다.</li>
     </ol>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 일괄 매핑 확인 모달 — 선택된 소싱처 카테고리 목록과 매핑 대상 마켓 카테고리 표시
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1.25rem;margin:16px 0;max-width:460px">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">일괄 매핑 확인</div>
+      <div style="font-size:11px;color:#888;margin-bottom:8px">선택된 소싱처 카테고리 (3건)</div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:14px">
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">상의 &gt; 반소매 티셔츠</div>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">상의 &gt; 긴소매 티셔츠</div>
+        <div style="padding:4px 8px;background:#0D1117;border:1px solid #2A3040;border-radius:4px;font-size:12px;color:#ccc">상의 &gt; 민소매 티셔츠</div>
+      </div>
+      <div style="font-size:11px;color:#888;margin-bottom:6px">매핑 대상 마켓 카테고리</div>
+      <div style="padding:6px 10px;background:rgba(76,154,255,0.1);border:1px solid rgba(76,154,255,0.3);border-radius:4px;font-size:12px;color:#4C9AFF;margin-bottom:14px">패션의류 &gt; 남성의류 &gt; 티셔츠</div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <span style="padding:6px 16px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:6px;font-size:12px;color:#C5C5C5">취소</span>
+        <span style="padding:6px 16px;background:#FF8C00;border-radius:6px;font-size:12px;color:#000;font-weight:600">적용</span>
+      </div>
     </div>
 
     <div class="tip-box">
@@ -369,8 +405,37 @@
     <h3>매핑 삭제</h3>
     <p>잘못된 매핑은 해당 항목의 삭제 버튼을 클릭하여 제거할 수 있습니다.</p>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 매핑 현황 테이블 — 소싱처 카테고리, 마켓 카테고리, 상태(매핑완료/미매핑) 컬럼이 표시된 목록
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;overflow:hidden;margin:16px 0">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#0D1117;border-bottom:1px solid #1C2333">
+            <th style="padding:8px;color:#888;text-align:left">소싱처 카테고리</th>
+            <th style="padding:8px;color:#888;text-align:left">마켓 카테고리</th>
+            <th style="padding:8px;color:#888;text-align:center">상태</th>
+            <th style="padding:8px;color:#888;text-align:center">작업</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;color:#ccc">상의 &gt; 반소매 티셔츠</td>
+            <td style="padding:8px;color:#4C9AFF">패션의류 &gt; 남성의류 &gt; 티셔츠</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(81,207,102,0.15);border-radius:12px;color:#51CF66;font-size:11px">매핑완료</span></td>
+            <td style="padding:8px;text-align:center"><span style="color:#888;font-size:11px;cursor:pointer">수정</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;color:#ccc">신발 &gt; 스니커즈</td>
+            <td style="padding:8px;color:#4C9AFF">패션 &gt; 남성신발 &gt; 스니커즈</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(81,207,102,0.15);border-radius:12px;color:#51CF66;font-size:11px">매핑완료</span></td>
+            <td style="padding:8px;text-align:center"><span style="color:#888;font-size:11px;cursor:pointer">수정</span></td>
+          </tr>
+          <tr>
+            <td style="padding:8px;color:#ccc">가방 &gt; 백팩</td>
+            <td style="padding:8px;color:#555">미설정</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(248,113,113,0.15);border-radius:12px;color:#f87171;font-size:11px">미매핑</span></td>
+            <td style="padding:8px;text-align:center"><span style="color:#FF8C00;font-size:11px;cursor:pointer">매핑</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="note-box">

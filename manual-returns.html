@@ -299,8 +299,49 @@
       <li><strong>처리일</strong> — 처리가 완료된 날짜</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 반품교환 목록 테이블 — 요청일, 주문번호, 마켓, 상품명, 유형, 사유, 상태 컬럼이 표시된 목록
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;overflow:hidden;margin:16px 0">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#0D1117;border-bottom:1px solid #1C2333">
+            <th style="padding:8px;color:#888;text-align:center">요청일</th>
+            <th style="padding:8px;color:#888;text-align:center">주문번호</th>
+            <th style="padding:8px;color:#888;text-align:center">마켓</th>
+            <th style="padding:8px;color:#888;text-align:left">상품명</th>
+            <th style="padding:8px;color:#888;text-align:center">유형</th>
+            <th style="padding:8px;color:#888;text-align:left">사유</th>
+            <th style="padding:8px;color:#888;text-align:center">상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;text-align:center;color:#aaa;font-size:11px">03-25</td>
+            <td style="padding:8px;text-align:center;color:#4C9AFF;font-size:11px">2026032400015</td>
+            <td style="padding:8px;text-align:center;color:#ccc">스마트스토어</td>
+            <td style="padding:8px;color:#ccc">나이키 에어맥스 97</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(248,113,113,0.15);border-radius:12px;color:#f87171;font-size:11px">반품</span></td>
+            <td style="padding:8px;color:#aaa">단순 변심</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(255,140,0,0.15);border-radius:12px;color:#FF8C00;font-size:11px">요청</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #1C2333">
+            <td style="padding:8px;text-align:center;color:#aaa;font-size:11px">03-24</td>
+            <td style="padding:8px;text-align:center;color:#4C9AFF;font-size:11px">2026032200008</td>
+            <td style="padding:8px;text-align:center;color:#ccc">쿠팡</td>
+            <td style="padding:8px;color:#ccc">아디다스 스탠스미스</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(76,154,255,0.15);border-radius:12px;color:#4C9AFF;font-size:11px">교환</span></td>
+            <td style="padding:8px;color:#aaa">사이즈 불일치</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(255,211,61,0.15);border-radius:12px;color:#FFD93D;font-size:11px">수거중</span></td>
+          </tr>
+          <tr>
+            <td style="padding:8px;text-align:center;color:#aaa;font-size:11px">03-22</td>
+            <td style="padding:8px;text-align:center;color:#4C9AFF;font-size:11px">2026032000003</td>
+            <td style="padding:8px;text-align:center;color:#ccc">11번가</td>
+            <td style="padding:8px;color:#ccc">뉴발란스 993 그레이</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(248,113,113,0.15);border-radius:12px;color:#f87171;font-size:11px">반품</span></td>
+            <td style="padding:8px;color:#aaa">상품 불량</td>
+            <td style="padding:8px;text-align:center"><span style="padding:2px 8px;background:rgba(81,207,102,0.15);border-radius:12px;color:#51CF66;font-size:11px">완료</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -321,8 +362,19 @@
       <li><strong>상태 필터</strong> — 요청/승인/수거중/완료/거절 상태별로 필터링합니다.</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 필터 영역 — 기간 선택 버튼, 마켓 드롭다운, 유형/상태 필터 버튼
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:10px 12px;margin:16px 0">
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <span style="padding:4px 10px;background:#8B1A1A;border:1px solid #C0392B;border-radius:5px;font-size:11px;color:#fff">1개월</span>
+        <span style="padding:4px 10px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">3개월</span>
+        <span style="padding:4px 10px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">직접입력</span>
+        <span style="color:#333;margin:0 4px">|</span>
+        <div style="padding:4px 10px;background:#0D1117;border:1px solid #2A3040;border-radius:5px;font-size:11px;color:#ccc;display:flex;align-items:center;gap:4px">전체마켓 <span style="color:#555;font-size:10px">&#9660;</span></div>
+        <span style="padding:4px 10px;background:rgba(248,113,113,0.15);border:1px solid rgba(248,113,113,0.3);border-radius:5px;font-size:11px;color:#f87171">반품</span>
+        <span style="padding:4px 10px;background:rgba(76,154,255,0.15);border:1px solid rgba(76,154,255,0.3);border-radius:5px;font-size:11px;color:#4C9AFF">교환</span>
+        <span style="color:#333;margin:0 4px">|</span>
+        <span style="padding:4px 10px;background:rgba(255,140,0,0.15);border:1px solid rgba(255,140,0,0.3);border-radius:5px;font-size:11px;color:#FF8C00">요청</span>
+        <span style="padding:4px 10px;background:rgba(50,50,50,0.8);border:1px solid #3D3D3D;border-radius:5px;font-size:11px;color:#C5C5C5">전체상태</span>
+      </div>
     </div>
 
     <div class="tip-box">
@@ -392,8 +444,28 @@
       <li>고객과의 커뮤니케이션 이력도 함께 표시됩니다.</li>
     </ul>
 
-    <div class="screenshot-placeholder">
-      [스크린샷] 반품교환 상세 모달 — 처리 이력 타임라인, 메모, 상태 변경 기록
+    <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1.25rem;margin:16px 0;max-width:420px">
+      <div style="font-size:14px;font-weight:600;color:#E5E5E5;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2D2D2D">처리 이력</div>
+      <!-- 타임라인 -->
+      <div style="padding-left:16px;border-left:2px solid #2D2D2D">
+        <div style="position:relative;padding-bottom:14px">
+          <div style="position:absolute;left:-21px;top:2px;width:10px;height:10px;background:#FF8C00;border-radius:50%"></div>
+          <div style="font-size:12px;color:#FF8C00;font-weight:500">반품 요청</div>
+          <div style="font-size:10px;color:#666">2026-03-25 14:32 | 고객</div>
+          <div style="font-size:11px;color:#aaa;margin-top:2px">사유: 단순 변심</div>
+        </div>
+        <div style="position:relative;padding-bottom:14px">
+          <div style="position:absolute;left:-21px;top:2px;width:10px;height:10px;background:#4C9AFF;border-radius:50%"></div>
+          <div style="font-size:12px;color:#4C9AFF;font-weight:500">승인</div>
+          <div style="font-size:10px;color:#666">2026-03-25 15:10 | 관리자</div>
+          <div style="font-size:11px;color:#aaa;margin-top:2px">메모: 택배 회수 접수 완료</div>
+        </div>
+        <div style="position:relative">
+          <div style="position:absolute;left:-21px;top:2px;width:10px;height:10px;background:#555;border:2px solid #333;border-radius:50%"></div>
+          <div style="font-size:12px;color:#888;font-weight:500">수거중</div>
+          <div style="font-size:10px;color:#666">택배사 수거 대기</div>
+        </div>
+      </div>
     </div>
 
     <h3>통계 확인</h3>

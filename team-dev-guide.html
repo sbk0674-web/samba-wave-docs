@@ -2678,58 +2678,12 @@ market_type = <span class="string">"tmon_v2"</span>
       </div>
     </div>
 
-    <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">🔧</span> 확장앱(익스텐션) 수정이 필요할 때</div>
-
-      <p class="desc">
-        소싱처 작업 중에 "확장앱이 이 데이터를 안 보내줘서 못 만들겠다" 하는 경우가 생길 수 있습니다.
-      </p>
-
-      <div class="alert alert-danger">
-        <div class="alert-icon">🚨</div>
-        <div class="alert-content">
-          <strong>확장앱은 직접 수정하지 마세요!</strong><br>
-          확장앱은 전체 시스템에 영향을 주기 때문에 <strong>팀장에게 요청</strong>해야 합니다.
-        </div>
-      </div>
-
-      <div class="gui-card">
-        <div class="gui-card-title">📋 확장앱 변경이 필요한 경우 절차</div>
-        <div class="gui-steps">
-          <div class="gui-step">
-            <div class="gui-step-number">1</div>
-            <div class="gui-step-content">
-              <h4>팀장에게 요청</h4>
-              <p><strong>"○○ 소싱처에서 △△ 데이터가 필요한데 확장앱이 안 보내줘요"</strong> 라고 알려주세요.<br>
-              예: "롯데ON에서 옵션 정보가 필요한데 확장앱이 상품명만 보내줘요"</p>
-            </div>
-          </div>
-          <div class="gui-step">
-            <div class="gui-step-number">2</div>
-            <div class="gui-step-content">
-              <h4>팀장이 확장앱 수정 + 버전 업데이트</h4>
-              <p>확장앱 수정 시 <strong>반드시 버전 번호가 올라갑니다.</strong><br>
-              수정 완료 후 팀원들에게 확장앱 업데이트 안내가 갑니다.</p>
-            </div>
-          </div>
-          <div class="gui-step">
-            <div class="gui-step-number">3</div>
-            <div class="gui-step-content">
-              <h4>서버 쪽 코드 연동</h4>
-              <p>확장앱이 새 데이터를 보내주면, 그때 본인의 플러그인 코드에서 받아서 처리하면 됩니다.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="alert alert-info">
-        <div class="alert-icon">📌</div>
-        <div class="alert-content">
-          <strong>확장앱의 역할은 단순합니다</strong><br>
-          브라우저 화면에서 데이터를 읽어서 서버로 보내는 것만 합니다.<br>
-          복잡한 로직은 전부 서버(플러그인) 쪽에서 처리합니다.<br>
-          확장앱은 "배달부", 서버는 "요리사"라고 생각하세요.
-        </div>
+    <div class="alert alert-success" style="margin-top:1rem">
+      <div class="alert-icon">✅</div>
+      <div class="alert-content">
+        <strong>확장앱(익스텐션)은 건드릴 일 없습니다</strong><br>
+        소싱처별 수집 로직은 전부 <strong>서버 플러그인</strong>에서 처리합니다.<br>
+        확장앱은 이미 범용으로 만들어져 있어서 수정할 필요 없어요.
       </div>
     </div>
   </div>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SambaWave — 매출통계 매뉴얼</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .hero {
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255, 140, 0, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+    }
+    .hero-badge {
+      position: relative;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #FF8C00;
+      background: rgba(255, 140, 0, 0.1);
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      position: relative;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #FF8C00, #FFB84D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      position: relative;
+      font-size: 16px;
+      color: #888;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a {
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FF8C00;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .manual-section {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .manual-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .manual-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ddd;
+      margin: 20px 0 10px;
+    }
+    .manual-section p {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+    .manual-section ul, .manual-section ol {
+      font-size: 14px;
+      color: #aaa;
+      margin: 8px 0 16px 20px;
+    }
+    .manual-section li {
+      margin-bottom: 6px;
+    }
+
+    .step-list {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .step-list li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 16px;
+    }
+    .step-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 140, 0, 0.15);
+      color: #FF8C00;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screenshot-placeholder {
+      background: #1a1a1a;
+      border: 1px dashed #333;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      margin: 16px 0;
+    }
+
+    .tip-box {
+      background: rgba(255, 140, 0, 0.05);
+      border-left: 3px solid #FF8C00;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .tip-box strong {
+      color: #FF8C00;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note-box {
+      background: rgba(59, 130, 246, 0.05);
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .note-box strong {
+      color: #3b82f6;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .summary-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .summary-card .num {
+      font-size: 24px;
+      font-weight: 900;
+      color: #FF8C00;
+    }
+    .summary-card .label {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .formula-box {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 16px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      color: #FF8C00;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 32px;
+      font-size: 14px;
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: #444;
+      font-size: 13px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    code {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #FF8C00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">사용자 매뉴얼</div>
+  <h1><em>매출통계</em> 매뉴얼</h1>
+  <p class="hero-sub">매출 데이터를 분석하고 수익을 관리하는 방법</p>
+</div>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">SambaWave Docs</a> &gt; 매출통계 매뉴얼
+  </div>
+
+  <!-- 섹션 1: 통계 대시보드 -->
+  <div class="manual-section">
+    <h2>1. 통계 대시보드</h2>
+    <p>매출통계 페이지 상단에 핵심 지표가 요약 카드로 표시됩니다.</p>
+
+    <h3>주요 지표</h3>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="num">--</div>
+        <div class="label">총 매출</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">--</div>
+        <div class="label">총 수익</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">--</div>
+        <div class="label">주문 건수</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">--%</div>
+        <div class="label">평균 수익률</div>
+      </div>
+    </div>
+
+    <h3>대시보드 구성</h3>
+    <ul>
+      <li><strong>매출 추이 그래프</strong> — 일별/주별/월별 매출 변화를 시각적으로 확인</li>
+      <li><strong>요약 카드</strong> — 총 매출, 순이익, 주문 건수, 수익률 핵심 수치</li>
+      <li><strong>마켓별 비중</strong> — 도넛 차트로 마켓별 매출 비중 확인</li>
+      <li><strong>인기 상품 TOP 10</strong> — 가장 많이 판매된 상품 순위</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 통계 대시보드 — 상단 요약 카드 4개, 매출 추이 라인 차트, 마켓별 비중 도넛 차트
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      대시보드는 선택된 기간에 따라 데이터가 변경됩니다. 상단의 기간 필터를 활용하여 원하는 기간의 데이터를 확인하세요.
+    </div>
+  </div>
+
+  <!-- 섹션 2: 소싱처별/마켓별 분석 -->
+  <div class="manual-section">
+    <h2>2. 소싱처별 / 마켓별 분석</h2>
+    <p>소싱처와 판매 마켓을 기준으로 매출을 분석합니다.</p>
+
+    <h3>소싱처별 분석</h3>
+    <p>어떤 소싱처에서 수집한 상품이 가장 수익성이 높은지 확인합니다.</p>
+    <ul>
+      <li><strong>소싱처</strong> — 무신사, KREAM, SSG 등</li>
+      <li><strong>총 매출</strong> — 해당 소싱처 상품의 총 판매 금액</li>
+      <li><strong>원가 합계</strong> — 소싱처 매입 원가 합계</li>
+      <li><strong>순이익</strong> — 매출에서 원가와 수수료를 제외한 순수 이익</li>
+      <li><strong>수익률</strong> — 순이익 / 매출 x 100</li>
+      <li><strong>판매 건수</strong> — 해당 소싱처 상품의 총 판매 건수</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 소싱처별 매출 테이블 — 소싱처명, 매출, 원가, 순이익, 수익률, 판매건수 컬럼
+    </div>
+
+    <h3>마켓별 분석</h3>
+    <p>어떤 마켓에서 가장 많은 매출이 발생하는지 확인합니다.</p>
+    <ul>
+      <li><strong>마켓</strong> — 스마트스토어, 쿠팡, 11번가 등</li>
+      <li><strong>총 매출</strong> — 해당 마켓의 총 판매 금액</li>
+      <li><strong>수수료</strong> — 마켓에 지불한 수수료 합계</li>
+      <li><strong>순이익</strong> — 마켓별 순수 이익</li>
+      <li><strong>판매 건수</strong> — 해당 마켓의 총 주문 건수</li>
+      <li><strong>평균 주문 금액</strong> — 주문 1건당 평균 결제 금액</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 마켓별 매출 테이블 및 비교 막대 차트
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      수익률이 낮은 마켓이나 소싱처는 정책(마진율, 배송비)을 재조정하여 수익성을 개선할 수 있습니다.
+    </div>
+  </div>
+
+  <!-- 섹션 3: 기간별 필터 -->
+  <div class="manual-section">
+    <h2>3. 기간별 필터</h2>
+    <p>조회 기간을 설정하여 원하는 기간의 매출 데이터를 분석합니다.</p>
+
+    <h3>기간 선택 옵션</h3>
+    <ul>
+      <li><strong>오늘</strong> — 당일 매출 확인</li>
+      <li><strong>1주</strong> — 최근 7일간 매출</li>
+      <li><strong>1개월</strong> — 최근 30일간 매출</li>
+      <li><strong>3개월</strong> — 최근 90일간 매출 (분기 분석)</li>
+      <li><strong>6개월</strong> — 최근 180일간 매출 (반기 분석)</li>
+      <li><strong>1년</strong> — 최근 365일간 매출 (연간 분석)</li>
+      <li><strong>직접입력</strong> — 시작일과 종료일을 직접 설정</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 기간 필터 버튼 — 오늘 / 1주 / 1개월 / 3개월 / 6개월 / 1년 / 직접입력 버튼 그룹
+    </div>
+
+    <h3>기간별 비교</h3>
+    <p>이전 기간과의 비교를 통해 매출 추세를 파악할 수 있습니다.</p>
+    <ul>
+      <li>전주 대비 매출 증감률</li>
+      <li>전월 대비 매출 증감률</li>
+      <li>전년 동기 대비 매출 증감률</li>
+    </ul>
+
+    <div class="note-box">
+      <strong>참고</strong>
+      통계 데이터는 주문 완료(배송완료) 기준으로 집계됩니다. 취소/반품 건은 제외됩니다.
+    </div>
+  </div>
+
+  <!-- 섹션 4: 수익률 계산 -->
+  <div class="manual-section">
+    <h2>4. 수익률 계산</h2>
+    <p>삼바웨이브에서 사용하는 수익률 계산 방식입니다.</p>
+
+    <h3>기본 수익률 공식</h3>
+    <div class="formula-box">
+      수익률 (%) = (순이익 / 매출) x 100
+    </div>
+
+    <h3>순이익 계산</h3>
+    <div class="formula-box">
+      순이익 = 판매가 - 원가 - 마켓수수료 - 배송비
+    </div>
+
+    <h3>계산 예시</h3>
+    <p>판매가 80,000원, 원가 50,000원, 마켓수수료 4,800원(6%), 배송비 3,000원인 경우:</p>
+    <div class="formula-box">
+      순이익 = 80,000 - 50,000 - 4,800 - 3,000 = 22,200원
+    </div>
+    <div class="formula-box">
+      수익률 = (22,200 / 80,000) x 100 = 27.75%
+    </div>
+
+    <h3>수익률 목표</h3>
+    <ul>
+      <li><strong>20% 이상</strong> — 양호한 수익률</li>
+      <li><strong>15~20%</strong> — 보통 수준, 개선 여지 있음</li>
+      <li><strong>10~15%</strong> — 낮은 수익률, 정책 재검토 필요</li>
+      <li><strong>10% 미만</strong> — 적자 위험, 긴급 정책 조정 필요</li>
+    </ul>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      수익률이 낮다면 마진율을 올리거나 수수료가 낮은 마켓을 우선적으로 활용하세요. 소싱처 원가가 낮은 상품을 발굴하는 것도 효과적입니다.
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">&larr; 문서 목록으로</a>
+</div>
+
+<footer>
+  SambaWave &mdash; 매출통계 매뉴얼 &mdash; 2026.03.25
+</footer>
+
+</body>
+</html>

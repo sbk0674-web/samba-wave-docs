@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SambaWave — 상품관리 매뉴얼</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .hero {
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255, 140, 0, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+    }
+    .hero-badge {
+      position: relative;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #FF8C00;
+      background: rgba(255, 140, 0, 0.1);
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      position: relative;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #FF8C00, #FFB84D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      position: relative;
+      font-size: 16px;
+      color: #888;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a {
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FF8C00;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .manual-section {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .manual-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .manual-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ddd;
+      margin: 20px 0 10px;
+    }
+    .manual-section p {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+    .manual-section ul, .manual-section ol {
+      font-size: 14px;
+      color: #aaa;
+      margin: 8px 0 16px 20px;
+    }
+    .manual-section li {
+      margin-bottom: 6px;
+    }
+
+    .step-list {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .step-list li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 16px;
+    }
+    .step-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 140, 0, 0.15);
+      color: #FF8C00;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screenshot-placeholder {
+      background: #1a1a1a;
+      border: 1px dashed #333;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      margin: 16px 0;
+    }
+
+    .tip-box {
+      background: rgba(255, 140, 0, 0.05);
+      border-left: 3px solid #FF8C00;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .tip-box strong {
+      color: #FF8C00;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note-box {
+      background: rgba(59, 130, 246, 0.05);
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .note-box strong {
+      color: #3b82f6;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 32px;
+      font-size: 14px;
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: #444;
+      font-size: 13px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    code {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #FF8C00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">사용자 매뉴얼</div>
+  <h1><em>상품관리</em> 매뉴얼</h1>
+  <p class="hero-sub">수집된 상품을 편집하고 마켓에 전송하는 전체 워크플로우</p>
+</div>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">SambaWave Docs</a> &gt; 상품관리 매뉴얼
+  </div>
+
+  <!-- 섹션 1: 상품 목록 보기 -->
+  <div class="manual-section">
+    <h2>1. 상품 목록 보기</h2>
+    <p>상품관리 페이지에서는 3가지 보기 모드를 지원합니다.</p>
+
+    <h3>간단보기</h3>
+    <p>상품의 핵심 정보(이미지, 상품명, 원가, 판매가, 상태)만 간결하게 표시합니다. 대량 상품을 빠르게 스캔할 때 유용합니다.</p>
+
+    <h3>건별보기</h3>
+    <p>상품 하나하나의 상세 정보를 모두 표시합니다. 옵션, 설명, 이미지 등 모든 필드를 확인할 수 있습니다.</p>
+
+    <h3>이미지만보기</h3>
+    <p>상품 이미지를 그리드 형태로 표시합니다. 시각적으로 상품을 확인하고 선택할 때 편리합니다.</p>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 보기 모드 전환 버튼 — 간단보기 / 건별보기 / 이미지만보기 탭 전환 영역
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      대량 상품 관리 시 간단보기 모드를 사용하면 로딩 속도가 빠릅니다.
+    </div>
+  </div>
+
+  <!-- 섹션 2: 상품 검색 -->
+  <div class="manual-section">
+    <h2>2. 상품 검색</h2>
+    <p>다양한 조건으로 상품을 검색할 수 있습니다.</p>
+
+    <h3>검색 유형</h3>
+    <ul>
+      <li><strong>상품명</strong> — 원 상품명 또는 등록 상품명에서 키워드를 검색합니다.</li>
+      <li><strong>상품명+등록명</strong> — 원 상품명과 마켓 등록명을 동시에 검색합니다.</li>
+      <li><strong>그룹</strong> — 특정 수집 그룹에 속한 상품만 표시합니다.</li>
+      <li><strong>상품번호</strong> — 소싱처의 상품 고유번호로 검색합니다.</li>
+      <li><strong>정책</strong> — 특정 정책이 적용된 상품만 표시합니다.</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 검색 필터 영역 — 드롭다운으로 검색 유형을 선택하고 키워드를 입력하는 필드
+    </div>
+
+    <ol class="step-list">
+      <li>검색 유형 드롭다운에서 원하는 검색 조건을 선택합니다.</li>
+      <li>검색어를 입력합니다.</li>
+      <li>엔터 또는 검색 버튼을 클릭하면 필터링된 결과가 표시됩니다.</li>
+    </ol>
+  </div>
+
+  <!-- 섹션 3: 상품 편집 -->
+  <div class="manual-section">
+    <h2>3. 상품 편집</h2>
+    <p>수집된 상품의 정보를 수정하여 마켓에 등록할 이름과 설명을 변경합니다.</p>
+
+    <h3>편집 가능 항목</h3>
+    <ul>
+      <li><strong>원 상품명</strong> — 소싱처에서 가져온 원래 상품명 (수정 시 원본과 다르게 관리)</li>
+      <li><strong>등록 상품명</strong> — 마켓에 등록될 상품명. 마켓별 규정에 맞게 수정합니다.</li>
+      <li><strong>영문 상품명</strong> — 해외 마켓(아마존, 라쿠텐 등) 전송 시 사용됩니다.</li>
+      <li><strong>일문 상품명</strong> — 라쿠텐 등 일본 마켓 전송 시 사용됩니다.</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 상품 편집 화면 — 상품명, 등록명, 영문명, 일문명 입력 필드가 표시된 편집 폼
+    </div>
+
+    <div class="note-box">
+      <strong>참고</strong>
+      SSG(신세계몰)은 계약 브랜드만 등록 가능하며, 상품명에 브랜드명을 포함할 수 없는 규칙이 있습니다.
+    </div>
+  </div>
+
+  <!-- 섹션 4: 정책 적용 -->
+  <div class="manual-section">
+    <h2>4. 정책 적용</h2>
+    <p>상품에 가격 정책을 적용하여 판매가를 자동으로 계산합니다.</p>
+
+    <ol class="step-list">
+      <li>상품을 선택합니다. (개별 선택 또는 전체 선택)</li>
+      <li>상단 메뉴의 <strong>정책 적용</strong> 버튼을 클릭합니다.</li>
+      <li>적용할 정책을 드롭다운에서 선택합니다.</li>
+      <li>선택한 상품에 정책이 적용되어 마켓별 판매가가 자동 계산됩니다.</li>
+    </ol>
+
+    <h3>마켓별 판매가 확인</h3>
+    <p>정책이 적용된 상품의 건별보기에서 각 마켓별 판매가를 확인할 수 있습니다.</p>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 마켓별 판매가 표시 — 스마트스토어, 쿠팡, 11번가 등 각 마켓의 계산된 판매가 목록
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      정책을 수정하면 해당 정책이 적용된 모든 상품의 판매가가 자동으로 재계산됩니다.
+    </div>
+  </div>
+
+  <!-- 섹션 5: AI 기능 -->
+  <div class="manual-section">
+    <h2>5. AI 기능</h2>
+    <p>AI를 활용하여 상품 정보를 자동으로 가공합니다.</p>
+
+    <h3>AI 상품명 변경</h3>
+    <p>AI가 마켓 규정에 맞게 상품명을 자동으로 재구성합니다. 브랜드명 위치 조정, 불필요한 문구 제거 등을 수행합니다.</p>
+
+    <h3>AI 태그 생성</h3>
+    <p>상품 특성을 분석하여 검색에 유리한 태그를 자동 생성합니다.</p>
+
+    <h3>이미지 변환</h3>
+    <p>상품 이미지의 배경 제거, 워터마크 추가, 리사이즈 등 이미지 가공 기능입니다.</p>
+
+    <h3>영상 생성</h3>
+    <p>상품 이미지들을 조합하여 간단한 상품 소개 영상을 자동 생성합니다.</p>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] AI 기능 메뉴 — AI 상품명변경, AI태그, 이미지변환, 영상생성 버튼이 나열된 도구 모음
+    </div>
+
+    <ol class="step-list">
+      <li>AI 기능을 적용할 상품을 선택합니다.</li>
+      <li>상단 도구 모음에서 원하는 AI 기능 버튼을 클릭합니다.</li>
+      <li>AI가 처리를 완료하면 결과를 확인하고 적용 여부를 결정합니다.</li>
+    </ol>
+  </div>
+
+  <!-- 섹션 6: 마켓 전송 -->
+  <div class="manual-section">
+    <h2>6. 마켓 전송</h2>
+    <p>편집이 완료된 상품을 각 마켓으로 전송합니다.</p>
+
+    <h3>상품 전송</h3>
+    <ol class="step-list">
+      <li>전송할 상품을 선택합니다.</li>
+      <li><strong>상품전송</strong> 버튼을 클릭합니다.</li>
+      <li>전송할 마켓과 계정을 선택합니다.</li>
+      <li>카테고리 매핑이 완료되었는지 확인합니다.</li>
+      <li><strong>전송 시작</strong>을 클릭합니다.</li>
+    </ol>
+
+    <h3>마켓 삭제</h3>
+    <p>마켓에 등록된 상품을 삭제합니다. 마켓 API를 통해 실제 마켓에서 상품이 삭제됩니다.</p>
+
+    <h3>강제 삭제</h3>
+    <p>마켓 API 연동 없이 삼바웨이브 내에서만 전송 기록을 삭제합니다. 마켓에서 이미 수동으로 삭제한 상품의 기록을 정리할 때 사용합니다.</p>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      전송 전 반드시 카테고리 매핑과 정책 적용이 완료되었는지 확인하세요. 미완료 시 전송 오류가 발생합니다.
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">&larr; 문서 목록으로</a>
+</div>
+
+<footer>
+  SambaWave &mdash; 상품관리 매뉴얼 &mdash; 2026.03.25
+</footer>
+
+</body>
+</html>

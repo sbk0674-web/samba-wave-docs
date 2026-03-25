@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SambaWave — 반품교환 매뉴얼</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .hero {
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255, 140, 0, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+    }
+    .hero-badge {
+      position: relative;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #FF8C00;
+      background: rgba(255, 140, 0, 0.1);
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      position: relative;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #FF8C00, #FFB84D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      position: relative;
+      font-size: 16px;
+      color: #888;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a {
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FF8C00;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .manual-section {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .manual-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .manual-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ddd;
+      margin: 20px 0 10px;
+    }
+    .manual-section p {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+    .manual-section ul, .manual-section ol {
+      font-size: 14px;
+      color: #aaa;
+      margin: 8px 0 16px 20px;
+    }
+    .manual-section li {
+      margin-bottom: 6px;
+    }
+
+    .step-list {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .step-list li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 16px;
+    }
+    .step-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 140, 0, 0.15);
+      color: #FF8C00;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screenshot-placeholder {
+      background: #1a1a1a;
+      border: 1px dashed #333;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      margin: 16px 0;
+    }
+
+    .tip-box {
+      background: rgba(255, 140, 0, 0.05);
+      border-left: 3px solid #FF8C00;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .tip-box strong {
+      color: #FF8C00;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note-box {
+      background: rgba(59, 130, 246, 0.05);
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .note-box strong {
+      color: #3b82f6;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .warning-box {
+      background: rgba(248, 113, 113, 0.05);
+      border-left: 3px solid #f87171;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .warning-box strong {
+      color: #f87171;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .status-flow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .status-step {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: #ccc;
+      text-align: center;
+    }
+    .status-step.active {
+      border-color: #FF8C00;
+      color: #FF8C00;
+    }
+    .status-arrow {
+      color: #444;
+      font-size: 16px;
+    }
+    .status-branch {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 32px;
+      font-size: 14px;
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: #444;
+      font-size: 13px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    code {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #FF8C00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">사용자 매뉴얼</div>
+  <h1><em>반품교환</em> 매뉴얼</h1>
+  <p class="hero-sub">반품 및 교환 요청을 관리하고 처리하는 방법</p>
+</div>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">SambaWave Docs</a> &gt; 반품교환 매뉴얼
+  </div>
+
+  <!-- 섹션 1: 반품교환 목록 -->
+  <div class="manual-section">
+    <h2>1. 반품교환 목록</h2>
+    <p>마켓에서 접수된 반품/교환 요청을 목록으로 확인합니다.</p>
+
+    <h3>테이블 컬럼 설명</h3>
+    <ul>
+      <li><strong>요청일</strong> — 고객이 반품/교환을 요청한 날짜</li>
+      <li><strong>주문번호</strong> — 원래 주문의 고유번호</li>
+      <li><strong>마켓</strong> — 주문이 발생한 판매 마켓</li>
+      <li><strong>상품명</strong> — 반품/교환 대상 상품명</li>
+      <li><strong>옵션</strong> — 선택된 옵션 정보</li>
+      <li><strong>유형</strong> — 반품 또는 교환 구분</li>
+      <li><strong>사유</strong> — 고객이 선택한 반품/교환 사유</li>
+      <li><strong>상태</strong> — 현재 처리 상태 (요청/승인/수거중/완료/거절)</li>
+      <li><strong>처리일</strong> — 처리가 완료된 날짜</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 반품교환 목록 테이블 — 요청일, 주문번호, 마켓, 상품명, 유형, 사유, 상태 컬럼이 표시된 목록
+    </div>
+  </div>
+
+  <!-- 섹션 2: 기간/마켓 필터 -->
+  <div class="manual-section">
+    <h2>2. 기간/마켓 필터</h2>
+    <p>반품교환 목록을 조건별로 필터링합니다.</p>
+
+    <h3>필터 옵션</h3>
+    <ul>
+      <li><strong>기간 필터</strong> — 요청일 기준으로 조회 기간을 설정합니다.
+        <ul>
+          <li>오늘 / 1주 / 1개월 / 3개월 / 직접입력</li>
+        </ul>
+      </li>
+      <li><strong>마켓 필터</strong> — 특정 마켓의 반품/교환만 표시합니다.</li>
+      <li><strong>유형 필터</strong> — 반품만 보기, 교환만 보기를 선택합니다.</li>
+      <li><strong>상태 필터</strong> — 요청/승인/수거중/완료/거절 상태별로 필터링합니다.</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 필터 영역 — 기간 선택 버튼, 마켓 드롭다운, 유형/상태 필터 버튼
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      반품/교환 처리 기한을 놓치지 않으려면 "요청" 상태를 기본 필터로 설정하여 미처리 건을 우선 확인하세요.
+    </div>
+  </div>
+
+  <!-- 섹션 3: 반품 상태 관리 -->
+  <div class="manual-section">
+    <h2>3. 반품 상태 관리</h2>
+    <p>반품/교환 요청을 단계별로 처리합니다.</p>
+
+    <h3>처리 흐름</h3>
+    <div class="status-flow">
+      <div class="status-step active">요청</div>
+      <div class="status-arrow">&rarr;</div>
+      <div class="status-step">승인</div>
+      <div class="status-arrow">&rarr;</div>
+      <div class="status-step">수거중</div>
+      <div class="status-arrow">&rarr;</div>
+      <div class="status-branch">
+        <div class="status-step">완료 (환불/교환발송)</div>
+        <div class="status-step" style="border-color: #f87171; color: #f87171;">거절</div>
+      </div>
+    </div>
+
+    <h3>반품 승인</h3>
+    <ol class="step-list">
+      <li>"요청" 상태의 반품 건을 확인합니다.</li>
+      <li>반품 사유와 상품 상태를 검토합니다.</li>
+      <li><strong>승인</strong> 버튼을 클릭합니다.</li>
+      <li>수거 방법(택배 회수/직접 반송)을 선택합니다.</li>
+      <li>승인이 완료되면 상태가 "수거중"으로 변경됩니다.</li>
+    </ol>
+
+    <h3>반품 완료</h3>
+    <ol class="step-list">
+      <li>반품 상품이 도착했는지 확인합니다.</li>
+      <li>상품 상태를 검수합니다.</li>
+      <li><strong>완료</strong> 버튼을 클릭합니다.</li>
+      <li>환불 처리가 자동으로 진행됩니다.</li>
+    </ol>
+
+    <h3>반품 거절</h3>
+    <ol class="step-list">
+      <li>거절 사유가 명확한 경우 <strong>거절</strong> 버튼을 클릭합니다.</li>
+      <li>거절 사유를 입력합니다. (예: "사용 흔적이 있어 반품 불가")</li>
+      <li>고객에게 거절 사유가 자동으로 통보됩니다.</li>
+    </ol>
+
+    <div class="warning-box">
+      <strong>주의</strong>
+      반품 거절 시 마켓 정책에 따라 패널티가 발생할 수 있습니다. 거절 전 마켓별 반품 규정을 반드시 확인하세요.
+    </div>
+  </div>
+
+  <!-- 섹션 4: 로그 확인 -->
+  <div class="manual-section">
+    <h2>4. 로그 확인</h2>
+    <p>반품/교환 처리 이력을 확인합니다.</p>
+
+    <h3>로그 확인 방법</h3>
+    <ul>
+      <li>반품/교환 건을 클릭하면 상세 이력 모달이 표시됩니다.</li>
+      <li>각 단계별 처리일시, 처리자, 메모를 확인할 수 있습니다.</li>
+      <li>고객과의 커뮤니케이션 이력도 함께 표시됩니다.</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 반품교환 상세 모달 — 처리 이력 타임라인, 메모, 상태 변경 기록
+    </div>
+
+    <h3>통계 확인</h3>
+    <p>반품/교환 현황을 통계로 확인할 수 있습니다.</p>
+    <ul>
+      <li>기간별 반품률</li>
+      <li>마켓별 반품 건수</li>
+      <li>사유별 반품 분포</li>
+    </ul>
+
+    <div class="note-box">
+      <strong>참고</strong>
+      반품률이 높은 상품은 소싱 중단을 고려하세요. 반품률이 일정 수준을 넘으면 마켓에서 판매 제한을 받을 수 있습니다.
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">&larr; 문서 목록으로</a>
+</div>
+
+<footer>
+  SambaWave &mdash; 반품교환 매뉴얼 &mdash; 2026.03.25
+</footer>
+
+</body>
+</html>

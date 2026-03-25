@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SambaWave — 정책관리 매뉴얼</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .hero {
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255, 140, 0, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+    }
+    .hero-badge {
+      position: relative;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #FF8C00;
+      background: rgba(255, 140, 0, 0.1);
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      position: relative;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #FF8C00, #FFB84D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      position: relative;
+      font-size: 16px;
+      color: #888;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a {
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FF8C00;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .manual-section {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .manual-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .manual-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ddd;
+      margin: 20px 0 10px;
+    }
+    .manual-section p {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+    .manual-section ul, .manual-section ol {
+      font-size: 14px;
+      color: #aaa;
+      margin: 8px 0 16px 20px;
+    }
+    .manual-section li {
+      margin-bottom: 6px;
+    }
+
+    .step-list {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .step-list li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 16px;
+    }
+    .step-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 140, 0, 0.15);
+      color: #FF8C00;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screenshot-placeholder {
+      background: #1a1a1a;
+      border: 1px dashed #333;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      margin: 16px 0;
+    }
+
+    .tip-box {
+      background: rgba(255, 140, 0, 0.05);
+      border-left: 3px solid #FF8C00;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .tip-box strong {
+      color: #FF8C00;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note-box {
+      background: rgba(59, 130, 246, 0.05);
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .note-box strong {
+      color: #3b82f6;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .formula-box {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 16px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      color: #FF8C00;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 32px;
+      font-size: 14px;
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: #444;
+      font-size: 13px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    code {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #FF8C00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">사용자 매뉴얼</div>
+  <h1><em>정책관리</em> 매뉴얼</h1>
+  <p class="hero-sub">가격 정책을 생성하고 상품에 적용하여 판매가를 관리합니다</p>
+</div>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">SambaWave Docs</a> &gt; 정책관리 매뉴얼
+  </div>
+
+  <!-- 섹션 1: 정책 생성 -->
+  <div class="manual-section">
+    <h2>1. 정책 생성</h2>
+    <p>가격 정책은 소싱가(원가)에서 마켓 판매가를 자동 계산하기 위한 규칙입니다.</p>
+
+    <ol class="step-list">
+      <li>좌측 메뉴에서 <strong>정책관리</strong>를 클릭합니다.</li>
+      <li><strong>+ 새 정책</strong> 버튼을 클릭합니다.</li>
+      <li>정책명을 입력합니다. (예: "기본정책", "고마진정책", "해외마켓정책")</li>
+      <li>공통 가격 설정을 입력합니다.</li>
+      <li><strong>저장</strong> 버튼을 클릭합니다.</li>
+    </ol>
+
+    <h3>공통 가격 설정 항목</h3>
+    <ul>
+      <li><strong>마진율 (%)</strong> — 원가 대비 수익률. 예: 30%로 설정 시 원가의 1.3배</li>
+      <li><strong>배송비 (원)</strong> — 소싱처에서 받는 배송비. 판매가에 포함됩니다.</li>
+      <li><strong>추가비용 (원)</strong> — 포장비, 기타 비용 등 추가로 반영할 금액</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 정책 생성 폼 — 정책명, 마진율, 배송비, 추가비용 입력 필드
+    </div>
+  </div>
+
+  <!-- 섹션 2: 마켓별 정책 -->
+  <div class="manual-section">
+    <h2>2. 마켓별 정책</h2>
+    <p>각 마켓의 특성에 맞게 개별 설정을 추가할 수 있습니다.</p>
+
+    <h3>마켓별 설정 항목</h3>
+    <ul>
+      <li><strong>수수료 (%)</strong> — 마켓에서 부과하는 판매 수수료율. 마켓마다 다릅니다.</li>
+      <li><strong>배송비 (원)</strong> — 해당 마켓에서의 배송비 설정. 무료배송 여부 결정</li>
+      <li><strong>출고일 (일)</strong> — 상품 출고까지 소요 일수. 소싱처 발송 시간을 고려하여 설정</li>
+      <li><strong>재고 제한 (개)</strong> — 마켓에 등록할 재고 수량 제한</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 마켓별 정책 설정 — 스마트스토어, 쿠팡, 11번가 등 각 마켓 탭별 수수료/배송비/출고일 설정
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      마켓별 수수료율 참고: 스마트스토어 약 5.5~6%, 쿠팡 약 10~15%, 11번가 약 12%, 롯데ON 약 13%
+    </div>
+  </div>
+
+  <!-- 섹션 3: 정책 적용 -->
+  <div class="manual-section">
+    <h2>3. 정책 적용</h2>
+    <p>생성한 정책을 수집 그룹 또는 개별 상품에 연결합니다.</p>
+
+    <h3>그룹에 정책 연결</h3>
+    <ol class="step-list">
+      <li><strong>상품수집</strong> 페이지로 이동합니다.</li>
+      <li>좌측 트리에서 정책을 적용할 그룹을 선택합니다.</li>
+      <li>그룹 상세에서 <strong>정책</strong> 드롭다운을 클릭합니다.</li>
+      <li>적용할 정책을 선택합니다.</li>
+      <li>해당 그룹의 모든 상품에 정책이 일괄 적용됩니다.</li>
+    </ol>
+
+    <h3>개별 상품에 정책 적용</h3>
+    <ol class="step-list">
+      <li><strong>상품관리</strong> 페이지에서 상품을 선택합니다.</li>
+      <li>상단 메뉴의 <strong>정책 적용</strong>을 클릭합니다.</li>
+      <li>정책을 선택하면 선택된 상품에만 적용됩니다.</li>
+    </ol>
+
+    <div class="note-box">
+      <strong>참고</strong>
+      그룹 정책과 개별 정책이 충돌할 경우, 개별 상품에 직접 적용한 정책이 우선됩니다.
+    </div>
+  </div>
+
+  <!-- 섹션 4: 가격 계산 방식 -->
+  <div class="manual-section">
+    <h2>4. 가격 계산 방식</h2>
+    <p>정책이 적용된 상품의 판매가는 다음 공식으로 자동 계산됩니다.</p>
+
+    <div class="formula-box">
+      판매가 = 원가 x (1 + 마진율/100) + 배송비 + 추가비용
+    </div>
+
+    <h3>계산 예시</h3>
+    <p>원가 50,000원, 마진율 30%, 배송비 3,000원, 추가비용 1,000원인 경우:</p>
+
+    <div class="formula-box">
+      50,000 x 1.3 + 3,000 + 1,000 = 69,000원
+    </div>
+
+    <h3>마켓별 최종 판매가</h3>
+    <p>마켓별 수수료가 추가로 반영되어 마켓마다 판매가가 달라질 수 있습니다.</p>
+
+    <div class="formula-box">
+      마켓 판매가 = 판매가 / (1 - 수수료율/100)
+    </div>
+
+    <p>예시: 판매가 69,000원, 스마트스토어 수수료 6%인 경우:</p>
+
+    <div class="formula-box">
+      69,000 / (1 - 0.06) = 73,404원 (100원 단위 반올림)
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      가격 계산은 모두 자동으로 수행됩니다. 정책 설정만 정확히 입력하면 마켓별 판매가가 자동으로 결정됩니다.
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">&larr; 문서 목록으로</a>
+</div>
+
+<footer>
+  SambaWave &mdash; 정책관리 매뉴얼 &mdash; 2026.03.25
+</footer>
+
+</body>
+</html>

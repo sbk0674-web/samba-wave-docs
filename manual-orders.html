@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SambaWave — 주문관리 매뉴얼</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .hero {
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255, 140, 0, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+    }
+    .hero-badge {
+      position: relative;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #FF8C00;
+      background: rgba(255, 140, 0, 0.1);
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      position: relative;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #FF8C00, #FFB84D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      position: relative;
+      font-size: 16px;
+      color: #888;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a {
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FF8C00;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .manual-section {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .manual-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .manual-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ddd;
+      margin: 20px 0 10px;
+    }
+    .manual-section p {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+    .manual-section ul, .manual-section ol {
+      font-size: 14px;
+      color: #aaa;
+      margin: 8px 0 16px 20px;
+    }
+    .manual-section li {
+      margin-bottom: 6px;
+    }
+
+    .step-list {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .step-list li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 16px;
+    }
+    .step-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 140, 0, 0.15);
+      color: #FF8C00;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screenshot-placeholder {
+      background: #1a1a1a;
+      border: 1px dashed #333;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      margin: 16px 0;
+    }
+
+    .tip-box {
+      background: rgba(255, 140, 0, 0.05);
+      border-left: 3px solid #FF8C00;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .tip-box strong {
+      color: #FF8C00;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note-box {
+      background: rgba(59, 130, 246, 0.05);
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .note-box strong {
+      color: #3b82f6;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .status-flow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .status-step {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: #ccc;
+      text-align: center;
+    }
+    .status-step.active {
+      border-color: #FF8C00;
+      color: #FF8C00;
+    }
+    .status-arrow {
+      color: #444;
+      font-size: 16px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 32px;
+      font-size: 14px;
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: #444;
+      font-size: 13px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    code {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #FF8C00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">사용자 매뉴얼</div>
+  <h1><em>주문관리</em> 매뉴얼</h1>
+  <p class="hero-sub">마켓 주문을 수집하고 처리하는 전체 워크플로우</p>
+</div>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">SambaWave Docs</a> &gt; 주문관리 매뉴얼
+  </div>
+
+  <!-- 섹션 1: 주문 가져오기 -->
+  <div class="manual-section">
+    <h2>1. 주문 가져오기</h2>
+    <p>각 마켓에서 새로운 주문을 가져옵니다.</p>
+
+    <h3>개별 마켓 가져오기</h3>
+    <ol class="step-list">
+      <li>주문관리 페이지 상단의 <strong>가져오기</strong> 버튼을 클릭합니다.</li>
+      <li>주문을 가져올 마켓을 선택합니다.</li>
+      <li>기간을 설정합니다. (기본: 최근 7일)</li>
+      <li><strong>가져오기 실행</strong>을 클릭합니다.</li>
+    </ol>
+
+    <h3>전체 마켓 가져오기</h3>
+    <p><strong>전체마켓 가져오기</strong> 버튼을 클릭하면 연결된 모든 마켓에서 한 번에 주문을 수집합니다.</p>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 주문 가져오기 버튼 영역 — "가져오기" 버튼과 "전체마켓 가져오기" 버튼
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      하루에 한 번 이상 주문을 가져오는 것을 권장합니다. 주문 처리가 지연되면 마켓 패널티가 발생할 수 있습니다.
+    </div>
+  </div>
+
+  <!-- 섹션 2: 주문 목록 -->
+  <div class="manual-section">
+    <h2>2. 주문 목록</h2>
+    <p>가져온 주문을 목록으로 확인합니다.</p>
+
+    <h3>필터 옵션</h3>
+    <ul>
+      <li><strong>기간 필터</strong> — 주문일 기준으로 기간을 설정합니다. (오늘, 1주, 1개월, 직접입력)</li>
+      <li><strong>마켓별 필터</strong> — 특정 마켓의 주문만 표시합니다.</li>
+      <li><strong>상태 필터</strong> — 신규주문, 발주확인, 배송중, 배송완료 등 상태별 필터링</li>
+      <li><strong>검색</strong> — 주문번호, 상품명, 구매자명으로 검색합니다.</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 주문 목록 테이블 — 주문번호, 마켓, 상품명, 옵션, 수량, 가격, 상태 컬럼이 표시된 목록
+    </div>
+
+    <h3>테이블 컬럼 설명</h3>
+    <ul>
+      <li><strong>주문번호</strong> — 마켓에서 발급된 고유 주문번호</li>
+      <li><strong>마켓</strong> — 주문이 발생한 판매 마켓</li>
+      <li><strong>상품명</strong> — 주문된 상품의 등록 상품명</li>
+      <li><strong>옵션</strong> — 선택된 옵션 (사이즈, 색상 등)</li>
+      <li><strong>수량</strong> — 주문 수량</li>
+      <li><strong>결제금액</strong> — 고객이 결제한 금액</li>
+      <li><strong>상태</strong> — 현재 주문 처리 상태</li>
+    </ul>
+  </div>
+
+  <!-- 섹션 3: 주문 상세 -->
+  <div class="manual-section">
+    <h2>3. 주문 상세</h2>
+    <p>개별 주문의 상세 정보를 확인합니다.</p>
+
+    <h3>상세 정보 항목</h3>
+    <ul>
+      <li><strong>주문 정보</strong> — 주문번호, 주문일시, 결제수단, 결제금액</li>
+      <li><strong>상품 정보</strong> — 상품명, 옵션, 수량, 단가, 소싱처 원가</li>
+      <li><strong>배송 정보</strong> — 수령인, 연락처, 배송지 주소, 배송메모</li>
+      <li><strong>수익 정보</strong> — 판매가, 원가, 수수료, 예상 수익</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 주문 상세 모달 — 주문 정보, 상품 정보, 배송 정보, 수익 정보가 섹션별로 표시
+    </div>
+  </div>
+
+  <!-- 섹션 4: 주문 처리 -->
+  <div class="manual-section">
+    <h2>4. 주문 처리</h2>
+    <p>주문을 단계별로 처리합니다.</p>
+
+    <h3>주문 처리 흐름</h3>
+    <div class="status-flow">
+      <div class="status-step active">신규주문</div>
+      <div class="status-arrow">&rarr;</div>
+      <div class="status-step">발주확인</div>
+      <div class="status-arrow">&rarr;</div>
+      <div class="status-step">송장등록</div>
+      <div class="status-arrow">&rarr;</div>
+      <div class="status-step">배송중</div>
+      <div class="status-arrow">&rarr;</div>
+      <div class="status-step">배송완료</div>
+    </div>
+
+    <h3>발주확인</h3>
+    <ol class="step-list">
+      <li>신규주문 상태의 주문을 선택합니다.</li>
+      <li>소싱처에서 해당 상품을 주문합니다. (무신사, KREAM 등)</li>
+      <li><strong>발주확인</strong> 버튼을 클릭하여 발주 완료를 기록합니다.</li>
+    </ol>
+
+    <h3>송장등록</h3>
+    <ol class="step-list">
+      <li>소싱처에서 발송된 상품의 송장번호를 확인합니다.</li>
+      <li>주문의 <strong>송장등록</strong> 버튼을 클릭합니다.</li>
+      <li>택배사를 선택하고 송장번호를 입력합니다.</li>
+      <li><strong>등록</strong>을 클릭하면 마켓에 자동으로 송장이 전송됩니다.</li>
+    </ol>
+
+    <h3>배송추적</h3>
+    <p>등록된 송장번호로 배송 상태를 실시간 추적할 수 있습니다.</p>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      발주확인과 송장등록은 마켓별 처리 기한이 있습니다. 스마트스토어의 경우 발주확인 2일, 송장등록 3일 이내 처리가 필요합니다.
+    </div>
+  </div>
+
+  <!-- 섹션 5: 외부 링크 -->
+  <div class="manual-section">
+    <h2>5. 외부 링크 활용</h2>
+    <p>주문과 관련된 외부 사이트로 바로 이동할 수 있습니다.</p>
+
+    <h3>링크 종류</h3>
+    <ul>
+      <li><strong>원문링크</strong> — 소싱처의 원본 상품 페이지로 이동합니다. 재고 확인, 가격 변동 확인에 활용합니다.</li>
+      <li><strong>판매마켓링크</strong> — 마켓에 등록된 상품 페이지로 이동합니다. 등록 상태를 확인합니다.</li>
+      <li><strong>다나와 검색</strong> — 다나와에서 해당 상품을 검색합니다. 최저가 비교에 활용합니다.</li>
+      <li><strong>네이버 검색</strong> — 네이버에서 해당 상품을 검색합니다.</li>
+    </ul>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 주문 상세의 외부 링크 버튼 — 원문링크, 판매마켓, 다나와, 네이버 아이콘 버튼 영역
+    </div>
+  </div>
+
+  <!-- 섹션 6: 메시지 발송 -->
+  <div class="manual-section">
+    <h2>6. SMS / 카카오 메시지 발송</h2>
+    <p>고객에게 주문 관련 알림 메시지를 발송합니다.</p>
+
+    <h3>SMS 발송</h3>
+    <ol class="step-list">
+      <li>메시지를 발송할 주문을 선택합니다.</li>
+      <li><strong>SMS 발송</strong> 버튼을 클릭합니다.</li>
+      <li>메시지 템플릿을 선택하거나 직접 작성합니다.</li>
+      <li><strong>발송</strong>을 클릭합니다.</li>
+    </ol>
+
+    <h3>카카오 알림톡 발송</h3>
+    <p>카카오 비즈니스 채널을 통해 알림톡을 발송합니다. 발송 성공률이 SMS보다 높고 비용이 저렴합니다.</p>
+
+    <div class="note-box">
+      <strong>참고</strong>
+      SMS/카카오 메시지 발송에는 별도 요금이 부과됩니다. 설정에서 발송 서비스 연결이 필요합니다.
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">&larr; 문서 목록으로</a>
+</div>
+
+<footer>
+  SambaWave &mdash; 주문관리 매뉴얼 &mdash; 2026.03.25
+</footer>
+
+</body>
+</html>

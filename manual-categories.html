@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SambaWave — 카테고리매핑 매뉴얼</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .hero {
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255, 140, 0, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+    }
+    .hero-badge {
+      position: relative;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #FF8C00;
+      background: rgba(255, 140, 0, 0.1);
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      position: relative;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #FF8C00, #FFB84D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      position: relative;
+      font-size: 16px;
+      color: #888;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a {
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FF8C00;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .manual-section {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .manual-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .manual-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ddd;
+      margin: 20px 0 10px;
+    }
+    .manual-section p {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+    .manual-section ul, .manual-section ol {
+      font-size: 14px;
+      color: #aaa;
+      margin: 8px 0 16px 20px;
+    }
+    .manual-section li {
+      margin-bottom: 6px;
+    }
+
+    .step-list {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .step-list li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 16px;
+    }
+    .step-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 140, 0, 0.15);
+      color: #FF8C00;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screenshot-placeholder {
+      background: #1a1a1a;
+      border: 1px dashed #333;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      margin: 16px 0;
+    }
+
+    .tip-box {
+      background: rgba(255, 140, 0, 0.05);
+      border-left: 3px solid #FF8C00;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .tip-box strong {
+      color: #FF8C00;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note-box {
+      background: rgba(59, 130, 246, 0.05);
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .note-box strong {
+      color: #3b82f6;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .mapping-example {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: center;
+      margin: 20px 0;
+    }
+    .mapping-box {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .mapping-box .label {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+    .mapping-box .value {
+      font-size: 14px;
+      color: #ccc;
+      font-weight: 500;
+    }
+    .mapping-arrow {
+      font-size: 24px;
+      color: #FF8C00;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 32px;
+      font-size: 14px;
+      color: #FF8C00;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: #444;
+      font-size: 13px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    code {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #FF8C00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">사용자 매뉴얼</div>
+  <h1><em>카테고리매핑</em> 매뉴얼</h1>
+  <p class="hero-sub">소싱처 카테고리를 마켓 카테고리에 연결하는 방법</p>
+</div>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">SambaWave Docs</a> &gt; 카테고리매핑 매뉴얼
+  </div>
+
+  <!-- 섹션 1: 카테고리 매핑이란 -->
+  <div class="manual-section">
+    <h2>1. 카테고리 매핑이란</h2>
+    <p>소싱처(무신사, KREAM 등)의 카테고리 체계와 판매 마켓(스마트스토어, 쿠팡 등)의 카테고리 체계는 서로 다릅니다.</p>
+    <p>카테고리 매핑은 소싱처의 카테고리를 마켓의 카테고리에 연결하는 작업입니다. 매핑이 완료되어야 상품을 마켓에 전송할 수 있습니다.</p>
+
+    <div class="mapping-example">
+      <div class="mapping-box">
+        <div class="label">소싱처 (무신사)</div>
+        <div class="value">상의 &gt; 반소매 티셔츠</div>
+      </div>
+      <div class="mapping-arrow">&rarr;</div>
+      <div class="mapping-box">
+        <div class="label">마켓 (스마트스토어)</div>
+        <div class="value">패션의류 &gt; 남성의류 &gt; 티셔츠</div>
+      </div>
+    </div>
+
+    <div class="mapping-example">
+      <div class="mapping-box">
+        <div class="label">소싱처 (무신사)</div>
+        <div class="value">신발 &gt; 스니커즈</div>
+      </div>
+      <div class="mapping-arrow">&rarr;</div>
+      <div class="mapping-box">
+        <div class="label">마켓 (쿠팡)</div>
+        <div class="value">패션 &gt; 남성신발 &gt; 스니커즈</div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>참고</strong>
+      카테고리 매핑이 완료되지 않은 상품은 마켓에 전송할 수 없습니다. 전송 전 반드시 매핑을 완료하세요.
+    </div>
+  </div>
+
+  <!-- 섹션 2: 소싱처 → 마켓 카테고리 연결 -->
+  <div class="manual-section">
+    <h2>2. 카테고리 매핑하기</h2>
+    <p>소싱처에서 수집된 카테고리를 각 마켓의 카테고리에 연결합니다.</p>
+
+    <ol class="step-list">
+      <li>좌측 메뉴에서 <strong>카테고리매핑</strong>을 클릭합니다.</li>
+      <li>매핑할 소싱처를 선택합니다. (예: 무신사)</li>
+      <li>소싱처 카테고리 목록에서 매핑할 카테고리를 선택합니다.</li>
+      <li>우측에 전송할 마켓을 선택합니다. (예: 스마트스토어)</li>
+      <li>마켓의 카테고리 트리에서 매핑할 카테고리를 찾아 선택합니다.</li>
+      <li><strong>매핑 저장</strong> 버튼을 클릭합니다.</li>
+    </ol>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 카테고리 매핑 화면 — 좌측에 소싱처 카테고리 트리, 우측에 마켓 카테고리 트리, 중앙에 매핑 연결선
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      카테고리를 검색하면 빠르게 찾을 수 있습니다. 마켓 카테고리 트리 상단의 검색 필드를 활용하세요.
+    </div>
+  </div>
+
+  <!-- 섹션 3: 일괄 매핑 -->
+  <div class="manual-section">
+    <h2>3. 일괄 매핑</h2>
+    <p>여러 소싱처 카테고리를 한 번에 동일한 마켓 카테고리에 매핑할 수 있습니다.</p>
+
+    <ol class="step-list">
+      <li>소싱처 카테고리 목록에서 체크박스로 여러 카테고리를 선택합니다.</li>
+      <li>우측 마켓 카테고리 트리에서 매핑할 카테고리를 선택합니다.</li>
+      <li><strong>일괄 매핑</strong> 버튼을 클릭합니다.</li>
+      <li>확인 모달에서 매핑 내용을 검토하고 <strong>적용</strong>을 클릭합니다.</li>
+    </ol>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 일괄 매핑 확인 모달 — 선택된 소싱처 카테고리 목록과 매핑 대상 마켓 카테고리 표시
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      유사한 카테고리(예: "반소매 티셔츠", "긴소매 티셔츠", "민소매 티셔츠")는 일괄 매핑으로 한 번에 처리하면 효율적입니다.
+    </div>
+  </div>
+
+  <!-- 섹션 4: 매핑 확인 및 수정 -->
+  <div class="manual-section">
+    <h2>4. 매핑 확인 및 수정</h2>
+    <p>기존 매핑을 확인하고 수정하는 방법입니다.</p>
+
+    <h3>매핑 현황 확인</h3>
+    <ul>
+      <li>카테고리매핑 페이지에서 이미 매핑된 카테고리는 연결된 마켓 카테고리가 표시됩니다.</li>
+      <li>미매핑 카테고리는 별도로 표시되어 쉽게 확인할 수 있습니다.</li>
+      <li>마켓별로 필터링하여 특정 마켓의 매핑 현황만 볼 수 있습니다.</li>
+    </ul>
+
+    <h3>매핑 수정</h3>
+    <ol class="step-list">
+      <li>수정할 매핑 항목을 클릭합니다.</li>
+      <li>새로운 마켓 카테고리를 선택합니다.</li>
+      <li><strong>수정 저장</strong> 버튼을 클릭합니다.</li>
+    </ol>
+
+    <h3>매핑 삭제</h3>
+    <p>잘못된 매핑은 해당 항목의 삭제 버튼을 클릭하여 제거할 수 있습니다.</p>
+
+    <div class="screenshot-placeholder">
+      [스크린샷] 매핑 현황 테이블 — 소싱처 카테고리, 마켓 카테고리, 상태(매핑완료/미매핑) 컬럼이 표시된 목록
+    </div>
+
+    <div class="note-box">
+      <strong>참고</strong>
+      매핑을 수정하면 해당 카테고리에 속한 모든 상품의 마켓 카테고리가 자동으로 업데이트됩니다.
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">&larr; 문서 목록으로</a>
+</div>
+
+<footer>
+  SambaWave &mdash; 카테고리매핑 매뉴얼 &mdash; 2026.03.25
+</footer>
+
+</body>
+</html>

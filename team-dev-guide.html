@@ -1037,7 +1037,6 @@ p.desc {
     <a href="#forbidden" class="sidebar-link"><span class="icon">🚫</span> 절대 금지 사항</a>
     <a href="#names" class="sidebar-link"><span class="icon">📋</span> 사용 중인 이름</a>
     <a href="#checklist" class="sidebar-link"><span class="icon">☑️</span> 일일 체크리스트</a>
-    <a href="#faq" class="sidebar-link"><span class="icon">❓</span> 자주 묻는 질문</a>
   </div>
 
   <div class="sidebar-progress">
@@ -3212,109 +3211,6 @@ market_type = <span class="string">"tmon_v2"</span>
   </div>
 
 
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- SECTION 16: FAQ -->
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <div class="section" id="faq">
-    <div class="section-header">
-      <div class="section-number">16</div>
-      <h3 class="section-title">자주 묻는 질문 (FAQ)</h3>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="color:var(--accent)">Q. 내가 어떤 브랜치에 있는지 어떻게 알아요?</div>
-      <p class="text-sm text-muted mb-1">Claude Code에서는 항상 현재 브랜치가 표시되어 있습니다. 별도로 확인할 필요 없어요.</p>
-      <details style="margin-top:0.5rem">
-        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 확인하고 싶다면</summary>
-        <div style="margin-top:0.5rem">
-          <div class="code-block">
-            <div class="code-body"><span class="keyword">git</span> branch
-<span class="comment"># 별표(*)가 붙은 게 지금 있는 브랜치</span>
-<span class="comment">#   main</span>
-<span class="comment"># * feature/tmon-plugin  ← 여기 있음</span></div>
-          </div>
-        </div>
-      </details>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="color:var(--accent)">Q. 실수로 main에 커밋해버렸어요!</div>
-      <div class="claude-prompt">
-        <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
-        <div class="claude-prompt-text">"방금 커밋 되돌려줘"</div>
-      </div>
-      <p class="text-sm text-muted" style="margin-top:0.5rem">Claude Code가 커밋을 되돌리고, 올바른 브랜치에서 다시 커밋하도록 안내해줍니다.</p>
-      <details style="margin-top:0.5rem">
-        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
-        <div style="margin-top:0.5rem">
-          <p class="text-sm text-muted mb-1">아직 push 안 했다면:</p>
-          <div class="code-block">
-            <div class="code-body"><span class="comment"># 커밋을 되돌리기 (코드는 유지, 커밋만 취소)</span>
-<span class="keyword">git</span> reset --soft HEAD~1
-
-<span class="comment"># 새 브랜치 만들고 거기서 다시 커밋</span>
-<span class="keyword">git</span> checkout -b feature/내마켓-plugin
-<span class="keyword">git</span> add 내파일.py
-<span class="keyword">git</span> commit -m <span class="string">"메시지"</span></div>
-          </div>
-          <p class="text-sm text-muted">이미 push 했다면 → <strong>팀장에게 즉시 연락</strong>하세요.</p>
-        </div>
-      </details>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="color:var(--accent)">Q. git pull 했더니 이상한 에디터가 열렸어요!</div>
-      <p class="text-sm text-muted">
-        Claude Code를 쓰면 이런 상황이 발생하지 않습니다. Claude Code가 Git 명령어를 대신 실행하기 때문에 vim 에디터 같은 문제를 걱정할 필요가 없습니다.
-      </p>
-      <details style="margin-top:0.5rem">
-        <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널에서 이 상황이 발생했다면</summary>
-        <div style="margin-top:0.5rem">
-          <p class="text-sm text-muted mb-1">merge 커밋 메시지를 작성하라는 뜻입니다.</p>
-          <div class="code-block">
-            <div class="code-body"><span class="comment"># vim 에디터가 열렸을 때:</span>
-<span class="comment"># 1. :q 입력하고 Enter (그냥 나가기)</span>
-<span class="comment"># 또는</span>
-<span class="comment"># 1. Esc 키 누르기</span>
-<span class="comment"># 2. :wq 입력하고 Enter (저장하고 나가기)</span></div>
-          </div>
-        </div>
-      </details>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="color:var(--accent)">Q. 서버가 안 켜져요! 에러 메시지가 나와요</div>
-      <p class="text-sm text-muted mb-1">자주 발생하는 원인들:</p>
-      <ul class="explain-list">
-        <li><span class="explain-num">1</span><span class="explain-text"><strong>가상환경이 꺼져있음</strong> → <code>source .venv/Scripts/activate</code> 실행</span></li>
-        <li><span class="explain-num">2</span><span class="explain-text"><strong>.env 파일이 없음</strong> → 팀장에게 파일 요청</span></li>
-        <li><span class="explain-num">3</span><span class="explain-text"><strong>import 에러</strong> → 내 플러그인 코드에 오타가 있을 수 있음. 에러 메시지 확인</span></li>
-        <li><span class="explain-num">4</span><span class="explain-text"><strong>DB 연결 실패</strong> → VPN이 꺼져있거나 .env의 DB 주소가 틀린 경우</span></li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="color:var(--accent)">Q. transform 함수에 어떤 필드를 넣어야 하나요?</div>
-      <p class="text-sm text-muted">
-        해당 마켓의 <strong>API 개발 문서</strong>를 봐야 합니다.<br>
-        마켓마다 요구하는 필드가 다릅니다 (상품명, 가격, 카테고리, 배송비, 이미지 등).<br><br>
-        기존 구현체를 참고하세요:<br>
-        • 간단한 예: <code>plugins/markets/elevenst.py</code> (71줄)<br>
-        • 복잡한 예: <code>plugins/markets/coupang.py</code> (143줄)
-      </p>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="color:var(--accent)">Q. 모르겠으면 어떡하나요?</div>
-      <p class="text-sm text-muted">
-        1. Claude Code에 질문하기 — 코드 관련 질문은 대부분 해결됩니다<br>
-        2. 이 가이드를 다시 읽어보기<br>
-        3. 기존 코드 파일 열어서 참고하기 (복사 → 수정하면 됨!)<br>
-        4. 팀 채팅방에 질문하기<br>
-        5. 팀장에게 화면 공유하며 도움 요청
-      </p>
-    </div>
-  </div>
 
 
   <div class="separator"></div>

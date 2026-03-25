@@ -970,6 +970,7 @@ p.desc {
     <div class="sidebar-section-title">시작하기</div>
     <a href="#concept" class="sidebar-link"><span class="icon">💡</span> 프로젝트 이해하기</a>
     <a href="#setup" class="sidebar-link"><span class="icon">🔧</span> 개발 환경 세팅</a>
+    <a href="#db-troubleshoot" class="sidebar-link"><span class="icon">🗄️</span> DB 트러블슈팅</a>
   </div>
 
   <div class="sidebar-section">
@@ -1269,13 +1270,159 @@ p.desc {
         </div>
         <div class="step-content">
           <h4>로컬 DB + 환경 설정</h4>
+
+          <div class="alert alert-info">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-content">
+              <strong>우리 프로젝트의 데이터베이스</strong><br>
+              이 프로젝트는 <strong>PostgreSQL 16</strong> (pgvector 확장 포함) 데이터베이스를 사용합니다.<br>
+              Docker가 PostgreSQL을 자동으로 띄워주므로, 직접 설치할 필요 없습니다.<br>
+              아래 순서대로 하면 됩니다.
+            </div>
+          </div>
+
+          <p style="margin: 1rem 0 0.5rem; font-weight: 600; color: var(--accent);">3-1. Docker Desktop 실행 확인</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-muted);">Docker Desktop이 실행 중이어야 합니다. 작업 표시줄(우측 하단)에 고래 아이콘이 보여야 합니다.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 — Docker 실행 확인</span></div>
+            </div>
+            <div class="code-body"><span class="keyword">docker</span> info                          <span class="comment"># "Server: Docker Desktop" 이 보이면 OK</span></div>
+          </div>
+
+          <div class="alert alert-warning">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+              <strong>"Cannot connect to the Docker daemon"</strong> 에러가 나오면?<br>
+              → Docker Desktop 앱을 실행하세요. 시작 메뉴에서 "Docker Desktop" 검색 → 클릭<br>
+              → 실행 후 <strong>30초~1분 기다린 후</strong> 다시 시도하세요. Docker는 시작에 시간이 걸립니다.<br>
+              → 그래도 안 되면 PC를 재시작하세요.
+            </div>
+          </div>
+
+          <p style="margin: 1.5rem 0 0.5rem; font-weight: 600; color: var(--accent);">3-2. DB 컨테이너 실행</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-muted);">backend 폴더에서 아래 명령어를 실행합니다. PostgreSQL DB가 Docker 안에서 자동으로 시작됩니다.</p>
+
           <div class="code-block">
             <div class="code-header">
               <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (backend 폴더에서)</span></div>
             </div>
-            <div class="code-body"><span class="keyword">docker</span> compose up -d              <span class="comment"># Docker Desktop이 실행 중이어야 함</span>
-<span class="keyword">cp</span> .env.example .env               <span class="comment"># 수정할 것 없음, 그대로 사용</span></div>
+            <div class="code-body"><span class="keyword">cd</span> backend                           <span class="comment"># 아직 backend 폴더가 아니라면</span>
+<span class="keyword">docker</span> compose up -d                 <span class="comment"># DB 컨테이너를 백그라운드로 실행</span></div>
           </div>
+
+          <div class="alert alert-success">
+            <div class="alert-icon">✅</div>
+            <div class="alert-content">
+              <strong>성공하면 이런 메시지가 나옵니다:</strong><br>
+              <code>Container ygs-test-db ... Started</code> 또는 <code>Container ygs-test-db ... Running</code>
+            </div>
+          </div>
+
+          <p style="margin: 0.5rem 0; color: var(--text-muted);">DB가 정상 실행 중인지 확인:</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 — DB 상태 확인</span></div>
+            </div>
+            <div class="code-body"><span class="keyword">docker</span> compose ps                    <span class="comment"># STATE가 "running (healthy)" 이면 OK</span></div>
+          </div>
+
+          <div class="alert alert-warning">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+              <strong>STATE가 "starting" 이면?</strong><br>
+              → 10초 기다린 후 다시 <code>docker compose ps</code>를 실행하세요. DB 초기화에 시간이 걸릴 수 있습니다.<br><br>
+              <strong>"port is already allocated" 에러가 나오면?</strong><br>
+              → 포트 5433을 다른 프로그램이 사용 중입니다. 아래 명령으로 확인 후 해당 프로그램을 종료하세요:<br>
+              <code style="display:block;margin:0.5rem 0;padding:0.4rem 0.8rem;font-size:0.8rem">netstat -ano | findstr :5433</code>
+              또는 기존 컨테이너가 남아있을 수 있으므로: <code style="display:block;margin:0.5rem 0;padding:0.4rem 0.8rem;font-size:0.8rem">docker compose down &amp;&amp; docker compose up -d</code>
+            </div>
+          </div>
+
+          <p style="margin: 1.5rem 0 0.5rem; font-weight: 600; color: var(--accent);">3-3. 환경변수 파일 복사</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-muted);">서버가 DB에 접속할 때 사용하는 설정 파일입니다. 예제 파일을 그대로 복사하면 됩니다.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (backend 폴더에서)</span></div>
+            </div>
+            <div class="code-body"><span class="keyword">cp</span> .env.example .env               <span class="comment"># 수정할 것 없음, 그대로 사용</span></div>
+          </div>
+
+          <div class="alert alert-info">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-content">
+              <strong>.env 파일 내용 (참고용 — 수정하지 마세요)</strong><br>
+              <code>WRITE_DB_HOST=localhost</code> — DB가 내 컴퓨터에서 돌아감<br>
+              <code>WRITE_DB_PORT=5433</code> — Docker가 5433 포트를 사용<br>
+              <code>WRITE_DB_NAME=test_little_boy</code> — 데이터베이스 이름<br>
+              <code>WRITE_DB_USER=test_user</code> — DB 접속 아이디<br>
+              <code>WRITE_DB_PASSWORD=test_password</code> — DB 접속 비밀번호<br>
+              이 값들은 docker-compose.yaml과 맞춰져 있으므로 <strong>절대 수정하지 마세요.</strong>
+            </div>
+          </div>
+
+          <p style="margin: 1.5rem 0 0.5rem; font-weight: 600; color: var(--accent);">3-4. DB 마이그레이션 (테이블 생성)</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-muted);">DB 컨테이너를 처음 띄우면 빈 데이터베이스입니다. <strong>Alembic 마이그레이션</strong>을 실행해서 필요한 테이블을 만들어야 합니다.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (backend 폴더에서, 가상환경 활성화 상태)</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 가상환경이 활성화 안 되어 있다면 먼저:</span>
+<span class="keyword">source</span> .venv/Scripts/activate        <span class="comment"># (.venv) 가 앞에 보여야 함</span>
+
+<span class="comment"># Alembic 마이그레이션 실행 (테이블 생성)</span>
+<span class="keyword">alembic</span> upgrade head                 <span class="comment"># 모든 테이블을 최신 상태로 생성</span></div>
+          </div>
+
+          <div class="alert alert-success">
+            <div class="alert-icon">✅</div>
+            <div class="alert-content">
+              <strong>성공하면 이런 메시지가 나옵니다:</strong><br>
+              <code>INFO  [alembic.runtime.migration] Running upgrade xxx -> yyy, ...</code><br>
+              여러 줄이 나오고 에러 없이 끝나면 성공!
+            </div>
+          </div>
+
+          <div class="alert alert-warning">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+              <strong>"alembic: command not found" 에러?</strong><br>
+              → 가상환경이 활성화되지 않은 상태입니다. <code>source .venv/Scripts/activate</code> 먼저 실행하세요.<br>
+              → 터미널 앞에 <code>(.venv)</code> 가 보이는지 확인하세요.<br><br>
+              <strong>"Connection refused" 또는 "could not connect to server" 에러?</strong><br>
+              → DB 컨테이너가 아직 안 뜬 상태입니다. <code>docker compose ps</code>로 확인 후 STATE가 "running (healthy)"인지 확인하세요.<br>
+              → "starting" 상태라면 10~20초 더 기다리세요.<br><br>
+              <strong>"ModuleNotFoundError" 에러?</strong><br>
+              → 2단계의 <code>uv pip install -e .</code>을 안 한 상태입니다. 2단계로 돌아가세요.
+            </div>
+          </div>
+
+          <p style="margin: 1.5rem 0 0.5rem; font-weight: 600; color: var(--accent);">3-5. DB 연결 최종 확인</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-muted);">모든 설정이 잘 되었는지 최종 확인합니다.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (backend 폴더에서)</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># DB에 직접 접속해서 테이블 목록 확인</span>
+<span class="keyword">docker</span> exec -it ygs-test-db psql -U test_user -d test_little_boy -c "\dt"
+
+<span class="comment"># 테이블 목록이 나오면 성공! 나가려면:</span>
+<span class="comment"># \q 입력 (위 명령은 자동으로 종료됩니다)</span></div>
+          </div>
+
+          <div class="alert alert-success">
+            <div class="alert-icon">✅</div>
+            <div class="alert-content">
+              <strong>테이블 목록이 보이면 DB 설정 완료!</strong><br>
+              <code>samba_product</code>, <code>samba_order</code>, <code>samba_channel</code> 등의 테이블이 보이면 정상입니다.
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1327,6 +1474,192 @@ p.desc {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION: DB 트러블슈팅 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="db-troubleshoot">
+    <div class="section-header">
+      <div class="section-number" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);">DB</div>
+      <h3 class="section-title">DB 트러블슈팅 — 자주 겪는 문제와 해결법</h3>
+    </div>
+
+    <p class="desc">
+      DB 관련 에러가 나면 여기서 찾아보세요. 대부분의 문제는 아래 방법으로 해결됩니다.
+    </p>
+
+    <!-- 문제 1: 서버 실행 시 DB 연결 에러 -->
+    <div style="margin: 1.5rem 0; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+      <h4 style="color: var(--red); margin-bottom: 0.8rem;">🔴 "Connection refused" — 서버 실행 시 DB 연결 실패</h4>
+      <p style="color: var(--text-muted); margin-bottom: 0.8rem;">백엔드 서버를 실행했는데 DB 연결 에러가 나는 경우</p>
+
+      <p style="font-weight: 600; margin-bottom: 0.5rem;">원인: DB 컨테이너가 꺼져있음</p>
+      <p style="color: var(--text-muted); margin-bottom: 0.5rem;">PC를 재시작하거나 Docker Desktop을 껐다 켜면, DB 컨테이너도 같이 꺼집니다.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">해결법</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 1. DB 컨테이너 상태 확인</span>
+<span class="keyword">cd</span> backend
+<span class="keyword">docker</span> compose ps
+
+<span class="comment"># 2. 컨테이너가 없거나 꺼져있으면 다시 실행</span>
+<span class="keyword">docker</span> compose up -d
+
+<span class="comment"># 3. healthy 될 때까지 10초 기다린 후 서버 재실행</span></div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top: 0.8rem;">
+        <div class="alert-icon">💡</div>
+        <div class="alert-content">
+          <strong>매일 아침 개발 시작할 때</strong> Docker Desktop을 켜고 <code>docker compose up -d</code>를 습관처럼 실행하세요!
+        </div>
+      </div>
+    </div>
+
+    <!-- 문제 2: alembic 마이그레이션 에러 -->
+    <div style="margin: 1.5rem 0; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+      <h4 style="color: var(--red); margin-bottom: 0.8rem;">🔴 "alembic" 관련 에러 모음</h4>
+
+      <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+        <p style="font-weight: 600; color: var(--yellow);">"alembic: command not found"</p>
+        <p style="color: var(--text-muted); margin: 0.3rem 0;">→ 가상환경이 활성화되지 않은 상태입니다.</p>
+        <div class="code-block" style="margin-top: 0.5rem;">
+          <div class="code-header">
+            <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">해결법</span></div>
+          </div>
+          <div class="code-body"><span class="keyword">source</span> .venv/Scripts/activate        <span class="comment"># (.venv)가 앞에 나타나야 함</span>
+<span class="keyword">alembic</span> upgrade head                 <span class="comment"># 다시 실행</span></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+        <p style="font-weight: 600; color: var(--yellow);">"Target database is not up to date" 또는 "Can't locate revision"</p>
+        <p style="color: var(--text-muted); margin: 0.3rem 0;">→ main에서 새 마이그레이션이 추가되었는데, 내 로컬 DB에는 아직 반영 안 된 경우입니다.</p>
+        <div class="code-block" style="margin-top: 0.5rem;">
+          <div class="code-header">
+            <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">해결법</span></div>
+          </div>
+          <div class="code-body"><span class="comment"># 마이그레이션을 최신으로 업그레이드</span>
+<span class="keyword">alembic</span> upgrade head
+
+<span class="comment"># 그래도 안 되면 DB를 처음부터 다시 만들기 (아래 "DB 초기화" 참고)</span></div>
+        </div>
+      </div>
+
+      <div style="padding: 1rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+        <p style="font-weight: 600; color: var(--yellow);">"FAILED: Multiple head revisions"</p>
+        <p style="color: var(--text-muted); margin: 0.3rem 0;">→ 마이그레이션 충돌입니다. <strong>팀장에게 알려주세요.</strong> 팀원이 해결할 필요 없습니다.</p>
+      </div>
+    </div>
+
+    <!-- 문제 3: git pull 후 마이그레이션 -->
+    <div style="margin: 1.5rem 0; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+      <h4 style="color: var(--yellow); margin-bottom: 0.8rem;">🟡 git pull 했더니 서버가 안 뜸</h4>
+      <p style="color: var(--text-muted); margin-bottom: 0.8rem;">최신 코드를 받은 후 서버 실행 시 DB 관련 에러가 나는 경우. 다른 팀원이나 팀장이 DB 스키마를 변경했을 수 있습니다.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">해결법 — pull 후 마이그레이션 실행</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 가상환경 활성화 확인</span>
+<span class="keyword">source</span> .venv/Scripts/activate
+
+<span class="comment"># 새로 추가된 패키지 설치 (혹시 모르니)</span>
+<span class="keyword">uv</span> pip install -e .
+
+<span class="comment"># 마이그레이션 실행 (새 테이블/컬럼 반영)</span>
+<span class="keyword">alembic</span> upgrade head
+
+<span class="comment"># 서버 다시 실행</span></div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top: 0.8rem;">
+        <div class="alert-icon">💡</div>
+        <div class="alert-content">
+          <strong>습관으로 만드세요:</strong> <code>git pull</code> 후에는 항상 <code>alembic upgrade head</code>를 실행!<br>
+          Claude Code에게 "최신 코드 가져와줘"라고 하면 자동으로 해주기도 합니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- DB 완전 초기화 -->
+    <div style="margin: 1.5rem 0; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border-accent); border-left: 3px solid var(--red); border-radius: var(--radius);">
+      <h4 style="color: var(--red); margin-bottom: 0.8rem;">🔄 최후의 수단: DB 완전 초기화</h4>
+      <p style="color: var(--text-muted); margin-bottom: 0.8rem;">위 방법으로 해결이 안 되면, DB를 완전히 삭제하고 처음부터 다시 만드세요. <strong>로컬 개발 DB이므로 삭제해도 괜찮습니다.</strong></p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">DB 완전 초기화 (backend 폴더에서)</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 1. 기존 DB 컨테이너 + 데이터 완전 삭제</span>
+<span class="keyword">docker</span> compose down -v               <span class="comment"># -v 옵션이 데이터까지 삭제</span>
+
+<span class="comment"># 2. 새 DB 컨테이너 생성</span>
+<span class="keyword">docker</span> compose up -d
+
+<span class="comment"># 3. DB가 healthy 될 때까지 10초 대기 후 마이그레이션</span>
+<span class="keyword">alembic</span> upgrade head
+
+<span class="comment"># 4. 서버 실행해서 확인</span></div>
+      </div>
+    </div>
+
+    <!-- 유용한 DB 명령어 모음 -->
+    <div style="margin: 1.5rem 0; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+      <h4 style="color: var(--blue); margin-bottom: 0.8rem;">🛠️ 유용한 DB 관련 명령어 모음</h4>
+
+      <div style="display: grid; gap: 0.8rem;">
+        <div style="padding: 0.8rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+          <p style="font-weight: 600; color: var(--green); font-size: 0.85rem;">DB 컨테이너 시작</p>
+          <code style="color: var(--text-muted); font-size: 0.85rem;">docker compose up -d</code>
+        </div>
+        <div style="padding: 0.8rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+          <p style="font-weight: 600; color: var(--green); font-size: 0.85rem;">DB 컨테이너 상태 확인</p>
+          <code style="color: var(--text-muted); font-size: 0.85rem;">docker compose ps</code>
+        </div>
+        <div style="padding: 0.8rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+          <p style="font-weight: 600; color: var(--green); font-size: 0.85rem;">DB 컨테이너 로그 확인 (에러 원인 파악)</p>
+          <code style="color: var(--text-muted); font-size: 0.85rem;">docker compose logs test-db</code>
+        </div>
+        <div style="padding: 0.8rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+          <p style="font-weight: 600; color: var(--green); font-size: 0.85rem;">DB 컨테이너 중지</p>
+          <code style="color: var(--text-muted); font-size: 0.85rem;">docker compose down</code>
+        </div>
+        <div style="padding: 0.8rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+          <p style="font-weight: 600; color: var(--green); font-size: 0.85rem;">마이그레이션 최신 적용</p>
+          <code style="color: var(--text-muted); font-size: 0.85rem;">alembic upgrade head</code>
+        </div>
+        <div style="padding: 0.8rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+          <p style="font-weight: 600; color: var(--green); font-size: 0.85rem;">현재 마이그레이션 상태 확인</p>
+          <code style="color: var(--text-muted); font-size: 0.85rem;">alembic current</code>
+        </div>
+        <div style="padding: 0.8rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+          <p style="font-weight: 600; color: var(--green); font-size: 0.85rem;">DB에 직접 접속해서 SQL 실행</p>
+          <code style="color: var(--text-muted); font-size: 0.85rem;">docker exec -it ygs-test-db psql -U test_user -d test_little_boy</code>
+        </div>
+        <div style="padding: 0.8rem; background: var(--bg-code); border-radius: var(--radius-sm);">
+          <p style="font-weight: 600; color: var(--green); font-size: 0.85rem;">DB 완전 초기화 (데이터 포함 삭제)</p>
+          <code style="color: var(--text-muted); font-size: 0.85rem;">docker compose down -v && docker compose up -d && alembic upgrade head</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- 일상 루틴 요약 -->
+    <div class="alert alert-info">
+      <div class="alert-icon">📌</div>
+      <div class="alert-content">
+        <strong>매일 개발 시작할 때 체크리스트</strong><br>
+        1️⃣ Docker Desktop 실행 (작업 표시줄에 고래 아이콘 확인)<br>
+        2️⃣ <code>docker compose up -d</code> (DB 컨테이너 실행)<br>
+        3️⃣ <code>docker compose ps</code> (STATE가 "running (healthy)" 확인)<br>
+        4️⃣ 최신 코드 pull 했으면 <code>alembic upgrade head</code><br>
+        5️⃣ 서버 실행
       </div>
     </div>
   </div>

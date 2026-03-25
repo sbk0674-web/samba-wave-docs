@@ -1250,22 +1250,23 @@ p.desc {
           <div class="step-connector"></div>
         </div>
         <div class="step-content">
-          <h4>로컬 데이터베이스 띄우기 (Docker)</h4>
-          <p>각자 PC에서 데이터베이스를 실행합니다. 명령어 한 줄이면 끝!</p>
+          <h4>로컬 데이터베이스 띄우기 + 환경 설정</h4>
+          <p>명령어 2줄이면 끝. DB 실행 + 환경 설정이 한번에 됩니다.</p>
           <div class="code-block">
             <div class="code-header">
               <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (backend 폴더에서)</span></div>
             </div>
-            <div class="code-body"><span class="comment"># Docker Desktop이 실행 중인 상태에서:</span>
-<span class="keyword">cd</span> backend
-<span class="keyword">docker</span> compose up -d</div>
+            <div class="code-body"><span class="comment"># 1. 로컬 DB 띄우기 (Docker Desktop이 실행 중이어야 함)</span>
+<span class="keyword">docker</span> compose up -d
+
+<span class="comment"># 2. 환경 설정 파일 복사 (수정할 거 없음, 그대로 사용)</span>
+<span class="keyword">cp</span> .env.example .env</div>
           </div>
           <div class="alert alert-success">
             <div class="alert-icon">✅</div>
             <div class="alert-content">
-              <strong>이게 끝입니다!</strong>
-              이 명령어 하나로 내 PC에 PostgreSQL 데이터베이스가 자동으로 설치되고 실행됩니다.<br>
-              아이디/비밀번호/주소 전부 미리 세팅되어 있어요.
+              <strong>이게 전부입니다!</strong>
+              DB 아이디/비밀번호/주소가 <code>.env.example</code>에 이미 세팅되어 있어서 수정할 필요 없습니다.
             </div>
           </div>
           <div class="alert alert-warning">
@@ -1281,75 +1282,7 @@ p.desc {
       <!-- Step 4 -->
       <div class="step">
         <div class="step-line">
-          <div class="step-dot orange">4</div>
-          <div class="step-connector"></div>
-        </div>
-        <div class="step-content">
-          <h4>.env 파일 설정</h4>
-          <p>예시 파일을 복사하면 <strong>수정 없이 바로 사용</strong>할 수 있습니다.</p>
-          <div class="code-block">
-            <div class="code-header">
-              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (backend 폴더에서)</span></div>
-            </div>
-            <div class="code-body"><span class="keyword">cp</span> .env.example .env
-
-<span class="comment"># 끝! 수정할 필요 없습니다.</span>
-<span class="comment"># Docker DB 접속 정보가 이미 들어있어요.</span></div>
-          </div>
-
-          <div class="alert alert-tip">
-            <div class="alert-icon">💡</div>
-            <div class="alert-content">
-              <strong>.env.example에 뭐가 들어있나요?</strong>
-              궁금한 분만 보세요. 수정할 필요는 없습니다.
-            </div>
-          </div>
-
-          <div class="code-block">
-            <div class="code-header">
-              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">backend/.env.example (참고용)</span></div>
-            </div>
-            <div class="code-body"><span class="comment"># 환경 설정</span>
-environment=<span class="string">development</span>
-
-<span class="comment"># 데이터베이스 — docker compose up 으로 띄운 로컬 DB</span>
-WRITE_DB_USER=<span class="string">test_user</span>
-WRITE_DB_PASSWORD=<span class="string">test_password</span>
-WRITE_DB_HOST=<span class="string">localhost</span>
-WRITE_DB_PORT=<span class="string">5433</span>                    <span class="comment"># Docker DB 포트</span>
-WRITE_DB_NAME=<span class="string">test_little_boy</span>
-
-READ_DB_USER=<span class="string">test_user</span>              <span class="comment"># ↑ 쓰기용과 동일</span>
-READ_DB_PASSWORD=<span class="string">test_password</span>
-READ_DB_HOST=<span class="string">localhost</span>
-READ_DB_PORT=<span class="string">5433</span>
-READ_DB_NAME=<span class="string">test_little_boy</span>
-
-DB_SSL_REQUIRED=<span class="string">false</span>                <span class="comment"># 로컬에서는 SSL 끄기</span>
-
-<span class="comment"># JWT 시크릿 키 (로컬 개발용)</span>
-JWT_SECRET_KEY=<span class="string">local-dev-secret-key-12345</span>
-
-<span class="comment"># 아래는 선택사항 — 없어도 서버 실행됨!</span>
-<span class="comment"># AWS_ACCESS_KEY_ID=</span>
-<span class="comment"># ANTHROPIC_API_KEY=</span>
-<span class="comment"># REDIS_URL=</span></div>
-          </div>
-
-          <div class="alert alert-danger">
-            <div class="alert-icon">🚨</div>
-            <div class="alert-content">
-              <strong>.env 파일은 절대 GitHub에 올리면 안 됩니다!</strong>
-              이미 .gitignore에 등록되어 있지만, 혹시라도 직접 추가하지 마세요.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 5 -->
-      <div class="step">
-        <div class="step-line">
-          <div class="step-dot green">5</div>
+          <div class="step-dot green">4</div>
         </div>
         <div class="step-content">
           <h4>백엔드 실행해서 확인</h4>

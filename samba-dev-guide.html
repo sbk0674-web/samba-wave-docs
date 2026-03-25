@@ -375,6 +375,24 @@
     border-radius: 4px;
   }
 
+  .page-card-screenshot {
+    margin: 0.75rem 0 0.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .page-card-screenshot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .page-card:hover .page-card-screenshot img {
+    transform: scale(1.02);
+  }
+
   .page-card-desc {
     font-size: 0.8125rem;
     color: var(--text-muted);
@@ -917,6 +935,7 @@
             <div class="page-card-title">상품수집</div>
             <div class="page-card-path">/samba/collector</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/collector.png" alt="상품수집"></div>
           <div class="page-card-desc">소싱처(무신사, KREAM, 다나와)에서 상품 수집. 필터 생성/관리, 실시간 수집 상태 확인, 수집 상품 미리보기.</div>
           <div class="page-card-tags">
             <span class="tag tag-orange">Core</span>
@@ -928,6 +947,7 @@
             <div class="page-card-title">상품관리</div>
             <div class="page-card-path">/samba/products</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/products.png" alt="상품관리"></div>
           <div class="page-card-desc">수집된 상품의 가격/마진 설정, AI 상품명 생성, 옵션 편집, 상세페이지 관리. 10만건 대응 무한스크롤.</div>
           <div class="page-card-tags">
             <span class="tag tag-orange">Core</span>
@@ -939,6 +959,7 @@
             <div class="page-card-title">정책관리</div>
             <div class="page-card-path">/samba/policies</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/policies.png" alt="정책관리"></div>
           <div class="page-card-desc">마켓별 가격 정책, 마진율, 배송비 규칙 설정. 상세페이지 HTML 템플릿, 상품명 생성 규칙 관리.</div>
           <div class="page-card-tags">
             <span class="tag tag-orange">Core</span>
@@ -950,6 +971,7 @@
             <div class="page-card-title">카테고리매핑</div>
             <div class="page-card-path">/samba/categories</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/categories.png" alt="카테고리매핑"></div>
           <div class="page-card-desc">소싱처 카테고리를 각 마켓 카테고리로 매핑. AI 자동 매핑 지원, 계층구조 트리 관리.</div>
           <div class="page-card-tags">
             <span class="tag tag-orange">Core</span>
@@ -961,6 +983,7 @@
             <div class="page-card-title">상품전송</div>
             <div class="page-card-path">/samba/shipments</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/shipments.png" alt="상품전송"></div>
           <div class="page-card-desc">마켓별 상품 일괄 전송 및 삭제. 전송 상태 추적(pending/transmitting/completed), 에러 로그.</div>
           <div class="page-card-tags">
             <span class="tag tag-orange">Core</span>
@@ -972,6 +995,7 @@
             <div class="page-card-title">대시보드</div>
             <div class="page-card-path">/samba</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/dashboard.png" alt="대시보드"></div>
           <div class="page-card-desc">주문 현황, 수집 통계, 전송 상태 요약. 오늘의 매출, 미처리 주문, 최근 활동 확인.</div>
           <div class="page-card-tags">
             <span class="tag tag-blue">Dashboard</span>
@@ -992,6 +1016,7 @@
             <div class="page-card-title">주문관리</div>
             <div class="page-card-path">/samba/orders</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/orders.png" alt="주문관리"></div>
           <div class="page-card-desc">마켓별 주문 동기화, 발주확인, 송장입력, 배송추적. 클레임 상태 자동 감지.</div>
           <div class="page-card-tags">
             <span class="tag tag-green">운영</span>
@@ -1003,6 +1028,7 @@
             <div class="page-card-title">반품교환</div>
             <div class="page-card-path">/samba/returns</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/returns.png" alt="반품교환"></div>
           <div class="page-card-desc">반품/교환/취소 요청 관리. 승인/거절 처리, 사유 기록, 타임라인 추적, 환불 총액 통계.</div>
           <div class="page-card-tags">
             <span class="tag tag-green">운영</span>
@@ -1014,6 +1040,7 @@
             <div class="page-card-title">CS 관리</div>
             <div class="page-card-path">/samba/cs</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/cs.png" alt="CS관리"></div>
           <div class="page-card-desc">마켓 고객 문의 수집/답변. 답변 템플릿 8종 제공, 마켓별/유형별 필터, 일괄 삭제.</div>
           <div class="page-card-tags">
             <span class="tag tag-green">운영</span>
@@ -1025,6 +1052,7 @@
             <div class="page-card-title">매출통계</div>
             <div class="page-card-path">/samba/analytics</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/analytics.png" alt="매출통계"></div>
           <div class="page-card-desc">일별/월별 매출 추이, 채널별 분석, 상품별 판매 순위, KPI 대시보드.</div>
           <div class="page-card-tags">
             <span class="tag tag-green">운영</span>
@@ -1036,6 +1064,7 @@
             <div class="page-card-title">워룸</div>
             <div class="page-card-path">/samba/warroom</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/warroom.png" alt="워룸"></div>
           <div class="page-card-desc">오토튠 실시간 로그, 시스템 모니터링, 대시보드 통계. 전송/수집 상태 실시간 확인.</div>
           <div class="page-card-tags">
             <span class="tag tag-green">운영</span>
@@ -1047,6 +1076,7 @@
             <div class="page-card-title">스토어케어</div>
             <div class="page-card-path">/samba/store-care</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/store-care.png" alt="스토어케어"></div>
           <div class="page-card-desc">정기 구매 일정 관리. 스토어 건강도 체크, 자동 리뉴얼 스케줄링.</div>
           <div class="page-card-tags">
             <span class="tag tag-green">운영</span>
@@ -1067,6 +1097,7 @@
             <div class="page-card-title">계정관리</div>
             <div class="page-card-path">/samba/accounts</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/accounts.png" alt="계정관리"></div>
           <div class="page-card-desc">마켓별 판매 계정 등록/수정. API 키, 인증정보, AS 전화번호 관리.</div>
           <div class="page-card-tags"><span class="tag tag-blue">시스템</span></div>
         </div>
@@ -1075,6 +1106,7 @@
             <div class="page-card-title">설정</div>
             <div class="page-card-path">/samba/settings</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/settings.png" alt="설정"></div>
           <div class="page-card-desc">글로벌 설정, 마켓 계정 연결, 알림 설정, 시스템 환경 변수 관리.</div>
           <div class="page-card-tags"><span class="tag tag-blue">시스템</span></div>
         </div>
@@ -1091,6 +1123,7 @@
             <div class="page-card-title">SNS 마케팅</div>
             <div class="page-card-path">/samba/sns</div>
           </div>
+          <div class="page-card-screenshot"><img src="screenshots/sns.png" alt="SNS마케팅"></div>
           <div class="page-card-desc">Instagram, Blog, YouTube 등 SNS 채널 관리 및 마케팅 자동화.</div>
           <div class="page-card-tags"><span class="tag tag-pink">마케팅</span></div>
         </div>

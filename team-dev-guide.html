@@ -1763,9 +1763,70 @@ p.desc {
 
   </div>
 
+    <!-- 팀장 역할 -->
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">👑</span> 팀장이 할 일</div>
 
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40px">#</th>
+              <th style="width:160px">할 일</th>
+              <th>설명</th>
+              <th style="width:120px">시점</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td><strong>PR 리뷰 & 머지</strong></td>
+              <td>팀원이 올린 PR을 검토하고, 문제 없으면 main에 머지</td>
+              <td>PR 올라올 때</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td><strong>스킬 노하우 축적</strong></td>
+              <td><code>git pull</code> 시 post-merge hook이 자동 실행 → 머지된 코드를 분석해서 스킬 파일에 노하우 반영</td>
+              <td>자동 (머지 후)</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td><strong>할당표 관리</strong></td>
+              <td>담당자 배정, 상태 변경 (할당 대기 → 할당 → 완료)</td>
+              <td>수시</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td><strong>공유 파일 수정</strong></td>
+              <td><code>__init__.py</code>, <code>base.py</code>, 확장앱 등 팀원이 못 건드리는 파일은 팀장이 직접 수정</td>
+              <td>필요 시</td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td><strong>충돌 해결</strong></td>
+              <td>팀원 간 충돌 발생 시 화면 공유로 같이 해결</td>
+              <td>거의 없음</td>
+            </tr>
+            <tr>
+              <td><strong>6</strong></td>
+              <td><strong>배포</strong></td>
+              <td>main 브랜치 코드를 실서버에 반영 (팀원은 배포 권한 없음)</td>
+              <td>기능 완성 후</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
+      <div class="alert alert-info">
+        <div class="alert-icon">📌</div>
+        <div class="alert-content">
+          <strong>팀장의 일상 루틴</strong><br>
+          GitHub에서 PR 확인 → 코드 리뷰 → 머지 → <code>git pull</code> (스킬 자동 업데이트) → 할당표 상태 변경
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <div class="separator"></div>

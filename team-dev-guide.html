@@ -2452,40 +2452,44 @@ backend/backend/domain/samba/
 
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- SECTION 10: 판매처(마켓) 플러그인 만들기 -->
+  <!-- SECTION 10: 판매처(마켓) 플러그인 작업 -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <div class="section" id="market-plugin">
     <div class="section-header">
       <div class="section-number">10</div>
-      <h3 class="section-title">판매처(마켓) 플러그인 만들기</h3>
+      <h3 class="section-title">판매처(마켓) — 내가 할 일</h3>
     </div>
 
     <p class="desc">
-      Claude Code에 한 줄만 말하면 됩니다. 코드는 AI가 알아서 만들어줍니다.
+      플러그인 파일은 <strong>이미 빈 틀이 만들어져 있습니다.</strong><br>
+      여러분이 할 일은 그 빈 틀 안에 <strong>실제 API 연동 코드를 채우는 것</strong>입니다.
     </p>
+
+    <div class="analogy">
+      <div class="analogy-header">💡 비유로 이해하기</div>
+      <p>
+        빈 이력서 양식이 있다고 생각하세요. 이름, 학력, 경력 칸이 이미 있고,<br>
+        여러분은 <strong>각 칸에 내용을 채우기만</strong> 하면 됩니다.<br>
+        양식 자체를 새로 만들 필요 없어요.
+      </p>
+    </div>
 
     <div class="subsection">
       <div class="subsection-title"><span class="sub-icon">💬</span> Claude Code에 이렇게 말하세요</div>
 
       <div class="claude-prompt">
-        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시 1</div>
-        <div class="claude-prompt-text">"쿠팡 판매처 플러그인 만들어줘. 기존 elevenst.py 참고해서"</div>
-      </div>
-
-      <div class="claude-prompt">
-        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시 2</div>
-        <div class="claude-prompt-text">"인터파크 마켓 플러그인이랑 프록시 클라이언트 만들어줘"</div>
+        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시</div>
+        <div class="claude-prompt-text">"롯데ON 판매처 플러그인에 실제 API 연동 코드 채워줘. 빈 틀이 markets/lotteon.py에 있어"</div>
       </div>
 
       <div class="alert alert-success">
         <div class="alert-icon">✅</div>
         <div class="alert-content">
-          <strong>Claude Code가 자동으로 해주는 것</strong>
+          <strong>Claude Code가 해주는 것</strong>
           <ul class="explain-list" style="margin:0">
-            <li><span class="explain-num">1</span><span class="explain-text"><code>plugins/markets/내마켓.py</code> — 플러그인 파일 생성</span></li>
-            <li><span class="explain-num">2</span><span class="explain-text"><code>proxy/내마켓.py</code> — HTTP 클라이언트 파일 생성</span></li>
-            <li><span class="explain-num">3</span><span class="explain-text">기존 코드 패턴에 맞춰서 <strong>상품 등록/수정/변환</strong> 함수 자동 구현</span></li>
-            <li><span class="explain-num">4</span><span class="explain-text">마켓 API 문서 기반으로 필드 매핑까지</span></li>
+            <li><span class="explain-num">1</span><span class="explain-text">빈 틀 파일(<code>plugins/markets/내마켓.py</code>)을 열어서 실제 코드로 채움</span></li>
+            <li><span class="explain-num">2</span><span class="explain-text">HTTP 클라이언트(<code>proxy/내마켓.py</code>)도 실제 API 호출 코드로 채움</span></li>
+            <li><span class="explain-num">3</span><span class="explain-text">해당 마켓의 <strong>상품 등록/수정/데이터 변환</strong> 로직 구현</span></li>
           </ul>
         </div>
       </div>
@@ -2493,9 +2497,9 @@ backend/backend/domain/samba/
       <div class="alert alert-warning">
         <div class="alert-icon">⚠️</div>
         <div class="alert-content">
-          <strong>생성 후 꼭 확인할 것</strong><br>
-          • <code>market_type</code>이 다른 마켓과 안 겹치는지 (아래 할당표 확인)<br>
-          • 서버 재시작 후 플러그인 숫자가 늘어나는지
+          <strong>작업 후 꼭 확인할 것</strong><br>
+          • 서버 재시작 후 에러 없이 뜨는지<br>
+          • 테스트 상품으로 등록/수정이 되는지
         </div>
       </div>
     </div>
@@ -2503,50 +2507,135 @@ backend/backend/domain/samba/
 
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- SECTION 11: 소싱처 플러그인 만들기 -->
+  <!-- SECTION 11: 소싱처 플러그인 작업 -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <div class="section" id="sourcing-plugin">
     <div class="section-header">
       <div class="section-number">11</div>
-      <h3 class="section-title">소싱처 플러그인 만들기</h3>
+      <h3 class="section-title">소싱처 — 내가 할 일</h3>
     </div>
 
     <p class="desc">
-      판매처와 마찬가지로 Claude Code에 말하면 됩니다.
+      판매처와 마찬가지로 <strong>빈 틀이 이미 만들어져 있습니다.</strong><br>
+      여러분이 할 일은 <strong>실제로 상품 데이터를 가져오는 코드를 채우는 것</strong>입니다.
     </p>
 
     <div class="subsection">
       <div class="subsection-title"><span class="sub-icon">💬</span> Claude Code에 이렇게 말하세요</div>
 
       <div class="claude-prompt">
-        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시 1</div>
-        <div class="claude-prompt-text">"올리브영 소싱처 플러그인 만들어줘. musinsa.py 참고해서"</div>
-      </div>
-
-      <div class="claude-prompt">
-        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시 2</div>
-        <div class="claude-prompt-text">"ABC마트 소싱처 플러그인이랑 프록시 클라이언트 만들어줘"</div>
+        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시</div>
+        <div class="claude-prompt-text">"롯데ON 소싱처 플러그인에 실제 API 연동 코드 채워줘. 빈 틀이 sourcing/lotteon.py에 있어"</div>
       </div>
 
       <div class="alert alert-success">
         <div class="alert-icon">✅</div>
         <div class="alert-content">
-          <strong>Claude Code가 자동으로 해주는 것</strong>
+          <strong>Claude Code가 해주는 것</strong>
           <ul class="explain-list" style="margin:0">
-            <li><span class="explain-num">1</span><span class="explain-text"><code>plugins/sourcing/내소싱처.py</code> — 플러그인 파일 생성</span></li>
-            <li><span class="explain-num">2</span><span class="explain-text"><code>proxy/내소싱처.py</code> — HTTP 클라이언트 파일 생성</span></li>
-            <li><span class="explain-num">3</span><span class="explain-text"><strong>검색, 상세 조회, 가격/재고 갱신</strong> 함수 자동 구현</span></li>
-            <li><span class="explain-num">4</span><span class="explain-text">차단 방지를 위한 <strong>동시 요청 수/대기 시간</strong> 자동 설정</span></li>
+            <li><span class="explain-num">1</span><span class="explain-text">빈 틀 파일(<code>plugins/sourcing/내소싱처.py</code>)을 열어서 실제 코드로 채움</span></li>
+            <li><span class="explain-num">2</span><span class="explain-text">HTTP 클라이언트(<code>proxy/내소싱처.py</code>)도 실제 수집 코드로 채움</span></li>
+            <li><span class="explain-num">3</span><span class="explain-text">해당 소싱처의 <strong>상품 검색/상세 조회/가격·재고 갱신</strong> 로직 구현</span></li>
           </ul>
         </div>
       </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🧩</span> 확장앱(익스텐션)이 필요한 소싱처</div>
+
+      <p class="desc">
+        일부 사이트는 직접 접속하면 차단당합니다 (로그인 필요, 봇 감지 등).<br>
+        이런 사이트는 <strong>Chrome 확장앱</strong>이 대신 데이터를 가져옵니다.
+      </p>
+
+      <div class="analogy">
+        <div class="analogy-header">💡 비유로 이해하기</div>
+        <p>
+          KREAM 같은 사이트는 "로봇은 출입금지"입니다.<br>
+          그래서 <strong>사람처럼 브라우저를 통해</strong> 접근해야 해요.<br><br>
+          Chrome 확장앱 = 브라우저 안에 숨어서 데이터를 읽어오는 도우미.<br>
+          확장앱이 읽어온 데이터를 서버로 보내면, 서버가 저장합니다.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>소싱처</th>
+              <th>수집 방식</th>
+              <th>확장앱 필요</th>
+              <th>설명</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>무신사</td>
+              <td>서버에서 직접 수집</td>
+              <td><span class="badge badge-green">불필요</span></td>
+              <td>API 호출로 바로 가져옴</td>
+            </tr>
+            <tr>
+              <td>KREAM</td>
+              <td>확장앱 큐 방식</td>
+              <td><span class="badge badge-red">필요</span></td>
+              <td>확장앱이 브라우저에서 읽어서 서버로 전송</td>
+            </tr>
+            <tr>
+              <td>지마켓</td>
+              <td>확장앱 또는 HTML 파싱</td>
+              <td><span class="badge badge-yellow">권장</span></td>
+              <td>직접 수집 시 차단 가능성 높음</td>
+            </tr>
+            <tr>
+              <td>스마트스토어</td>
+              <td>네이버 검색 API + HTML</td>
+              <td><span class="badge badge-green">불필요</span></td>
+              <td>공식 API 활용 가능</td>
+            </tr>
+            <tr>
+              <td>롯데ON</td>
+              <td>확장앱 또는 API</td>
+              <td><span class="badge badge-yellow">권장</span></td>
+              <td>로그인 필요한 경우 확장앱 사용</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-info">
+        <div class="alert-icon">📌</div>
+        <div class="alert-content">
+          <strong>확장앱이 필요한 소싱처를 맡았다면?</strong><br>
+          Claude Code에 이렇게 말하세요:<br><br>
+          <div class="claude-prompt" style="margin:0.5rem 0">
+            <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+            <div class="claude-prompt-text">"롯데ON은 확장앱으로 수집해야 해. KREAM 확장앱 큐 방식 참고해서 연동해줘"</div>
+          </div>
+          확장앱 ↔ 서버 간 통신 구조는 기존 KREAM 구현을 참고합니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">⚠️</span> 작업 후 확인 사항</div>
 
       <div class="alert alert-warning">
         <div class="alert-icon">⚠️</div>
         <div class="alert-content">
-          <strong>생성 후 꼭 확인할 것</strong><br>
-          • <code>site_name</code>이 다른 소싱처와 안 겹치는지 (아래 할당표 확인)<br>
-          • 서버 재시작 후 소싱 플러그인 숫자가 늘어나는지
+          <strong>확인 체크리스트</strong><br>
+          • 서버 재시작 후 에러 없이 뜨는지<br>
+          • 키워드 검색 시 상품 목록이 나오는지<br>
+          • 확장앱 필요한 경우: 확장앱 설치 후 데이터 수신 되는지<br><br>
+          <strong>소싱 데이터 주점검 항목 (이것들이 제대로 수집되어야 합니다)</strong><br>
+          • <strong>대표 이미지</strong> — 상품 썸네일<br>
+          • <strong>추가 이미지</strong> — 상품 갤러리 이미지들<br>
+          • <strong>상세페이지 이미지</strong> — 상품 설명 영역의 이미지<br>
+          • <strong>판매가</strong> — 원래 정가<br>
+          • <strong>할인가</strong> — 실제 판매 가격 (최대 혜택가)<br>
+          • <strong>옵션 정보</strong> — 색상/사이즈별 재고<br>
+          • <strong>정보고시 정보</strong> — 소재, 제조국, 세탁방법 등
         </div>
       </div>
     </div>

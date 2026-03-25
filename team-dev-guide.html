@@ -2404,48 +2404,73 @@ market_type = <span class="string">"tmon_v2"</span>
     </div>
 
     <p class="desc">
-      내가 만들 파일이 어디에 있는지, 어떤 파일을 건드리면 안 되는지 확인합니다.
+      내가 작업할 파일이 어디에 있는지, 어떤 파일을 건드리면 안 되는지 확인합니다.
     </p>
 
-    <div class="file-tree">
-backend/backend/domain/samba/
-├── <span class="dir">plugins/</span>                          <span class="note">← 플러그인 폴더 (여기서 작업!)</span>
-│   ├── <span class="file-danger">__init__.py</span>                    <span class="note">← 🚫 절대 수정 금지 (자동 탐색 코드)</span>
-│   ├── <span class="file-danger">market_base.py</span>                <span class="note">← 🚫 절대 수정 금지 (판매처 기본 클래스)</span>
-│   ├── <span class="file-danger">sourcing_base.py</span>              <span class="note">← 🚫 절대 수정 금지 (소싱처 기본 클래스)</span>
-│   ├── <span class="dir">markets/</span>                       <span class="note">← 판매처 플러그인 모음</span>
-│   │   ├── smartstore.py              <span class="note">← 다른 사람 담당 (건드리지 않기)</span>
-│   │   ├── coupang.py                 <span class="note">← 다른 사람 담당</span>
-│   │   ├── elevenst.py                <span class="note">← 다른 사람 담당</span>
-│   │   ├── ...
-│   │   └── <span class="file-new">tmon.py</span>                    <span class="note">← ✅ 내가 새로 만들 파일!</span>
-│   └── <span class="dir">sourcing/</span>                      <span class="note">← 소싱처 플러그인 모음</span>
-│       ├── musinsa.py                 <span class="note">← 다른 사람 담당</span>
-│       ├── kream.py                   <span class="note">← 다른 사람 담당</span>
-│       └── <span class="file-new">oliveyoung.py</span>              <span class="note">← ✅ 내가 새로 만들 파일!</span>
-│
-├── <span class="dir">proxy/</span>                             <span class="note">← HTTP 클라이언트 폴더 (여기서도 작업!)</span>
-│   ├── smartstore.py                  <span class="note">← 다른 사람 담당 (1521줄, 참고만)</span>
-│   ├── coupang.py                     <span class="note">← 다른 사람 담당 (366줄, 참고만)</span>
-│   ├── ...
-│   └── <span class="file-new">tmon.py</span>                        <span class="note">← ✅ 내가 새로 만들 파일!</span>
-│
-└── <span class="dir">collector/</span>                         <span class="note">← 수정하지 않음</span>
-    ├── model.py
-    ├── service.py
-    └── ...
+    <!-- 수정 금지 파일 -->
+    <div class="card" style="border-color:rgba(255,107,107,0.2);margin-bottom:1.25rem">
+      <div class="card-title" style="color:var(--red)">🚫 절대 수정 금지 — 시스템 파일</div>
+      <div class="table-wrap" style="margin:0.5rem 0 0">
+        <table>
+          <thead><tr><th>파일</th><th>역할</th></tr></thead>
+          <tbody>
+            <tr><td><code>plugins/__init__.py</code></td><td>플러그인 자동 탐색 코드</td></tr>
+            <tr><td><code>plugins/market_base.py</code></td><td>판매처 기본 틀 (모든 판매처가 이걸 상속)</td></tr>
+            <tr><td><code>plugins/sourcing_base.py</code></td><td>소싱처 기본 틀 (모든 소싱처가 이걸 상속)</td></tr>
+            <tr><td><code>collector/</code> 폴더 전체</td><td>수집 엔진 (건드릴 일 없음)</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="alert alert-info">
-      <div class="alert-icon">📌</div>
+    <!-- 내가 작업할 파일 -->
+    <div class="grid-2">
+      <div class="card" style="border-color:rgba(255,140,0,0.2)">
+        <div class="card-title" style="color:var(--accent)">🏪 판매처 담당이라면</div>
+        <p class="text-sm text-muted mb-1">아래 2개 파일을 작업합니다</p>
+        <div class="table-wrap" style="margin:0">
+          <table>
+            <thead><tr><th>파일</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>plugins/markets/<strong>내마켓</strong>.py</code></td>
+                <td>플러그인 본체<br><span class="text-xs text-dim">빈 틀 → 실제 연동 코드 채우기</span></td>
+              </tr>
+              <tr>
+                <td><code>proxy/<strong>내마켓</strong>.py</code></td>
+                <td>HTTP 통신 담당<br><span class="text-xs text-dim">마켓 API와 실제 통신하는 코드</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="border-color:rgba(92,154,255,0.2)">
+        <div class="card-title" style="color:var(--blue)">📦 소싱처 담당이라면</div>
+        <p class="text-sm text-muted mb-1">아래 2개 파일을 작업합니다</p>
+        <div class="table-wrap" style="margin:0">
+          <table>
+            <thead><tr><th>파일</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>plugins/sourcing/<strong>내소싱처</strong>.py</code></td>
+                <td>플러그인 본체<br><span class="text-xs text-dim">빈 틀 → 실제 연동 코드 채우기</span></td>
+              </tr>
+              <tr>
+                <td><code>proxy/<strong>내소싱처</strong>.py</code></td>
+                <td>HTTP 통신 담당<br><span class="text-xs text-dim">소싱처에서 데이터 가져오는 코드</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-tip">
+      <div class="alert-icon">💡</div>
       <div class="alert-content">
-        <strong>정리하면, 내가 만들 파일은 딱 2개</strong>
-        <br><br>
-        <span class="badge badge-green">판매처 담당</span>&nbsp;
-        <code>plugins/markets/내마켓.py</code> + <code>proxy/내마켓.py</code>
-        <br><br>
-        <span class="badge badge-blue">소싱처 담당</span>&nbsp;
-        <code>plugins/sourcing/내소싱처.py</code> + <code>proxy/내소싱처.py</code>
+        <strong>다른 사람 파일은 건드리지 마세요!</strong>
+        내 담당 파일만 수정합니다. 어떤 파일이 내 담당인지는 <a href="#names" style="color:var(--accent)">담당자 할당표</a>에서 확인하세요.
       </div>
     </div>
   </div>

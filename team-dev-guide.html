@@ -1096,6 +1096,7 @@ p.desc {
         • <strong>Python 3.12</strong> — python.org (<strong>"Add Python to PATH" 반드시 체크!</strong>)<br>
         • <strong>uv</strong> — Python 설치 후 터미널에서:
         <code style="display:block;margin:0.5rem 0;padding:0.4rem 0.8rem;font-size:0.8rem">powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code>
+        • <strong>GitHub CLI</strong> — <a href="https://cli.github.com" style="color:var(--accent)" target="_blank">cli.github.com</a> 에서 다운로드. GitHub 로그인에 필요<br>
         • <strong>Docker Desktop</strong> — docker.com (로컬 DB용)<br>
         • <strong>Claude Code</strong> — 팀장이 제공하는 설치 가이드로 설치
       </div>
@@ -1134,6 +1135,66 @@ p.desc {
             <div class="alert-content">
               <strong>초대를 수락하지 않으면 clone/push가 안 됩니다.</strong>
               이메일이 안 오면 팀장에게 다시 요청하세요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step: GitHub 로그인 -->
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot purple">★</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h4>GitHub 로그인 (최초 1회)</h4>
+          <p>내 컴퓨터에서 GitHub에 접속할 수 있도록 로그인합니다. <strong>딱 한 번만</strong> 하면 됩니다.</p>
+
+          <div class="gui-steps">
+            <div class="gui-step">
+              <div class="gui-step-number">1</div>
+              <div class="gui-step-content">
+                <h4>Git Bash 열기</h4>
+                <p>바탕화면 우클릭 → "Git Bash Here"</p>
+              </div>
+            </div>
+            <div class="gui-step">
+              <div class="gui-step-number">2</div>
+              <div class="gui-step-content">
+                <h4>아래 명령어 입력</h4>
+                <div class="code-block">
+                  <div class="code-header"><div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Git Bash)</span></div></div>
+                  <div class="code-body"><span class="keyword">gh</span> auth login</div>
+                </div>
+              </div>
+            </div>
+            <div class="gui-step">
+              <div class="gui-step-number">3</div>
+              <div class="gui-step-content">
+                <h4>질문에 답하기</h4>
+                <p>
+                  • "Where do you use GitHub?" → <strong>GitHub.com</strong> 선택 (Enter)<br>
+                  • "preferred protocol" → <strong>HTTPS</strong> 선택 (Enter)<br>
+                  • "Authenticate" → <strong>Login with a web browser</strong> 선택 (Enter)<br>
+                  • 화면에 나오는 코드를 복사 → <strong>브라우저가 열리면 코드 붙여넣기</strong> → 승인
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-warning">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+              <strong><code>gh</code> 명령어가 안 되면?</strong>
+              GitHub CLI가 설치 안 된 겁니다. <a href="https://cli.github.com" style="color:var(--accent)" target="_blank">cli.github.com</a>에서 다운로드 → 설치 후 터미널 재시작 → 다시 시도
+            </div>
+          </div>
+
+          <div class="alert alert-success">
+            <div class="alert-icon">✅</div>
+            <div class="alert-content">
+              <strong>"Logged in as 본인아이디" 가 나오면 성공!</strong>
+              이제 clone/push가 정상 작동합니다.
             </div>
           </div>
         </div>

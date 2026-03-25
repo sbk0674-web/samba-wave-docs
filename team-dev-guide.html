@@ -981,7 +981,6 @@ p.desc {
   <div class="sidebar-section">
     <div class="sidebar-section-title">참고</div>
     <a href="#names" class="sidebar-link"><span class="icon">📋</span> 담당자 할당표</a>
-    <a href="#checklist" class="sidebar-link"><span class="icon">☑️</span> 일일 체크리스트</a>
   </div>
 
   <div class="sidebar-progress">
@@ -1018,53 +1017,6 @@ p.desc {
     <p class="desc">
       코드를 쓰기 전에, 우리 프로젝트가 어떤 구조인지 먼저 이해합시다.
     </p>
-
-    <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">🎯</span> 우리가 만드는 것</div>
-
-      <div class="analogy">
-        <div class="analogy-header">💡 비유로 이해하기 — "번역기"</div>
-        <p>
-          우리 시스템은 <strong>"번역기"</strong>와 비슷합니다.<br><br>
-          <strong>소싱처</strong>(무신사, 올리브영 등)에서 상품 정보를 가져와서,
-          <strong>판매처</strong>(쿠팡, 스마트스토어 등)의 형식에 맞게 변환해서 올려주는 겁니다.<br><br>
-          예: 무신사에서 "나이키 에어맥스"를 가져와서 → 쿠팡 형식으로 변환 → 쿠팡에 등록.
-          이 과정을 자동으로 해주는 게 우리 시스템입니다.
-        </p>
-      </div>
-
-      <div class="flow">
-        <div class="flow-item">
-          <div class="flow-item-icon">📦</div>
-          <div class="flow-item-label">소싱처</div>
-          <div class="flow-item-desc">무신사, 올리브영...</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">
-          <div class="flow-item-icon">🔍</div>
-          <div class="flow-item-label">상품 수집</div>
-          <div class="flow-item-desc">가격, 이미지, 재고</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">
-          <div class="flow-item-icon">🔄</div>
-          <div class="flow-item-label">형식 변환</div>
-          <div class="flow-item-desc">transform()</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">
-          <div class="flow-item-icon">🏪</div>
-          <div class="flow-item-label">판매처</div>
-          <div class="flow-item-desc">쿠팡, 스마트스토어...</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">
-          <div class="flow-item-icon">✅</div>
-          <div class="flow-item-label">등록 완료</div>
-          <div class="flow-item-desc">상품 판매 시작</div>
-        </div>
-      </div>
-    </div>
 
     <div class="subsection">
       <div class="subsection-title"><span class="sub-icon">🧩</span> 플러그인 = USB 장치</div>
@@ -1914,33 +1866,6 @@ p.desc {
 
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- SECTION 7: 일일 체크리스트 -->
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <div class="section" id="checklist">
-    <div class="section-header">
-      <div class="section-number">7</div>
-      <h3 class="section-title">일일 체크리스트</h3>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📋 매일 이 순서대로</div>
-      <ul class="checklist">
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><strong>아침:</strong> "main 최신 코드 가져와서 내 브랜치에 merge해줘"</span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><strong>작업 중:</strong> 내 파일만 수정. 기능 하나 완성할 때마다 <strong>/commit</strong></span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><strong>퇴근 전:</strong> "GitHub에 푸시해줘" → 작업 완료 시 "PR 만들어줘"</span></li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <div class="card-title">✅ 플러그인 완성 시 최종 점검</div>
-      <ul class="checklist">
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>market_type</code> / <code>site_name</code>이 다른 마켓과 안 겹치는지?</span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>서버 재시작 시 플러그인 숫자가 늘어나는지?</span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>transform() 함수로 데이터 변환이 되는지?</span></li>
-        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>다른 사람 파일은 안 건드렸는지?</span></li>
-      </ul>
-    </div>
-  </div>
 
 
 

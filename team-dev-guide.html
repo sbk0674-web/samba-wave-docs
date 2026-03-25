@@ -1597,7 +1597,7 @@ p.desc {
 
       <div class="claude-prompt">
         <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
-        <div class="claude-prompt-text">"티몬 플러그인 작업할 브랜치 만들어줘"</div>
+        <div class="claude-prompt-text">"쿠팡 플러그인 작업할 브랜치 만들어줘"</div>
       </div>
 
       <p class="text-sm text-muted" style="margin:0.5rem 0">
@@ -1619,7 +1619,7 @@ p.desc {
 <span class="keyword">git</span> checkout -b feature/내마켓이름-plugin
 
 <span class="comment"># 예시들:</span>
-<span class="keyword">git</span> checkout -b feature/tmon-plugin          <span class="comment"># 판매처: 티몬</span>
+<span class="keyword">git</span> checkout -b feature/coupang-plugin        <span class="comment"># 판매처: 쿠팡</span>
 <span class="keyword">git</span> checkout -b feature/oliveyoung-sourcing   <span class="comment"># 소싱처: 올리브영</span>
 <span class="keyword">git</span> checkout -b feature/interpark-plugin       <span class="comment"># 판매처: 인터파크</span></div>
           </div>
@@ -1777,7 +1777,7 @@ p.desc {
                   <div class="code-header">
                     <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
                   </div>
-                  <div class="code-body"><span class="keyword">git</span> commit -m <span class="string">"[마켓] 티몬 플러그인 — transform 구현"</span></div>
+                  <div class="code-body"><span class="keyword">git</span> commit -m <span class="string">"[마켓] 쿠팡 플러그인 — transform 구현"</span></div>
                 </div>
               </div>
             </div>
@@ -1789,11 +1789,11 @@ p.desc {
         <div class="alert-icon">📝</div>
         <div class="alert-content">
           <strong>커밋 메시지 규칙</strong>
-          <code>[마켓] 티몬 플러그인 — transform 구현</code><br>
-          <code>[마켓] 티몬 프록시 — 상품 등록 API 연동</code><br>
+          <code>[마켓] 쿠팡 플러그인 — transform 구현</code><br>
+          <code>[마켓] 쿠팡 프록시 — 상품 등록 API 연동</code><br>
           <code>[소싱] 올리브영 플러그인 — search 구현</code><br>
           <code>[소싱] 올리브영 프록시 — 검색 파싱 로직</code><br>
-          <code>[수정] 티몬 플러그인 — 인증 에러 처리 추가</code>
+          <code>[수정] 쿠팡 플러그인 — 인증 에러 처리 추가</code>
         </div>
       </div>
 
@@ -1868,7 +1868,7 @@ p.desc {
             <div class="gui-step-content">
               <h4>커밋 메시지 작성</h4>
               <p>상단 입력창에 메시지를 입력합니다. 또는 <span class="gui-highlight">Generate</span> 버튼을 누르면 AI가 자동으로 메시지를 만들어줍니다.</p>
-              <p style="margin-top:0.3rem"><strong>예시:</strong> <code>[마켓] 티몬 플러그인 — transform 구현</code></p>
+              <p style="margin-top:0.3rem"><strong>예시:</strong> <code>[마켓] 쿠팡 플러그인 — transform 구현</code></p>
             </div>
           </div>
           <div class="gui-step">
@@ -1984,7 +1984,7 @@ p.desc {
           <tbody>
             <tr>
               <td><strong>파일 생성/수정</strong></td>
-              <td>"티몬 플러그인 만들어줘"</td>
+              <td>"쿠팡 플러그인 만들어줘"</td>
               <td>직접 코드 작성</td>
               <td><span class="badge badge-orange">Claude Code</span></td>
             </tr>
@@ -2130,12 +2130,12 @@ p.desc {
                   <div class="code-header">
                     <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">PR 작성 예시</span></div>
                   </div>
-                  <div class="code-body"><span class="important">제목:</span> [마켓] 티몬 플러그인 추가
+                  <div class="code-body"><span class="important">제목:</span> [마켓] 쿠팡 플러그인 추가
 
 <span class="important">본문:</span>
 ## 작업 내용
-- 티몬 마켓 플러그인 구현 (plugins/markets/tmon.py)
-- 티몬 HTTP 클라이언트 구현 (proxy/tmon.py)
+- 쿠팡 마켓 플러그인 구현 (plugins/markets/coupang.py)
+- 쿠팡 HTTP 클라이언트 구현 (proxy/coupang.py)
 - 상품 등록/수정 API 연동 완료
 
 ## 테스트
@@ -2328,214 +2328,42 @@ backend/backend/domain/samba/
     </div>
 
     <p class="desc">
-      "티몬" 판매처 플러그인을 예시로, 한 줄 한 줄 설명합니다.
-    </p>
-
-    <div class="claude-prompt">
-      <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
-      <div class="claude-prompt-text">"티몬 판매처 플러그인 만들어줘. 기존 coupang.py 참고해서"</div>
-    </div>
-
-    <p class="text-sm text-muted" style="margin:0.5rem 0 1.5rem">
-      Claude Code가 플러그인 파일 + 프록시 파일을 한번에 생성해줍니다. 아래는 Claude Code가 생성하는 코드의 예시입니다.
+      Claude Code에 한 줄만 말하면 됩니다. 코드는 AI가 알아서 만들어줍니다.
     </p>
 
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📄</span> Claude Code가 생성하는 코드 — 플러그인 (plugins/markets/tmon.py)</div>
+      <div class="subsection-title"><span class="sub-icon">💬</span> Claude Code에 이렇게 말하세요</div>
 
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">backend/backend/domain/samba/plugins/markets/tmon.py</span></div>
-          <button class="code-copy" onclick="copyCode(this)">복사</button>
-        </div>
-        <div class="code-body"><span class="string">"""티몬 마켓 플러그인."""</span>
-
-<span class="keyword">from</span> __future__ <span class="keyword">import</span> annotations
-<span class="keyword">from</span> typing <span class="keyword">import</span> Any
-<span class="keyword">from</span> backend.domain.samba.plugins.market_base <span class="keyword">import</span> <span class="class">MarketPlugin</span>
-<span class="keyword">from</span> backend.utils.logger <span class="keyword">import</span> logger
-
-
-<span class="keyword">class</span> <span class="class">TmonPlugin</span>(<span class="class">MarketPlugin</span>):
-  <span class="comment"># ──────────────────────────────────────────</span>
-  <span class="comment"># 이 3가지가 가장 중요! 다른 마켓과 겹치면 안 됩니다</span>
-  <span class="comment"># ──────────────────────────────────────────</span>
-  <span class="param">market_type</span> = <span class="string">"tmon"</span>              <span class="comment"># 영문 소문자, 시스템 내부 식별자</span>
-  <span class="param">policy_key</span>  = <span class="string">"티몬"</span>              <span class="comment"># UI에 표시될 한글 이름</span>
-  <span class="param">required_fields</span> = [<span class="string">"name"</span>, <span class="string">"sale_price"</span>]  <span class="comment"># 필수 필드</span>
-
-  <span class="keyword">def</span> <span class="function">transform</span>(self, product: <span class="type">dict</span>, category_id: <span class="type">str</span>, **kwargs) -> <span class="type">dict</span>:
-    <span class="string">"""상품 데이터 → 티몬 API 형식으로 변환."""</span>
-    <span class="keyword">from</span> backend.domain.samba.proxy.tmon <span class="keyword">import</span> <span class="class">TmonClient</span>
-    <span class="keyword">return</span> TmonClient.transform_product(product, category_id)
-
-  <span class="keyword">async def</span> <span class="function">execute</span>(
-    self,
-    session,
-    product: <span class="type">dict</span>,
-    creds: <span class="type">dict</span>,
-    category_id: <span class="type">str</span>,
-    account,
-    existing_no: <span class="type">str</span>,
-  ) -> <span class="type">dict</span>[<span class="type">str</span>, <span class="type">Any</span>]:
-    <span class="string">"""티몬에 상품 등록 또는 수정."""</span>
-    <span class="keyword">from</span> backend.domain.samba.proxy.tmon <span class="keyword">import</span> <span class="class">TmonClient</span>
-
-    <span class="comment"># 인증 정보 꺼내기 (creds는 base가 자동으로 넣어줌)</span>
-    api_key = creds.get(<span class="string">"apiKey"</span>, <span class="string">""</span>)
-    <span class="keyword">if not</span> api_key:
-      <span class="keyword">return</span> {<span class="string">"success"</span>: <span class="number">False</span>, <span class="string">"message"</span>: <span class="string">"티몬 API Key 없음"</span>}
-
-    client = TmonClient(api_key)
-    data = self.transform(product, category_id)
-
-    <span class="comment"># existing_no가 있으면 = 이미 등록된 상품 → 수정</span>
-    <span class="comment"># existing_no가 없으면 = 새 상품 → 등록</span>
-    <span class="keyword">if</span> existing_no:
-      result = <span class="keyword">await</span> client.update_product(existing_no, data)
-      <span class="keyword">return</span> {<span class="string">"success"</span>: <span class="number">True</span>, <span class="string">"message"</span>: <span class="string">"티몬 수정 성공"</span>, <span class="string">"data"</span>: result}
-    <span class="keyword">else</span>:
-      result = <span class="keyword">await</span> client.register_product(data)
-      <span class="keyword">return</span> {<span class="string">"success"</span>: <span class="number">True</span>, <span class="string">"message"</span>: <span class="string">"티몬 등록 성공"</span>, <span class="string">"data"</span>: result}</div>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시 1</div>
+        <div class="claude-prompt-text">"쿠팡 판매처 플러그인 만들어줘. 기존 elevenst.py 참고해서"</div>
       </div>
 
-      <div class="alert alert-tip">
-        <div class="alert-icon">🔑</div>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시 2</div>
+        <div class="claude-prompt-text">"인터파크 마켓 플러그인이랑 프록시 클라이언트 만들어줘"</div>
+      </div>
+
+      <div class="alert alert-success">
+        <div class="alert-icon">✅</div>
         <div class="alert-content">
-          <strong>핵심 포인트</strong>
+          <strong>Claude Code가 자동으로 해주는 것</strong>
           <ul class="explain-list" style="margin:0">
-            <li><span class="explain-num">1</span><span class="explain-text"><code>MarketPlugin</code>을 상속(extends) 합니다. <strong>부모가 인증, 에러처리, 정책 주입을 다 해줌</strong></span></li>
-            <li><span class="explain-num">2</span><span class="explain-text"><code>transform()</code> — 상품 데이터를 마켓 API 형식으로 바꾸는 함수. <strong>반드시 구현</strong></span></li>
-            <li><span class="explain-num">3</span><span class="explain-text"><code>execute()</code> — 실제 API를 호출하는 함수. <strong>반드시 구현</strong></span></li>
-            <li><span class="explain-num">4</span><span class="explain-text"><code>creds</code>는 부모 클래스가 자동으로 채워줍니다. API 키 같은 인증정보가 들어있어요</span></li>
+            <li><span class="explain-num">1</span><span class="explain-text"><code>plugins/markets/내마켓.py</code> — 플러그인 파일 생성</span></li>
+            <li><span class="explain-num">2</span><span class="explain-text"><code>proxy/내마켓.py</code> — HTTP 클라이언트 파일 생성</span></li>
+            <li><span class="explain-num">3</span><span class="explain-text">기존 코드 패턴에 맞춰서 <strong>상품 등록/수정/변환</strong> 함수 자동 구현</span></li>
+            <li><span class="explain-num">4</span><span class="explain-text">마켓 API 문서 기반으로 필드 매핑까지</span></li>
           </ul>
         </div>
       </div>
-    </div>
 
-    <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📄</span> Claude Code가 생성하는 코드 — 프록시 클라이언트 (proxy/tmon.py)</div>
-
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">backend/backend/domain/samba/proxy/tmon.py</span></div>
-          <button class="code-copy" onclick="copyCode(this)">복사</button>
-        </div>
-        <div class="code-body"><span class="string">"""티몬 API 클라이언트.
-
-실제 티몬 서버와 HTTP 통신하는 코드.
-플러그인(tmon.py)에서 이 클래스를 가져다 씁니다.
-"""</span>
-
-<span class="keyword">import</span> httpx
-<span class="keyword">from</span> backend.utils.logger <span class="keyword">import</span> logger
-
-<span class="comment"># 티몬 API의 기본 주소 (티몬 개발자 문서에서 확인)</span>
-BASE_URL = <span class="string">"https://api.tmon.co.kr"</span>
-
-
-<span class="keyword">class</span> <span class="class">TmonClient</span>:
-  <span class="string">"""티몬 API와 실제로 통신하는 클래스."""</span>
-
-  <span class="keyword">def</span> <span class="function">__init__</span>(self, api_key: <span class="type">str</span>):
-    <span class="string">"""API 키를 받아서 저장."""</span>
-    self.api_key = api_key
-
-  <span class="keyword">async def</span> <span class="function">register_product</span>(self, data: <span class="type">dict</span>) -> <span class="type">dict</span>:
-    <span class="string">"""상품 신규 등록.
-
-    data: transform_product()로 변환된 데이터
-    """</span>
-    <span class="keyword">async with</span> httpx.AsyncClient() <span class="keyword">as</span> client:
-      resp = <span class="keyword">await</span> client.post(
-        f<span class="string">"{BASE_URL}/v1/products"</span>,
-        json=data,
-        headers={<span class="string">"Authorization"</span>: f<span class="string">"Bearer {self.api_key}"</span>},
-        timeout=<span class="number">30</span>,
-      )
-      resp.raise_for_status()   <span class="comment"># 에러 발생 시 예외 던짐</span>
-      <span class="keyword">return</span> resp.json()
-
-  <span class="keyword">async def</span> <span class="function">update_product</span>(self, product_no: <span class="type">str</span>, data: <span class="type">dict</span>) -> <span class="type">dict</span>:
-    <span class="string">"""기존 상품 수정."""</span>
-    <span class="keyword">async with</span> httpx.AsyncClient() <span class="keyword">as</span> client:
-      resp = <span class="keyword">await</span> client.put(
-        f<span class="string">"{BASE_URL}/v1/products/{product_no}"</span>,
-        json=data,
-        headers={<span class="string">"Authorization"</span>: f<span class="string">"Bearer {self.api_key}"</span>},
-        timeout=<span class="number">30</span>,
-      )
-      resp.raise_for_status()
-      <span class="keyword">return</span> resp.json()
-
-  <span class="keyword">@staticmethod</span>
-  <span class="keyword">def</span> <span class="function">transform_product</span>(product: <span class="type">dict</span>, category_id: <span class="type">str</span>) -> <span class="type">dict</span>:
-    <span class="string">"""우리 상품 데이터 → 티몬 API 형식으로 변환.
-
-    ※ 여기가 가장 중요한 부분!
-    티몬 API 문서를 보면서 각 필드를 매핑합니다.
-    """</span>
-    <span class="keyword">return</span> {
-      <span class="string">"productName"</span>: product.get(<span class="string">"name"</span>, <span class="string">""</span>),
-      <span class="string">"salePrice"</span>: product.get(<span class="string">"sale_price"</span>, <span class="number">0</span>),
-      <span class="string">"categoryCode"</span>: category_id,
-      <span class="string">"description"</span>: product.get(<span class="string">"detail_html"</span>, <span class="string">""</span>),
-      <span class="comment"># ↑ 마켓 API 문서를 보면서 필드를 하나씩 추가하세요</span>
-    }</div>
-      </div>
-
-      <div class="alert alert-info">
-        <div class="alert-icon">📌</div>
+      <div class="alert alert-warning">
+        <div class="alert-icon">⚠️</div>
         <div class="alert-content">
-          <strong>프록시 파일에서 하는 일</strong>
-          <ul class="explain-list" style="margin:0">
-            <li><span class="explain-num">1</span><span class="explain-text"><code>register_product()</code> — 마켓 API에 상품을 <strong>새로 등록</strong>하는 HTTP 요청</span></li>
-            <li><span class="explain-num">2</span><span class="explain-text"><code>update_product()</code> — 이미 등록된 상품을 <strong>수정</strong>하는 HTTP 요청</span></li>
-            <li><span class="explain-num">3</span><span class="explain-text"><code>transform_product()</code> — 우리 데이터를 마켓이 원하는 형식으로 <strong>변환</strong> (가장 중요!)</span></li>
-          </ul>
+          <strong>생성 후 꼭 확인할 것</strong><br>
+          • <code>market_type</code>이 다른 마켓과 안 겹치는지 (아래 할당표 확인)<br>
+          • 서버 재시작 후 플러그인 숫자가 늘어나는지
         </div>
-      </div>
-    </div>
-
-    <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📚</span> 참고할 기존 코드 (난이도별)</div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>난이도</th>
-              <th>파일</th>
-              <th>줄 수</th>
-              <th>추천 대상</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="badge badge-green">쉬움</span></td>
-              <td><code>plugins/markets/elevenst.py</code></td>
-              <td>71줄</td>
-              <td>처음 시작하는 분</td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-green">쉬움</span></td>
-              <td><code>plugins/markets/ssg.py</code></td>
-              <td>74줄</td>
-              <td>처음 시작하는 분</td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-yellow">보통</span></td>
-              <td><code>plugins/markets/coupang.py</code></td>
-              <td>143줄</td>
-              <td>동적 카테고리가 필요한 분</td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-red">어려움</span></td>
-              <td><code>plugins/markets/smartstore.py</code></td>
-              <td>483줄</td>
-              <td>이미지 업로드가 필요한 분</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
@@ -2551,121 +2379,42 @@ BASE_URL = <span class="string">"https://api.tmon.co.kr"</span>
     </div>
 
     <p class="desc">
-      "올리브영" 소싱처 플러그인을 예시로 설명합니다.
-    </p>
-
-    <div class="claude-prompt">
-      <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
-      <div class="claude-prompt-text">"올리브영 소싱처 플러그인 만들어줘. musinsa.py 참고해서"</div>
-    </div>
-
-    <p class="text-sm text-muted" style="margin:0.5rem 0 1.5rem">
-      Claude Code가 플러그인 파일 + 프록시 파일을 한번에 생성해줍니다. 아래는 Claude Code가 생성하는 코드의 예시입니다.
+      판매처와 마찬가지로 Claude Code에 말하면 됩니다.
     </p>
 
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📄</span> Claude Code가 생성하는 코드 — 플러그인 (plugins/sourcing/oliveyoung.py)</div>
+      <div class="subsection-title"><span class="sub-icon">💬</span> Claude Code에 이렇게 말하세요</div>
 
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">backend/backend/domain/samba/plugins/sourcing/oliveyoung.py</span></div>
-          <button class="code-copy" onclick="copyCode(this)">복사</button>
-        </div>
-        <div class="code-body"><span class="string">"""올리브영 소싱처 플러그인."""</span>
-
-<span class="keyword">import</span> logging
-<span class="keyword">from</span> typing <span class="keyword">import</span> TYPE_CHECKING
-<span class="keyword">from</span> backend.domain.samba.plugins.sourcing_base <span class="keyword">import</span> <span class="class">SourcingPlugin</span>
-
-<span class="keyword">if</span> TYPE_CHECKING:
-  <span class="keyword">from</span> backend.domain.samba.collector.refresher <span class="keyword">import</span> RefreshResult
-
-logger = logging.getLogger(__name__)
-
-
-<span class="keyword">class</span> <span class="class">OliveYoungPlugin</span>(<span class="class">SourcingPlugin</span>):
-  <span class="string">"""올리브영 소싱처 플러그인."""</span>
-
-  <span class="comment"># ──────────────────────────────────────────</span>
-  <span class="comment"># 이 3가지 설정이 핵심</span>
-  <span class="comment"># ──────────────────────────────────────────</span>
-  <span class="param">site_name</span>         = <span class="string">"OLIVEYOUNG"</span>    <span class="comment"># 대문자! 시스템 내부 식별자</span>
-  <span class="param">concurrency</span>       = <span class="number">3</span>              <span class="comment"># 동시에 보내는 요청 수 (사이트가 느리면 줄이기)</span>
-  <span class="param">request_interval</span>  = <span class="number">0.5</span>            <span class="comment"># 요청 사이 대기 시간(초) (차단 방지)</span>
-
-  <span class="keyword">async def</span> <span class="function">search</span>(self, keyword: <span class="type">str</span>, **filters) -> <span class="type">list</span>[<span class="type">dict</span>]:
-    <span class="string">"""키워드로 상품 검색."""</span>
-    <span class="keyword">from</span> backend.domain.samba.proxy.oliveyoung <span class="keyword">import</span> <span class="class">OliveYoungClient</span>
-    client = OliveYoungClient()
-    <span class="keyword">return await</span> self.safe_call(client.search_products(keyword))
-
-  <span class="keyword">async def</span> <span class="function">get_detail</span>(self, site_product_id: <span class="type">str</span>) -> <span class="type">dict</span>:
-    <span class="string">"""상품 상세 정보 조회."""</span>
-    <span class="keyword">from</span> backend.domain.samba.proxy.oliveyoung <span class="keyword">import</span> <span class="class">OliveYoungClient</span>
-    client = OliveYoungClient()
-    <span class="keyword">return await</span> self.safe_call(client.get_detail(site_product_id))
-
-  <span class="keyword">async def</span> <span class="function">refresh</span>(self, product) -> <span class="string">"RefreshResult"</span>:
-    <span class="string">"""가격, 재고 정보 갱신."""</span>
-    <span class="keyword">from</span> backend.domain.samba.proxy.oliveyoung <span class="keyword">import</span> <span class="class">OliveYoungClient</span>
-    <span class="keyword">from</span> backend.domain.samba.collector.refresher <span class="keyword">import</span> RefreshResult
-
-    client = OliveYoungClient()
-    <span class="keyword">try</span>:
-      detail = <span class="keyword">await</span> self.safe_call(
-        client.get_detail(product.site_product_id)
-      )
-      <span class="keyword">return</span> RefreshResult(
-        product_id=product.id,
-        sale_price=detail.get(<span class="string">"sale_price"</span>),
-        is_sold_out=detail.get(<span class="string">"is_sold_out"</span>, <span class="number">False</span>),
-      )
-    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:
-      <span class="keyword">return</span> RefreshResult(product_id=product.id, error=<span class="type">str</span>(e))</div>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시 1</div>
+        <div class="claude-prompt-text">"올리브영 소싱처 플러그인 만들어줘. musinsa.py 참고해서"</div>
       </div>
 
-      <div class="alert alert-tip">
-        <div class="alert-icon">🔑</div>
+      <div class="claude-prompt">
+        <div class="claude-prompt-label">💬 Claude Code에 말하기 — 예시 2</div>
+        <div class="claude-prompt-text">"ABC마트 소싱처 플러그인이랑 프록시 클라이언트 만들어줘"</div>
+      </div>
+
+      <div class="alert alert-success">
+        <div class="alert-icon">✅</div>
         <div class="alert-content">
-          <strong>핵심 포인트</strong>
+          <strong>Claude Code가 자동으로 해주는 것</strong>
           <ul class="explain-list" style="margin:0">
-            <li><span class="explain-num">1</span><span class="explain-text"><code>SourcingPlugin</code>을 상속합니다. <strong>동시성 제어(safe_call)를 자동으로 해줌</strong></span></li>
-            <li><span class="explain-num">2</span><span class="explain-text"><code>search()</code> — 키워드로 상품을 검색. <strong>반드시 구현</strong></span></li>
-            <li><span class="explain-num">3</span><span class="explain-text"><code>get_detail()</code> — 특정 상품의 상세 정보 조회. <strong>반드시 구현</strong></span></li>
-            <li><span class="explain-num">4</span><span class="explain-text"><code>refresh()</code> — 가격/재고 갱신 (이미 수집된 상품의 최신 정보 확인). <strong>반드시 구현</strong></span></li>
-            <li><span class="explain-num">5</span><span class="explain-text"><code>self.safe_call()</code>로 감싸면 <strong>동시 요청 수 제한 + 대기 시간</strong>이 자동 적용됨</span></li>
+            <li><span class="explain-num">1</span><span class="explain-text"><code>plugins/sourcing/내소싱처.py</code> — 플러그인 파일 생성</span></li>
+            <li><span class="explain-num">2</span><span class="explain-text"><code>proxy/내소싱처.py</code> — HTTP 클라이언트 파일 생성</span></li>
+            <li><span class="explain-num">3</span><span class="explain-text"><strong>검색, 상세 조회, 가격/재고 갱신</strong> 함수 자동 구현</span></li>
+            <li><span class="explain-num">4</span><span class="explain-text">차단 방지를 위한 <strong>동시 요청 수/대기 시간</strong> 자동 설정</span></li>
           </ul>
         </div>
       </div>
-    </div>
 
-    <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">📚</span> 참고할 기존 코드</div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>난이도</th>
-              <th>파일</th>
-              <th>줄 수</th>
-              <th>추천 대상</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="badge badge-green">쉬움</span></td>
-              <td><code>plugins/sourcing/musinsa.py</code></td>
-              <td>44줄</td>
-              <td>소싱처 최소 구현 예시</td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-green">쉬움</span></td>
-              <td><code>plugins/sourcing/kream.py</code></td>
-              <td>39줄</td>
-              <td>확장앱 큐 방식 예시</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="alert alert-warning">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <strong>생성 후 꼭 확인할 것</strong><br>
+          • <code>site_name</code>이 다른 소싱처와 안 겹치는지 (아래 할당표 확인)<br>
+          • 서버 재시작 후 소싱 플러그인 숫자가 늘어나는지
+        </div>
       </div>
     </div>
   </div>
@@ -2755,7 +2504,7 @@ logger = logging.getLogger(__name__)
 >>> <span class="function">print</span>(plugin.market_type)
 <span class="comment"># → tmon</span>
 >>> <span class="function">print</span>(plugin.policy_key)
-<span class="comment"># → 티몬</span>
+<span class="comment"># → 쿠팡</span>
 
 <span class="comment"># 가짜 상품 데이터로 transform 테스트</span>
 >>> fake_product = {
@@ -2850,52 +2599,277 @@ logger = logging.getLogger(__name__)
 
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- SECTION 14: 사용 중인 이름 -->
+  <!-- SECTION 14: 담당자 할당표 -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <div class="section" id="names">
     <div class="section-header">
       <div class="section-number">14</div>
-      <h3 class="section-title">사용 중인 이름 (중복 금지)</h3>
+      <h3 class="section-title">담당자 할당표</h3>
     </div>
 
     <p class="desc">
-      새 플러그인을 만들 때 아래 이름과 겹치면 안 됩니다. 새 이름을 정하면 팀 채팅방에 공유하세요.
+      아래 표에서 <strong>본인 이름이 적힌 항목</strong>을 개발하면 됩니다.<br>
+      이름이 겹치면 시스템이 망가지니, 반드시 배정된 이름만 사용하세요.
     </p>
 
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">🏪 판매처 — <code>market_type</code> (사용 중)</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:0.75rem">
-          <span class="badge badge-orange">smartstore</span>
-          <span class="badge badge-orange">coupang</span>
-          <span class="badge badge-orange">elevenst</span>
-          <span class="badge badge-orange">lotteon</span>
-          <span class="badge badge-orange">ssg</span>
-          <span class="badge badge-orange">lottehome</span>
-          <span class="badge badge-orange">gsshop</span>
-          <span class="badge badge-orange">kream</span>
-          <span class="badge badge-orange">toss</span>
-          <span class="badge badge-orange">rakuten</span>
-          <span class="badge badge-orange">amazon</span>
-          <span class="badge badge-orange">buyma</span>
-          <span class="badge badge-orange">cafe24</span>
-          <span class="badge badge-orange">playauto</span>
-          <span class="badge badge-orange">ebay</span>
-          <span class="badge badge-orange">lazada</span>
-          <span class="badge badge-orange">qoo10</span>
-          <span class="badge badge-orange">shopee</span>
-          <span class="badge badge-orange">shopify</span>
-          <span class="badge badge-orange">zoom</span>
-        </div>
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🏪</span> 판매처 (마켓) — 상품을 등록하는 곳</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>마켓 이름</th>
+              <th><code>market_type</code></th>
+              <th>상태</th>
+              <th>담당자</th>
+              <th>브랜치명</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>스마트스토어</td>
+              <td><code>smartstore</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>쿠팡</td>
+              <td><code>coupang</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>11번가</td>
+              <td><code>11st</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>롯데ON</td>
+              <td><code>lotteon</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>SSG</td>
+              <td><code>ssg</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>롯데홈쇼핑</td>
+              <td><code>lottehome</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>GS샵</td>
+              <td><code>gsshop</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>KREAM</td>
+              <td><code>kream</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>토스</td>
+              <td><code>toss</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>라쿠텐</td>
+              <td><code>rakuten</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>아마존</td>
+              <td><code>amazon</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>BuyMA</td>
+              <td><code>buyma</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr style="background:rgba(255,140,0,0.04)">
+              <td><strong>Cafe24</strong></td>
+              <td><code>cafe24</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--accent)"><strong>___</strong></td>
+              <td><code>feature/cafe24-plugin</code></td>
+            </tr>
+            <tr style="background:rgba(255,140,0,0.04)">
+              <td><strong>PlayAuto</strong></td>
+              <td><code>playauto</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--accent)"><strong>___</strong></td>
+              <td><code>feature/playauto-plugin</code></td>
+            </tr>
+            <tr style="background:rgba(255,140,0,0.04)">
+              <td><strong>eBay</strong></td>
+              <td><code>ebay</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--accent)"><strong>___</strong></td>
+              <td><code>feature/ebay-plugin</code></td>
+            </tr>
+            <tr style="background:rgba(255,140,0,0.04)">
+              <td><strong>Lazada</strong></td>
+              <td><code>lazada</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--accent)"><strong>___</strong></td>
+              <td><code>feature/lazada-plugin</code></td>
+            </tr>
+            <tr style="background:rgba(255,140,0,0.04)">
+              <td><strong>Qoo10</strong></td>
+              <td><code>qoo10</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--accent)"><strong>___</strong></td>
+              <td><code>feature/qoo10-plugin</code></td>
+            </tr>
+            <tr style="background:rgba(255,140,0,0.04)">
+              <td><strong>Shopee</strong></td>
+              <td><code>shopee</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--accent)"><strong>___</strong></td>
+              <td><code>feature/shopee-plugin</code></td>
+            </tr>
+            <tr style="background:rgba(255,140,0,0.04)">
+              <td><strong>Shopify</strong></td>
+              <td><code>shopify</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--accent)"><strong>___</strong></td>
+              <td><code>feature/shopify-plugin</code></td>
+            </tr>
+            <tr style="background:rgba(255,140,0,0.04)">
+              <td><strong>Zoom</strong></td>
+              <td><code>zoom</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--accent)"><strong>___</strong></td>
+              <td><code>feature/zoom-plugin</code></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="card">
-        <div class="card-title">📦 소싱처 — <code>site_name</code> (사용 중)</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:0.75rem">
-          <span class="badge badge-blue">MUSINSA</span>
-          <span class="badge badge-blue">KREAM</span>
-          <span class="badge badge-blue">DANAWA</span>
-        </div>
-        <p class="text-xs text-dim mt-2">소싱처 site_name은 <strong>대문자</strong>로 작성합니다.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">📦</span> 소싱처 — 상품을 가져오는 곳</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>소싱처 이름</th>
+              <th><code>site_name</code></th>
+              <th>상태</th>
+              <th>담당자</th>
+              <th>브랜치명</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>무신사</td>
+              <td><code>MUSINSA</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>KREAM</td>
+              <td><code>KREAM</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>지마켓</td>
+              <td><code>GMARKET</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>스마트스토어</td>
+              <td><code>SMARTSTORE</code></td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr style="background:rgba(92,154,255,0.04)">
+              <td><strong>다나와</strong></td>
+              <td><code>DANAWA</code></td>
+              <td><span class="badge badge-yellow">할당 대기</span></td>
+              <td style="color:var(--blue)"><strong>___</strong></td>
+              <td><code>feature/danawa-sourcing</code></td>
+            </tr>
+            <tr style="background:rgba(92,154,255,0.04)">
+              <td><strong>올리브영</strong></td>
+              <td><code>OLIVEYOUNG</code></td>
+              <td><span class="badge badge-purple">신규</span></td>
+              <td style="color:var(--blue)"><strong>___</strong></td>
+              <td><code>feature/oliveyoung-sourcing</code></td>
+            </tr>
+            <tr style="background:rgba(92,154,255,0.04)">
+              <td><strong>ABC마트</strong></td>
+              <td><code>ABCMART</code></td>
+              <td><span class="badge badge-purple">신규</span></td>
+              <td style="color:var(--blue)"><strong>___</strong></td>
+              <td><code>feature/abcmart-sourcing</code></td>
+            </tr>
+            <tr style="background:rgba(92,154,255,0.04)">
+              <td><strong>나이키</strong></td>
+              <td><code>NIKE</code></td>
+              <td><span class="badge badge-purple">신규</span></td>
+              <td style="color:var(--blue)"><strong>___</strong></td>
+              <td><code>feature/nike-sourcing</code></td>
+            </tr>
+            <tr style="background:rgba(92,154,255,0.04)">
+              <td><strong>아디다스</strong></td>
+              <td><code>ADIDAS</code></td>
+              <td><span class="badge badge-purple">신규</span></td>
+              <td style="color:var(--blue)"><strong>___</strong></td>
+              <td><code>feature/adidas-sourcing</code></td>
+            </tr>
+            <tr style="background:rgba(92,154,255,0.04)">
+              <td><strong>패션플러스</strong></td>
+              <td><code>FASHIONPLUS</code></td>
+              <td><span class="badge badge-purple">신규</span></td>
+              <td style="color:var(--blue)"><strong>___</strong></td>
+              <td><code>feature/fashionplus-sourcing</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-xs text-dim mt-1">소싱처 <code>site_name</code>은 <strong>반드시 대문자</strong>로 작성합니다.</p>
+    </div>
+
+    <div class="alert alert-warning">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <strong>담당자 이름(___) 칸에 본인 이름을 적으세요</strong><br>
+        팀장이 할당하거나, 팀 채팅방에서 선착순으로 정합니다.<br>
+        <strong>한 사람이 여러 개 맡아도 OK</strong> — 단, 겹치지만 않으면 됩니다.
       </div>
     </div>
   </div>

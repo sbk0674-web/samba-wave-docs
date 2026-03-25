@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>왜 확장앱을 쓸까? — 더망고 vs 오버링크 분석</title>
+  <title>왜 확장앱을 쓸까? — 확장앱 기술 분석</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
 
@@ -416,8 +416,8 @@
     <div class="hero-badge">SAMBA-WAVE 기술 분석</div>
     <h1>왜 <em>확장앱</em>을 쓸까?</h1>
     <p class="hero-sub">
-      더망고와 오버링크, 두 솔루션이 브라우저 확장앱을 사용하는 이유와<br>
-      서로 다른 서버 운영 방식이 안정성에 미치는 영향을 비교합니다
+      무재고 위탁판매 솔루션이 브라우저 확장앱을 사용하는 이유와<br>
+      크롤링 대비 확장앱 방식의 기술적 장점을 분석합니다
     </p>
   </div>
 
@@ -520,147 +520,9 @@
     </table>
   </section>
 
-  <!-- 섹션 3: 더망고 vs 오버링크 -->
+  <!-- 섹션 3: 난이도 비교 -->
   <section>
     <div class="section-num">CHAPTER 03</div>
-    <h2>그럼 더망고와 오버링크는 <em>뭐가 다를까?</em></h2>
-    <p class="section-desc">
-      둘 다 확장앱을 쓰고, 둘 다 확장앱 리로드가 필요 없는 건 같아요.
-      차이는 <strong>서버를 어떻게 운영하느냐</strong>에 있습니다.
-    </p>
-
-    <div class="flow-container">
-      <!-- 더망고 -->
-      <div class="flow-box mango">
-        <div class="flow-label">
-          더망고 <span class="tag good">2년간 끊김 0회</span>
-        </div>
-        <div class="flow-steps">
-          <div class="flow-step user">내가 쇼핑몰 구경</div>
-          <span class="flow-arrow">></span>
-          <div class="flow-step ext">확장앱이 DOM 읽기</div>
-          <span class="flow-arrow">></span>
-          <div class="flow-step server">서버에 POST 전송</div>
-        </div>
-        <div class="flow-note">
-          <strong>핵심:</strong> 확장앱은 "보고 보내기"만 한다.
-          서버 코드가 바뀌어도 확장앱에는 영향이 없다.
-          서버가 항상 켜져있는 호스팅(mycafe24)이라 <strong>배포 개념이 없다</strong>.
-        </div>
-      </div>
-
-      <!-- 오버링크 -->
-      <div class="flow-box overlink">
-        <div class="flow-label">
-          오버링크 <span class="tag bad">배포 시 서비스 중단</span>
-        </div>
-        <div class="flow-steps">
-          <div class="flow-step user">내가 쇼핑몰 구경</div>
-          <span class="flow-arrow">></span>
-          <div class="flow-step ext">확장앱이 DOM 읽기</div>
-          <span class="flow-arrow">></span>
-          <div class="flow-step fail">서버 배포 중... 꺼짐</div>
-        </div>
-        <div class="flow-note">
-          <strong>핵심:</strong> 확장앱 동작은 같지만,
-          서버가 자체 운영 서버라서 <strong>코드 업데이트(배포) = 서버 재시작 = 서비스 중단</strong>.
-          배포를 자주 할수록 사용자에게 끊김이 잦아진다.
-        </div>
-      </div>
-    </div>
-
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>더망고</th>
-          <th>오버링크</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>확장앱 역할</td>
-          <td>DOM 읽기 + 서버 전송</td>
-          <td>DOM 읽기 + 서버 전송</td>
-        </tr>
-        <tr>
-          <td>확장앱 리로드</td>
-          <td>필요 없음</td>
-          <td>필요 없음</td>
-        </tr>
-        <tr>
-          <td>서버 호스팅</td>
-          <td>mycafe24 (관리형 호스팅) <span class="badge-good">항상 켜짐</span></td>
-          <td>자체 서버 (직접 관리) <span class="badge-bad">배포 시 꺼짐</span></td>
-        </tr>
-        <tr>
-          <td>서버 배포</td>
-          <td>배포 개념 없음 (코드가 호스팅에서 바로 반영)</td>
-          <td>코드 수정 → 서버 재시작 → 서비스 중단</td>
-        </tr>
-        <tr>
-          <td>2년간 끊김</td>
-          <td><span class="badge-good">0회</span></td>
-          <td><span class="badge-bad">수시로</span></td>
-        </tr>
-        <tr>
-          <td>안정성 비결</td>
-          <td>서버가 죽을 일이 없는 구조</td>
-          <td>서버 배포 전략(무중단 등)이 필요</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- 섹션 4: 배포 문제 심층 -->
-  <section>
-    <div class="section-num">CHAPTER 04</div>
-    <h2>왜 오버링크는 배포하면 <em>끊길까?</em></h2>
-    <p class="section-desc">
-      "배포"라는 건 서버의 코드를 새 버전으로 바꾸는 작업이에요.
-      이걸 식당에 비유하면 이해가 쉬워요.
-    </p>
-
-    <div class="analogy-grid">
-      <div class="analogy-card">
-        <div class="analogy-icon">🏪</div>
-        <h3>더망고 = 프랜차이즈 식당</h3>
-        <p>
-          본사(mycafe24)가 운영하는 식당이에요.
-          메뉴를 바꿔도 <span class="highlight">주방이 멈추지 않아요</span>.
-          메뉴판만 슬쩍 바꾸면 끝.
-          손님(확장앱)은 항상 주문할 수 있어요.
-        </p>
-      </div>
-      <div class="analogy-card">
-        <div class="analogy-icon">🍳</div>
-        <h3>오버링크 = 1인 식당</h3>
-        <p>
-          사장님이 직접 요리도 하고 서빙도 하는 식당이에요.
-          메뉴를 바꾸려면 <span class="highlight">가게 문을 닫고</span> 주방을 정비해야 해요.
-          그 동안 손님(확장앱)은 "문 닫았네..." 하고 돌아가야 합니다.
-        </p>
-      </div>
-    </div>
-
-    <div class="analogy-grid">
-      <div class="analogy-card" style="grid-column: 1 / -1;">
-        <div class="analogy-icon">💡</div>
-        <h3>해결 방법: 무중단 배포</h3>
-        <p>
-          오버링크도 끊김 없이 배포할 수 있어요. 핵심은 <span class="highlight">"교대 근무"</span>입니다.
-          새 버전 서버를 먼저 켜놓고, 준비가 되면 손님을 새 서버로 안내하고, 옛 서버를 끄는 거예요.
-          이걸 IT에서는 "블루-그린 배포" 또는 "롤링 배포"라고 불러요.
-          하지만 구현이 복잡하고, 소규모 서비스에서는 "잠깐 끄고 켜는 게 더 빠르니까..."
-          하고 넘어가는 경우가 많습니다.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 섹션 5: 난이도 비교 -->
-  <section>
-    <div class="section-num">CHAPTER 05</div>
     <h2>확장앱 유무에 따른 <em>개발 난이도</em></h2>
     <p class="section-desc">
       같은 쇼핑몰에서 같은 상품 데이터를 가져오더라도,
@@ -766,16 +628,6 @@
       </ul>
     </div>
 
-    <div class="summary-card">
-      <h3>더망고 vs 오버링크 차이</h3>
-      <ul class="summary-list">
-        <li>둘 다 확장앱을 사용하고, 둘 다 확장앱 리로드가 필요 없는 건 같다</li>
-        <li>차이는 "서버 운영 방식"에 있다</li>
-        <li>더망고: 관리형 호스팅 → 배포 개념 자체가 없다 → 2년간 끊김 0회</li>
-        <li>오버링크: 자체 서버 → 코드 수정할 때마다 배포(재시작) → 서비스 중단 발생</li>
-        <li>오버링크도 "무중단 배포"를 도입하면 해결 가능하지만, 추가 구현이 필요하다</li>
-      </ul>
-    </div>
   </section>
 
   <footer>

@@ -1433,19 +1433,119 @@ p.desc {
       <!-- Step 4 -->
       <div class="step">
         <div class="step-line">
-          <div class="step-dot green">4</div>
+          <div class="step-dot orange">4</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h4>Antigravity에서 프로젝트 열기</h4>
+          <p>여기서부터는 Antigravity(코드 에디터) 안에서 작업합니다.</p>
+
+          <div class="gui-steps">
+            <div class="gui-step">
+              <div class="gui-step-number">1</div>
+              <div class="gui-step-content">
+                <h4>Antigravity 실행</h4>
+                <p>바탕화면 또는 시작 메뉴에서 <strong>Antigravity</strong> 아이콘을 더블클릭</p>
+              </div>
+            </div>
+            <div class="gui-step">
+              <div class="gui-step-number">2</div>
+              <div class="gui-step-content">
+                <h4>프로젝트 폴더 열기</h4>
+                <p>상단 메뉴 <strong>파일(File)</strong> → <strong>폴더 열기(Open Folder)</strong> → <code>samba-wave</code> 폴더 선택 → <strong>폴더 선택</strong> 클릭</p>
+              </div>
+            </div>
+            <div class="gui-step">
+              <div class="gui-step-number">3</div>
+              <div class="gui-step-content">
+                <h4>왼쪽에 파일 목록이 보이면 성공!</h4>
+                <p><code>backend/</code>, <code>frontend/</code> 폴더가 보이면 제대로 열린 겁니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-tip">
+            <div class="alert-icon">💡</div>
+            <div class="alert-content">
+              <strong>앞으로 매일 이렇게 시작합니다</strong>
+              Antigravity 실행 → samba-wave 폴더 열기. 이전에 열었으면 자동으로 기억됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot orange">5</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h4>Antigravity 안에서 터미널 + Claude Code 열기</h4>
+          <p>Antigravity 안에는 터미널(명령어 입력창)이 내장되어 있습니다. 여기서 Claude Code도 실행합니다.</p>
+
+          <div class="gui-steps">
+            <div class="gui-step">
+              <div class="gui-step-number">1</div>
+              <div class="gui-step-content">
+                <h4>터미널 열기</h4>
+                <p>키보드 <span class="gui-keyboard">Ctrl + `</span> (백틱, 숫자 1 왼쪽 키) 누르면 하단에 터미널이 열립니다.</p>
+              </div>
+            </div>
+            <div class="gui-step">
+              <div class="gui-step-number">2</div>
+              <div class="gui-step-content">
+                <h4>Claude Code 실행</h4>
+                <p>터미널에 <code>claude</code> 입력하고 Enter. Claude Code가 시작됩니다.</p>
+              </div>
+            </div>
+            <div class="gui-step">
+              <div class="gui-step-number">3</div>
+              <div class="gui-step-content">
+                <h4>이제 대화로 작업하면 됩니다!</h4>
+                <p>Claude Code에 <strong>"서버 실행해줘"</strong>, <strong>"브랜치 만들어줘"</strong> 등 말하면 알아서 해줍니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <div class="alert-icon">📌</div>
+            <div class="alert-content">
+              <strong>정리: 앞으로의 작업 흐름</strong><br>
+              Antigravity 실행 → 프로젝트 열기 → 터미널에서 <code>claude</code> → 대화로 개발<br>
+              커밋/푸시는 왼쪽 Source Control 패널 또는 Claude Code 둘 다 가능
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot green">6</div>
         </div>
         <div class="step-content">
           <h4>백엔드 실행해서 확인</h4>
           <p>모든 세팅이 끝났으면 서버를 실행해봅니다.</p>
-          <div class="code-block">
-            <div class="code-header">
-              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
-            </div>
-            <div class="code-body"><span class="comment"># backend 폴더에서 실행</span>
-<span class="keyword">cd</span> backend
-.venv/Scripts/python.exe run.py</div>
+
+          <div class="claude-prompt">
+            <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
+            <div class="claude-prompt-text">"백엔드 서버 실행해줘"</div>
           </div>
+
+          <details style="margin-top:0.75rem">
+            <summary style="cursor:pointer;color:var(--text-dim);font-size:0.8rem">직접 터미널로 하고 싶다면</summary>
+            <div style="margin-top:0.5rem">
+              <div class="code-block">
+                <div class="code-header">
+                  <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+                </div>
+                <div class="code-body"><span class="keyword">cd</span> backend
+.venv/Scripts/python.exe run.py</div>
+              </div>
+            </div>
+          </details>
+
           <div class="alert alert-success">
             <div class="alert-icon">✅</div>
             <div class="alert-content">

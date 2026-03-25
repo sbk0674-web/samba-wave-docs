@@ -1067,7 +1067,7 @@ p.desc {
         <strong>커밋</strong>(Commit) = 저장,
         <strong>푸시</strong>(Push) = GitHub에 업로드,
         <strong>풀</strong>(Pull) = GitHub에서 다운로드,
-        <strong>PR</strong>(Pull Request) = "코드 확인해주세요" 요청,
+        <strong>코드 검토 요청</strong> = 팀장에게 "코드 확인해주세요" 보내기,
         <strong>머지</strong>(Merge) = 브랜치를 합치기
       </p>
     </div>
@@ -1312,12 +1312,12 @@ p.desc {
 
     </div>
 
-    <!-- 푸시 & PR -->
+    <!-- 푸시 & 코드 검토 요청 -->
     <div class="subsection">
-      <div class="subsection-title"><span class="sub-icon">☁️</span> 푸시 & PR (코드 올리기)</div>
+      <div class="subsection-title"><span class="sub-icon">☁️</span> 푸시 & 코드 검토 요청</div>
 
       <p class="text-sm text-muted mb-1">
-        커밋 = 내 컴퓨터에 저장, 푸시 = GitHub에 업로드, PR = "코드 확인해주세요" 요청
+        커밋 = 내 컴퓨터에 저장, 푸시 = GitHub에 업로드, 그 다음 팀장에게 "코드 확인해주세요" 요청
       </p>
 
       <div class="claude-prompt">
@@ -1327,11 +1327,11 @@ p.desc {
 
       <div class="claude-prompt">
         <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
-        <div class="claude-prompt-text">"PR 만들어줘"</div>
+        <div class="claude-prompt-text">"코드 검토 요청 만들어줘"</div>
       </div>
 
       <p class="text-sm text-muted" style="margin:0.5rem 0">
-        Claude Code가 push + PR 생성까지 한번에 해줍니다. 팀장이 코드를 검토하고, 괜찮으면 main에 합쳐(merge)줍니다.
+        Claude Code가 push + 검토 요청까지 한번에 해줍니다. 팀장이 코드를 확인하고, 괜찮으면 반영해줍니다.
       </p>
     </div>
 
@@ -1780,9 +1780,9 @@ p.desc {
           <tbody>
             <tr>
               <td><strong>1</strong></td>
-              <td><strong>PR 리뷰 & 머지</strong></td>
-              <td>팀원이 올린 PR을 검토하고, 문제 없으면 main에 머지</td>
-              <td>PR 올라올 때</td>
+              <td><strong>코드 검토 & 반영</strong></td>
+              <td>팀원이 올린 코드를 검토하고, 문제 없으면 반영</td>
+              <td>요청 올라올 때</td>
             </tr>
             <tr>
               <td><strong>2</strong></td>
@@ -1822,7 +1822,7 @@ p.desc {
         <div class="alert-icon">📌</div>
         <div class="alert-content">
           <strong>팀장의 일상 루틴</strong><br>
-          GitHub에서 PR 확인 → 코드 리뷰 → 머지 → <code>git pull</code> (스킬 자동 업데이트) → 할당표 상태 변경
+          GitHub에서 검토 요청 확인 → 코드 확인 → 반영 → <code>git pull</code> (스킬 자동 업데이트) → 할당표 상태 변경
         </div>
       </div>
     </div>

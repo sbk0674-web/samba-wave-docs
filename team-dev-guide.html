@@ -1,0 +1,2604 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼바웨이브 — 팀 개발 가이드 (초보자용)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg-card: #111118;
+  --bg-card-hover: #181820;
+  --bg-code: #0d0d14;
+  --border: #1e1e2a;
+  --border-accent: #2a2a38;
+  --text: #e4e4f0;
+  --text-muted: #8888a4;
+  --text-dim: #55556e;
+  --accent: #ff8c00;
+  --accent2: #ff6b35;
+  --accent-glow: rgba(255, 140, 0, 0.1);
+  --green: #3ecf8e;
+  --green-dim: rgba(62, 207, 142, 0.1);
+  --blue: #5c9aff;
+  --blue-dim: rgba(92, 154, 255, 0.1);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167, 139, 250, 0.1);
+  --pink: #f472b6;
+  --pink-dim: rgba(244, 114, 182, 0.1);
+  --red: #ff6b6b;
+  --red-dim: rgba(255, 107, 107, 0.1);
+  --yellow: #fbbf24;
+  --yellow-dim: rgba(251, 191, 36, 0.1);
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Noto Sans KR', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(255, 140, 0, 0.3);
+  color: #fff;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #2a2a38; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ─── Layout ─── */
+.wrapper { display: flex; min-height: 100vh; }
+
+/* ─── Sidebar ─── */
+.sidebar {
+  width: 280px;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 0;
+  overflow-y: auto;
+  z-index: 50;
+  transition: transform 0.3s;
+}
+
+.sidebar-logo {
+  padding: 0 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-logo h1 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sidebar-logo p {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  margin-top: 0.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sidebar-section { margin-bottom: 1.25rem; }
+
+.sidebar-section-title {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0 1.5rem;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-display);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1.5rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 400;
+  transition: all 0.15s;
+  border-left: 2px solid transparent;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  color: var(--text);
+  background: var(--accent-glow);
+  border-left-color: var(--accent);
+}
+
+.sidebar-link .icon {
+  width: 18px;
+  text-align: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.sidebar-progress {
+  margin: 1rem 1.5rem;
+  padding: 0.75rem;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.sidebar-progress-label {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.sidebar-progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.sidebar-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.5s;
+}
+
+/* ─── Main content ─── */
+.main {
+  margin-left: 280px;
+  flex: 1;
+  padding: 3rem 4rem 6rem;
+  max-width: 1100px;
+}
+
+/* ─── Hero ─── */
+.hero {
+  margin-bottom: 4rem;
+  padding: 3rem;
+  background: linear-gradient(135deg, rgba(255,140,0,0.06), rgba(255,107,53,0.03));
+  border: 1px solid rgba(255,140,0,0.15);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,140,0,0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  background: var(--accent-glow);
+  border: 1px solid rgba(255,140,0,0.2);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.hero h2 {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.hero p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* ─── Section ─── */
+.section {
+  margin-bottom: 4rem;
+  scroll-margin-top: 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Subsection ─── */
+.subsection {
+  margin-bottom: 2.5rem;
+}
+
+.subsection-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.subsection-title .sub-icon {
+  font-size: 1rem;
+}
+
+/* ─── Cards ─── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+
+.card:hover {
+  border-color: var(--border-accent);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ─── Steps ─── */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.step {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.step:last-child { padding-bottom: 0; }
+
+.step-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 40px;
+}
+
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.step-dot.orange { background: var(--accent); color: #000; }
+.step-dot.green { background: var(--green); color: #000; }
+.step-dot.blue { background: var(--blue); color: #000; }
+.step-dot.purple { background: var(--purple); color: #000; }
+
+.step-connector {
+  flex: 1;
+  width: 2px;
+  background: var(--border);
+  min-height: 20px;
+}
+
+.step-content {
+  flex: 1;
+  padding-top: 0.25rem;
+}
+
+.step-content h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.step-content p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+/* ─── Code blocks ─── */
+.code-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: 0.75rem 0;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+}
+
+.code-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.code-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.code-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.code-dots span:nth-child(1) { background: #ff5f57; }
+.code-dots span:nth-child(2) { background: #febc2e; }
+.code-dots span:nth-child(3) { background: #28c840; }
+
+.code-filename {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+.code-copy {
+  padding: 0.2rem 0.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-dim);
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.code-copy:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.code-body {
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  white-space: pre;
+  tab-size: 2;
+}
+
+.code-body .comment { color: #555570; font-style: italic; }
+.code-body .keyword { color: var(--purple); }
+.code-body .string { color: var(--green); }
+.code-body .function { color: var(--blue); }
+.code-body .class { color: var(--yellow); }
+.code-body .important { color: var(--accent); font-weight: 600; }
+.code-body .param { color: var(--pink); }
+.code-body .type { color: var(--blue); }
+.code-body .number { color: var(--accent); }
+
+/* ─── Inline code ─── */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background: rgba(255,140,0,0.08);
+  border: 1px solid rgba(255,140,0,0.12);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+/* ─── Alert boxes ─── */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-sm);
+  margin: 1rem 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.alert-content { flex: 1; }
+
+.alert-danger {
+  background: var(--red-dim);
+  border: 1px solid rgba(255,107,107,0.2);
+  color: #ffa0a0;
+}
+
+.alert-warning {
+  background: var(--yellow-dim);
+  border: 1px solid rgba(251,191,36,0.2);
+  color: #fdd879;
+}
+
+.alert-success {
+  background: var(--green-dim);
+  border: 1px solid rgba(62,207,142,0.2);
+  color: #7eeab8;
+}
+
+.alert-info {
+  background: var(--blue-dim);
+  border: 1px solid rgba(92,154,255,0.2);
+  color: #93bfff;
+}
+
+.alert-tip {
+  background: var(--purple-dim);
+  border: 1px solid rgba(167,139,250,0.2);
+  color: #c4b1ff;
+}
+
+.alert strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+/* ─── Tables ─── */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+thead {
+  background: rgba(255,255,255,0.02);
+}
+
+th {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr:hover td { background: rgba(255,255,255,0.01); }
+
+/* ─── Badges ─── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  gap: 0.3rem;
+}
+
+.badge-orange { background: var(--accent-glow); color: var(--accent); border: 1px solid rgba(255,140,0,0.2); }
+.badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(62,207,142,0.2); }
+.badge-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(92,154,255,0.2); }
+.badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,107,107,0.2); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.2); }
+.badge-yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(251,191,36,0.2); }
+
+/* ─── Diagram / Flow ─── */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.flow-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  min-width: 90px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.flow-item-icon { font-size: 1.5rem; }
+.flow-item-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.flow-item-desc {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.flow-arrow {
+  color: var(--text-dim);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  padding: 0 0.3rem;
+}
+
+/* ─── Checklist ─── */
+.checklist {
+  list-style: none;
+  padding: 0;
+}
+
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+.check-box {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border-accent);
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: transparent;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.check-box:hover {
+  border-color: var(--accent);
+}
+
+.check-box.checked {
+  background: var(--green);
+  border-color: var(--green);
+  color: #000;
+}
+
+/* ─── File tree ─── */
+.file-tree {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.9;
+  padding: 1.25rem;
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin: 0.75rem 0;
+  color: var(--text-muted);
+}
+
+.file-tree .dir { color: var(--blue); }
+.file-tree .file { color: var(--text-muted); }
+.file-tree .file-new { color: var(--green); font-weight: 600; }
+.file-tree .file-danger { color: var(--red); }
+.file-tree .note { color: var(--text-dim); font-style: italic; }
+.file-tree .highlight { color: var(--accent); font-weight: 500; }
+
+/* ─── Analogy box ─── */
+.analogy {
+  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(167,139,250,0.06), rgba(92,154,255,0.04));
+  border: 1px solid rgba(167,139,250,0.15);
+  border-radius: var(--radius);
+  margin: 1rem 0;
+}
+
+.analogy-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--purple);
+}
+
+.analogy p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+/* ─── Comparison ─── */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.comparison-card {
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+}
+
+.comparison-card.good {
+  background: var(--green-dim);
+  border-color: rgba(62,207,142,0.2);
+}
+
+.comparison-card.bad {
+  background: var(--red-dim);
+  border-color: rgba(255,107,107,0.2);
+}
+
+.comparison-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.comparison-card.good .comparison-label { color: var(--green); }
+.comparison-card.bad .comparison-label { color: var(--red); }
+
+.comparison-card .code-block {
+  margin: 0;
+}
+
+/* ─── Numbered explanation ─── */
+.explain-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+}
+
+.explain-list li {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-size: 0.85rem;
+}
+
+.explain-list li:last-child { border-bottom: none; }
+
+.explain-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  background: var(--accent-glow);
+  border: 1px solid rgba(255,140,0,0.2);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.explain-text {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.explain-text strong { color: var(--text); }
+
+/* ─── Grid layout ─── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+/* ─── Visual separator ─── */
+.separator {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 3rem 0;
+}
+
+/* ─── Text utils ─── */
+.text-muted { color: var(--text-muted); }
+.text-dim { color: var(--text-dim); }
+.text-accent { color: var(--accent); }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-blue { color: var(--blue); }
+.text-purple { color: var(--purple); }
+.text-sm { font-size: 0.82rem; }
+.text-xs { font-size: 0.72rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.font-mono { font-family: var(--font-mono); }
+
+p.desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .sidebar { transform: translateX(-100%); }
+  .main { margin-left: 0; padding: 2rem 1.5rem 4rem; }
+  .comparison, .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ─── Animations ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section {
+  animation: fadeInUp 0.5s ease both;
+}
+
+.section:nth-child(2) { animation-delay: 0.05s; }
+.section:nth-child(3) { animation-delay: 0.1s; }
+.section:nth-child(4) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<!-- ─── Sidebar ─── -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h1>SambaWave</h1>
+    <p>Team Dev Guide v1.0</p>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">시작하기</div>
+    <a href="#concept" class="sidebar-link"><span class="icon">💡</span> 이것부터 이해하기</a>
+    <a href="#glossary" class="sidebar-link"><span class="icon">📖</span> 용어 사전</a>
+    <a href="#setup" class="sidebar-link"><span class="icon">🔧</span> 개발 환경 세팅</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Git 사용법</div>
+    <a href="#git-basic" class="sidebar-link"><span class="icon">🌿</span> Git이 뭔가요?</a>
+    <a href="#git-daily" class="sidebar-link"><span class="icon">📅</span> 매일 하는 Git 루틴</a>
+    <a href="#git-commit" class="sidebar-link"><span class="icon">💾</span> 커밋하기</a>
+    <a href="#git-push" class="sidebar-link"><span class="icon">☁️</span> 푸시 & PR</a>
+    <a href="#git-conflict" class="sidebar-link"><span class="icon">⚡</span> 충돌 해결</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">플러그인 개발</div>
+    <a href="#architecture" class="sidebar-link"><span class="icon">🏗️</span> 구조 이해하기</a>
+    <a href="#market-plugin" class="sidebar-link"><span class="icon">🏪</span> 판매처 만들기</a>
+    <a href="#sourcing-plugin" class="sidebar-link"><span class="icon">📦</span> 소싱처 만들기</a>
+    <a href="#testing" class="sidebar-link"><span class="icon">✅</span> 테스트하기</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">규칙 & 참고</div>
+    <a href="#forbidden" class="sidebar-link"><span class="icon">🚫</span> 절대 금지 사항</a>
+    <a href="#names" class="sidebar-link"><span class="icon">📋</span> 사용 중인 이름</a>
+    <a href="#checklist" class="sidebar-link"><span class="icon">☑️</span> 일일 체크리스트</a>
+    <a href="#faq" class="sidebar-link"><span class="icon">❓</span> 자주 묻는 질문</a>
+  </div>
+
+  <div class="sidebar-progress">
+    <div class="sidebar-progress-label">reading progress</div>
+    <div class="sidebar-progress-bar">
+      <div class="sidebar-progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── Main Content ─── -->
+<main class="main">
+
+  <!-- ─── Hero ─── -->
+  <div class="hero">
+    <div class="hero-badge">📘 BEGINNER FRIENDLY</div>
+    <h2>삼바웨이브 팀 개발 가이드</h2>
+    <p>
+      10명이 동시에 코드를 수정해도 충돌 없이 개발하는 방법.<br>
+      처음 개발하는 분도 이 가이드만 따라하면 됩니다.
+    </p>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 1: 이것부터 이해하기 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="concept">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h3 class="section-title">이것부터 이해하기</h3>
+    </div>
+
+    <p class="desc">
+      코드를 쓰기 전에, 우리 프로젝트가 어떤 구조인지 먼저 이해합시다.
+      여기서 비유를 통해 설명하니 끝까지 읽어주세요.
+    </p>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🎯</span> 우리가 만드는 것</div>
+
+      <div class="analogy">
+        <div class="analogy-header">💡 비유로 이해하기</div>
+        <p>
+          우리 시스템은 <strong>"번역기"</strong>와 비슷합니다.<br><br>
+          <strong>소싱처</strong>(무신사, 올리브영 등)에서 상품 정보를 가져와서,<br>
+          <strong>판매처</strong>(쿠팡, 스마트스토어 등)의 형식에 맞게 변환해서 올려주는 겁니다.<br><br>
+          예를 들어, 무신사에서 "나이키 에어맥스"를 가져와서 → 쿠팡 형식으로 바꿔서 → 쿠팡에 등록.<br>
+          이 과정을 자동으로 해주는 게 우리 시스템입니다.
+        </p>
+      </div>
+
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-item-icon">📦</div>
+          <div class="flow-item-label">소싱처</div>
+          <div class="flow-item-desc">무신사, 올리브영...</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">
+          <div class="flow-item-icon">🔍</div>
+          <div class="flow-item-label">상품 수집</div>
+          <div class="flow-item-desc">가격, 이미지, 재고</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">
+          <div class="flow-item-icon">🔄</div>
+          <div class="flow-item-label">형식 변환</div>
+          <div class="flow-item-desc">transform()</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">
+          <div class="flow-item-icon">🏪</div>
+          <div class="flow-item-label">판매처</div>
+          <div class="flow-item-desc">쿠팡, 스마트스토어...</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">
+          <div class="flow-item-icon">✅</div>
+          <div class="flow-item-label">등록 완료</div>
+          <div class="flow-item-desc">상품 판매 시작</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🧩</span> 플러그인이 뭔가요?</div>
+
+      <div class="analogy">
+        <div class="analogy-header">💡 비유로 이해하기</div>
+        <p>
+          플러그인은 <strong>"USB 장치"</strong>와 같습니다.<br><br>
+          컴퓨터 본체(우리 시스템)는 이미 완성되어 있고,<br>
+          마우스(쿠팡), 키보드(스마트스토어), 웹캠(11번가)처럼<br>
+          USB만 꽂으면 바로 인식되죠? 드라이버 설치 같은 거 필요 없이요.<br><br>
+          우리 플러그인도 마찬가지입니다. <strong>파일 하나 만들면 자동으로 인식</strong>됩니다.<br>
+          다른 파일을 수정할 필요가 전혀 없어요.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🏪 판매처(마켓) 플러그인</div>
+          <p class="text-sm text-muted">쿠팡, 스마트스토어, 11번가 같은 곳에 <strong>상품을 등록</strong>하는 코드</p>
+          <p class="text-xs text-dim mt-1">역할: 상품 데이터를 해당 마켓 형식으로 <strong>변환</strong>하고 <strong>전송</strong></p>
+        </div>
+        <div class="card">
+          <div class="card-title">📦 소싱처 플러그인</div>
+          <p class="text-sm text-muted">무신사, 올리브영 같은 곳에서 <strong>상품을 가져오는</strong> 코드</p>
+          <p class="text-xs text-dim mt-1">역할: 상품 <strong>검색</strong>, <strong>상세 조회</strong>, <strong>가격/재고 갱신</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">👥</span> 왜 10명이 동시에 해도 괜찮은가?</div>
+
+      <div class="analogy">
+        <div class="analogy-header">💡 비유로 이해하기</div>
+        <p>
+          아파트를 생각해보세요. 10명이 각자 <strong>다른 호수</strong>에서 인테리어 공사를 합니다.<br><br>
+          101호에서 벽지를 바꾸든, 102호에서 바닥을 교체하든 서로 영향이 없죠?<br>
+          하지만 <strong>복도(공용부분)</strong>를 동시에 공사하면 부딪히겠죠.<br><br>
+          우리 프로젝트도 같습니다:<br>
+          • 각자 만드는 플러그인 파일 = <strong>각자의 호수</strong> (충돌 없음)<br>
+          • 공유 파일(__init__.py, base.py) = <strong>복도</strong> (건드리면 안 됨)
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 2: 용어 사전 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="glossary">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h3 class="section-title">용어 사전</h3>
+    </div>
+
+    <p class="desc">이 문서에서 계속 나오는 단어들입니다. 모르면 여기로 돌아오세요.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:140px">용어</th>
+            <th>초등학생한테 설명한다면</th>
+            <th style="width:180px">예시</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:var(--accent)">Git</strong></td>
+            <td>"되돌리기"가 무한대인 저장 시스템. 코드의 모든 변경 이력을 기록해줌</td>
+            <td>워드 문서의 "변경 내용 추적"</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">Repository(저장소)</strong></td>
+            <td>프로젝트 코드가 들어있는 폴더. 줄여서 "레포"</td>
+            <td>samba-wave 폴더 전체</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">Branch(브랜치)</strong></td>
+            <td>원본을 복사해서 따로 작업하는 공간. "평행 세계" 같은 것</td>
+            <td><code>feature/tmon-plugin</code></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">main 브랜치</strong></td>
+            <td>"진짜 원본". 여기를 직접 수정하면 안 됨</td>
+            <td>출판된 책의 원고</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">Commit(커밋)</strong></td>
+            <td>"저장" 버튼. 지금까지의 변경을 기록으로 남김</td>
+            <td>게임에서 "세이브" 하는 것</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">Push(푸시)</strong></td>
+            <td>내 컴퓨터의 저장 내용을 GitHub(인터넷)에 올리기</td>
+            <td>구글 드라이브에 업로드</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">Pull(풀)</strong></td>
+            <td>GitHub(인터넷)의 최신 내용을 내 컴퓨터로 가져오기</td>
+            <td>구글 드라이브에서 다운로드</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">Merge(머지)</strong></td>
+            <td>두 개의 브랜치를 합치기</td>
+            <td>복사본의 변경을 원본에 반영</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">PR (Pull Request)</strong></td>
+            <td>"제 코드 좀 확인해주세요" 하고 팀장에게 보내는 요청</td>
+            <td>과제물 제출 후 선생님 검사</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">충돌(Conflict)</strong></td>
+            <td>두 사람이 같은 줄을 동시에 수정해서 Git이 어떤 걸 써야 할지 모르는 상태</td>
+            <td>같은 문장을 두 사람이 다르게 고침</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">Plugin(플러그인)</strong></td>
+            <td>본체를 수정하지 않고 기능을 추가하는 부품</td>
+            <td>USB 장치</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">Proxy(프록시)</strong></td>
+            <td>외부 사이트의 API를 대신 호출해주는 중간 역할</td>
+            <td>대리인, 통역사</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent)">API</strong></td>
+            <td>프로그램끼리 대화하는 규칙. "이렇게 보내면 이렇게 답해줄게"</td>
+            <td>자판기의 버튼과 음료 나오는 구멍</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 3: 개발 환경 세팅 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="setup">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h3 class="section-title">개발 환경 세팅</h3>
+    </div>
+
+    <p class="desc">
+      한 번만 하면 되는 초기 세팅입니다. 순서대로 하나씩 따라하세요.
+    </p>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">ℹ️</div>
+      <div class="alert-content">
+        <strong>사전 설치 필요</strong>
+        아래 프로그램이 설치되어 있어야 합니다. 없으면 팀장에게 알려주세요.<br>
+        • <strong>Git</strong> — git-scm.com 에서 다운로드. 설치 시 기본값 그대로 "Next" 연타하면 됨<br>
+        • <strong>Python 3.12</strong> — python.org 에서 다운로드. 설치 시 <strong>"Add Python to PATH" 반드시 체크!</strong><br>
+        • <strong>uv</strong> (파이썬 패키지 관리자) — pip보다 10배 빠른 패키지 설치 도구. Python 설치 후 터미널에서 아래 명령어 실행:<br>
+        <code style="display:block;margin:0.5rem 0;padding:0.4rem 0.8rem;font-size:0.8rem">powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code>
+        설치 후 터미널을 껐다 다시 열고, <code>uv --version</code> 입력해서 버전이 나오면 성공<br>
+        • <strong>Antigravity</strong> (코드 에디터) — 팀장이 제공하는 설치 파일로 설치
+      </div>
+    </div>
+
+    <div class="steps">
+      <!-- Step 1 -->
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot orange">1</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h4>GitHub에서 코드 가져오기 (클론)</h4>
+          <p>프로젝트 코드를 내 컴퓨터에 복사합니다. <strong>딱 한 번만</strong> 하면 됩니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Git Bash)</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 1. 원하는 폴더로 이동 (예: workspace 폴더)</span>
+<span class="keyword">cd</span> ~/workspace
+
+<span class="comment"># 2. GitHub에서 코드 다운로드</span>
+<span class="keyword">git</span> clone https://github.com/sbk0674-web/samba-wave.git
+
+<span class="comment"># 3. 프로젝트 폴더로 이동</span>
+<span class="keyword">cd</span> samba-wave</div>
+          </div>
+          <div class="alert alert-tip">
+            <div class="alert-icon">💡</div>
+            <div class="alert-content">
+              <strong>Git Bash 여는 법</strong>
+              Windows에서 바탕화면 우클릭 → "Git Bash Here" 클릭.<br>
+              또는 Antigravity에서 터미널(Ctrl+`) 열기 → bash 선택.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot orange">2</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h4>백엔드 환경 만들기</h4>
+          <p>파이썬 가상환경을 만들고, 필요한 패키지를 설치합니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Git Bash)</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 1. backend 폴더로 이동</span>
+<span class="keyword">cd</span> backend
+
+<span class="comment"># 2. 파이썬 가상환경 만들기 (가상환경 = 이 프로젝트 전용 파이썬)</span>
+<span class="keyword">uv</span> venv
+
+<span class="comment"># 3. 가상환경 켜기 (Windows)</span>
+<span class="keyword">source</span> .venv/Scripts/activate
+
+<span class="comment"># 4. 필요한 패키지 설치</span>
+<span class="keyword">uv</span> pip install -e .
+<span class="keyword">uv</span> pip install -e .[dev]</div>
+          </div>
+          <div class="alert alert-warning">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+              <strong>가상환경이 켜져있는지 확인하는 법</strong>
+              터미널 맨 앞에 <code>(.venv)</code>가 보이면 켜져있는 겁니다.<br>
+              안 보이면 <code>source .venv/Scripts/activate</code>를 다시 입력하세요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot orange">3</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h4>.env 파일 설정</h4>
+          <p>데이터베이스 비밀번호 등 비밀 정보가 담긴 파일입니다. <strong>팀장이 공유</strong>해줍니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 팀장이 보내준 .env 파일을 backend/ 폴더에 넣기</span>
+<span class="comment"># 또는 직접 복사:</span>
+<span class="keyword">cp</span> .env.example .env
+<span class="comment"># → 그리고 팀장이 알려준 값으로 수정</span></div>
+          </div>
+          <div class="alert alert-danger">
+            <div class="alert-icon">🚨</div>
+            <div class="alert-content">
+              <strong>.env 파일은 절대 GitHub에 올리면 안 됩니다!</strong>
+              비밀번호가 전세계에 공개됩니다. 이미 .gitignore에 등록되어 있지만, 혹시라도 직접 추가하지 마세요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot green">4</div>
+        </div>
+        <div class="step-content">
+          <h4>백엔드 실행해서 확인</h4>
+          <p>모든 세팅이 끝났으면 서버를 실행해봅니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># backend 폴더에서 실행</span>
+<span class="keyword">cd</span> backend
+.venv/Scripts/python.exe run.py</div>
+          </div>
+          <div class="alert alert-success">
+            <div class="alert-icon">✅</div>
+            <div class="alert-content">
+              <strong>성공 확인</strong>
+              로그에 <code>[플러그인] 마켓 18개, 소싱 3개 등록 완료</code>가 보이면 성공!<br>
+              에러가 나면 팀장에게 스크린샷 보내주세요.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 4: Git이 뭔가요? -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="git-basic">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h3 class="section-title">Git이 뭔가요?</h3>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-header">💡 비유로 이해하기 — "Google Docs"</div>
+      <p>
+        Google Docs를 생각해보세요. 여러 사람이 동시에 문서를 편집할 수 있고,<br>
+        "버전 기록"에서 누가 뭘 바꿨는지 볼 수 있죠?<br><br>
+        Git도 똑같습니다. 다만 코드 파일 전용이고, 더 정밀합니다.<br><br>
+        <strong>Google Docs와 다른 점 하나:</strong><br>
+        Google Docs는 실시간으로 합쳐지지만,<br>
+        Git은 <strong>"내가 원할 때"</strong> 합칩니다. 이게 <strong>브랜치</strong>라는 개념입니다.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🌿</span> 브랜치 = 평행 세계</div>
+
+      <p class="desc">
+        브랜치를 만드는 건 "평행 세계를 하나 만든다"고 생각하세요.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">브랜치 개념도</span></div>
+        </div>
+        <div class="code-body">
+<span class="comment">         ┌── feature/tmon (A가 작업 중) ──── 커밋 ── 커밋 ── merge!</span>
+<span class="comment">         │                                                    ↓</span>
+<span class="important">main ────●────────────────────────────────────────────────────●────▶</span>
+<span class="comment">         │                                                    ↑</span>
+<span class="comment">         └── feature/oliveyoung (B가 작업 중) ─ 커밋 ─ merge!</span>
+<span class="comment"></span>
+<span class="comment">● = 시작 지점    ▶ = 현재 진행 중</span>
+<span class="comment">A와 B는 각자 다른 "세계"에서 작업하다가, 완료되면 main에 합침</span></div>
+      </div>
+
+      <ul class="explain-list">
+        <li>
+          <span class="explain-num">1</span>
+          <span class="explain-text"><strong>main 브랜치</strong>는 "진짜 세계"입니다. 여기 있는 코드가 실제로 돌아가는 코드예요.</span>
+        </li>
+        <li>
+          <span class="explain-num">2</span>
+          <span class="explain-text"><strong>feature 브랜치</strong>는 "연습 세계"입니다. 여기서 마음껏 실험하고, 완성되면 진짜 세계에 합칩니다.</span>
+        </li>
+        <li>
+          <span class="explain-num">3</span>
+          <span class="explain-text">각자 <strong>다른 브랜치</strong>에서 작업하기 때문에, 다른 사람 작업에 영향을 주지 않습니다.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 5: 매일 하는 Git 루틴 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="git-daily">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h3 class="section-title">매일 하는 Git 루틴</h3>
+    </div>
+
+    <p class="desc">
+      매일 아침 작업을 시작하기 전에 반드시 하는 과정입니다.
+      이걸 안 하면 옛날 코드 위에서 작업하게 됩니다.
+    </p>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🌅</span> 아침 — 최신 코드 가져오기</div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot blue">1</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>main 브랜치로 이동</h4>
+            <p>먼저 "진짜 원본"이 있는 곳으로 갑니다.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+              </div>
+              <div class="code-body"><span class="keyword">git</span> checkout main</div>
+            </div>
+            <div class="alert alert-warning">
+              <div class="alert-icon">⚠️</div>
+              <div class="alert-content">
+                에러가 나면? → 아직 저장 안 한 변경이 있다는 뜻입니다.<br>
+                먼저 <code>git stash</code>를 입력하세요 (임시 보관). 나중에 <code>git stash pop</code>으로 복구.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot blue">2</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>GitHub에서 최신 코드 다운로드</h4>
+            <p>다른 사람이 밤사이에 합친(merge한) 코드를 가져옵니다.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+              </div>
+              <div class="code-body"><span class="keyword">git</span> pull origin main</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot blue">3</div>
+          </div>
+          <div class="step-content">
+            <h4>내 브랜치로 돌아가서 최신 코드 합치기</h4>
+            <p>내 작업 브랜치에도 최신 코드를 반영합니다.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+              </div>
+              <div class="code-body"><span class="comment"># 내 브랜치로 돌아가기</span>
+<span class="keyword">git</span> checkout feature/tmon-plugin
+
+<span class="comment"># main의 최신 코드를 내 브랜치에 합치기</span>
+<span class="keyword">git</span> merge main</div>
+            </div>
+            <div class="alert alert-success">
+              <div class="alert-icon">✅</div>
+              <div class="alert-content">
+                이제 내 브랜치에도 다른 사람들의 최신 코드가 반영되었습니다.<br>
+                안심하고 작업을 시작하세요!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🆕</span> 처음 시작할 때 — 브랜치 만들기</div>
+
+      <p class="desc">프로젝트에 처음 참여할 때, 또는 새로운 작업을 시작할 때 한 번 합니다.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 1. 먼저 main에서 최신 코드 가져오기</span>
+<span class="keyword">git</span> checkout main
+<span class="keyword">git</span> pull origin main
+
+<span class="comment"># 2. 새 브랜치 만들기 (main을 기반으로)</span>
+<span class="keyword">git</span> checkout -b feature/내마켓이름-plugin
+
+<span class="comment"># 예시들:</span>
+<span class="keyword">git</span> checkout -b feature/tmon-plugin          <span class="comment"># 판매처: 티몬</span>
+<span class="keyword">git</span> checkout -b feature/oliveyoung-sourcing   <span class="comment"># 소싱처: 올리브영</span>
+<span class="keyword">git</span> checkout -b feature/interpark-plugin       <span class="comment"># 판매처: 인터파크</span></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>작업 종류</th>
+              <th>브랜치 이름 규칙</th>
+              <th>예시</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-orange">판매처</span></td>
+              <td><code>feature/마켓이름-plugin</code></td>
+              <td><code>feature/tmon-plugin</code></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-blue">소싱처</span></td>
+              <td><code>feature/소싱처이름-sourcing</code></td>
+              <td><code>feature/oliveyoung-sourcing</code></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-red">버그수정</span></td>
+              <td><code>fix/설명</code></td>
+              <td><code>fix/coupang-auth-error</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 6: 커밋하기 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="git-commit">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h3 class="section-title">커밋하기 (저장하기)</h3>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-header">💡 비유로 이해하기 — "게임 세이브"</div>
+      <p>
+        RPG 게임에서 보스전 전에 세이브하잖아요?<br>
+        커밋도 마찬가지입니다. 작업하다가 <strong>"여기까지는 잘 됐다!"</strong> 하면 커밋(세이브)하세요.<br>
+        실수해도 이전 세이브 지점으로 돌아갈 수 있습니다.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">📝</span> 커밋 3단계</div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot purple">1</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>변경 사항 확인하기</h4>
+            <p>"내가 뭘 바꿨지?" 확인합니다.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+              </div>
+              <div class="code-body"><span class="keyword">git</span> status</div>
+            </div>
+            <p>그러면 이런 결과가 나옵니다:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">결과 예시</span></div>
+              </div>
+              <div class="code-body"><span class="comment">On branch feature/tmon-plugin</span>
+
+<span class="string">Untracked files:</span>                          <span class="comment">← "새로 만든 파일"이라는 뜻</span>
+  backend/backend/domain/samba/plugins/markets/<span class="important">tmon.py</span>
+  backend/backend/domain/samba/proxy/<span class="important">tmon.py</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot purple">2</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>파일을 스테이징하기 (커밋할 파일 선택)</h4>
+            <p><strong>"이 파일을 커밋에 포함시킬게요"</strong>라고 Git에게 알려줍니다.</p>
+            <div class="comparison">
+              <div class="comparison-card good">
+                <div class="comparison-label">✅ 올바른 방법 — 파일을 하나씩 지정</div>
+                <div class="code-block">
+                  <div class="code-body"><span class="keyword">git</span> add backend/backend/domain/samba/plugins/markets/tmon.py
+<span class="keyword">git</span> add backend/backend/domain/samba/proxy/tmon.py</div>
+                </div>
+              </div>
+              <div class="comparison-card bad">
+                <div class="comparison-label">❌ 틀린 방법 — 전부 다 추가</div>
+                <div class="code-block">
+                  <div class="code-body"><span class="comment"># 절대 이렇게 하지 마세요!!!</span>
+<span class="keyword">git</span> add .
+<span class="keyword">git</span> add -A</div>
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-danger">
+              <div class="alert-icon">🚨</div>
+              <div class="alert-content">
+                <strong>왜 <code>git add .</code>이 위험한가요?</strong>
+                <code>git add .</code>은 폴더 안의 <strong>모든 파일</strong>을 추가합니다.<br>
+                내가 모르는 사이에 .env(비밀번호), 다른 사람 파일, 불필요한 파일이 함께 올라갈 수 있습니다.<br>
+                반드시 <strong>내 파일만 이름을 지정해서</strong> 추가하세요.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot purple">3</div>
+          </div>
+          <div class="step-content">
+            <h4>커밋하기 (저장!)</h4>
+            <p>메시지와 함께 저장합니다. 메시지는 <strong>"뭘 했는지"</strong> 적어주세요.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+              </div>
+              <div class="code-body"><span class="keyword">git</span> commit -m <span class="string">"[마켓] 티몬 플러그인 — transform 구현"</span></div>
+            </div>
+
+            <div class="alert alert-info">
+              <div class="alert-icon">📝</div>
+              <div class="alert-content">
+                <strong>커밋 메시지 규칙</strong>
+                <code>[마켓] 티몬 플러그인 — transform 구현</code><br>
+                <code>[마켓] 티몬 프록시 — 상품 등록 API 연동</code><br>
+                <code>[소싱] 올리브영 플러그인 — search 구현</code><br>
+                <code>[소싱] 올리브영 프록시 — 검색 파싱 로직</code><br>
+                <code>[수정] 티몬 플러그인 — 인증 에러 처리 추가</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-tip">
+        <div class="alert-icon">💡</div>
+        <div class="alert-content">
+          <strong>커밋은 자주, 작게 하세요</strong>
+          하루에 한 번 큰 커밋보다, 기능 하나 완성할 때마다 작은 커밋이 좋습니다.<br>
+          문제가 생겼을 때 "어디서부터 잘못됐지?" 찾기가 쉬워집니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 7: 푸시 & PR -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="git-push">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h3 class="section-title">푸시 & PR (코드 올리기)</h3>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">☁️</span> 푸시 — 내 코드를 GitHub에 올리기</div>
+
+      <div class="analogy">
+        <div class="analogy-header">💡 비유로 이해하기</div>
+        <p>
+          커밋 = 내 컴퓨터에 저장 (USB에 저장)<br>
+          푸시 = 인터넷에 업로드 (구글 드라이브에 올리기)<br><br>
+          커밋만 하면 내 컴퓨터에만 있습니다. 푸시해야 다른 사람이 볼 수 있어요.
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 내 브랜치를 GitHub에 올리기</span>
+<span class="keyword">git</span> push origin feature/tmon-plugin
+
+<span class="comment"># 처음 푸시할 때 이런 메시지가 나올 수 있어요:</span>
+<span class="comment"># "To push the current branch and set the remote as upstream..."</span>
+<span class="comment"># 그러면 이렇게 입력:</span>
+<span class="keyword">git</span> push --set-upstream origin feature/tmon-plugin</div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">📬</span> PR — "제 코드 확인해주세요" 요청</div>
+
+      <div class="analogy">
+        <div class="analogy-header">💡 비유로 이해하기</div>
+        <p>
+          학교 과제를 다 했으면 선생님한테 검사 맡잖아요?<br>
+          PR = "선생님, 과제 다 했습니다. 확인해주세요!" 하는 거예요.<br>
+          팀장이 코드를 보고, 괜찮으면 main에 합쳐(merge)줍니다.
+        </p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot green">1</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>GitHub 웹사이트 열기</h4>
+            <p>브라우저에서 우리 프로젝트 GitHub 페이지로 갑니다.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot green">2</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>"Compare & pull request" 버튼 클릭</h4>
+            <p>푸시하면 GitHub에 노란색 배너가 뜹니다. 그 버튼을 누르세요.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot green">3</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>PR 내용 작성</h4>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">PR 작성 예시</span></div>
+              </div>
+              <div class="code-body"><span class="important">제목:</span> [마켓] 티몬 플러그인 추가
+
+<span class="important">본문:</span>
+## 작업 내용
+- 티몬 마켓 플러그인 구현 (plugins/markets/tmon.py)
+- 티몬 HTTP 클라이언트 구현 (proxy/tmon.py)
+- 상품 등록/수정 API 연동 완료
+
+## 테스트
+- [x] 서버 재시작 시 플러그인 자동 등록 확인
+- [x] transform 함수 데이터 변환 확인
+- [ ] 실제 API 호출 테스트 (테스트 계정 필요)</div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot green">4</div>
+          </div>
+          <div class="step-content">
+            <h4>"Create Pull Request" 클릭 → 팀장 리뷰 대기</h4>
+            <p>팀장이 코드를 검토하고, 수정 요청이나 승인을 해줍니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 8: 충돌 해결 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="git-conflict">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h3 class="section-title">충돌 해결하기</h3>
+    </div>
+
+    <div class="alert alert-success">
+      <div class="alert-icon">🎉</div>
+      <div class="alert-content">
+        <strong>좋은 소식!</strong>
+        각자 다른 파일을 만들기 때문에 충돌이 거의 발생하지 않습니다.<br>
+        하지만 만약을 위해 알아두세요.
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">⚡</span> 충돌이 생기면 이렇게 보입니다</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">충돌이 발생한 파일 (예시)</span></div>
+        </div>
+        <div class="code-body"><span class="red"><<<<<<< HEAD</span>
+<span class="comment">내가 수정한 코드</span>
+market_type = <span class="string">"tmon"</span>
+<span class="red">=======</span>
+<span class="comment">다른 사람이 수정한 코드</span>
+market_type = <span class="string">"tmon_v2"</span>
+<span class="red">>>>>>>> main</span></div>
+      </div>
+
+      <ul class="explain-list">
+        <li>
+          <span class="explain-num">1</span>
+          <span class="explain-text"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> ~ <code>=======</code> 사이 = <strong>내 코드</strong></span>
+        </li>
+        <li>
+          <span class="explain-num">2</span>
+          <span class="explain-text"><code>=======</code> ~ <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; main</code> 사이 = <strong>상대방 코드</strong></span>
+        </li>
+        <li>
+          <span class="explain-num">3</span>
+          <span class="explain-text">둘 중 맞는 코드를 남기고, 나머지와 <code>&lt;&lt;&lt;</code> <code>===</code> <code>&gt;&gt;&gt;</code> 표시를 <strong>전부 삭제</strong></span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🔧</span> 해결 순서</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 1. 충돌 파일을 Antigravity에서 열기 (에디터에서 직접 수정)</span>
+<span class="comment">#    → Antigravity는 충돌 부분을 색깔로 보여주고</span>
+<span class="comment">#    → "Accept Current Change" / "Accept Incoming Change" 버튼이 나옴</span>
+<span class="comment">#    → 맞는 걸 클릭하면 됨</span>
+
+<span class="comment"># 2. 수정 완료 후 저장</span>
+
+<span class="comment"># 3. 수정한 파일을 스테이징</span>
+<span class="keyword">git</span> add 충돌파일이름.py
+
+<span class="comment"># 4. 충돌 해결 커밋</span>
+<span class="keyword">git</span> commit -m <span class="string">"충돌 해결 — main merge"</span></div>
+      </div>
+
+      <div class="alert alert-warning">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <strong>잘 모르겠으면?</strong>
+          절대 대충 해결하지 마세요. 팀장에게 화면 공유하면서 같이 해결하세요.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 9: 구조 이해하기 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="architecture">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <h3 class="section-title">프로젝트 구조 이해하기</h3>
+    </div>
+
+    <p class="desc">
+      내가 만들 파일이 어디에 있는지, 어떤 파일을 건드리면 안 되는지 확인합니다.
+    </p>
+
+    <div class="file-tree">
+backend/backend/domain/samba/
+├── <span class="dir">plugins/</span>                          <span class="note">← 플러그인 폴더 (여기서 작업!)</span>
+│   ├── <span class="file-danger">__init__.py</span>                    <span class="note">← 🚫 절대 수정 금지 (자동 탐색 코드)</span>
+│   ├── <span class="file-danger">market_base.py</span>                <span class="note">← 🚫 절대 수정 금지 (판매처 기본 클래스)</span>
+│   ├── <span class="file-danger">sourcing_base.py</span>              <span class="note">← 🚫 절대 수정 금지 (소싱처 기본 클래스)</span>
+│   ├── <span class="dir">markets/</span>                       <span class="note">← 판매처 플러그인 모음</span>
+│   │   ├── smartstore.py              <span class="note">← 다른 사람 담당 (건드리지 않기)</span>
+│   │   ├── coupang.py                 <span class="note">← 다른 사람 담당</span>
+│   │   ├── elevenst.py                <span class="note">← 다른 사람 담당</span>
+│   │   ├── ...
+│   │   └── <span class="file-new">tmon.py</span>                    <span class="note">← ✅ 내가 새로 만들 파일!</span>
+│   └── <span class="dir">sourcing/</span>                      <span class="note">← 소싱처 플러그인 모음</span>
+│       ├── musinsa.py                 <span class="note">← 다른 사람 담당</span>
+│       ├── kream.py                   <span class="note">← 다른 사람 담당</span>
+│       └── <span class="file-new">oliveyoung.py</span>              <span class="note">← ✅ 내가 새로 만들 파일!</span>
+│
+├── <span class="dir">proxy/</span>                             <span class="note">← HTTP 클라이언트 폴더 (여기서도 작업!)</span>
+│   ├── smartstore.py                  <span class="note">← 다른 사람 담당 (1521줄, 참고만)</span>
+│   ├── coupang.py                     <span class="note">← 다른 사람 담당 (366줄, 참고만)</span>
+│   ├── ...
+│   └── <span class="file-new">tmon.py</span>                        <span class="note">← ✅ 내가 새로 만들 파일!</span>
+│
+└── <span class="dir">collector/</span>                         <span class="note">← 수정하지 않음</span>
+    ├── model.py
+    ├── service.py
+    └── ...
+    </div>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">📌</div>
+      <div class="alert-content">
+        <strong>정리하면, 내가 만들 파일은 딱 2개</strong>
+        <br><br>
+        <span class="badge badge-green">판매처 담당</span>&nbsp;
+        <code>plugins/markets/내마켓.py</code> + <code>proxy/내마켓.py</code>
+        <br><br>
+        <span class="badge badge-blue">소싱처 담당</span>&nbsp;
+        <code>plugins/sourcing/내소싱처.py</code> + <code>proxy/내소싱처.py</code>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 10: 판매처(마켓) 플러그인 만들기 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="market-plugin">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h3 class="section-title">판매처(마켓) 플러그인 만들기</h3>
+    </div>
+
+    <p class="desc">
+      "티몬" 판매처 플러그인을 예시로, 한 줄 한 줄 설명합니다.
+    </p>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">📄</span> 파일 1 — 플러그인 (plugins/markets/tmon.py)</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">backend/backend/domain/samba/plugins/markets/tmon.py</span></div>
+          <button class="code-copy" onclick="copyCode(this)">복사</button>
+        </div>
+        <div class="code-body"><span class="string">"""티몬 마켓 플러그인."""</span>
+
+<span class="keyword">from</span> __future__ <span class="keyword">import</span> annotations
+<span class="keyword">from</span> typing <span class="keyword">import</span> Any
+<span class="keyword">from</span> backend.domain.samba.plugins.market_base <span class="keyword">import</span> <span class="class">MarketPlugin</span>
+<span class="keyword">from</span> backend.utils.logger <span class="keyword">import</span> logger
+
+
+<span class="keyword">class</span> <span class="class">TmonPlugin</span>(<span class="class">MarketPlugin</span>):
+  <span class="comment"># ──────────────────────────────────────────</span>
+  <span class="comment"># 이 3가지가 가장 중요! 다른 마켓과 겹치면 안 됩니다</span>
+  <span class="comment"># ──────────────────────────────────────────</span>
+  <span class="param">market_type</span> = <span class="string">"tmon"</span>              <span class="comment"># 영문 소문자, 시스템 내부 식별자</span>
+  <span class="param">policy_key</span>  = <span class="string">"티몬"</span>              <span class="comment"># UI에 표시될 한글 이름</span>
+  <span class="param">required_fields</span> = [<span class="string">"name"</span>, <span class="string">"sale_price"</span>]  <span class="comment"># 필수 필드</span>
+
+  <span class="keyword">def</span> <span class="function">transform</span>(self, product: <span class="type">dict</span>, category_id: <span class="type">str</span>, **kwargs) -> <span class="type">dict</span>:
+    <span class="string">"""상품 데이터 → 티몬 API 형식으로 변환."""</span>
+    <span class="keyword">from</span> backend.domain.samba.proxy.tmon <span class="keyword">import</span> <span class="class">TmonClient</span>
+    <span class="keyword">return</span> TmonClient.transform_product(product, category_id)
+
+  <span class="keyword">async def</span> <span class="function">execute</span>(
+    self,
+    session,
+    product: <span class="type">dict</span>,
+    creds: <span class="type">dict</span>,
+    category_id: <span class="type">str</span>,
+    account,
+    existing_no: <span class="type">str</span>,
+  ) -> <span class="type">dict</span>[<span class="type">str</span>, <span class="type">Any</span>]:
+    <span class="string">"""티몬에 상품 등록 또는 수정."""</span>
+    <span class="keyword">from</span> backend.domain.samba.proxy.tmon <span class="keyword">import</span> <span class="class">TmonClient</span>
+
+    <span class="comment"># 인증 정보 꺼내기 (creds는 base가 자동으로 넣어줌)</span>
+    api_key = creds.get(<span class="string">"apiKey"</span>, <span class="string">""</span>)
+    <span class="keyword">if not</span> api_key:
+      <span class="keyword">return</span> {<span class="string">"success"</span>: <span class="number">False</span>, <span class="string">"message"</span>: <span class="string">"티몬 API Key 없음"</span>}
+
+    client = TmonClient(api_key)
+    data = self.transform(product, category_id)
+
+    <span class="comment"># existing_no가 있으면 = 이미 등록된 상품 → 수정</span>
+    <span class="comment"># existing_no가 없으면 = 새 상품 → 등록</span>
+    <span class="keyword">if</span> existing_no:
+      result = <span class="keyword">await</span> client.update_product(existing_no, data)
+      <span class="keyword">return</span> {<span class="string">"success"</span>: <span class="number">True</span>, <span class="string">"message"</span>: <span class="string">"티몬 수정 성공"</span>, <span class="string">"data"</span>: result}
+    <span class="keyword">else</span>:
+      result = <span class="keyword">await</span> client.register_product(data)
+      <span class="keyword">return</span> {<span class="string">"success"</span>: <span class="number">True</span>, <span class="string">"message"</span>: <span class="string">"티몬 등록 성공"</span>, <span class="string">"data"</span>: result}</div>
+      </div>
+
+      <div class="alert alert-tip">
+        <div class="alert-icon">🔑</div>
+        <div class="alert-content">
+          <strong>핵심 포인트</strong>
+          <ul class="explain-list" style="margin:0">
+            <li><span class="explain-num">1</span><span class="explain-text"><code>MarketPlugin</code>을 상속(extends) 합니다. <strong>부모가 인증, 에러처리, 정책 주입을 다 해줌</strong></span></li>
+            <li><span class="explain-num">2</span><span class="explain-text"><code>transform()</code> — 상품 데이터를 마켓 API 형식으로 바꾸는 함수. <strong>반드시 구현</strong></span></li>
+            <li><span class="explain-num">3</span><span class="explain-text"><code>execute()</code> — 실제 API를 호출하는 함수. <strong>반드시 구현</strong></span></li>
+            <li><span class="explain-num">4</span><span class="explain-text"><code>creds</code>는 부모 클래스가 자동으로 채워줍니다. API 키 같은 인증정보가 들어있어요</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">📄</span> 파일 2 — 프록시 클라이언트 (proxy/tmon.py)</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">backend/backend/domain/samba/proxy/tmon.py</span></div>
+          <button class="code-copy" onclick="copyCode(this)">복사</button>
+        </div>
+        <div class="code-body"><span class="string">"""티몬 API 클라이언트.
+
+실제 티몬 서버와 HTTP 통신하는 코드.
+플러그인(tmon.py)에서 이 클래스를 가져다 씁니다.
+"""</span>
+
+<span class="keyword">import</span> httpx
+<span class="keyword">from</span> backend.utils.logger <span class="keyword">import</span> logger
+
+<span class="comment"># 티몬 API의 기본 주소 (티몬 개발자 문서에서 확인)</span>
+BASE_URL = <span class="string">"https://api.tmon.co.kr"</span>
+
+
+<span class="keyword">class</span> <span class="class">TmonClient</span>:
+  <span class="string">"""티몬 API와 실제로 통신하는 클래스."""</span>
+
+  <span class="keyword">def</span> <span class="function">__init__</span>(self, api_key: <span class="type">str</span>):
+    <span class="string">"""API 키를 받아서 저장."""</span>
+    self.api_key = api_key
+
+  <span class="keyword">async def</span> <span class="function">register_product</span>(self, data: <span class="type">dict</span>) -> <span class="type">dict</span>:
+    <span class="string">"""상품 신규 등록.
+
+    data: transform_product()로 변환된 데이터
+    """</span>
+    <span class="keyword">async with</span> httpx.AsyncClient() <span class="keyword">as</span> client:
+      resp = <span class="keyword">await</span> client.post(
+        f<span class="string">"{BASE_URL}/v1/products"</span>,
+        json=data,
+        headers={<span class="string">"Authorization"</span>: f<span class="string">"Bearer {self.api_key}"</span>},
+        timeout=<span class="number">30</span>,
+      )
+      resp.raise_for_status()   <span class="comment"># 에러 발생 시 예외 던짐</span>
+      <span class="keyword">return</span> resp.json()
+
+  <span class="keyword">async def</span> <span class="function">update_product</span>(self, product_no: <span class="type">str</span>, data: <span class="type">dict</span>) -> <span class="type">dict</span>:
+    <span class="string">"""기존 상품 수정."""</span>
+    <span class="keyword">async with</span> httpx.AsyncClient() <span class="keyword">as</span> client:
+      resp = <span class="keyword">await</span> client.put(
+        f<span class="string">"{BASE_URL}/v1/products/{product_no}"</span>,
+        json=data,
+        headers={<span class="string">"Authorization"</span>: f<span class="string">"Bearer {self.api_key}"</span>},
+        timeout=<span class="number">30</span>,
+      )
+      resp.raise_for_status()
+      <span class="keyword">return</span> resp.json()
+
+  <span class="keyword">@staticmethod</span>
+  <span class="keyword">def</span> <span class="function">transform_product</span>(product: <span class="type">dict</span>, category_id: <span class="type">str</span>) -> <span class="type">dict</span>:
+    <span class="string">"""우리 상품 데이터 → 티몬 API 형식으로 변환.
+
+    ※ 여기가 가장 중요한 부분!
+    티몬 API 문서를 보면서 각 필드를 매핑합니다.
+    """</span>
+    <span class="keyword">return</span> {
+      <span class="string">"productName"</span>: product.get(<span class="string">"name"</span>, <span class="string">""</span>),
+      <span class="string">"salePrice"</span>: product.get(<span class="string">"sale_price"</span>, <span class="number">0</span>),
+      <span class="string">"categoryCode"</span>: category_id,
+      <span class="string">"description"</span>: product.get(<span class="string">"detail_html"</span>, <span class="string">""</span>),
+      <span class="comment"># ↑ 마켓 API 문서를 보면서 필드를 하나씩 추가하세요</span>
+    }</div>
+      </div>
+
+      <div class="alert alert-info">
+        <div class="alert-icon">📌</div>
+        <div class="alert-content">
+          <strong>프록시 파일에서 하는 일</strong>
+          <ul class="explain-list" style="margin:0">
+            <li><span class="explain-num">1</span><span class="explain-text"><code>register_product()</code> — 마켓 API에 상품을 <strong>새로 등록</strong>하는 HTTP 요청</span></li>
+            <li><span class="explain-num">2</span><span class="explain-text"><code>update_product()</code> — 이미 등록된 상품을 <strong>수정</strong>하는 HTTP 요청</span></li>
+            <li><span class="explain-num">3</span><span class="explain-text"><code>transform_product()</code> — 우리 데이터를 마켓이 원하는 형식으로 <strong>변환</strong> (가장 중요!)</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">📚</span> 참고할 기존 코드 (난이도별)</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>난이도</th>
+              <th>파일</th>
+              <th>줄 수</th>
+              <th>추천 대상</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-green">쉬움</span></td>
+              <td><code>plugins/markets/elevenst.py</code></td>
+              <td>71줄</td>
+              <td>처음 시작하는 분</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-green">쉬움</span></td>
+              <td><code>plugins/markets/ssg.py</code></td>
+              <td>74줄</td>
+              <td>처음 시작하는 분</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-yellow">보통</span></td>
+              <td><code>plugins/markets/coupang.py</code></td>
+              <td>143줄</td>
+              <td>동적 카테고리가 필요한 분</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-red">어려움</span></td>
+              <td><code>plugins/markets/smartstore.py</code></td>
+              <td>483줄</td>
+              <td>이미지 업로드가 필요한 분</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 11: 소싱처 플러그인 만들기 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="sourcing-plugin">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h3 class="section-title">소싱처 플러그인 만들기</h3>
+    </div>
+
+    <p class="desc">
+      "올리브영" 소싱처 플러그인을 예시로 설명합니다.
+    </p>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">📄</span> 파일 1 — 플러그인 (plugins/sourcing/oliveyoung.py)</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">backend/backend/domain/samba/plugins/sourcing/oliveyoung.py</span></div>
+          <button class="code-copy" onclick="copyCode(this)">복사</button>
+        </div>
+        <div class="code-body"><span class="string">"""올리브영 소싱처 플러그인."""</span>
+
+<span class="keyword">import</span> logging
+<span class="keyword">from</span> typing <span class="keyword">import</span> TYPE_CHECKING
+<span class="keyword">from</span> backend.domain.samba.plugins.sourcing_base <span class="keyword">import</span> <span class="class">SourcingPlugin</span>
+
+<span class="keyword">if</span> TYPE_CHECKING:
+  <span class="keyword">from</span> backend.domain.samba.collector.refresher <span class="keyword">import</span> RefreshResult
+
+logger = logging.getLogger(__name__)
+
+
+<span class="keyword">class</span> <span class="class">OliveYoungPlugin</span>(<span class="class">SourcingPlugin</span>):
+  <span class="string">"""올리브영 소싱처 플러그인."""</span>
+
+  <span class="comment"># ──────────────────────────────────────────</span>
+  <span class="comment"># 이 3가지 설정이 핵심</span>
+  <span class="comment"># ──────────────────────────────────────────</span>
+  <span class="param">site_name</span>         = <span class="string">"OLIVEYOUNG"</span>    <span class="comment"># 대문자! 시스템 내부 식별자</span>
+  <span class="param">concurrency</span>       = <span class="number">3</span>              <span class="comment"># 동시에 보내는 요청 수 (사이트가 느리면 줄이기)</span>
+  <span class="param">request_interval</span>  = <span class="number">0.5</span>            <span class="comment"># 요청 사이 대기 시간(초) (차단 방지)</span>
+
+  <span class="keyword">async def</span> <span class="function">search</span>(self, keyword: <span class="type">str</span>, **filters) -> <span class="type">list</span>[<span class="type">dict</span>]:
+    <span class="string">"""키워드로 상품 검색."""</span>
+    <span class="keyword">from</span> backend.domain.samba.proxy.oliveyoung <span class="keyword">import</span> <span class="class">OliveYoungClient</span>
+    client = OliveYoungClient()
+    <span class="keyword">return await</span> self.safe_call(client.search_products(keyword))
+
+  <span class="keyword">async def</span> <span class="function">get_detail</span>(self, site_product_id: <span class="type">str</span>) -> <span class="type">dict</span>:
+    <span class="string">"""상품 상세 정보 조회."""</span>
+    <span class="keyword">from</span> backend.domain.samba.proxy.oliveyoung <span class="keyword">import</span> <span class="class">OliveYoungClient</span>
+    client = OliveYoungClient()
+    <span class="keyword">return await</span> self.safe_call(client.get_detail(site_product_id))
+
+  <span class="keyword">async def</span> <span class="function">refresh</span>(self, product) -> <span class="string">"RefreshResult"</span>:
+    <span class="string">"""가격, 재고 정보 갱신."""</span>
+    <span class="keyword">from</span> backend.domain.samba.proxy.oliveyoung <span class="keyword">import</span> <span class="class">OliveYoungClient</span>
+    <span class="keyword">from</span> backend.domain.samba.collector.refresher <span class="keyword">import</span> RefreshResult
+
+    client = OliveYoungClient()
+    <span class="keyword">try</span>:
+      detail = <span class="keyword">await</span> self.safe_call(
+        client.get_detail(product.site_product_id)
+      )
+      <span class="keyword">return</span> RefreshResult(
+        product_id=product.id,
+        sale_price=detail.get(<span class="string">"sale_price"</span>),
+        is_sold_out=detail.get(<span class="string">"is_sold_out"</span>, <span class="number">False</span>),
+      )
+    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:
+      <span class="keyword">return</span> RefreshResult(product_id=product.id, error=<span class="type">str</span>(e))</div>
+      </div>
+
+      <div class="alert alert-tip">
+        <div class="alert-icon">🔑</div>
+        <div class="alert-content">
+          <strong>핵심 포인트</strong>
+          <ul class="explain-list" style="margin:0">
+            <li><span class="explain-num">1</span><span class="explain-text"><code>SourcingPlugin</code>을 상속합니다. <strong>동시성 제어(safe_call)를 자동으로 해줌</strong></span></li>
+            <li><span class="explain-num">2</span><span class="explain-text"><code>search()</code> — 키워드로 상품을 검색. <strong>반드시 구현</strong></span></li>
+            <li><span class="explain-num">3</span><span class="explain-text"><code>get_detail()</code> — 특정 상품의 상세 정보 조회. <strong>반드시 구현</strong></span></li>
+            <li><span class="explain-num">4</span><span class="explain-text"><code>refresh()</code> — 가격/재고 갱신 (이미 수집된 상품의 최신 정보 확인). <strong>반드시 구현</strong></span></li>
+            <li><span class="explain-num">5</span><span class="explain-text"><code>self.safe_call()</code>로 감싸면 <strong>동시 요청 수 제한 + 대기 시간</strong>이 자동 적용됨</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">📚</span> 참고할 기존 코드</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>난이도</th>
+              <th>파일</th>
+              <th>줄 수</th>
+              <th>추천 대상</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-green">쉬움</span></td>
+              <td><code>plugins/sourcing/musinsa.py</code></td>
+              <td>44줄</td>
+              <td>소싱처 최소 구현 예시</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-green">쉬움</span></td>
+              <td><code>plugins/sourcing/kream.py</code></td>
+              <td>39줄</td>
+              <td>확장앱 큐 방식 예시</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 12: 테스트하기 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="testing">
+    <div class="section-header">
+      <div class="section-number">12</div>
+      <h3 class="section-title">내 플러그인 테스트하기</h3>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🔍</span> 1단계 — 서버에서 인식되는지 확인</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 백엔드 서버 재시작</span>
+<span class="keyword">cd</span> backend && .venv/Scripts/python.exe run.py
+
+<span class="comment"># 로그에서 확인:</span>
+<span class="comment"># 기존: [플러그인] 마켓 18개, 소싱 3개 등록 완료</span>
+<span class="comment"># 기대: [플러그인] 마켓 19개, 소싱 3개 등록 완료  ← 숫자가 1 늘어야 함!</span></div>
+      </div>
+
+      <div class="alert alert-warning">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <strong>숫자가 안 늘었다면?</strong>
+          <ul class="explain-list" style="margin:0">
+            <li><span class="explain-num">1</span><span class="explain-text">파일 위치가 맞는지 확인 — <code>plugins/markets/</code> 또는 <code>plugins/sourcing/</code> 안에 있어야 함</span></li>
+            <li><span class="explain-num">2</span><span class="explain-text"><code>market_type</code> 또는 <code>site_name</code> 속성이 있는지 확인</span></li>
+            <li><span class="explain-num">3</span><span class="explain-text"><code>MarketPlugin</code> 또는 <code>SourcingPlugin</code>을 상속했는지 확인</span></li>
+            <li><span class="explain-num">4</span><span class="explain-text">로그에 <code>로드 실패</code> 메시지가 있는지 확인 (import 에러 등)</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🧪</span> 2단계 — Python으로 직접 테스트</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Python 쉘)</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 파이썬 쉘 열기</span>
+<span class="keyword">cd</span> backend
+.venv/Scripts/python.exe
+
+<span class="comment"># 아래를 한 줄씩 입력:</span>
+>>> <span class="keyword">from</span> backend.domain.samba.plugins <span class="keyword">import</span> MARKET_PLUGINS
+>>> <span class="function">print</span>(MARKET_PLUGINS.keys())
+<span class="comment"># → dict_keys(['smartstore', 'coupang', ... , 'tmon'])  ← tmon이 보이면 성공!</span>
+
+>>> plugin = MARKET_PLUGINS[<span class="string">"tmon"</span>]
+>>> <span class="function">print</span>(plugin.market_type)
+<span class="comment"># → tmon</span>
+>>> <span class="function">print</span>(plugin.policy_key)
+<span class="comment"># → 티몬</span></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🧪</span> 3단계 — transform 함수 테스트</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Python 쉘)</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 가짜 상품 데이터로 transform 테스트</span>
+>>> fake_product = {
+...   <span class="string">"name"</span>: <span class="string">"나이키 에어맥스 97"</span>,
+...   <span class="string">"sale_price"</span>: <span class="number">159000</span>,
+...   <span class="string">"detail_html"</span>: <span class="string">"&lt;p&gt;멋진 신발&lt;/p&gt;"</span>,
+... }
+>>> result = plugin.transform(fake_product, <span class="string">"12345"</span>)
+>>> <span class="function">print</span>(result)
+<span class="comment"># → {'productName': '나이키 에어맥스 97', 'salePrice': 159000, ...}</span>
+<span class="comment"># 마켓 API 형식으로 잘 변환되는지 확인!</span></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 13: 절대 금지 사항 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="forbidden">
+    <div class="section-header">
+      <div class="section-number">13</div>
+      <h3 class="section-title">절대 금지 사항</h3>
+    </div>
+
+    <div class="alert alert-danger">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-content">
+        <strong>아래 행위는 팀 전체에 피해를 줍니다. 반드시 지켜주세요.</strong>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:50px">#</th>
+            <th style="width:200px">금지 행위</th>
+            <th>왜 위험한가</th>
+            <th style="width:200px">대신 이렇게</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:var(--red)">1</strong></td>
+            <td><code>git add .</code> 사용</td>
+            <td>.env(비밀번호), 다른 사람 파일, 임시 파일이 전부 올라감</td>
+            <td><code>git add 내파일.py</code></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--red)">2</strong></td>
+            <td><code>main</code>에 직접 커밋</td>
+            <td>다른 9명에게 즉시 영향. 버그가 있으면 전원 작업 불가</td>
+            <td>feature 브랜치에서 작업 후 PR</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--red)">3</strong></td>
+            <td><code>git push --force</code></td>
+            <td>다른 사람이 올린 코드가 통째로 사라짐. 복구 불가</td>
+            <td>일반 <code>git push</code>만 사용</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--red)">4</strong></td>
+            <td>공유 파일 수정</td>
+            <td><code>__init__.py</code>, <code>market_base.py</code>, <code>sourcing_base.py</code>를 수정하면 전원에게 영향</td>
+            <td>팀장에게 먼저 말하기</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--red)">5</strong></td>
+            <td>다른 사람 파일 수정</td>
+            <td>충돌 발생 + 상대방 작업 덮어쓸 위험</td>
+            <td>해당 담당자에게 요청</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--red)">6</strong></td>
+            <td>이름 중복</td>
+            <td><code>market_type</code>/<code>site_name</code>이 겹치면 하나가 덮어쓰기 됨</td>
+            <td>아래 "사용 중인 이름" 확인</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--red)">7</strong></td>
+            <td><code>.env</code> 커밋</td>
+            <td>비밀번호가 GitHub에 올라가면 전세계에 공개. 해킹 위험</td>
+            <td>.gitignore가 막아주지만, 직접 추가하지 말 것</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 14: 사용 중인 이름 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="names">
+    <div class="section-header">
+      <div class="section-number">14</div>
+      <h3 class="section-title">사용 중인 이름 (중복 금지)</h3>
+    </div>
+
+    <p class="desc">
+      새 플러그인을 만들 때 아래 이름과 겹치면 안 됩니다. 새 이름을 정하면 팀 채팅방에 공유하세요.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">🏪 판매처 — <code>market_type</code> (사용 중)</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:0.75rem">
+          <span class="badge badge-orange">smartstore</span>
+          <span class="badge badge-orange">coupang</span>
+          <span class="badge badge-orange">elevenst</span>
+          <span class="badge badge-orange">lotteon</span>
+          <span class="badge badge-orange">ssg</span>
+          <span class="badge badge-orange">lottehome</span>
+          <span class="badge badge-orange">gsshop</span>
+          <span class="badge badge-orange">kream</span>
+          <span class="badge badge-orange">toss</span>
+          <span class="badge badge-orange">rakuten</span>
+          <span class="badge badge-orange">amazon</span>
+          <span class="badge badge-orange">buyma</span>
+          <span class="badge badge-orange">cafe24</span>
+          <span class="badge badge-orange">playauto</span>
+          <span class="badge badge-orange">ebay</span>
+          <span class="badge badge-orange">lazada</span>
+          <span class="badge badge-orange">qoo10</span>
+          <span class="badge badge-orange">shopee</span>
+          <span class="badge badge-orange">shopify</span>
+          <span class="badge badge-orange">zoom</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📦 소싱처 — <code>site_name</code> (사용 중)</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:0.75rem">
+          <span class="badge badge-blue">MUSINSA</span>
+          <span class="badge badge-blue">KREAM</span>
+          <span class="badge badge-blue">DANAWA</span>
+        </div>
+        <p class="text-xs text-dim mt-2">소싱처 site_name은 <strong>대문자</strong>로 작성합니다.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 15: 일일 체크리스트 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="checklist">
+    <div class="section-header">
+      <div class="section-number">15</div>
+      <h3 class="section-title">일일 체크리스트</h3>
+    </div>
+
+    <p class="desc">매일 작업할 때 이 순서대로 하세요. 프린트해서 모니터에 붙여두는 걸 추천합니다.</p>
+
+    <div class="card">
+      <div class="card-title">🌅 아침 (작업 시작 전)</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>git checkout main</code> → <code>git pull origin main</code></span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>git checkout feature/내브랜치</code> → <code>git merge main</code></span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💻 작업 중</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>내 파일만 수정하고 있는지 확인 (<code>git status</code>로 수시 체크)</span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>기능 하나 완성할 때마다 커밋 (<code>git add 내파일.py</code> → <code>git commit</code>)</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🌙 퇴근 전</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>git push origin feature/내브랜치</code></span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>작업 완료 시 GitHub에서 PR 생성</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">✅ 플러그인 완성 시 최종 점검</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span><code>market_type</code> / <code>site_name</code>이 다른 마켓과 안 겹치는지?</span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>서버 재시작 시 플러그인 숫자가 늘어나는지?</span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>transform() 함수로 데이터 변환이 되는지?</span></li>
+        <li><div class="check-box" onclick="this.classList.toggle('checked')">✓</div><span>다른 사람 파일은 안 건드렸는지? (<code>git status</code> 확인)</span></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 16: FAQ -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="faq">
+    <div class="section-header">
+      <div class="section-number">16</div>
+      <h3 class="section-title">자주 묻는 질문 (FAQ)</h3>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Q. 내가 어떤 브랜치에 있는지 어떻게 알아요?</div>
+      <div class="code-block">
+        <div class="code-body"><span class="keyword">git</span> branch
+<span class="comment"># 별표(*)가 붙은 게 지금 있는 브랜치</span>
+<span class="comment">#   main</span>
+<span class="comment"># * feature/tmon-plugin  ← 여기 있음</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Q. 실수로 main에 커밋해버렸어요!</div>
+      <p class="text-sm text-muted mb-1">아직 push 안 했다면:</p>
+      <div class="code-block">
+        <div class="code-body"><span class="comment"># 커밋을 되돌리기 (코드는 유지, 커밋만 취소)</span>
+<span class="keyword">git</span> reset --soft HEAD~1
+
+<span class="comment"># 새 브랜치 만들고 거기서 다시 커밋</span>
+<span class="keyword">git</span> checkout -b feature/내마켓-plugin
+<span class="keyword">git</span> add 내파일.py
+<span class="keyword">git</span> commit -m <span class="string">"메시지"</span></div>
+      </div>
+      <p class="text-sm text-muted">이미 push 했다면 → <strong>팀장에게 즉시 연락</strong>하세요.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Q. git pull 했더니 이상한 에디터가 열렸어요!</div>
+      <p class="text-sm text-muted mb-1">merge 커밋 메시지를 작성하라는 뜻입니다.</p>
+      <div class="code-block">
+        <div class="code-body"><span class="comment"># vim 에디터가 열렸을 때:</span>
+<span class="comment"># 1. :q 입력하고 Enter (그냥 나가기)</span>
+<span class="comment"># 또는</span>
+<span class="comment"># 1. Esc 키 누르기</span>
+<span class="comment"># 2. :wq 입력하고 Enter (저장하고 나가기)</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Q. 서버가 안 켜져요! 에러 메시지가 나와요</div>
+      <p class="text-sm text-muted mb-1">자주 발생하는 원인들:</p>
+      <ul class="explain-list">
+        <li><span class="explain-num">1</span><span class="explain-text"><strong>가상환경이 꺼져있음</strong> → <code>source .venv/Scripts/activate</code> 실행</span></li>
+        <li><span class="explain-num">2</span><span class="explain-text"><strong>.env 파일이 없음</strong> → 팀장에게 파일 요청</span></li>
+        <li><span class="explain-num">3</span><span class="explain-text"><strong>import 에러</strong> → 내 플러그인 코드에 오타가 있을 수 있음. 에러 메시지 확인</span></li>
+        <li><span class="explain-num">4</span><span class="explain-text"><strong>DB 연결 실패</strong> → VPN이 꺼져있거나 .env의 DB 주소가 틀린 경우</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Q. transform 함수에 어떤 필드를 넣어야 하나요?</div>
+      <p class="text-sm text-muted">
+        해당 마켓의 <strong>API 개발 문서</strong>를 봐야 합니다.<br>
+        마켓마다 요구하는 필드가 다릅니다 (상품명, 가격, 카테고리, 배송비, 이미지 등).<br><br>
+        기존 구현체를 참고하세요:<br>
+        • 간단한 예: <code>plugins/markets/elevenst.py</code> (71줄)<br>
+        • 복잡한 예: <code>plugins/markets/coupang.py</code> (143줄)
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Q. 모르겠으면 어떡하나요?</div>
+      <p class="text-sm text-muted">
+        1. 이 가이드를 다시 읽어보기<br>
+        2. 기존 코드 파일 열어서 참고하기 (복사 → 수정하면 됨!)<br>
+        3. 팀 채팅방에 질문하기<br>
+        4. 팀장에게 화면 공유하며 도움 요청
+      </p>
+    </div>
+  </div>
+
+
+  <div class="separator"></div>
+
+  <!-- ─── Footer ─── -->
+  <div style="text-align:center; padding:2rem 0;">
+    <p style="color:var(--text-dim); font-size:0.75rem; font-family:var(--font-mono);">
+      SambaWave Team Dev Guide v1.0 — Last updated 2026-03-25
+    </p>
+  </div>
+
+</main>
+
+
+<!-- ─── Scripts ─── -->
+<script>
+// 읽기 진행률
+const progressFill = document.getElementById('progressFill');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressFill.style.width = progress + '%';
+});
+
+// 사이드바 active 링크
+const sections = document.querySelectorAll('.section[id]');
+const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      sidebarLinks.forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(section => observer.observe(section));
+
+// 코드 복사
+function copyCode(btn) {
+  const code = btn.closest('.code-block').querySelector('.code-body').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = '복사됨!';
+    setTimeout(() => btn.textContent = '복사', 1500);
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1291,6 +1291,39 @@ p.desc {
     </div>
 
     <div class="steps">
+      <!-- Step 0 -->
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot orange">0</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h4>Git 전역 설정 (최초 1회)</h4>
+          <p>Git을 처음 쓸 때 <strong>딱 한 번만</strong> 해주면 됩니다. 내 이름과 이메일을 등록합니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널 (Git Bash)</span></div>
+            </div>
+            <div class="code-body"><span class="comment"># 본인 이름 입력 (커밋에 표시됨)</span>
+<span class="keyword">git</span> config --global user.name <span class="string">"홍길동"</span>
+
+<span class="comment"># 본인 이메일 입력 (GitHub 가입 이메일과 동일하게)</span>
+<span class="keyword">git</span> config --global user.email <span class="string">"hong@example.com"</span>
+
+<span class="comment"># 설정 확인</span>
+<span class="keyword">git</span> config --global --list</div>
+          </div>
+          <div class="alert alert-warning">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+              <strong>이걸 안 하면?</strong>
+              커밋할 때 <code>Please tell me who you are</code> 에러가 나옵니다.<br>
+              이메일은 <strong>GitHub 가입할 때 쓴 이메일</strong>과 같아야 커밋 기록이 본인으로 연결됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Step 1 -->
       <div class="step">
         <div class="step-line">

@@ -3227,6 +3227,12 @@ market_type = <span class="string">"tmon_v2"</span>
 
 <!-- ─── Scripts ─── -->
 <script>
+// 페이지 로드 시 해시 자동 스크롤 방지
+if (window.location.hash) {
+  history.replaceState(null, '', window.location.pathname);
+  window.scrollTo(0, 0);
+}
+
 // 읽기 진행률
 const progressFill = document.getElementById('progressFill');
 window.addEventListener('scroll', () => {

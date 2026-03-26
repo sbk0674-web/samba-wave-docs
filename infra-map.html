@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼바웨이브 인프라 도식도</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06060a;
+    --bg-card: #0e0e14;
+    --border: #1a1a24;
+    --text: #e4e4ec;
+    --text-muted: #7a7a94;
+    --accent: #ff8c00;
+    --green: #3ecf8e;
+    --blue: #5c9aff;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+    --red: #ff6b6b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 2rem;
+  }
+  h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+  h2 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); }
+  h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+  p, li { color: var(--text-muted); font-size: 0.9rem; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .back { display: inline-block; margin-bottom: 1.5rem; font-size: 0.85rem; }
+
+  /* 도식도 캔버스 */
+  .diagram {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .diagram svg { display: block; margin: 0 auto; }
+
+  /* 요금표 */
+  .pricing { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .price-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .price-card .name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .price-card .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .price-card .cost { font-size: 1.5rem; font-weight: 800; font-family: 'Outfit', sans-serif; }
+  .price-card .desc { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem; }
+  .price-card .free { color: var(--green); }
+  .price-card .paid { color: var(--accent); }
+  .price-card .usage { color: var(--pink); }
+
+  /* 플로우 */
+  .flow-section { margin: 1.5rem 0; }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+    flex-wrap: wrap;
+  }
+  .flow-box {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
+  .fb-user { background: rgba(92,154,255,0.15); border: 1px solid rgba(92,154,255,0.3); color: var(--blue); }
+  .fb-ext { background: rgba(167,139,250,0.15); border: 1px solid rgba(167,139,250,0.3); color: var(--purple); }
+  .fb-front { background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3); color: var(--accent); }
+  .fb-back { background: rgba(62,207,142,0.15); border: 1px solid rgba(62,207,142,0.3); color: var(--green); }
+  .fb-db { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--red); }
+  .fb-ext-svc { background: rgba(244,114,182,0.15); border: 1px solid rgba(244,114,182,0.3); color: var(--pink); }
+  .fb-market { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); color: #ffd700; }
+
+  /* 범례 */
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--text-muted); }
+
+  /* 테이블 */
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+  th { background: rgba(255,140,0,0.08); color: var(--accent); text-align: left; padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+  td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  td:first-child { color: var(--text); font-weight: 500; }
+
+  .emoji { font-size: 1.2rem; }
+  .note { background: rgba(255,140,0,0.06); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.85rem; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back">&larr; 문서 목록으로</a>
+
+<h1><span class="emoji">🗺️</span> 삼바웨이브 인프라 전체 도식도</h1>
+<p>서비스별 연결 관계, 데이터 흐름, 요금 구조를 초딩도 이해할 수 있게 정리</p>
+
+<!-- ━━━━━━━━━━━━━━━━ 전체 구조도 ━━━━━━━━━━━━━━━━ -->
+<h2>1. 전체 구조 (한눈에 보기)</h2>
+
+<div class="diagram">
+<svg width="900" height="620" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans KR', sans-serif">
+  <!-- 배경 그리드 -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#555"/></marker>
+    <marker id="arrowGreen" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#3ecf8e"/></marker>
+    <marker id="arrowOrange" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#ff8c00"/></marker>
+    <marker id="arrowPink" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#f472b6"/></marker>
+  </defs>
+
+  <!-- 사용자 -->
+  <rect x="350" y="10" width="200" height="50" rx="25" fill="#1a1a2e" stroke="#5c9aff" stroke-width="2"/>
+  <text x="450" y="41" text-anchor="middle" fill="#5c9aff" font-size="15" font-weight="700">👤 사용자 (브라우저)</text>
+
+  <!-- 확장앱 -->
+  <rect x="30" y="90" width="180" height="50" rx="12" fill="#1a1a2e" stroke="#a78bfa" stroke-width="2"/>
+  <text x="120" y="121" text-anchor="middle" fill="#a78bfa" font-size="14" font-weight="600">🧩 크롬 확장앱</text>
+
+  <!-- Vercel -->
+  <rect x="350" y="90" width="200" height="50" rx="12" fill="#1a1a2e" stroke="#ff8c00" stroke-width="2"/>
+  <text x="450" y="121" text-anchor="middle" fill="#ff8c00" font-size="14" font-weight="600">▲ Vercel (프론트엔드)</text>
+
+  <!-- GitHub -->
+  <rect x="680" y="90" width="180" height="50" rx="12" fill="#1a1a2e" stroke="#7a7a94" stroke-width="2"/>
+  <text x="770" y="121" text-anchor="middle" fill="#e4e4ec" font-size="14" font-weight="600">🐙 GitHub</text>
+
+  <!-- Railway 백엔드 (큰 박스) -->
+  <rect x="220" y="190" width="460" height="130" rx="16" fill="#0a1a0a" stroke="#3ecf8e" stroke-width="2"/>
+  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">🚂 Railway (백엔드 FastAPI)</text>
+  <!-- 내부 모듈 -->
+  <rect x="240" y="235" width="120" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
+  <text x="300" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">상품수집/관리</text>
+  <rect x="375" y="235" width="120" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
+  <text x="435" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">AI 가공/매핑</text>
+  <rect x="510" y="235" width="150" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
+  <text x="585" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">마켓 전송/주문</text>
+  <rect x="240" y="280" width="420" height="25" rx="6" fill="rgba(62,207,142,0.05)" stroke="rgba(62,207,142,0.15)"/>
+  <text x="450" y="297" text-anchor="middle" fill="rgba(62,207,142,0.6)" font-size="10">프록시 계층: 쿠키관리, API인증, 이미지업로드, 브랜드검색</text>
+
+  <!-- DB -->
+  <rect x="30" y="210" width="160" height="50" rx="12" fill="#1a0a0a" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="110" y="241" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="600">🗄️ PostgreSQL</text>
+  <text x="110" y="256" text-anchor="middle" fill="#7a7a94" font-size="10">(Railway DB)</text>
+
+  <!-- 외부 서비스들 (하단) -->
+  <!-- Gemini -->
+  <rect x="30" y="380" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
+  <text x="110" y="406" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">🤖 Google Gemini</text>
+  <text x="110" y="424" text-anchor="middle" fill="#7a7a94" font-size="10">AI 이미지 변환</text>
+
+  <!-- Claude -->
+  <rect x="210" y="380" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
+  <text x="290" y="406" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">🧠 Claude API</text>
+  <text x="290" y="424" text-anchor="middle" fill="#7a7a94" font-size="10">카테고리/상품명 AI</text>
+
+  <!-- R2 -->
+  <rect x="390" y="380" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
+  <text x="470" y="406" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">☁️ Cloudflare R2</text>
+  <text x="470" y="424" text-anchor="middle" fill="#7a7a94" font-size="10">AI 이미지 저장소</text>
+
+  <!-- Aligo -->
+  <rect x="570" y="380" width="140" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
+  <text x="640" y="406" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">📱 Aligo SMS</text>
+  <text x="640" y="424" text-anchor="middle" fill="#7a7a94" font-size="10">알림톡/문자</text>
+
+  <!-- 마켓 (가장 하단) -->
+  <rect x="60" y="500" width="120" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="120" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">스마트스토어</text>
+  <rect x="195" y="500" width="100" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="245" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">쿠팡</text>
+  <rect x="310" y="500" width="100" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="360" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">11번가</text>
+  <rect x="425" y="500" width="100" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="475" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">롯데ON</text>
+  <rect x="540" y="500" width="80" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="580" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">SSG</text>
+  <rect x="635" y="500" width="80" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="675" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">GS샵</text>
+  <rect x="730" y="500" width="100" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="780" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">+15개 마켓</text>
+
+  <!-- 소싱처 (좌측) -->
+  <rect x="720" y="210" width="150" height="50" rx="12" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="795" y="237" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="600">🛒 소싱처</text>
+  <text x="795" y="254" text-anchor="middle" fill="#7a7a94" font-size="10">무신사/KREAM/나이키...</text>
+
+  <!-- 화살표 연결 -->
+  <!-- 사용자 → Vercel -->
+  <line x1="450" y1="60" x2="450" y2="88" stroke="#ff8c00" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <!-- 사용자 → 확장앱 -->
+  <path d="M370 35 L120 88" stroke="#a78bfa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <!-- Vercel → Railway -->
+  <line x1="450" y1="140" x2="450" y2="188" stroke="#3ecf8e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="460" y="170" fill="#7a7a94" font-size="9">API 호출</text>
+  <!-- 확장앱 → Railway -->
+  <path d="M180 140 L280 188" stroke="#a78bfa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="200" y="165" fill="#7a7a94" font-size="9">쿠키 전송</text>
+  <!-- Railway → DB -->
+  <line x1="220" y1="255" x2="192" y2="240" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Railway → Gemini -->
+  <line x1="320" y1="320" x2="130" y2="378" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
+  <!-- Railway → Claude -->
+  <line x1="400" y1="320" x2="310" y2="378" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
+  <!-- Railway → R2 -->
+  <line x1="450" y1="320" x2="460" y2="378" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
+  <!-- Railway → Aligo -->
+  <line x1="550" y1="320" x2="620" y2="378" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
+  <!-- Railway → 마켓 -->
+  <line x1="450" y1="320" x2="450" y2="498" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+  <text x="460" y="470" fill="#7a7a94" font-size="9">상품등록/주문조회</text>
+  <!-- Railway → 소싱처 -->
+  <line x1="680" y1="255" x2="718" y2="240" stroke="#ffd700" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="700" y="268" fill="#7a7a94" font-size="9">수집</text>
+  <!-- GitHub → Vercel -->
+  <path d="M680 115 L552 115" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="620" y="108" fill="#7a7a94" font-size="9">자동배포</text>
+  <!-- GitHub → Railway -->
+  <path d="M720 140 L620 190" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="680" y="168" fill="#7a7a94" font-size="9">자동배포</text>
+
+  <!-- 범례 -->
+  <rect x="30" y="570" width="840" height="40" rx="8" fill="rgba(255,255,255,0.02)" stroke="var(--border)"/>
+  <circle cx="60" cy="590" r="6" fill="#5c9aff"/><text x="75" y="594" fill="#7a7a94" font-size="10">사용자</text>
+  <circle cx="140" cy="590" r="6" fill="#a78bfa"/><text x="155" y="594" fill="#7a7a94" font-size="10">확장앱</text>
+  <circle cx="220" cy="590" r="6" fill="#ff8c00"/><text x="235" y="594" fill="#7a7a94" font-size="10">프론트</text>
+  <circle cx="300" cy="590" r="6" fill="#3ecf8e"/><text x="315" y="594" fill="#7a7a94" font-size="10">백엔드</text>
+  <circle cx="380" cy="590" r="6" fill="#ff6b6b"/><text x="395" y="594" fill="#7a7a94" font-size="10">DB</text>
+  <circle cx="440" cy="590" r="6" fill="#f472b6"/><text x="455" y="594" fill="#7a7a94" font-size="10">외부API</text>
+  <circle cx="530" cy="590" r="6" fill="#ffd700"/><text x="545" y="594" fill="#7a7a94" font-size="10">마켓/소싱처</text>
+</svg>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 데이터 흐름 ━━━━━━━━━━━━━━━━ -->
+<h2>2. 데이터 흐름 (뭐가 어디로 가는지)</h2>
+
+<h3>상품 수집 흐름</h3>
+<div class="flow-row">
+  <span class="flow-box fb-ext">🧩 확장앱</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">쿠키 전송</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">🚂 백엔드</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-market">🛒 무신사 API</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-db">🗄️ DB 저장</span>
+</div>
+
+<h3>AI 이미지 변환 흐름</h3>
+<div class="flow-row">
+  <span class="flow-box fb-front">▲ 프론트</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">🚂 백엔드</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-ext-svc">🤖 Gemini</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-ext-svc">☁️ R2 저장</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-db">🗄️ DB URL 업데이트</span>
+</div>
+
+<h3>카테고리 매핑 흐름</h3>
+<div class="flow-row">
+  <span class="flow-box fb-front">▲ 프론트</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">🚂 백엔드 (룰→유사도→AI)</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-ext-svc">🧠 Claude</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-db">🗄️ 매핑 저장</span>
+</div>
+
+<h3>마켓 전송 흐름</h3>
+<div class="flow-row">
+  <span class="flow-box fb-front">▲ 프론트</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">🚂 백엔드 (소싱처 최신화)</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">상세HTML 생성</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">이미지 업로드</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-market">🏪 마켓 API</span>
+</div>
+
+<h3>주문 동기화 흐름</h3>
+<div class="flow-row">
+  <span class="flow-box fb-market">🏪 마켓 (주문발생)</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">🚂 백엔드 동기화</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-db">🗄️ DB 저장</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-ext-svc">📱 SMS 알림</span>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 요금 구조 ━━━━━━━━━━━━━━━━ -->
+<h2>3. 요금 구조 (매달 얼마나 나가는지)</h2>
+
+<div class="pricing">
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#ff8c00"></span> Vercel (프론트엔드)</div>
+    <div class="cost free">무료</div>
+    <div class="desc">Hobby 플랜 (개인 프로젝트)<br>월 100GB 대역폭, 자동 배포 포함<br>커스텀 도메인 무료</div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#3ecf8e"></span> Railway (백엔드+DB)</div>
+    <div class="cost paid">~$5~20/월</div>
+    <div class="desc">사용량 기반 과금<br>CPU: $0.000463/min, RAM: $0.000231/GB/min<br>DB: PostgreSQL 포함, 별도 과금<br><strong>팁:</strong> 안 쓸 때 슬립 설정하면 절약</div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#f472b6"></span> Cloudflare R2 (이미지)</div>
+    <div class="cost free">거의 무료</div>
+    <div class="desc">저장: 10GB 무료 (초과 $0.015/GB/월)<br>읽기: 1천만 건 무료<br>쓰기: 1백만 건 무료<br><strong>이그레스 요금 0원</strong> (S3와 차이점!)</div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#f472b6"></span> Google Gemini (AI 이미지)</div>
+    <div class="cost usage">사용량 과금</div>
+    <div class="desc">무료 티어: 분당 15회<br>유료: $0.075/이미지 (대략)<br>모델 착용컷 1건 = 대표1 + 추가2 = ~₩300<br><strong>100건/일 기준 ~₩30,000/월</strong></div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#f472b6"></span> Claude API (AI 텍스트)</div>
+    <div class="cost usage">사용량 과금</div>
+    <div class="desc">Sonnet 4: $3/M입력 + $15/M출력<br>카테고리 매핑 1건 ≈ ₩15<br>벌크 매핑 100건 ≈ ₩1,500<br><strong>평상시 거의 안 씀</strong></div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#f472b6"></span> Aligo SMS</div>
+    <div class="cost usage">선불 충전</div>
+    <div class="desc">SMS: 건당 ₩9.9<br>LMS: 건당 ₩27<br>카카오 알림톡: 건당 ₩6.5<br><strong>주문 알림용으로 적게 나감</strong></div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#7a7a94"></span> GitHub</div>
+    <div class="cost free">무료</div>
+    <div class="desc">Private 리포지토리 무료<br>GitHub Actions CI: 2,000분/월 무료<br>GitHub Pages (문서): 무료</div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#a78bfa"></span> 크롬 확장앱</div>
+    <div class="cost free">무료</div>
+    <div class="desc">개발자 등록: 1회 $5<br>이후 유지비 없음<br>내부 배포만 하면 등록비도 불필요</div>
+  </div>
+</div>
+
+<div class="note">
+  <strong>💡 월간 예상 비용 요약:</strong>
+  Railway $5~20 + Gemini ₩30,000 + Claude ₩5,000 + Aligo ₩10,000 ≈ <strong>총 ₩70,000~100,000/월</strong><br>
+  (상품 수, AI 사용량에 따라 크게 달라짐. AI 안 쓰면 Railway만 나감)
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 서비스별 역할 ━━━━━━━━━━━━━━━━ -->
+<h2>4. 서비스별 역할 (누가 뭘 하는지)</h2>
+
+<table>
+  <tr><th>서비스</th><th>역할</th><th>저장 데이터</th><th>관리 페이지</th></tr>
+  <tr>
+    <td>▲ Vercel</td>
+    <td>프론트엔드 웹앱 호스팅</td>
+    <td>없음 (정적 파일만)</td>
+    <td>vercel.com 대시보드</td>
+  </tr>
+  <tr>
+    <td>🚂 Railway</td>
+    <td>백엔드 API 서버 + DB 호스팅</td>
+    <td>모든 상품/주문/설정 데이터</td>
+    <td>railway.app 대시보드</td>
+  </tr>
+  <tr>
+    <td>☁️ Cloudflare R2</td>
+    <td>AI 변환 이미지 저장</td>
+    <td>transformed/*.webp 이미지 파일</td>
+    <td>Cloudflare 대시보드 → R2</td>
+  </tr>
+  <tr>
+    <td>🤖 Google Gemini</td>
+    <td>상품 이미지를 모델 착용컷으로 변환</td>
+    <td>없음 (호출만)</td>
+    <td>Google AI Studio</td>
+  </tr>
+  <tr>
+    <td>🧠 Claude API</td>
+    <td>카테고리 매핑, 상품명 가공</td>
+    <td>없음 (호출만)</td>
+    <td>Anthropic Console</td>
+  </tr>
+  <tr>
+    <td>📱 Aligo</td>
+    <td>주문 알림 SMS/카카오톡 발송</td>
+    <td>발송 이력</td>
+    <td>aligo.in 대시보드</td>
+  </tr>
+  <tr>
+    <td>🐙 GitHub</td>
+    <td>소스코드 저장 + CI/CD + 문서</td>
+    <td>소스코드, 배포 설정</td>
+    <td>github.com 리포</td>
+  </tr>
+  <tr>
+    <td>🧩 크롬 확장앱</td>
+    <td>무신사/KREAM 쿠키 수집, KREAM 자동 수집</td>
+    <td>쿠키 (로컬)</td>
+    <td>chrome://extensions</td>
+  </tr>
+</table>
+
+<!-- ━━━━━━━━━━━━━━━━ API 키 관리 ━━━━━━━━━━━━━━━━ -->
+<h2>5. API 키 어디서 관리하는지</h2>
+
+<table>
+  <tr><th>서비스</th><th>키 이름</th><th>저장 위치</th><th>설정 방법</th></tr>
+  <tr><td>Gemini</td><td>API Key</td><td>DB (samba_settings.gemini)</td><td>설정 페이지 → AI 설정</td></tr>
+  <tr><td>Claude</td><td>API Key</td><td>DB (samba_settings.claude)</td><td>설정 페이지 → AI 설정</td></tr>
+  <tr><td>R2</td><td>Access/Secret Key</td><td>DB (samba_settings.cloudflare_r2)</td><td>설정 페이지 → 스토리지</td></tr>
+  <tr><td>Aligo</td><td>API Key + User ID</td><td>DB (samba_settings.aligo_sms)</td><td>설정 페이지 → 알림</td></tr>
+  <tr><td>스마트스토어</td><td>Client ID/Secret</td><td>DB (마켓 계정)</td><td>설정 페이지 → 스토어 연결</td></tr>
+  <tr><td>쿠팡</td><td>Access/Secret Key</td><td>DB (마켓 계정)</td><td>설정 페이지 → 스토어 연결</td></tr>
+  <tr><td>무신사</td><td>쿠키 (자동)</td><td>DB (samba_settings.musinsa_cookie)</td><td>확장앱이 자동 전송</td></tr>
+</table>
+
+<div class="note">
+  <strong>핵심:</strong> 모든 API 키는 <strong>설정 페이지</strong>에서 관리됩니다. 서버 환경변수나 코드에 직접 넣지 않습니다.<br>
+  Railway/Vercel 대시보드에는 DB 연결 정보와 JWT 시크릿만 설정하면 됩니다.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 배포 흐름 ━━━━━━━━━━━━━━━━ -->
+<h2>6. 배포는 어떻게 되는지</h2>
+
+<div class="flow-row">
+  <span class="flow-box fb-user">코드 수정</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-ext">git push main</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box" style="background:rgba(255,255,255,0.05); border:1px solid #555; color:#e4e4ec">GitHub Actions (CI)</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-front">Vercel 자동배포</span>
+  <span style="color:var(--text-muted); font-size:0.85rem;">+</span>
+  <span class="flow-box fb-back">Railway 자동배포</span>
+</div>
+
+<p style="margin-top:0.5rem;">push 한 번이면 프론트+백엔드 동시에 자동 배포됩니다. 별도 작업 불필요.</p>
+
+<br><br>
+<p style="color:#555; font-size:0.75rem; text-align:center;">마지막 업데이트: 2026-03-26 | SambaWave Infrastructure Map</p>
+
+</body>
+</html>

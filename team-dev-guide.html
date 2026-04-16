@@ -963,7 +963,7 @@ p.desc {
 <nav class="sidebar">
   <div class="sidebar-logo">
     <h1>SambaWave</h1>
-    <p>Team Dev Guide v3.0</p>
+    <p>Team Dev Guide v4.0</p>
   </div>
 
   <div class="sidebar-section">
@@ -977,11 +977,14 @@ p.desc {
     <div class="sidebar-section-title">작업하기</div>
     <a href="#git-work" class="sidebar-link"><span class="icon">🌿</span> Git 작업하기</a>
     <a href="#my-work" class="sidebar-link"><span class="icon">🏗️</span> 내가 작업할 파일</a>
+    <a href="#merge-rules" class="sidebar-link"><span class="icon">🔀</span> 머지 규칙</a>
+    <a href="#code-rules" class="sidebar-link"><span class="icon">📐</span> 코드 작성 규칙</a>
   </div>
 
   <div class="sidebar-section">
     <div class="sidebar-section-title">참고</div>
     <a href="#names" class="sidebar-link"><span class="icon">📋</span> 담당자 할당표</a>
+    <a href="#stack" class="sidebar-link"><span class="icon">🛠️</span> 기술 스택</a>
   </div>
 
   <div class="sidebar-progress">
@@ -1001,7 +1004,8 @@ p.desc {
     <h2>삼바웨이브 팀 개발 가이드</h2>
     <p>
       10명이 동시에 코드를 수정해도 충돌 없이 개발하는 방법.<br>
-      처음 개발하는 분도 이 가이드만 따라하면 됩니다.
+      처음 개발하는 분도 이 가이드만 따라하면 됩니다.<br>
+      <span style="color:var(--text-dim);font-size:0.85rem">기준: 프로덕션 환경 (Google Cloud Run + Vercel)</span>
     </p>
   </div>
 
@@ -1051,16 +1055,17 @@ p.desc {
 
       <div class="code-block">
         <div class="code-header">
-          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">브랜치 개념도</span></div>
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">브랜치 전략 (프로덕션 기준)</span></div>
         </div>
         <div class="code-body">
-<span class="comment">         ┌── feature/tmon (A가 작업 중) ──── 커밋 ── 커밋 ── merge!</span>
-<span class="comment">         │                                                    ↓</span>
-<span class="important">main ────●────────────────────────────────────────────────────●────▶</span>
-<span class="comment">         │                                                    ↑</span>
-<span class="comment">         └── feature/oliveyoung (B가 작업 중) ─ 커밋 ─ merge!</span>
+<span class="comment">         ┌── feature/tmon-plugin (팀원 A) ──── 커밋 ── PR → 팀장 승인 → merge!</span>
+<span class="comment">         │                                                               ↓</span>
+<span class="important">main ────●───────────────────────────────────────────────────────────●────▶  (팀장: 직접 작업)</span>
+<span class="comment">         │                                                               ↑</span>
+<span class="comment">         └── feature/oliveyoung-sourcing (팀원 B) ─ 커밋 ─ PR → merge!</span>
 <span class="comment"></span>
-<span class="comment">각자 다른 브랜치(=다른 파일)에서 작업하기 때문에, 충돌이 거의 없습니다.</span></div>
+<span class="comment">팀원: feature/xxx-plugin 또는 feature/xxx-sourcing 브랜치 생성 → PR → 팀장 승인 후 merge</span>
+<span class="comment">팀장: main 브랜치에서 직접 작업 (PR 없음)</span></div>
       </div>
 
       <p class="text-sm text-muted">
@@ -1751,6 +1756,23 @@ p.desc {
         커밋 = 내 컴퓨터에 저장, 푸시 = GitHub에 업로드, 그 다음 팀장에게 "코드 확인해주세요" 요청
       </p>
 
+      <div class="alert alert-danger" style="margin-bottom:1rem">
+        <div class="alert-icon">🚨</div>
+        <div class="alert-content">
+          <strong>푸시 전 필수: ruff 포맷 + 린트 실행</strong><br>
+          백엔드 Python 파일을 수정했다면, push 전에 반드시 아래 명령어를 실행하세요.<br>
+          누락하면 CI 빌드가 실패합니다.
+          <div class="code-block" style="margin-top:0.5rem">
+            <div class="code-header">
+              <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">backend 폴더에서</span></div>
+            </div>
+            <div class="code-body"><span class="keyword">cd</span> backend
+<span class="function">.venv/Scripts/python.exe</span> -m <span class="string">ruff format .</span>     <span class="comment"># 포맷 (필수)</span>
+<span class="function">.venv/Scripts/python.exe</span> -m <span class="string">ruff check --fix .</span> <span class="comment"># 린트 자동수정 (필수)</span></div>
+          </div>
+        </div>
+      </div>
+
       <div class="claude-prompt">
         <div class="claude-prompt-label">💬 Claude Code에 말하기</div>
         <div class="claude-prompt-text">"GitHub에 푸시해줘"</div>
@@ -1764,6 +1786,28 @@ p.desc {
       <p class="text-sm text-muted" style="margin:0.5rem 0">
         Claude Code가 push + 검토 요청까지 한번에 해줍니다. 팀장이 코드를 확인하고, 괜찮으면 반영해줍니다.
       </p>
+    </div>
+
+    <!-- DB 마이그레이션 체크리스트 -->
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🗃️</span> DB 컬럼/테이블 추가 시 체크리스트</div>
+
+      <div class="alert alert-warning">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <strong>모델(model.py) 필드를 추가/변경하면 반드시 마이그레이션 파일을 생성해야 합니다.</strong><br>
+          마이그레이션 없이 push하면 프로덕션 DB에 컬럼이 없어서 서버 오류가 발생합니다.
+        </div>
+      </div>
+
+      <ul class="checklist" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1rem 0.5rem">
+        <li><span class="check-box">✓</span><span><code>model.py</code> 필드 추가/변경</span></li>
+        <li><span class="check-box">✓</span><span><code>cd backend && python scripts/check_migrations.py</code> 실행 — 누락 검증</span></li>
+        <li><span class="check-box">✓</span><span><code>alembic revision --autogenerate -m "변경 내용"</code> 마이그레이션 파일 생성</span></li>
+        <li><span class="check-box">✓</span><span>생성된 마이그레이션 파일 내용 검토 (자동생성 오류 확인)</span></li>
+        <li><span class="check-box">✓</span><span>로컬에서 <code>alembic upgrade head</code> 적용 확인</span></li>
+        <li><span class="check-box">✓</span><span>마이그레이션 파일을 커밋에 포함하여 push</span></li>
+      </ul>
     </div>
 
   </div>
@@ -1898,6 +1942,223 @@ p.desc {
 
   </div>
 
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION 5: 머지 규칙 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="merge-rules">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h3 class="section-title">머지 규칙 — 팀장 전용</h3>
+    </div>
+
+    <p class="desc">
+      팀원 PR을 머지하기 전에 반드시 공유 파일 변경 여부를 확인해야 합니다.<br>
+      컨플릭트가 없어도 안전하지 않습니다 — Git은 한쪽만 변경하면 자동 채택하므로 팀장 코드가 통째로 유실될 수 있습니다.
+    </p>
+
+    <div class="alert alert-danger">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-content">
+        <strong>컨플릭트 없음 ≠ 안전</strong><br>
+        팀원이 공유 파일을 수정했지만 팀장과 동일한 줄에 손대지 않으면 Git은 자동으로 팀원 내용을 채택합니다. 팀장이 공들여 만든 로직이 통째로 사라질 수 있습니다.
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🔍</span> 머지 전 필수 체크 절차</div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot orange">1</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>변경 파일 목록 확인</h4>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+              </div>
+              <div class="code-body"><span class="keyword">git</span> diff main...<span class="string">팀원브랜치</span> --name-only</div>
+            </div>
+            <p>변경된 파일 목록이 나옵니다. <strong>담당 플러그인 파일 외 다른 파일이 있으면 즉시 멈추세요.</strong></p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot blue">2</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>허용 파일 vs 금지 파일</h4>
+            <div class="grid-2">
+              <div class="card" style="border-color:rgba(62,207,142,0.2)">
+                <div class="card-title" style="color:var(--green)">허용 (본인 담당만)</div>
+                <ul style="list-style:none;font-size:0.82rem;color:var(--text-muted);line-height:1.9">
+                  <li><code>plugins/markets/본인마켓.py</code></li>
+                  <li><code>plugins/sourcing/본인소싱처.py</code></li>
+                  <li><code>proxy/본인마켓.py</code></li>
+                </ul>
+              </div>
+              <div class="card" style="border-color:rgba(255,107,107,0.2)">
+                <div class="card-title" style="color:var(--red)">금지 (머지 불가)</div>
+                <ul style="list-style:none;font-size:0.82rem;color:var(--text-muted);line-height:1.9">
+                  <li><code>plugins/__init__.py</code></li>
+                  <li><code>plugins/market_base.py</code></li>
+                  <li><code>plugins/sourcing_base.py</code></li>
+                  <li><code>collector/</code> 폴더 전체</li>
+                  <li>다른 팀원 담당 파일</li>
+                  <li>기타 공유 파일</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-line">
+            <div class="step-dot green">3</div>
+          </div>
+          <div class="step-content">
+            <h4>공유 파일 변경 감지 시</h4>
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">diff 내용 확인</span></div>
+              </div>
+              <div class="code-body"><span class="keyword">git</span> diff main...<span class="string">팀원브랜치</span> -- <span class="string">문제파일경로</span></div>
+            </div>
+            <p>diff를 확인하고 의도치 않은 변경이라면 <strong>머지하지 말고 팀원에게 해당 파일 변경을 되돌려달라고 요청</strong>하세요.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION: 코드 작성 규칙 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="code-rules">
+    <div class="section-header">
+      <div class="section-number" style="background: linear-gradient(135deg, #a78bfa, #5c9aff);">✍</div>
+      <h3 class="section-title">코드 작성 규칙</h3>
+    </div>
+
+    <p class="desc">
+      코드를 작성할 때 반드시 지켜야 할 규칙들입니다. Claude Code가 이 규칙에 맞게 도와줍니다.
+    </p>
+
+    <div class="grid-2">
+      <div class="card" style="border-color:rgba(255,107,107,0.2)">
+        <div class="card-title" style="color:var(--red)">절대 금지</div>
+        <ul style="list-style:none;font-size:0.82rem;color:var(--text-muted);line-height:2">
+          <li>❌ <code>any</code> 타입 사용 (TypeScript)</li>
+          <li>❌ 스피너(loading spinner) 사용</li>
+          <li>❌ 팝업창 — 반드시 모달창으로 구현</li>
+          <li>❌ 텍스트 2행 초과 — UI 레이아웃 조정 필요</li>
+          <li>❌ <strong>삭제(마켓삭제)</strong>와 <strong>판매중지(SUSPENSION/STOP)</strong> 혼동</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(62,207,142,0.2)">
+        <div class="card-title" style="color:var(--green)">필수 준수</div>
+        <ul style="list-style:none;font-size:0.82rem;color:var(--text-muted);line-height:2">
+          <li>✅ 언어: TypeScript, Python (타입 명시)</li>
+          <li>✅ 코드 주석: 한국어</li>
+          <li>✅ 커밋 메시지: 한국어</li>
+          <li>✅ 변수명/함수명: 영어 (camelCase)</li>
+          <li>✅ 들여쓰기: 2칸 스페이스</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsection" style="margin-top:1.5rem">
+      <div class="subsection-title"><span class="sub-icon">🔢</span> 숫자 표시 규칙 — UI에 표시되는 모든 숫자</div>
+
+      <div class="alert alert-warning">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <strong>UI에 표시되는 모든 숫자는 예외 없이 천 단위 콤마를 적용해야 합니다.</strong><br>
+          1000 → 1,000 / 50000 → 50,000 / 1234567 → 1,234,567
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>대상</th><th>사용 방법</th><th>예시</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>UI 렌더링 (가격, 건수, 수량, 재고 등)</td>
+              <td><code>fmtNum(value)</code></td>
+              <td><code>{fmtNum(count)}</code></td>
+            </tr>
+            <tr>
+              <td>로그 메시지 (addLog)</td>
+              <td><code>.toLocaleString()</code></td>
+              <td><code>`${count.toLocaleString()}건`</code></td>
+            </tr>
+            <tr>
+              <td>제외 대상</td>
+              <td colspan="2">백분율(%), 소수점 시간, 페이지번호, 배열 인덱스</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block" style="margin-top:0.75rem">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">올바른 사용 예시</span></div>
+        </div>
+        <div class="code-body"><span class="comment">// import 추가</span>
+<span class="keyword">import</span> { <span class="function">fmtNum</span> } <span class="keyword">from</span> <span class="string">'@/lib/samba/styles'</span>
+
+<span class="comment">// 올바른 사용</span>
+&lt;<span class="class">span</span>&gt;{<span class="function">fmtNum</span>(count)}<span class="string">건</span>&lt;/<span class="class">span</span>&gt;
+&lt;<span class="class">span</span>&gt;{<span class="function">fmtNum</span>(price)}<span class="string">원</span>&lt;/<span class="class">span</span>&gt;
+
+<span class="comment">// 잘못된 사용 (금지)</span>
+&lt;<span class="class">span</span>&gt;{count}<span class="string">건</span>&lt;/<span class="class">span</span>&gt;   <span class="comment">// ❌</span>
+&lt;<span class="class">span</span>&gt;{total}<span class="string">원</span>&lt;/<span class="class">span</span>&gt;   <span class="comment">// ❌</span></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🗄️</span> DB 세션 규칙</div>
+      <div class="alert alert-info">
+        <div class="alert-icon">ℹ️</div>
+        <div class="alert-content">
+          <strong>DB 세션은 반드시 Read/Write 분리 사용</strong><br>
+          • 데이터 <strong>수정/생성/삭제</strong> → <code>get_write_session_dependency()</code><br>
+          • <strong>조회 전용</strong> → <code>get_read_session_dependency()</code><br>
+          두 세션을 절대 혼용하지 말 것. 혼용 시 데이터 정합성 문제 발생.
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-icon">🏗️</span> 새 API 엔드포인트 추가 순서</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"><div class="step-dot orange">1</div><div class="step-connector"></div></div>
+          <div class="step-content"><h4>DTO 작성</h4><p><code>backend/dtos/</code> 에 Request/Response 모델 정의</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot orange">2</div><div class="step-connector"></div></div>
+          <div class="step-content"><h4>Repository 작성</h4><p>순수 데이터 접근 로직만. 비즈니스 로직 금지.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot orange">3</div><div class="step-connector"></div></div>
+          <div class="step-content"><h4>Service 작성</h4><p>비즈니스 로직은 반드시 Service에만 위치</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot green">4</div></div>
+          <div class="step-content"><h4>Router 등록</h4><p><code>api/v1/routers/</code> 에 엔드포인트 추가</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
@@ -2275,12 +2536,61 @@ p.desc {
   </div>
 
 
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- SECTION: 기술 스택 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" id="stack">
+    <div class="section-header">
+      <div class="section-number" style="background: linear-gradient(135deg, #5c9aff, #3ecf8e);">🛠</div>
+      <h3 class="section-title">기술 스택 (프로덕션)</h3>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>영역</th><th>기술</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>백엔드 프레임워크</strong></td><td>FastAPI (async/await)</td><td>Python 3.12.3</td></tr>
+          <tr><td><strong>ORM</strong></td><td>SQLModel + SQLAlchemy (asyncpg)</td><td></td></tr>
+          <tr><td><strong>DB</strong></td><td>PostgreSQL (Cloud SQL)</td><td>Read/Write 2개 인스턴스 분리</td></tr>
+          <tr><td><strong>프론트엔드</strong></td><td>Next.js 15 (App Router)</td><td>React 19</td></tr>
+          <tr><td><strong>스타일링</strong></td><td>Tailwind CSS 4</td><td>MUI Material 병용</td></tr>
+          <tr><td><strong>인증</strong></td><td>JWT</td><td>서버사이드 검증</td></tr>
+          <tr><td><strong>파일 스토리지</strong></td><td>Cloudflare R2</td><td>이미지 업로드</td></tr>
+          <tr><td><strong>백엔드 배포</strong></td><td>Google Cloud Run</td><td>CI/CD: GitHub Actions</td></tr>
+          <tr><td><strong>프론트엔드 배포</strong></td><td>Vercel</td><td>push → 자동 배포</td></tr>
+          <tr><td><strong>패키지 관리 (BE)</strong></td><td>uv</td><td>Python 가상환경 포함</td></tr>
+          <tr><td><strong>패키지 관리 (FE)</strong></td><td>pnpm</td><td></td></tr>
+          <tr><td><strong>마켓 플러그인</strong></td><td>17개</td><td>스마트스토어, 쿠팡, 11번가, 롯데ON 등</td></tr>
+          <tr><td><strong>소싱처 플러그인</strong></td><td>16개</td><td>무신사, KREAM, 롯데ON, SSG 등</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection" style="margin-top:1.5rem">
+      <div class="subsection-title"><span class="sub-icon">▶</span> 서버 실행 명령어</div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-header-left"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-filename">터미널</span></div>
+        </div>
+        <div class="code-body"><span class="comment"># 백엔드 실행 (backend 폴더에서)</span>
+<span class="keyword">cd</span> backend && <span class="function">.venv/Scripts/python.exe</span> <span class="string">run.py</span>
+
+<span class="comment"># 프론트엔드 실행 (frontend 폴더에서)</span>
+<span class="keyword">cd</span> frontend && <span class="function">pnpm</span> <span class="string">dev</span>
+
+<span class="comment"># 접속 주소: http://localhost:3000/samba</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="separator"></div>
 
   <!-- ─── Footer ─── -->
   <div style="text-align:center; padding:2rem 0;">
     <p style="color:var(--text-dim); font-size:0.75rem; font-family:var(--font-mono);">
-      SambaWave Team Dev Guide v3.0 — Last updated 2026-03-25
+      SambaWave Team Dev Guide v4.0 — Last updated 2026-04-16
     </p>
   </div>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SambaWave — 판매처 현황</title>
+  <title>SambaWave — 소싱처·판매처 현황</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
 
@@ -16,6 +16,7 @@
       line-height: 1.8;
     }
 
+    /* ─── 히어로 ─── */
     .hero {
       position: relative;
       padding: 80px 24px 60px;
@@ -62,95 +63,23 @@
       position: relative;
       font-size: 16px;
       color: #888;
-      max-width: 500px;
+      max-width: 520px;
       margin: 0 auto;
     }
 
+    /* ─── 레이아웃 ─── */
     .container {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px 80px;
     }
 
-    .section-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: #FF8C00;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-
-    .notion-preview {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      border-radius: 16px;
-      padding: 32px;
-      margin-bottom: 40px;
-    }
-    .notion-preview h3 {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: #aaa;
-    }
-    .notion-preview p {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 20px;
-    }
-
-    .status-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-    .status-table thead th {
-      text-align: left;
-      padding: 12px 14px;
-      background: #1a1a1a;
-      border-bottom: 2px solid #333;
-      font-weight: 600;
-      font-size: 13px;
-      color: #999;
-      white-space: nowrap;
-    }
-    .status-table tbody td {
-      padding: 11px 14px;
-      border-bottom: 1px solid #1e1e1e;
-      color: #ccc;
-      white-space: nowrap;
-    }
-    .status-table tbody tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 10px;
-      border-radius: 4px;
-    }
-    .tag-domestic { color: #d97706; background: rgba(217, 119, 6, 0.12); }
-    .tag-overseas { color: #60a5fa; background: rgba(96, 165, 250, 0.12); }
-    .tag-lead { color: #4ade80; background: rgba(74, 222, 128, 0.12); }
-    .tag-teamb { color: #c084fc; background: rgba(192, 132, 252, 0.12); }
-    .tag-none { color: #666; background: rgba(100, 100, 100, 0.12); }
-
-    .st { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
-    .st-done { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
-    .st-wait { color: #fbbf24; background: rgba(251, 191, 36, 0.1); }
-    .st-partial { color: #fb923c; background: rgba(251, 146, 60, 0.1); }
-    .st-no { color: #f87171; background: rgba(248, 113, 113, 0.1); }
-
-    .note { color: #888; font-size: 13px; }
-
+    /* ─── 통계 요약 ─── */
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 16px;
-      margin: 32px 0;
+      margin: 32px 0 48px;
     }
     .summary-card {
       background: #141414;
@@ -170,6 +99,153 @@
       margin-top: 4px;
     }
 
+    /* ─── 섹션 헤더 ─── */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .section-header .section-count {
+      font-size: 14px;
+      color: #FF8C00;
+      font-weight: 600;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FF8C00;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    /* ─── 카드 그리드 ─── */
+    .group-section {
+      margin-bottom: 40px;
+    }
+    .group-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #777;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-left: 4px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .card:hover {
+      border-color: rgba(255, 140, 0, 0.35);
+      background: #181818;
+    }
+    .card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .card-file {
+      font-size: 12px;
+      color: #555;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 12px;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* ─── 태그 ─── */
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    /* 지역 */
+    .tag-domestic  { color: #d97706; background: rgba(217, 119, 6, 0.12); }
+    .tag-overseas  { color: #60a5fa; background: rgba(96, 165, 250, 0.12); }
+    .tag-resell    { color: #f472b6; background: rgba(244, 114, 182, 0.12); }
+    .tag-etc       { color: #94a3b8; background: rgba(148, 163, 184, 0.12); }
+    /* 카테고리 */
+    .tag-fashion   { color: #a78bfa; background: rgba(167, 139, 250, 0.12); }
+    .tag-beauty    { color: #f9a8d4; background: rgba(249, 168, 212, 0.12); }
+    .tag-general   { color: #6ee7b7; background: rgba(110, 231, 183, 0.12); }
+    .tag-open      { color: #fcd34d; background: rgba(252, 211, 77, 0.12); }
+    .tag-homeshop  { color: #fb923c; background: rgba(251, 146, 60, 0.12); }
+    .tag-brand     { color: #67e8f9; background: rgba(103, 232, 249, 0.12); }
+    .tag-elec      { color: #86efac; background: rgba(134, 239, 172, 0.12); }
+    /* 상태 */
+    .tag-active {
+      color: #4ade80;
+      background: rgba(74, 222, 128, 0.10);
+    }
+    .tag-dev {
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.10);
+    }
+    .tag-esm {
+      color: #818cf8;
+      background: rgba(129, 140, 248, 0.12);
+    }
+    .tag-order {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+    }
+
+    /* ─── 섹션 구분 ─── */
+    .section-block {
+      margin-bottom: 64px;
+    }
+
+    /* ─── 범례 박스 ─── */
+    .legend-box {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 48px;
+    }
+    .legend-box .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      font-size: 13px;
+      color: #aaa;
+      align-items: center;
+    }
+    .legend-box .legend-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ─── 기타 ─── */
     .back-link {
       display: inline-block;
       margin-top: 32px;
@@ -190,304 +266,500 @@
 </head>
 <body>
 
+<!-- ════════════════════ 히어로 ════════════════════ -->
 <div class="hero">
-  <div class="hero-badge">Notion 공유 현황</div>
-  <h1><em>판매처</em> 현황</h1>
-  <p class="hero-sub">마켓별 상품등록 / 주문수집 / CS처리 개발 진행 상황</p>
+  <div class="hero-badge">플러그인 현황 · 2026-04-16 기준</div>
+  <h1><em>소싱처 · 판매처</em> 현황</h1>
+  <p class="hero-sub">실제 플러그인 파일 기반 연동 현황 — plugins/markets/ &amp; plugins/sourcing/</p>
 </div>
 
+<!-- ════════════════════ 컨테이너 ════════════════════ -->
 <div class="container">
 
+  <!-- 요약 통계 -->
   <div class="summary-grid">
     <div class="summary-card">
-      <div class="num">22</div>
-      <div class="label">전체 마켓</div>
+      <div class="num">17</div>
+      <div class="label">판매처 (마켓)</div>
     </div>
     <div class="summary-card">
-      <div class="num">12</div>
-      <div class="label">상품등록 완료</div>
+      <div class="num">13</div>
+      <div class="label">국내 마켓</div>
     </div>
     <div class="summary-card">
-      <div class="num">1</div>
-      <div class="label">주문수집 완료</div>
+      <div class="num">3</div>
+      <div class="label">해외 마켓</div>
     </div>
     <div class="summary-card">
-      <div class="num">8</div>
-      <div class="label">스텁 (미구현)</div>
+      <div class="num">16</div>
+      <div class="label">소싱처</div>
+    </div>
+    <div class="summary-card">
+      <div class="num">33</div>
+      <div class="label">총 플러그인</div>
     </div>
   </div>
 
-  <div class="notion-preview">
-    <p class="section-label">// 노션 판매처 현황 테이블</p>
+  <!-- ──────────────────────────────────────────────
+       섹션 1 : 판매처 (마켓)
+  ─────────────────────────────────────────────── -->
+  <div class="section-block">
+    <div class="section-header">
+      <div>
+        <div class="section-label">// Section 01</div>
+        <h2>판매처 현황</h2>
+      </div>
+      <span class="section-count">17개 마켓</span>
+    </div>
 
-    <table class="status-table">
-      <thead>
-        <tr>
-          <th>마켓</th>
-          <th>구분</th>
-          <th>담당자</th>
-          <th>상품등록</th>
-          <th>주문수집</th>
-          <th>CS처리</th>
-          <th>비고</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- 국내 — 상품등록 완료 -->
-        <tr style="background: rgba(255, 140, 0, 0.03);">
-          <td><strong>스마트스토어</strong></td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td class="note" style="color: #FF8C00; font-weight: 600;">메인 마켓</td>
-        </tr>
-        <tr>
-          <td>쿠팡</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>11번가</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>롯데ON</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>SSG (신세계몰)</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td class="note">계약 브랜드만</td>
-        </tr>
-        <tr>
-          <td>토스</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>GS샵</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>롯데홈쇼핑</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>KREAM</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <!-- 국내 — 미구현 -->
-        <tr>
-          <td>G마켓</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-no">미구현</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td class="note">플러그인 미생성</td>
-        </tr>
-        <tr>
-          <td>옥션</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-no">미구현</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td class="note">플러그인 미생성</td>
-        </tr>
-        <!-- 국내 — 스텁/솔루션 -->
-        <tr>
-          <td>홈앤쇼핑</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>HMALL</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>플레이오토</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td class="note">종합솔루션</td>
-        </tr>
-        <tr>
-          <td>카페24</td>
-          <td><span class="tag tag-domestic">국내</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td class="note">종합솔루션</td>
-        </tr>
-        <!-- 해외 — 상품등록 완료 -->
-        <tr>
-          <td>아마존</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>라쿠텐</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>바이마</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-lead">리드</span></td>
-          <td><span class="st st-done">완료</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <!-- 해외 — 스텁 -->
-        <tr>
-          <td>eBay</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Lazada</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Shopee</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Qoo10</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Shopify</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Zum(줌)</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-partial">스텁</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>포이즌</td>
-          <td><span class="tag tag-overseas">해외</span></td>
-          <td><span class="tag tag-none">미배정</span></td>
-          <td><span class="st st-no">미구현</span></td>
-          <td><span class="st st-wait">대기</span></td>
-          <td><span class="st st-done">통합</span></td>
-          <td class="note">플러그인 미생성</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- 국내 마켓 -->
+    <div class="group-section">
+      <div class="group-title">국내 마켓</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">스마트스토어</div>
+          <div class="card-file">smartstore.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">쿠팡</div>
+          <div class="card-file">coupang.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">11번가</div>
+          <div class="card-file">elevenst.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">롯데ON</div>
+          <div class="card-file">lotteon.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">SSG (신세계몰)</div>
+          <div class="card-file">ssg.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">GS샵</div>
+          <div class="card-file">gsshop.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">G마켓</div>
+          <div class="card-file">gmarket.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-esm">ESMPlus 통합</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">옥션</div>
+          <div class="card-file">auction.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-esm">ESMPlus 통합</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">카페24</div>
+          <div class="card-file">cafe24.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">롯데홈쇼핑</div>
+          <div class="card-file">lottehome.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">Toss</div>
+          <div class="card-file">toss.py</div>
+          <div class="card-tags">
+            <span class="tag tag-domestic">국내</span>
+            <span class="tag tag-active">운영중 (신규)</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /국내 마켓 -->
+
+    <!-- 국내 리셀 -->
+    <div class="group-section">
+      <div class="group-title">국내 리셀</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">KREAM</div>
+          <div class="card-file">kream.py</div>
+          <div class="card-tags">
+            <span class="tag tag-resell">리셀</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /국내 리셀 -->
+
+    <!-- 해외 마켓 -->
+    <div class="group-section">
+      <div class="group-title">해외 마켓</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">Amazon</div>
+          <div class="card-file">amazon.py</div>
+          <div class="card-tags">
+            <span class="tag tag-overseas">해외</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">Rakuten</div>
+          <div class="card-file">rakuten.py</div>
+          <div class="card-tags">
+            <span class="tag tag-overseas">해외</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">Buyma</div>
+          <div class="card-file">buyma.py</div>
+          <div class="card-tags">
+            <span class="tag tag-overseas">해외</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /해외 마켓 -->
+
+    <!-- 기타 -->
+    <div class="group-section">
+      <div class="group-title">기타 (연동/개발용)</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">PlayAuto</div>
+          <div class="card-file">playauto.py</div>
+          <div class="card-tags">
+            <span class="tag tag-order">주문/CS 연동</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">Stub</div>
+          <div class="card-file">stub.py</div>
+          <div class="card-tags">
+            <span class="tag tag-etc">기타</span>
+            <span class="tag tag-dev">개발용 더미</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /기타 -->
+
   </div>
+  <!-- /섹션 1 -->
 
-  <div class="notion-preview">
-    <p class="section-label">// 상태 범례</p>
-    <p style="font-size: 14px; color: #aaa; line-height: 2.2;">
-      <span class="st st-done">완료</span> API 연동 완료, 실사용 가능 &nbsp;&nbsp;
-      <span class="st st-done">통합</span> CS 통합 관리 (마켓 구분 메타데이터) &nbsp;&nbsp;
-      <span class="st st-partial">스텁</span> 플러그인 등록됨, API 미구현 &nbsp;&nbsp;
-      <span class="st st-wait">대기</span> 개발 예정 &nbsp;&nbsp;
-      <span class="st st-no">미구현</span> 플러그인 미생성
-    </p>
-    <p style="font-size: 14px; color: #aaa; line-height: 2.2; margin-top: 8px;">
-      <span class="tag tag-lead">리드</span> 메인 개발자 담당 &nbsp;&nbsp;
-      <span class="tag tag-teamb">팀원B (마켓)</span> 마켓 전담 팀원 &nbsp;&nbsp;
-      <span class="tag tag-none">미배정</span> 담당자 미정
-    </p>
+  <!-- ──────────────────────────────────────────────
+       섹션 2 : 소싱처
+  ─────────────────────────────────────────────── -->
+  <div class="section-block">
+    <div class="section-header">
+      <div>
+        <div class="section-label">// Section 02</div>
+        <h2>소싱처 현황</h2>
+      </div>
+      <span class="section-count">16개 소싱처</span>
+    </div>
+
+    <!-- 패션 -->
+    <div class="group-section">
+      <div class="group-title">패션</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">무신사</div>
+          <div class="card-file">musinsa.py</div>
+          <div class="card-tags">
+            <span class="tag tag-fashion">패션</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">패션플러스</div>
+          <div class="card-file">fashionplus.py</div>
+          <div class="card-tags">
+            <span class="tag tag-fashion">패션</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">그랜드스테이지</div>
+          <div class="card-file">grandstage.py</div>
+          <div class="card-tags">
+            <span class="tag tag-fashion">패션</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /패션 -->
+
+    <!-- 리셀 -->
+    <div class="group-section">
+      <div class="group-title">리셀</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">KREAM</div>
+          <div class="card-file">kream.py</div>
+          <div class="card-tags">
+            <span class="tag tag-resell">리셀</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /리셀 -->
+
+    <!-- 브랜드 -->
+    <div class="group-section">
+      <div class="group-title">브랜드 공식몰</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">나이키</div>
+          <div class="card-file">nike.py</div>
+          <div class="card-tags">
+            <span class="tag tag-brand">브랜드</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">아디다스</div>
+          <div class="card-file">adidas.py</div>
+          <div class="card-tags">
+            <span class="tag tag-brand">브랜드</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">ABC마트</div>
+          <div class="card-file">abcmart.py</div>
+          <div class="card-tags">
+            <span class="tag tag-brand">브랜드</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /브랜드 -->
+
+    <!-- 뷰티 -->
+    <div class="group-section">
+      <div class="group-title">뷰티</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">올리브영</div>
+          <div class="card-file">oliveyoung.py</div>
+          <div class="card-tags">
+            <span class="tag tag-beauty">뷰티</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /뷰티 -->
+
+    <!-- 종합몰 -->
+    <div class="group-section">
+      <div class="group-title">종합몰</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">SSG (신세계몰)</div>
+          <div class="card-file">ssg.py</div>
+          <div class="card-tags">
+            <span class="tag tag-general">종합몰</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">롯데ON</div>
+          <div class="card-file">lotteon.py</div>
+          <div class="card-tags">
+            <span class="tag tag-general">종합몰</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /종합몰 -->
+
+    <!-- 오픈마켓 -->
+    <div class="group-section">
+      <div class="group-title">오픈마켓</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">G마켓</div>
+          <div class="card-file">gmarket.py</div>
+          <div class="card-tags">
+            <span class="tag tag-open">오픈마켓</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">스마트스토어</div>
+          <div class="card-file">smartstore.py</div>
+          <div class="card-tags">
+            <span class="tag tag-open">오픈마켓</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">네이버스토어</div>
+          <div class="card-file">naverstore.py</div>
+          <div class="card-tags">
+            <span class="tag tag-open">오픈마켓</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /오픈마켓 -->
+
+    <!-- 홈쇼핑 -->
+    <div class="group-section">
+      <div class="group-title">홈쇼핑</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">GS샵</div>
+          <div class="card-file">gsshop.py</div>
+          <div class="card-tags">
+            <span class="tag tag-homeshop">홈쇼핑</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /홈쇼핑 -->
+
+    <!-- 전자제품 -->
+    <div class="group-section">
+      <div class="group-title">전자제품</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">다나와</div>
+          <div class="card-file">danawa.py</div>
+          <div class="card-tags">
+            <span class="tag tag-elec">전자제품</span>
+            <span class="tag tag-active">운영중</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /전자제품 -->
+
+    <!-- 개발용 -->
+    <div class="group-section">
+      <div class="group-title">개발용</div>
+      <div class="card-grid">
+
+        <div class="card">
+          <div class="card-name">Stub</div>
+          <div class="card-file">stub.py</div>
+          <div class="card-tags">
+            <span class="tag tag-etc">기타</span>
+            <span class="tag tag-dev">개발용 더미</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /개발용 -->
+
+  </div>
+  <!-- /섹션 2 -->
+
+  <!-- 태그 범례 -->
+  <div class="legend-box">
+    <div class="legend-title">태그 범례</div>
+    <div class="legend-row">
+      <span class="tag tag-domestic">국내</span>
+      <span class="tag tag-overseas">해외</span>
+      <span class="tag tag-resell">리셀</span>
+      <span class="tag tag-etc">기타</span>
+      <span class="tag tag-fashion">패션</span>
+      <span class="tag tag-beauty">뷰티</span>
+      <span class="tag tag-general">종합몰</span>
+      <span class="tag tag-open">오픈마켓</span>
+      <span class="tag tag-homeshop">홈쇼핑</span>
+      <span class="tag tag-brand">브랜드</span>
+      <span class="tag tag-elec">전자제품</span>
+      <span class="tag tag-esm">ESMPlus 통합</span>
+      <span class="tag tag-order">주문/CS 연동</span>
+      <span class="tag tag-active">운영중</span>
+      <span class="tag tag-dev">개발용 더미</span>
+    </div>
   </div>
 
   <a href="index.html" class="back-link">&larr; 문서 목록으로</a>
 </div>
 
 <footer>
-  SambaWave &mdash; 판매처 현황 (Notion 공유) &mdash; 2026.03.25
+  SambaWave &mdash; 소싱처 · 판매처 현황 &mdash; 마지막 업데이트: 2026-04-16
 </footer>
 
 </body>

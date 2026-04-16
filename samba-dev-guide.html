@@ -749,7 +749,7 @@
   <nav class="sidebar">
     <div class="sidebar-logo">
       <h1>SambaWave</h1>
-      <p>Developer Guide v1.0</p>
+      <p>Developer Guide v2.0</p>
     </div>
 
     <div class="sidebar-section">
@@ -788,24 +788,24 @@
       <div class="hero-badge animate d1">SambaWave</div>
       <h2 class="animate d2">무재고 위탁판매<br><span>관리 솔루션</span></h2>
       <p class="hero-desc animate d3">
-        소싱처에서 상품을 수집하고, AI로 가공한 뒤, 18개 이상 마켓에 일괄 등록하는
-        SaaS 기반 이커머스 자동화 플랫폼입니다.
+        소싱처에서 상품을 수집하고, AI로 가공한 뒤, 17개 마켓에 일괄 등록하는
+        SaaS 기반 이커머스 자동화 플랫폼입니다. (프로덕션: Google Cloud Run + Vercel)
       </p>
       <div class="hero-stats animate d4">
         <div class="hero-stat">
-          <div class="hero-stat-num" style="color:var(--accent)">20</div>
-          <div class="hero-stat-label">판매 마켓</div>
+          <div class="hero-stat-num" style="color:var(--accent)">17</div>
+          <div class="hero-stat-label">판매 마켓 플러그인</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num" style="color:var(--blue)">4</div>
-          <div class="hero-stat-label">소싱처</div>
+          <div class="hero-stat-num" style="color:var(--blue)">16</div>
+          <div class="hero-stat-label">소싱처 플러그인</div>
         </div>
         <div class="hero-stat">
           <div class="hero-stat-num" style="color:var(--green)">25</div>
           <div class="hero-stat-label">도메인 모듈</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num" style="color:var(--purple)">16+</div>
+          <div class="hero-stat-num" style="color:var(--purple)">22</div>
           <div class="hero-stat-label">프론트 페이지</div>
         </div>
       </div>
@@ -866,7 +866,32 @@
     <section id="arch">
       <div class="section-header">
         <h3>레이어드 아키텍처</h3>
-        <p>Frontend &#8594; API Router &#8594; Service &#8594; Repository &#8594; DB</p>
+        <p>Frontend &#8594; API Router &#8594; Service &#8594; Repository &#8594; DB &nbsp;|&nbsp; DDD 기반 domain/samba/ 구조</p>
+      </div>
+      <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+        <div style="flex:1;min-width:240px;padding:1rem 1.25rem;background:var(--bg-card);border:1px solid rgba(62,207,142,0.2);border-radius:10px;">
+          <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--green);margin-bottom:0.5rem;">DB 세션 규칙 (필수)</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.7">
+            <strong style="color:var(--text)">수정/생성/삭제</strong> → <code>get_write_session_dependency()</code><br>
+            <strong style="color:var(--text)">조회 전용</strong> → <code>get_read_session_dependency()</code><br>
+            두 세션 절대 혼용 금지
+          </p>
+        </div>
+        <div style="flex:1;min-width:240px;padding:1rem 1.25rem;background:var(--bg-card);border:1px solid rgba(167,139,250,0.2);border-radius:10px;">
+          <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--purple);margin-bottom:0.5rem;">API 추가 순서</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.7">
+            DTO &#8594; Repository &#8594; Service &#8594; Router<br>
+            비즈니스 로직은 Service에만, Repository는 순수 데이터 접근만
+          </p>
+        </div>
+        <div style="flex:1;min-width:240px;padding:1rem 1.25rem;background:var(--bg-card);border:1px solid rgba(255,140,0,0.2);border-radius:10px;">
+          <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--accent);margin-bottom:0.5rem;">프록시 계층 (28개 파일)</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.7">
+            <code>proxy/마켓명.py</code> — 마켓 API 연동<br>
+            <code>proxy/소싱처명.py</code> — 소싱처 데이터 수집<br>
+            XML/JSON 변환, 인증, 재시도 처리
+          </p>
+        </div>
       </div>
       <div class="arch-layers">
         <div class="arch-layer">
@@ -914,9 +939,10 @@
         <div class="arch-layer">
           <div class="arch-layer-label">Infra</div>
           <div class="arch-layer-content">
-            <span class="arch-box arch-box-infra">PostgreSQL R/W Split</span>
-            <span class="arch-box arch-box-infra">Redis Cache</span>
-            <span class="arch-box arch-box-infra">AWS S3</span>
+            <span class="arch-box arch-box-infra">PostgreSQL R/W Split (Cloud SQL)</span>
+            <span class="arch-box arch-box-infra">Cloudflare R2</span>
+            <span class="arch-box arch-box-infra">Google Cloud Run (BE)</span>
+            <span class="arch-box arch-box-infra">Vercel (FE)</span>
             <span class="arch-box arch-box-infra">Chrome Extension</span>
           </div>
         </div>
@@ -1127,6 +1153,14 @@
           <div class="page-card-desc">Instagram, Blog, YouTube 등 SNS 채널 관리 및 마케팅 자동화.</div>
           <div class="page-card-tags"><span class="tag tag-pink">마케팅</span></div>
         </div>
+        <div class="page-card">
+          <div class="page-card-header">
+            <div class="page-card-title">로그인 / 회원가입</div>
+            <div class="page-card-path">/login &nbsp;/sign-up</div>
+          </div>
+          <div class="page-card-desc">JWT 기반 서버사이드 인증. 멀티테넌시 테넌트 선택 포함.</div>
+          <div class="page-card-tags"><span class="tag tag-blue">시스템</span></div>
+        </div>
       </div>
     </section>
 
@@ -1174,7 +1208,7 @@
       </div>
 
       <div class="plugin-section">
-        <div class="plugin-title">판매 마켓 <span class="plugin-count">20개</span></div>
+        <div class="plugin-title">판매 마켓 <span class="plugin-count">17개</span></div>
         <div class="plugin-grid">
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">스마트스토어</span><span class="plugin-chip-type">KR</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">쿠팡</span><span class="plugin-chip-type">KR</span></div>
@@ -1184,18 +1218,15 @@
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">롯데홈쇼핑</span><span class="plugin-chip-type">KR</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">GS샵</span><span class="plugin-chip-type">KR</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">KREAM</span><span class="plugin-chip-type">KR</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">옥션</span><span class="plugin-chip-type">KR</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">지마켓</span><span class="plugin-chip-type">KR</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">Toss</span><span class="plugin-chip-type">KR</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">Amazon</span><span class="plugin-chip-type">GL</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">Rakuten</span><span class="plugin-chip-type">JP</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">BUYMA</span><span class="plugin-chip-type">JP</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">플레이오토</span><span class="plugin-chip-type">SOL</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">카페24</span><span class="plugin-chip-type">SOL</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">eBay</span><span class="plugin-chip-type">GL</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">Lazada</span><span class="plugin-chip-type">SEA</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">Qoo10</span><span class="plugin-chip-type">GL</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">Shopee</span><span class="plugin-chip-type">SEA</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">Shopify</span><span class="plugin-chip-type">GL</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">Zum(줌)</span><span class="plugin-chip-type">KR</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">Cafe24</span><span class="plugin-chip-type">SOL</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">PlayAuto</span><span class="plugin-chip-type">SOL</span></div>
         </div>
         <div style="display:flex;gap:1.5rem;margin-top:1rem;font-size:0.75rem;color:var(--text-dim);">
           <span><span class="plugin-dot dot-live" style="display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-right:4px;"></span> 완전 구현</span>
@@ -1205,13 +1236,26 @@
       </div>
 
       <div class="plugin-section">
-        <div class="plugin-title">소싱처 <span class="plugin-count">4개</span></div>
+        <div class="plugin-title">소싱처 <span class="plugin-count">16개</span></div>
         <div class="plugin-grid">
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">무신사</span><span class="plugin-chip-type">MUSINSA</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">KREAM</span><span class="plugin-chip-type">KREAM</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">KREAM</span><span class="plugin-chip-type">KREAM</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">롯데ON</span><span class="plugin-chip-type">LOTTEON</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">SSG</span><span class="plugin-chip-type">SSG</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">ABC마트</span><span class="plugin-chip-type">ABCMART</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">나이키</span><span class="plugin-chip-type">NIKE</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">GS샵</span><span class="plugin-chip-type">GSSHOP</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">패션플러스</span><span class="plugin-chip-type">FASHIONPLUS</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">지마켓</span><span class="plugin-chip-type">GMARKET</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">스마트스토어</span><span class="plugin-chip-type">SMARTSTORE</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">다나와</span><span class="plugin-chip-type">DANAWA</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">스텁</span><span class="plugin-chip-type">_STUB</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">올리브영</span><span class="plugin-chip-type">OLIVEYOUNG</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">아디다스</span><span class="plugin-chip-type">ADIDAS</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">11번가</span><span class="plugin-chip-type">ELEVENST</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">쿠팡</span><span class="plugin-chip-type">COUPANG</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">스텁(예비)</span><span class="plugin-chip-type">_STUB</span></div>
         </div>
+        <p style="font-size:0.75rem;color:var(--text-dim);margin-top:0.75rem;">소싱처 <code>site_name</code>은 반드시 <strong>대문자</strong>로 작성</p>
       </div>
     </section>
 
@@ -1233,7 +1277,7 @@
 <span class="kw">policy/</span>        <span class="cm"># 가격 정책 + 상세 템플릿 + 네이밍 규칙</span>
 <span class="kw">category/</span>      <span class="cm"># 카테고리 매핑 (AI 벌크 매핑 포함)</span>
 <span class="kw">shipment/</span>      <span class="cm"># 마켓 전송 + 삭제 관리</span>
-<span class="kw">plugins/</span>       <span class="cm"># 마켓(20) + 소싱(4) 플러그인</span>
+<span class="kw">plugins/</span>       <span class="cm"># 마켓(17) + 소싱(16) 플러그인</span>
 
 <span class="cm">## 운영 도메인</span>
 <span class="kw">order/</span>         <span class="cm"># 주문 관리 + 클레임 감지</span>
@@ -1288,17 +1332,19 @@
         </div>
         <div class="stack-group">
           <div class="stack-group-title" style="color:var(--green)">Infrastructure</div>
+          <div class="stack-item"><span class="stack-item-name">Google Cloud Run</span><span class="stack-item-version">Backend Deploy</span></div>
           <div class="stack-item"><span class="stack-item-name">Vercel</span><span class="stack-item-version">Frontend Deploy</span></div>
-          <div class="stack-item"><span class="stack-item-name">Railway</span><span class="stack-item-version">Backend + DB (SG)</span></div>
-          <div class="stack-item"><span class="stack-item-name">AWS S3</span><span class="stack-item-version">Image Upload</span></div>
-          <div class="stack-item"><span class="stack-item-name">Docker</span><span class="stack-item-version">Container</span></div>
+          <div class="stack-item"><span class="stack-item-name">Cloud SQL (PostgreSQL)</span><span class="stack-item-version">R/W 2개 분리</span></div>
+          <div class="stack-item"><span class="stack-item-name">Cloudflare R2</span><span class="stack-item-version">Image Storage</span></div>
+          <div class="stack-item"><span class="stack-item-name">GitHub Actions</span><span class="stack-item-version">CI/CD</span></div>
         </div>
         <div class="stack-group">
           <div class="stack-group-title" style="color:var(--purple)">Tools</div>
           <div class="stack-item"><span class="stack-item-name">Chrome Extension</span><span class="stack-item-version">소싱 보조</span></div>
           <div class="stack-item"><span class="stack-item-name">Alembic</span><span class="stack-item-version">DB Migration</span></div>
-          <div class="stack-item"><span class="stack-item-name">Ruff + Black</span><span class="stack-item-version">Lint / Format</span></div>
-          <div class="stack-item"><span class="stack-item-name">pnpm</span><span class="stack-item-version">Package Mgr</span></div>
+          <div class="stack-item"><span class="stack-item-name">uv</span><span class="stack-item-version">Python Package Mgr</span></div>
+          <div class="stack-item"><span class="stack-item-name">Ruff</span><span class="stack-item-version">Lint + Format</span></div>
+          <div class="stack-item"><span class="stack-item-name">pnpm</span><span class="stack-item-version">FE Package Mgr</span></div>
         </div>
       </div>
     </section>
@@ -1315,32 +1361,42 @@
           terminal
         </div>
         <div class="code-body">
-<span class="cm"># 백엔드 실행</span>
+<span class="cm"># 백엔드 실행 (backend 폴더에서)</span>
 <span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> <span class="str">run.py</span>
 
-<span class="cm"># 프론트엔드 실행</span>
+<span class="cm"># 프론트엔드 실행 (frontend 폴더에서)</span>
+<span class="cm"># 접속: http://localhost:3000/samba</span>
 <span class="kw">cd</span> frontend && <span class="fn">pnpm</span> <span class="str">dev</span>
 
-<span class="cm"># DB 마이그레이션</span>
+<span class="cm"># DB 마이그레이션 적용</span>
 <span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">alembic upgrade head</span>
 
-<span class="cm"># 마이그레이션 생성</span>
-<span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">alembic revision --autogenerate -m "설명"</span>
+<span class="cm"># 마이그레이션 파일 생성 (모델 변경 후)</span>
+<span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">alembic revision --autogenerate -m "변경 내용 설명"</span>
 
-<span class="cm"># 린트 + 포맷</span>
-<span class="kw">cd</span> backend && <span class="fn">ruff</span> check --fix . && <span class="fn">black</span> .
+<span class="cm"># 마이그레이션 누락 검증 (model.py 수정 후 필수)</span>
+<span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> <span class="str">scripts/check_migrations.py</span>
+
+<span class="cm"># 포맷 (push 전 필수)</span>
+<span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">ruff format .</span>
+
+<span class="cm"># 린트 자동수정 (push 전 필수)</span>
+<span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">ruff check --fix .</span>
+
+<span class="cm"># 타입 체크</span>
+<span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">mypy .</span>
 
 <span class="cm"># TypeScript 체크</span>
 <span class="kw">cd</span> frontend && <span class="fn">npx</span> <span class="str">tsc --noEmit</span>
 
-<span class="cm"># 빌드</span>
+<span class="cm"># 프론트엔드 빌드 (CI/Vercel이 검증 — 로컬은 불필요)</span>
 <span class="kw">cd</span> frontend && <span class="fn">pnpm</span> <span class="str">build</span>
         </div>
       </div>
     </section>
 
     <footer>
-      SambaWave Developer Guide &mdash; 2026
+      SambaWave Developer Guide v2.0 &mdash; Last updated 2026-04-16
     </footer>
 
   </main>

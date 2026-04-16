@@ -3,436 +3,776 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>삼바웨이브 웹 배포 가이드</title>
+<title>삼바웨이브 배포 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06060a;
+    --bg-card: #0e0e14;
+    --border: #1a1a24;
+    --text: #e4e4ec;
+    --text-muted: #7a7a94;
+    --accent: #ff8c00;
+    --green: #3ecf8e;
+    --blue: #5c9aff;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+    --red: #ff6b6b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+  h2 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); }
+  h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--text); }
+  p, li { color: var(--text-muted); font-size: 0.9rem; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .back { display: inline-block; margin-bottom: 1.5rem; font-size: 0.85rem; }
+
+  /* 스텝 헤더 */
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.5rem 0 1rem;
+  }
+  .step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .step-header h2 { margin: 0; color: var(--text); font-size: 1.2rem; }
+
+  /* 카드 */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+  .card-green { border-left: 3px solid var(--green); }
+  .card-blue { border-left: 3px solid var(--blue); }
+  .card-orange { border-left: 3px solid var(--accent); }
+  .card-red { border-left: 3px solid var(--red); }
+  .card-purple { border-left: 3px solid var(--purple); }
+
+  /* 코드 블록 */
+  .code-block {
+    background: #0a0a10;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+    color: #c9d1d9;
+  }
+  .code-block .comment { color: #555; }
+  .code-block .key { color: var(--blue); }
+  .code-block .val { color: var(--green); }
+  .code-block .cmd { color: var(--accent); }
+  .code-block .string { color: #f5c518; }
+
+  /* 체크리스트 */
+  .checklist { list-style: none; padding: 0; margin: 0.75rem 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: "☐";
+    color: var(--accent);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* 노트 */
+  .note { background: rgba(255,140,0,0.06); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.85rem; color: var(--text-muted); }
+  .note-red { background: rgba(255,107,107,0.06); border-left: 3px solid var(--red); padding: 0.75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.85rem; color: var(--text-muted); }
+  .note-green { background: rgba(62,207,142,0.06); border-left: 3px solid var(--green); padding: 0.75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.85rem; color: var(--text-muted); }
+
+  /* 테이블 */
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+  th { background: rgba(255,140,0,0.08); color: var(--accent); text-align: left; padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+  td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  td:first-child { color: var(--text); font-weight: 500; }
+  td code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; color: var(--blue); }
+
+  /* 구조 개요 그리드 */
+  .arch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .arch-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .arch-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .arch-card .title { font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
+  .arch-card .sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+  .arch-card .badge {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .badge-orange { background: rgba(255,140,0,0.15); color: var(--accent); border: 1px solid rgba(255,140,0,0.3); }
+  .badge-green { background: rgba(62,207,142,0.15); color: var(--green); border: 1px solid rgba(62,207,142,0.3); }
+  .badge-red { background: rgba(255,107,107,0.15); color: var(--red); border: 1px solid rgba(255,107,107,0.3); }
+
+  /* 플로우 */
+  .flow-row { display: flex; align-items: center; gap: 0.5rem; margin: 0.75rem 0; flex-wrap: wrap; }
+  .flow-box { padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600; white-space: nowrap; }
+  .flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
+  .fb-github { background: rgba(255,255,255,0.07); border: 1px solid #444; color: #e4e4ec; }
+  .fb-actions { background: rgba(92,154,255,0.15); border: 1px solid rgba(92,154,255,0.3); color: var(--blue); }
+  .fb-docker { background: rgba(92,154,255,0.1); border: 1px solid rgba(92,154,255,0.2); color: var(--blue); }
+  .fb-cloudrun { background: rgba(62,207,142,0.15); border: 1px solid rgba(62,207,142,0.3); color: var(--green); }
+  .fb-vercel { background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3); color: var(--accent); }
+  .fb-db { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--red); }
+
+  .emoji { font-size: 1.2rem; }
+  .tag-required { display: inline-block; background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--red); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
+  .tag-auto { display: inline-block; background: rgba(62,207,142,0.15); border: 1px solid rgba(62,207,142,0.3); color: var(--green); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
+</style>
 </head>
-<body style="margin:0; padding:0; background:#F5F5F5; font-family:'Malgun Gothic','맑은 고딕',sans-serif; color:#333; line-height:1.8;">
+<body>
 
-<!-- 헤더 -->
-<div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); padding:48px 20px; text-align:center;">
-  <div style="max-width:720px; margin:0 auto;">
-    <div style="font-size:14px; color:#e94560; font-weight:700; letter-spacing:3px; margin-bottom:12px;">SAMBA WAVE</div>
-    <h1 style="margin:0 0 16px; font-size:32px; color:#fff; font-weight:800;">무재고 위탁판매 솔루션<br>웹 배포 가이드</h1>
-    <p style="margin:0; font-size:15px; color:rgba(255,255,255,0.6);">Vercel + Railway로 내 솔루션을 인터넷에 올리기</p>
+<a href="index.html" class="back">&larr; 문서 목록으로</a>
+
+<h1><span class="emoji">🚀</span> 삼바웨이브 배포 가이드</h1>
+<p>Google Cloud Run + Vercel + Cloud SQL 기반 프로덕션 배포 전체 절차</p>
+
+<!-- ━━━━━━━━━━━━━━━━ 배포 구조 개요 ━━━━━━━━━━━━━━━━ -->
+<h2>1. 배포 구조 개요</h2>
+
+<div class="arch-grid">
+  <div class="arch-card">
+    <div class="icon">▲</div>
+    <div class="title">프론트엔드</div>
+    <div class="sub">Next.js 15 · App Router</div>
+    <div class="badge badge-orange">Vercel (무료)</div>
+  </div>
+  <div class="arch-card">
+    <div class="icon">☁️</div>
+    <div class="title">백엔드</div>
+    <div class="sub">FastAPI · Python 3.12 · 2Gi</div>
+    <div class="badge badge-green">Google Cloud Run</div>
+  </div>
+  <div class="arch-card">
+    <div class="icon">🗄️</div>
+    <div class="title">데이터베이스</div>
+    <div class="sub">PostgreSQL · Read/Write 분리</div>
+    <div class="badge badge-red">Cloud SQL (2 인스턴스)</div>
+  </div>
+  <div class="arch-card">
+    <div class="icon">🐙</div>
+    <div class="title">CI/CD</div>
+    <div class="sub">deploy-cloudrun.yml</div>
+    <div class="badge badge-green">GitHub Actions</div>
   </div>
 </div>
 
-<!-- 본문 컨테이너 -->
-<div style="max-width:720px; margin:0 auto; padding:32px 20px;">
-
-  <!-- 개요 카드 -->
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">🎯 이 가이드는 뭔가요?</h2>
-    <p style="margin:0 0 16px; font-size:15px; color:#555;">
-      지금은 <b>내 컴퓨터에서만</b> 돌아가는 삼바웨이브를<br>
-      <b>인터넷 어디서든</b> 접속할 수 있게 올리는 방법입니다.
-    </p>
-    <div style="background:#f0f4ff; border-radius:12px; padding:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:center;">
-      <div style="text-align:center; min-width:100px;">
-        <div style="font-size:28px;">💻</div>
-        <div style="font-size:13px; color:#666; margin-top:4px;">내 컴퓨터</div>
-        <div style="font-size:11px; color:#999;">현재 상태</div>
-      </div>
-      <div style="font-size:24px; color:#0f3460;">→</div>
-      <div style="text-align:center; min-width:100px;">
-        <div style="font-size:28px;">🌐</div>
-        <div style="font-size:13px; color:#666; margin-top:4px;">인터넷</div>
-        <div style="font-size:11px; color:#999;">목표</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 구조 설명 -->
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">🧩 시스템 구조 (3개 조각)</h2>
-    <p style="margin:0 0 20px; font-size:14px; color:#888;">우리 솔루션은 3개 파트로 나뉘어요. 각각 다른 곳에 올립니다.</p>
-
-    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      <!-- 프론트 -->
-      <div style="flex:1; min-width:180px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:12px; padding:20px; color:#fff;">
-        <div style="font-size:24px; margin-bottom:8px;">🖥️</div>
-        <div style="font-size:16px; font-weight:700; margin-bottom:4px;">프론트엔드</div>
-        <div style="font-size:12px; opacity:0.8; margin-bottom:12px;">눈에 보이는 화면</div>
-        <div style="background:rgba(255,255,255,0.2); border-radius:8px; padding:8px 12px; font-size:13px; font-weight:600; text-align:center;">
-          Vercel (무료)
-        </div>
-      </div>
-      <!-- 백엔드 -->
-      <div style="flex:1; min-width:180px; background:linear-gradient(135deg,#f093fb,#f5576c); border-radius:12px; padding:20px; color:#fff;">
-        <div style="font-size:24px; margin-bottom:8px;">⚙️</div>
-        <div style="font-size:16px; font-weight:700; margin-bottom:4px;">백엔드</div>
-        <div style="font-size:12px; opacity:0.8; margin-bottom:12px;">뒤에서 일하는 두뇌</div>
-        <div style="background:rgba(255,255,255,0.2); border-radius:8px; padding:8px 12px; font-size:13px; font-weight:600; text-align:center;">
-          Railway (~$5/월)
-        </div>
-      </div>
-      <!-- DB -->
-      <div style="flex:1; min-width:180px; background:linear-gradient(135deg,#4facfe,#00f2fe); border-radius:12px; padding:20px; color:#fff;">
-        <div style="font-size:24px; margin-bottom:8px;">🗄️</div>
-        <div style="font-size:16px; font-weight:700; margin-bottom:4px;">데이터베이스</div>
-        <div style="font-size:12px; opacity:0.8; margin-bottom:12px;">상품/주문 저장소</div>
-        <div style="background:rgba(255,255,255,0.2); border-radius:8px; padding:8px 12px; font-size:13px; font-weight:600; text-align:center;">
-          Railway (~$5/월)
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 준비물 -->
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">📋 시작 전 준비물</h2>
-    <div style="display:flex; flex-direction:column; gap:8px;">
-      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
-        <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>GitHub 계정</b> — 코드 저장소 (이미 있으실 거예요)</span>
-      </div>
-      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
-        <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>Vercel 계정</b> — vercel.com에서 GitHub으로 가입</span>
-      </div>
-      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
-        <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>Railway 계정</b> — railway.app에서 GitHub으로 가입</span>
-      </div>
-      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
-        <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>신용카드</b> — Railway 결제용 ($5 체험판 있음)</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ====== STEP 1 ====== -->
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-    <div style="width:48px; height:48px; background:#e94560; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">1</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">Railway에 데이터베이스 만들기</h2>
-  </div>
-
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
-    <div style="margin-bottom:20px;">
-      <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-        <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
-        <div>
-          <b style="font-size:15px;">railway.app 접속</b>
-          <div style="font-size:13px; color:#888; margin-top:2px;">GitHub 계정으로 로그인하세요.</div>
-        </div>
-      </div>
-      <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-        <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
-        <div>
-          <b style="font-size:15px;">New Project 클릭</b>
-          <div style="font-size:13px; color:#888; margin-top:2px;">대시보드 오른쪽 위에 보라색 버튼이 있어요.</div>
-        </div>
-      </div>
-      <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-        <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
-        <div>
-          <b style="font-size:15px;">Database → PostgreSQL 선택</b>
-          <div style="font-size:13px; color:#888; margin-top:2px;">메뉴에서 Database를 클릭하면 PostgreSQL이 보여요.</div>
-        </div>
-      </div>
-      <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-        <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
-        <div>
-          <b style="font-size:15px;">Variables 탭 클릭 → 연결 정보 메모</b>
-          <div style="font-size:13px; color:#888; margin-top:2px;">아래 6개 값을 메모장에 복사해두세요.</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
-      PGHOST = <span style="color:#00f2fe;">???.railway.internal</span><br>
-      PGPORT = <span style="color:#00f2fe;">5432</span><br>
-      PGUSER = <span style="color:#00f2fe;">postgres</span><br>
-      PGPASSWORD = <span style="color:#00f2fe;">어쩌구저쩌구긴문자열</span><br>
-      PGDATABASE = <span style="color:#00f2fe;">railway</span><br>
-      DATABASE_URL = <span style="color:#00f2fe;">postgresql://postgres:...@...railway.app:5432/railway</span>
-    </div>
-
-    <div style="background:#fff3cd; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#856404;">
-      ⚠️ <b>주의:</b> DATABASE_URL에는 비밀번호가 포함되어 있어요. 절대 공개하지 마세요!
-    </div>
-  </div>
-
-  <!-- ====== STEP 2 ====== -->
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-    <div style="width:48px; height:48px; background:#0f3460; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">2</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">Railway에 백엔드 올리기</h2>
-  </div>
-
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #0f3460;">
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
-      <div>
-        <b style="font-size:15px;">같은 프로젝트에서 + 버튼 클릭</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">왼쪽 패널에 + 아이콘이 있어요. 새 서비스를 추가합니다.</div>
-      </div>
-    </div>
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
-      <div>
-        <b style="font-size:15px;">GitHub Repository → samba-wave 선택</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">GitHub에서 코드를 가져옵니다.</div>
-      </div>
-    </div>
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
-      <div>
-        <b style="font-size:15px;">Settings 탭에서 3가지 설정</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">배포된 서비스를 클릭 → Settings 탭으로 이동</div>
-      </div>
-    </div>
-
-    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-      <div style="font-size:14px; margin-bottom:8px;">📁 <b>Root Directory</b> (소스 위치)</div>
-      <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:14px; color:#4facfe;">backend</div>
-    </div>
-    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-      <div style="font-size:14px; margin-bottom:8px;">🔨 <b>Build Command</b> (설치 명령어)</div>
-      <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:14px; color:#4facfe;">pip install -e .</div>
-    </div>
-    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-      <div style="font-size:14px; margin-bottom:8px;">🚀 <b>Start Command</b> (실행 명령어)</div>
-      <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe;">uvicorn backend.main:app --host 0.0.0.0 --port $PORT</div>
-    </div>
-
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
-      <div>
-        <b style="font-size:15px;">Variables 탭에서 환경변수 입력</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">아래 내용을 하나씩 추가하세요. 1단계에서 메모한 DB 정보를 사용합니다.</div>
-      </div>
-    </div>
-
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:12px; color:#e5e5e5; line-height:2.2; overflow-x:auto;">
-      <span style="color:#888;"># 환경</span><br>
-      <span style="color:#4facfe;">ENVIRONMENT</span> = <span style="color:#00f2fe;">production</span><br><br>
-      <span style="color:#888;"># DB 쓰기 (1단계에서 메모한 값)</span><br>
-      <span style="color:#4facfe;">WRITE_DB_USER</span> = <span style="color:#00f2fe;">postgres</span><br>
-      <span style="color:#4facfe;">WRITE_DB_PASSWORD</span> = <span style="color:#00f2fe;">(메모한 비밀번호)</span><br>
-      <span style="color:#4facfe;">WRITE_DB_HOST</span> = <span style="color:#00f2fe;">(메모한 호스트)</span><br>
-      <span style="color:#4facfe;">WRITE_DB_PORT</span> = <span style="color:#00f2fe;">(메모한 포트)</span><br>
-      <span style="color:#4facfe;">WRITE_DB_NAME</span> = <span style="color:#00f2fe;">railway</span><br><br>
-      <span style="color:#888;"># DB 읽기 (쓰기와 동일하게)</span><br>
-      <span style="color:#4facfe;">READ_DB_USER</span> = <span style="color:#00f2fe;">(위와 동일)</span><br>
-      <span style="color:#4facfe;">READ_DB_PASSWORD</span> = <span style="color:#00f2fe;">(위와 동일)</span><br>
-      <span style="color:#4facfe;">READ_DB_HOST</span> = <span style="color:#00f2fe;">(위와 동일)</span><br>
-      <span style="color:#4facfe;">READ_DB_PORT</span> = <span style="color:#00f2fe;">(위와 동일)</span><br>
-      <span style="color:#4facfe;">READ_DB_NAME</span> = <span style="color:#00f2fe;">(위와 동일)</span><br><br>
-      <span style="color:#888;"># 보안 키 (아무 긴 문자열)</span><br>
-      <span style="color:#4facfe;">JWT_SECRET_KEY</span> = <span style="color:#00f2fe;">my-super-secret-key-12345678</span><br><br>
-      <span style="color:#888;"># CORS (4단계 후 Vercel 주소로 변경)</span><br>
-      <span style="color:#4facfe;">CORS_EXTRA_ORIGINS</span> = <span style="color:#00f2fe;">https://내앱.vercel.app</span>
-    </div>
-
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-top:20px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">5</span>
-      <div>
-        <b style="font-size:15px;">배포 완료 확인</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">
-          자동으로 빌드가 시작됩니다. 초록색 체크가 나오면 성공!<br>
-          Settings → Networking에서 <b>Generate Domain</b> 클릭하면 주소가 생깁니다.<br>
-          예: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px; font-size:12px;">https://samba-wave-production.up.railway.app</code>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ====== STEP 3 ====== -->
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-    <div style="width:48px; height:48px; background:#e94560; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">3</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">데이터베이스 테이블 만들기</h2>
-  </div>
-
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
-    <p style="margin:0 0 16px; font-size:14px; color:#555;">
-      DB를 만들었지만 아직 빈 상태예요. 테이블(상품, 주문, 정책 등)을 생성해야 합니다.
-    </p>
-
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
-      <div>
-        <b style="font-size:15px;">내 컴퓨터 터미널(명령 프롬프트)에서 실행</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">Railway의 DATABASE_URL을 사용해서 테이블을 만듭니다.</div>
-      </div>
-    </div>
-
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
-      <span style="color:#888;"># 백엔드 폴더로 이동</span><br>
-      <span style="color:#e94560;">cd</span> backend<br><br>
-      <span style="color:#888;"># Railway DB에 테이블 생성</span><br>
-      <span style="color:#e94560;">set</span> DATABASE_URL=<span style="color:#00f2fe;">postgresql://postgres:비밀번호@호스트:포트/railway</span><br>
-      <span style="color:#e94560;">alembic</span> upgrade head
-    </div>
-
-    <div style="background:#d4edda; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#155724;">
-      ✅ <b>성공하면:</b> "Running upgrade ... -> head" 메시지가 나옵니다. 테이블 생성 완료!
-    </div>
-  </div>
-
-  <!-- ====== STEP 4 ====== -->
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-    <div style="width:48px; height:48px; background:#0f3460; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">4</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">Vercel에 프론트엔드 올리기</h2>
-  </div>
-
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #0f3460;">
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
-      <div>
-        <b style="font-size:15px;">vercel.com 접속 → GitHub으로 로그인</b>
-      </div>
-    </div>
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
-      <div>
-        <b style="font-size:15px;">Add New Project → samba-wave 레포 선택</b>
-      </div>
-    </div>
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
-      <div>
-        <b style="font-size:15px;">설정 입력</b>
-      </div>
-    </div>
-
-    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-      <div style="font-size:14px; margin-bottom:8px;">📁 <b>Root Directory</b></div>
-      <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:14px; color:#4facfe;">frontend</div>
-    </div>
-    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-      <div style="font-size:14px; margin-bottom:8px;">🔧 <b>Framework Preset</b></div>
-      <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:14px; color:#4facfe;">Next.js (자동 감지됨)</div>
-    </div>
-
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
-      <div>
-        <b style="font-size:15px;">Environment Variables 추가</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">2단계에서 받은 Railway 백엔드 주소를 입력합니다.</div>
-      </div>
-    </div>
-
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2;">
-      <span style="color:#4facfe;">NEXT_PUBLIC_API_URL</span> = <span style="color:#00f2fe;">https://samba-wave-production.up.railway.app</span>
-    </div>
-
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-top:20px;">
-      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">5</span>
-      <div>
-        <b style="font-size:15px;">Deploy 클릭!</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">2~3분 후 배포 완료. Vercel이 주소를 줍니다.<br>
-        예: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px; font-size:12px;">https://samba-wave.vercel.app</code></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ====== STEP 5 ====== -->
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-    <div style="width:48px; height:48px; background:#e94560; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">5</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">CORS 연결하기 (마무리)</h2>
-  </div>
-
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
-    <p style="margin:0 0 16px; font-size:14px; color:#555;">
-      Vercel 주소를 Railway 백엔드에 알려줘야 서로 통신할 수 있어요.
-    </p>
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
-      <div>
-        <b style="font-size:15px;">Railway → 백엔드 서비스 → Variables 탭</b>
-      </div>
-    </div>
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
-      <div>
-        <b style="font-size:15px;">CORS_EXTRA_ORIGINS 값을 Vercel 주소로 수정</b>
-      </div>
-    </div>
-
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2;">
-      <span style="color:#4facfe;">CORS_EXTRA_ORIGINS</span> = <span style="color:#00f2fe;">https://samba-wave.vercel.app</span>
-    </div>
-
-    <div style="background:#d4edda; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#155724;">
-      ✅ 저장하면 자동으로 재배포됩니다. 1분 후 Vercel 주소로 접속해보세요!
-    </div>
-  </div>
-
-  <!-- 완료 -->
-  <div style="background:linear-gradient(135deg,#1a1a2e,#0f3460); border-radius:16px; padding:36px 24px; text-align:center; margin-bottom:32px;">
-    <div style="font-size:48px; margin-bottom:12px;">🎉</div>
-    <h2 style="margin:0 0 12px; font-size:24px; color:#fff;">배포 완료!</h2>
-    <p style="margin:0 0 24px; font-size:14px; color:rgba(255,255,255,0.6);">
-      이제 어디서든 브라우저로 접속할 수 있습니다.
-    </p>
-    <div style="display:inline-flex; flex-direction:column; gap:8px;">
-      <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#4facfe;">
-        🖥️ 프론트: https://samba-wave.vercel.app
-      </div>
-      <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#f093fb;">
-        ⚙️ 백엔드: https://samba-wave-production.up.railway.app
-      </div>
-    </div>
-  </div>
-
-  <!-- 문제 해결 -->
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">🔧 문제가 생겼을 때</h2>
-
-    <div style="border-bottom:1px solid #eee; padding:12px 0;">
-      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 화면이 안 나와요</div>
-      <div style="font-size:13px; color:#666;">→ Vercel에서 NEXT_PUBLIC_API_URL이 올바른지 확인하세요.</div>
-    </div>
-    <div style="border-bottom:1px solid #eee; padding:12px 0;">
-      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. API 요청이 실패해요</div>
-      <div style="font-size:13px; color:#666;">→ Railway 백엔드 로그를 확인하세요. DB 연결 정보가 틀렸을 수 있어요.</div>
-    </div>
-    <div style="border-bottom:1px solid #eee; padding:12px 0;">
-      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. CORS 에러가 나요</div>
-      <div style="font-size:13px; color:#666;">→ CORS_EXTRA_ORIGINS에 Vercel 주소를 정확히 입력했는지 확인하세요. https:// 포함!</div>
-    </div>
-    <div style="padding:12px 0;">
-      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 로컬 개발은 계속 되나요?</div>
-      <div style="font-size:13px; color:#666;">→ 네! 로컬은 그대로 유지됩니다. 배포는 복사본이에요. 안심하세요.</div>
-    </div>
-  </div>
-
-  <!-- 비용 안내 -->
-  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">💰 월 비용</h2>
-    <table style="width:100%; border-collapse:collapse; font-size:14px;">
-      <tr style="background:#f8f9fa;">
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; font-weight:700;">서비스</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; font-weight:700;">플랫폼</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; font-weight:700; text-align:right;">비용</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">프론트엔드</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Vercel</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right; color:#155724; font-weight:700;">무료</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">백엔드</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Railway</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">~$5</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">데이터베이스</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Railway</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">~$5</td>
-      </tr>
-      <tr style="background:#f0f4ff;">
-        <td style="padding:10px 14px; font-weight:700;" colspan="2">합계</td>
-        <td style="padding:10px 14px; text-align:right; font-weight:700; color:#0f3460; font-size:16px;">~$10/월</td>
-      </tr>
-    </table>
-  </div>
-
-  <!-- 푸터 -->
-  <div style="text-align:center; padding:20px 0; font-size:12px; color:#aaa;">
-    SAMBA WAVE 배포 가이드 v1.0 | 2026.03.23
-  </div>
-
+<div class="note">
+  <strong>배포 순서 원칙:</strong> 반드시 <strong>① DB 마이그레이션 → ② 백엔드(Cloud Run) → ③ 프론트엔드(Vercel)</strong> 순서로 배포합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.
 </div>
+
+<!-- ━━━━━━━━━━━━━━━━ 사전 준비 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">1</div>
+  <h2>사전 준비</h2>
+</div>
+
+<div class="card card-blue">
+  <h3>필요한 계정 및 도구</h3>
+  <ul class="checklist">
+    <li>GCP(Google Cloud Platform) 계정 — 결제 수단 등록 필수</li>
+    <li>GitHub 계정 — 리포지토리 push 권한 보유</li>
+    <li>Vercel 계정 — vercel.com에서 GitHub으로 로그인</li>
+    <li>gcloud CLI 설치 — <code style="font-family:monospace; color:var(--blue)">https://cloud.google.com/sdk/docs/install</code></li>
+    <li>Docker Desktop 설치 (로컬 빌드 테스트용)</li>
+    <li>uv 설치 — Python 패키지 관리자 <code style="font-family:monospace; color:var(--blue)">pip install uv</code></li>
+  </ul>
+</div>
+
+<div class="card card-blue">
+  <h3>GCP 초기 설정 (최초 1회)</h3>
+  <div class="code-block">
+<span class="comment"># GCP 로그인</span>
+<span class="cmd">gcloud auth login</span>
+
+<span class="comment"># 프로젝트 설정 (프로젝트 ID 확인 후 입력)</span>
+<span class="cmd">gcloud config set project</span> <span class="val">YOUR_PROJECT_ID</span>
+
+<span class="comment"># 필요한 API 활성화</span>
+<span class="cmd">gcloud services enable</span> <span class="val">run.googleapis.com</span>
+<span class="cmd">gcloud services enable</span> <span class="val">sqladmin.googleapis.com</span>
+<span class="cmd">gcloud services enable</span> <span class="val">artifactregistry.googleapis.com</span>
+<span class="cmd">gcloud services enable</span> <span class="val">secretmanager.googleapis.com</span>
+
+<span class="comment"># Artifact Registry 저장소 생성 (Docker 이미지 저장소)</span>
+<span class="cmd">gcloud artifacts repositories create</span> <span class="val">samba-wave</span> \
+  --repository-format=docker \
+  --location=asia-northeast3 \
+  --description="SambaWave Docker images"</div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ Cloud SQL 설정 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">2</div>
+  <h2>Cloud SQL 설정 (Read/Write 2개 인스턴스)</h2>
+</div>
+
+<div class="card card-red">
+  <h3>쓰기 인스턴스 생성</h3>
+  <div class="code-block">
+<span class="comment"># 쓰기 전용 인스턴스 생성</span>
+<span class="cmd">gcloud sql instances create</span> <span class="val">samba-wave-write</span> \
+  --database-version=POSTGRES_15 \
+  --tier=db-f1-micro \
+  --region=asia-northeast3 \
+  --storage-size=10GB \
+  --storage-type=SSD \
+  --backup \
+  --backup-start-time=03:00
+
+<span class="comment"># 데이터베이스 생성</span>
+<span class="cmd">gcloud sql databases create</span> <span class="val">sambawave</span> \
+  --instance=samba-wave-write
+
+<span class="comment"># 사용자 생성</span>
+<span class="cmd">gcloud sql users create</span> <span class="val">samba_write_user</span> \
+  --instance=samba-wave-write \
+  --password=<span class="string">YOUR_STRONG_PASSWORD</span></div>
+</div>
+
+<div class="card card-red">
+  <h3>읽기 전용 인스턴스 생성 (Read Replica)</h3>
+  <div class="code-block">
+<span class="comment"># 쓰기 인스턴스의 Read Replica 생성</span>
+<span class="cmd">gcloud sql instances create</span> <span class="val">samba-wave-read</span> \
+  --master-instance-name=samba-wave-write \
+  --region=asia-northeast3 \
+  --tier=db-f1-micro
+
+<span class="comment"># Read Replica용 사용자 생성 (쓰기 인스턴스에서 복제됨)</span>
+<span class="cmd">gcloud sql users create</span> <span class="val">samba_read_user</span> \
+  --instance=samba-wave-read \
+  --password=<span class="string">YOUR_READ_PASSWORD</span></div>
+</div>
+
+<div class="card card-red">
+  <h3>Cloud SQL 연결 정보 확인</h3>
+  <div class="code-block">
+<span class="comment"># 인스턴스 연결 이름 확인 (Cloud Run 연결 시 필요)</span>
+<span class="cmd">gcloud sql instances describe</span> <span class="val">samba-wave-write</span> \
+  --format="value(connectionName)"
+<span class="comment"># 출력 예: my-project:asia-northeast3:samba-wave-write</span>
+
+<span class="comment"># IP 주소 확인</span>
+<span class="cmd">gcloud sql instances describe</span> <span class="val">samba-wave-write</span> \
+  --format="value(ipAddresses[0].ipAddress)"</div>
+</div>
+
+<div class="note-red">
+  <strong>주의:</strong> Cloud SQL IP를 직접 사용하지 말고 Cloud SQL Auth Proxy 또는 Cloud Run의 Cloud SQL 직접 연결을 사용하세요. 연결 이름(connectionName)을 GitHub Secrets에 저장합니다.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ GitHub Secrets 등록 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">3</div>
+  <h2>GitHub Secrets 등록</h2>
+</div>
+
+<p>GitHub 리포지토리 → Settings → Secrets and variables → Actions에서 아래 시크릿을 등록합니다.</p>
+
+<div class="card card-purple">
+  <table>
+    <tr><th>Secret 이름</th><th>값</th><th>설명</th></tr>
+    <tr>
+      <td><code>GCP_SA_KEY</code> <span class="tag-required">필수</span></td>
+      <td>서비스 계정 JSON 전체</td>
+      <td>Cloud Run/Artifact Registry 배포 권한</td>
+    </tr>
+    <tr>
+      <td><code>DB_WRITE_HOST</code> <span class="tag-required">필수</span></td>
+      <td>쓰기 인스턴스 IP 또는 연결명</td>
+      <td>Cloud SQL 쓰기 인스턴스 호스트</td>
+    </tr>
+    <tr>
+      <td><code>DB_WRITE_USER</code> <span class="tag-required">필수</span></td>
+      <td>samba_write_user</td>
+      <td>쓰기 DB 사용자명</td>
+    </tr>
+    <tr>
+      <td><code>DB_WRITE_PASSWORD</code> <span class="tag-required">필수</span></td>
+      <td>(설정한 비밀번호)</td>
+      <td>쓰기 DB 비밀번호</td>
+    </tr>
+    <tr>
+      <td><code>DB_READ_HOST</code> <span class="tag-required">필수</span></td>
+      <td>읽기 인스턴스 IP 또는 연결명</td>
+      <td>Cloud SQL 읽기 인스턴스 호스트</td>
+    </tr>
+    <tr>
+      <td><code>DB_READ_USER</code> <span class="tag-required">필수</span></td>
+      <td>samba_read_user</td>
+      <td>읽기 DB 사용자명</td>
+    </tr>
+    <tr>
+      <td><code>DB_READ_PASSWORD</code> <span class="tag-required">필수</span></td>
+      <td>(설정한 비밀번호)</td>
+      <td>읽기 DB 비밀번호</td>
+    </tr>
+    <tr>
+      <td><code>JWT_SECRET_KEY</code> <span class="tag-required">필수</span></td>
+      <td>긴 랜덤 문자열 (32자 이상)</td>
+      <td>JWT 토큰 서명 키</td>
+    </tr>
+  </table>
+</div>
+
+<div class="card card-purple">
+  <h3>GCP 서비스 계정 생성 및 키 발급</h3>
+  <div class="code-block">
+<span class="comment"># 서비스 계정 생성</span>
+<span class="cmd">gcloud iam service-accounts create</span> <span class="val">samba-wave-deployer</span> \
+  --display-name="SambaWave GitHub Actions Deployer"
+
+<span class="comment"># 필요한 IAM 권한 부여</span>
+<span class="cmd">gcloud projects add-iam-policy-binding</span> <span class="val">YOUR_PROJECT_ID</span> \
+  --member="serviceAccount:samba-wave-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/run.admin"
+
+<span class="cmd">gcloud projects add-iam-policy-binding</span> <span class="val">YOUR_PROJECT_ID</span> \
+  --member="serviceAccount:samba-wave-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/artifactregistry.writer"
+
+<span class="cmd">gcloud projects add-iam-policy-binding</span> <span class="val">YOUR_PROJECT_ID</span> \
+  --member="serviceAccount:samba-wave-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/iam.serviceAccountUser"
+
+<span class="comment"># JSON 키 파일 생성 → 이 내용을 GCP_SA_KEY 시크릿에 등록</span>
+<span class="cmd">gcloud iam service-accounts keys create</span> <span class="val">gcp-sa-key.json</span> \
+  --iam-account=samba-wave-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com</div>
+</div>
+
+<div class="note-red">
+  <strong>보안 주의:</strong> <code>gcp-sa-key.json</code> 파일은 GitHub Secrets에 등록 후 즉시 삭제하세요. 절대 Git 커밋 금지입니다.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ GitHub Actions 워크플로우 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">4</div>
+  <h2>GitHub Actions 워크플로우 (deploy-cloudrun.yml)</h2>
+</div>
+
+<p>파일 위치: <code style="font-family:monospace; color:var(--blue)">.github/workflows/deploy-cloudrun.yml</code></p>
+
+<div class="card card-green">
+  <h3>워크플로우 동작 순서</h3>
+  <div class="flow-row">
+    <span class="flow-box fb-github">git push main</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-actions">Actions 트리거</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-actions">GCP 인증</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-docker">Docker Build</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-docker">Artifact Registry Push</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-cloudrun">Cloud Run 배포</span>
+  </div>
+</div>
+
+<div class="card card-green">
+  <h3>워크플로우 핵심 설정 항목</h3>
+  <div class="code-block">
+<span class="comment"># .github/workflows/deploy-cloudrun.yml 주요 설정</span>
+
+<span class="key">on:</span>
+  <span class="key">push:</span>
+    <span class="key">branches:</span> [<span class="val">main</span>]
+    <span class="key">paths:</span>
+      - <span class="string">'backend/**'</span>  <span class="comment"># 백엔드 변경 시에만 트리거</span>
+
+<span class="key">env:</span>
+  <span class="key">PROJECT_ID:</span> <span class="val">YOUR_GCP_PROJECT_ID</span>
+  <span class="key">REGION:</span> <span class="val">asia-northeast3</span>
+  <span class="key">SERVICE_NAME:</span> <span class="val">samba-wave-backend</span>
+  <span class="key">REGISTRY:</span> <span class="val">asia-northeast3-docker.pkg.dev</span>
+
+<span class="comment"># Cloud Run 배포 시 환경변수 주입</span>
+<span class="key">gcloud run deploy</span> $SERVICE_NAME \
+  --set-env-vars <span class="val">DB_WRITE_HOST</span>=${{ secrets.DB_WRITE_HOST }} \
+  --set-env-vars <span class="val">DB_WRITE_USER</span>=${{ secrets.DB_WRITE_USER }} \
+  --set-env-vars <span class="val">DB_WRITE_PASSWORD</span>=${{ secrets.DB_WRITE_PASSWORD }} \
+  --set-env-vars <span class="val">DB_READ_HOST</span>=${{ secrets.DB_READ_HOST }} \
+  --set-env-vars <span class="val">DB_READ_USER</span>=${{ secrets.DB_READ_USER }} \
+  --set-env-vars <span class="val">DB_READ_PASSWORD</span>=${{ secrets.DB_READ_PASSWORD }} \
+  --set-env-vars <span class="val">JWT_SECRET_KEY</span>=${{ secrets.JWT_SECRET_KEY }} \
+  --memory=2Gi \
+  --min-instances=1 \
+  --allow-unauthenticated</div>
+</div>
+
+<div class="note">
+  <strong>프론트엔드는 Actions 불필요:</strong> Vercel은 GitHub push를 감지해 자동 배포합니다. 백엔드 전용 변경 시 Actions만 실행되도록 <code>paths</code> 필터를 설정해 Actions 비용을 절약합니다.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ DB 마이그레이션 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">5</div>
+  <h2>DB 마이그레이션 (배포 전 필수)</h2>
+</div>
+
+<div class="note-red">
+  <strong>최우선 규칙:</strong> CI/CD는 DB를 건드리지 않습니다. 마이그레이션은 반드시 수동으로 실행해야 합니다. 백엔드 배포 전에 반드시 먼저 실행하세요.
+</div>
+
+<div class="card card-red">
+  <h3>마이그레이션 파일 생성 (모델 변경 시)</h3>
+  <div class="code-block">
+<span class="comment"># 백엔드 디렉토리에서 실행</span>
+<span class="cmd">cd</span> backend
+
+<span class="comment"># 마이그레이션 누락 여부 검증 (모델 변경 후 반드시 실행)</span>
+<span class="cmd">.venv/Scripts/python.exe</span> scripts/check_migrations.py
+
+<span class="comment"># 마이그레이션 파일 자동 생성</span>
+<span class="cmd">alembic revision --autogenerate</span> -m <span class="string">"컬럼 추가 설명"</span>
+
+<span class="comment"># 생성된 파일 검토 (alembic/versions/ 폴더)</span>
+<span class="comment"># upgrade/downgrade 함수가 올바른지 확인</span></div>
+</div>
+
+<div class="card card-red">
+  <h3>프로덕션 DB에 마이그레이션 적용</h3>
+  <div class="code-block">
+<span class="comment"># 방법 1: Cloud SQL Auth Proxy를 통한 로컬 연결</span>
+<span class="comment"># Cloud SQL Auth Proxy 다운로드 후 실행</span>
+<span class="cmd">./cloud-sql-proxy</span> YOUR_PROJECT_ID:asia-northeast3:samba-wave-write &
+
+<span class="comment"># 로컬 5432 포트로 연결되므로 localhost를 HOST로 사용</span>
+<span class="cmd">set</span> WRITE_DB_HOST=127.0.0.1
+<span class="cmd">set</span> WRITE_DB_USER=samba_write_user
+<span class="cmd">set</span> WRITE_DB_PASSWORD=<span class="string">YOUR_PASSWORD</span>
+<span class="cmd">set</span> WRITE_DB_NAME=sambawave
+
+<span class="cmd">alembic upgrade head</span>
+
+<span class="comment"># 방법 2: Cloud Shell에서 직접 실행</span>
+<span class="comment"># GCP Console → Cloud Shell → 리포 클론 후 실행</span></div>
+</div>
+
+<div class="note-green">
+  <strong>성공 확인:</strong> "Running upgrade ... -> head" 메시지가 출력되면 성공입니다. 마이그레이션 이력은 DB의 <code>alembic_version</code> 테이블에서 확인할 수 있습니다.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ Vercel 프론트엔드 배포 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">6</div>
+  <h2>Vercel 프론트엔드 배포 (최초 1회 설정)</h2>
+</div>
+
+<div class="card card-orange">
+  <h3>Vercel 프로젝트 최초 연결</h3>
+  <ul class="checklist">
+    <li>vercel.com 접속 → GitHub으로 로그인</li>
+    <li>Add New Project → samba-wave 리포지토리 선택</li>
+    <li>Root Directory: <code style="font-family:monospace; color:var(--blue)">frontend</code> 로 설정</li>
+    <li>Framework Preset: Next.js (자동 감지됨)</li>
+    <li>Environment Variables 섹션에서 아래 변수 추가</li>
+    <li>Deploy 클릭 → 2~3분 후 배포 완료</li>
+  </ul>
+</div>
+
+<div class="card card-orange">
+  <h3>Vercel 환경변수 설정</h3>
+  <div class="code-block">
+<span class="comment"># Vercel 대시보드 → 프로젝트 → Settings → Environment Variables</span>
+
+<span class="key">NEXT_PUBLIC_API_URL</span> = <span class="val">https://samba-wave-backend-XXXX-an.a.run.app</span>
+<span class="comment"># Cloud Run 배포 후 발급되는 서비스 URL</span></div>
+</div>
+
+<div class="note">
+  이후에는 <code>git push main</code>만 하면 Vercel이 자동으로 감지해서 재배포합니다. 별도 작업 불필요.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 배포 후 확인 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">7</div>
+  <h2>배포 후 확인 방법</h2>
+</div>
+
+<div class="card card-green">
+  <h3>백엔드 Health Check</h3>
+  <div class="code-block">
+<span class="comment"># Cloud Run 서비스 URL 확인</span>
+<span class="cmd">gcloud run services describe</span> <span class="val">samba-wave-backend</span> \
+  --region=asia-northeast3 \
+  --format="value(status.url)"
+
+<span class="comment"># 헬스체크 엔드포인트 (브라우저 또는 curl)</span>
+https://samba-wave-backend-XXXX-an.a.run.app/docs
+https://samba-wave-backend-XXXX-an.a.run.app/health
+
+<span class="comment"># Cloud Run 최신 배포 로그 확인</span>
+<span class="cmd">gcloud run services logs read</span> <span class="val">samba-wave-backend</span> \
+  --region=asia-northeast3 \
+  --limit=50</div>
+</div>
+
+<div class="card card-green">
+  <h3>GitHub Actions 배포 상태 확인</h3>
+  <ul class="checklist">
+    <li>GitHub 리포지토리 → Actions 탭 → 최신 워크플로우 실행 확인</li>
+    <li>각 Step (Build, Push, Deploy) 녹색 체크 확인</li>
+    <li>실패 시 해당 Step 클릭 → 상세 로그 확인</li>
+    <li>Cloud Run Console → 서비스 → 최신 리비전 상태 확인 (녹색 = 정상)</li>
+  </ul>
+</div>
+
+<div class="card card-green">
+  <h3>프론트엔드 확인</h3>
+  <ul class="checklist">
+    <li>Vercel 대시보드 → 프로젝트 → 최신 배포 Status 확인 (Ready = 성공)</li>
+    <li>배포 URL 접속 → <code style="font-family:monospace; color:var(--blue)">https://your-app.vercel.app/samba</code></li>
+    <li>로그인 후 기본 페이지 로딩 확인</li>
+    <li>브라우저 개발자도구 → Network → API 호출 응답 200 확인</li>
+  </ul>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 롤백 방법 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">8</div>
+  <h2>롤백 방법</h2>
+</div>
+
+<div class="card card-red">
+  <h3>Cloud Run 롤백 (백엔드)</h3>
+  <div class="code-block">
+<span class="comment"># 현재 서비스의 리비전 목록 확인</span>
+<span class="cmd">gcloud run revisions list</span> \
+  --service=samba-wave-backend \
+  --region=asia-northeast3
+
+<span class="comment"># 이전 리비전으로 트래픽 100% 전환</span>
+<span class="cmd">gcloud run services update-traffic</span> <span class="val">samba-wave-backend</span> \
+  --region=asia-northeast3 \
+  --to-revisions=<span class="val">samba-wave-backend-PREVIOUS_REVISION</span>=100
+
+<span class="comment"># 확인</span>
+<span class="cmd">gcloud run services describe</span> <span class="val">samba-wave-backend</span> \
+  --region=asia-northeast3 \
+  --format="value(spec.traffic)"</div>
+</div>
+
+<div class="card card-red">
+  <h3>Vercel 롤백 (프론트엔드)</h3>
+  <ul class="checklist">
+    <li>Vercel 대시보드 → 프로젝트 → Deployments 탭</li>
+    <li>롤백할 이전 배포 항목 찾기</li>
+    <li>해당 배포의 점 세 개 메뉴(⋯) → Promote to Production 클릭</li>
+    <li>즉시 적용됨 (빌드 재실행 없음)</li>
+  </ul>
+</div>
+
+<div class="card card-red">
+  <h3>DB 마이그레이션 롤백</h3>
+  <div class="code-block">
+<span class="comment"># 한 단계 이전으로 되돌리기</span>
+<span class="cmd">alembic downgrade</span> <span class="val">-1</span>
+
+<span class="comment"># 특정 리비전으로 되돌리기</span>
+<span class="cmd">alembic downgrade</span> <span class="val">REVISION_ID</span>
+
+<span class="comment"># 현재 리비전 확인</span>
+<span class="cmd">alembic current</span>
+
+<span class="comment"># 리비전 히스토리 확인</span>
+<span class="cmd">alembic history</span></div>
+</div>
+
+<div class="note-red">
+  <strong>주의:</strong> DB 롤백은 데이터 손실 가능성이 있습니다. downgrade 함수가 올바르게 작성되어 있는지 먼저 확인하고, 가능하면 DB 스냅샷 백업 후 진행하세요.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 환경변수 전체 목록 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">9</div>
+  <h2>환경변수 전체 목록</h2>
+</div>
+
+<div class="card">
+  <h3>백엔드 환경변수 (Cloud Run + GitHub Secrets)</h3>
+  <table>
+    <tr><th>변수명</th><th>예시값</th><th>설명</th><th>저장 위치</th></tr>
+    <tr>
+      <td><code>ENVIRONMENT</code></td>
+      <td>production</td>
+      <td>실행 환경 구분</td>
+      <td>Cloud Run 직접 설정</td>
+    </tr>
+    <tr>
+      <td><code>WRITE_DB_HOST</code></td>
+      <td>10.X.X.X</td>
+      <td>Cloud SQL 쓰기 인스턴스 IP</td>
+      <td>GitHub Secrets</td>
+    </tr>
+    <tr>
+      <td><code>WRITE_DB_PORT</code></td>
+      <td>5432</td>
+      <td>PostgreSQL 기본 포트</td>
+      <td>Cloud Run 직접 설정</td>
+    </tr>
+    <tr>
+      <td><code>WRITE_DB_USER</code></td>
+      <td>samba_write_user</td>
+      <td>쓰기 DB 사용자</td>
+      <td>GitHub Secrets</td>
+    </tr>
+    <tr>
+      <td><code>WRITE_DB_PASSWORD</code></td>
+      <td>(비밀번호)</td>
+      <td>쓰기 DB 비밀번호</td>
+      <td>GitHub Secrets</td>
+    </tr>
+    <tr>
+      <td><code>WRITE_DB_NAME</code></td>
+      <td>sambawave</td>
+      <td>쓰기 DB 이름</td>
+      <td>Cloud Run 직접 설정</td>
+    </tr>
+    <tr>
+      <td><code>READ_DB_HOST</code></td>
+      <td>10.X.X.X</td>
+      <td>Cloud SQL 읽기 인스턴스 IP</td>
+      <td>GitHub Secrets</td>
+    </tr>
+    <tr>
+      <td><code>READ_DB_PORT</code></td>
+      <td>5432</td>
+      <td>PostgreSQL 기본 포트</td>
+      <td>Cloud Run 직접 설정</td>
+    </tr>
+    <tr>
+      <td><code>READ_DB_USER</code></td>
+      <td>samba_read_user</td>
+      <td>읽기 DB 사용자</td>
+      <td>GitHub Secrets</td>
+    </tr>
+    <tr>
+      <td><code>READ_DB_PASSWORD</code></td>
+      <td>(비밀번호)</td>
+      <td>읽기 DB 비밀번호</td>
+      <td>GitHub Secrets</td>
+    </tr>
+    <tr>
+      <td><code>READ_DB_NAME</code></td>
+      <td>sambawave</td>
+      <td>읽기 DB 이름</td>
+      <td>Cloud Run 직접 설정</td>
+    </tr>
+    <tr>
+      <td><code>JWT_SECRET_KEY</code></td>
+      <td>(긴 랜덤 문자열)</td>
+      <td>JWT 토큰 서명 키</td>
+      <td>GitHub Secrets</td>
+    </tr>
+    <tr>
+      <td><code>CORS_EXTRA_ORIGINS</code></td>
+      <td>https://xxx.vercel.app</td>
+      <td>CORS 허용 출처</td>
+      <td>Cloud Run 직접 설정</td>
+    </tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>프론트엔드 환경변수 (Vercel)</h3>
+  <table>
+    <tr><th>변수명</th><th>예시값</th><th>설명</th></tr>
+    <tr>
+      <td><code>NEXT_PUBLIC_API_URL</code></td>
+      <td>https://samba-wave-backend-XXXX-an.a.run.app</td>
+      <td>Cloud Run 백엔드 URL</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 문제 해결 ━━━━━━━━━━━━━━━━ -->
+<h2>10. 자주 발생하는 문제</h2>
+
+<div class="card">
+  <table>
+    <tr><th>증상</th><th>원인</th><th>해결 방법</th></tr>
+    <tr>
+      <td>Cloud Run 배포 실패</td>
+      <td>Dockerfile 빌드 오류 또는 메모리 부족</td>
+      <td>Actions 로그 확인 → Docker 빌드 단계 오류 메시지 확인</td>
+    </tr>
+    <tr>
+      <td>DB 연결 실패</td>
+      <td>Secrets 값 오류 또는 Cloud SQL IP 방화벽</td>
+      <td>Cloud Run 로그 확인 → DB_HOST 값 검증</td>
+    </tr>
+    <tr>
+      <td>마이그레이션 컬럼 없음 오류</td>
+      <td>배포 전 마이그레이션 미실행</td>
+      <td>alembic upgrade head 실행 후 Cloud Run 재배포</td>
+    </tr>
+    <tr>
+      <td>CORS 에러</td>
+      <td>CORS_EXTRA_ORIGINS 미설정</td>
+      <td>Cloud Run 환경변수에 Vercel URL 추가 (https:// 포함)</td>
+    </tr>
+    <tr>
+      <td>Vercel 빌드 실패</td>
+      <td>TypeScript 타입 오류 또는 환경변수 누락</td>
+      <td>Vercel 대시보드 → 해당 배포 → Build Logs 확인</td>
+    </tr>
+    <tr>
+      <td>Cold Start 지연</td>
+      <td>Cloud Run 최소 인스턴스 0개 설정</td>
+      <td>min-instances=1 로 설정 (비용 증가 감수)</td>
+    </tr>
+  </table>
+</div>
+
+<br><br>
+<p style="color:#555; font-size:0.75rem; text-align:center;">마지막 업데이트: 2026-04-16 | SambaWave Deploy Guide — Google Cloud Run + Vercel</p>
 
 </body>
 </html>

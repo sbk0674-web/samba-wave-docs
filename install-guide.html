@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼바웨이브 설치 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06060a;
+    --bg-card: #0e0e14;
+    --border: #1a1a24;
+    --text: #e4e4ec;
+    --text-muted: #7a7a94;
+    --accent: #ff8c00;
+    --green: #3ecf8e;
+    --blue: #5c9aff;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+    --red: #ff6b6b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+  h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 3rem 0 1rem;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--text); }
+  p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; }
+  li { color: var(--text-muted); font-size: 0.9rem; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); text-decoration: none; }
+
+  /* 섹션 카드 */
+  .section-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-card h2 { margin-top: 0; border-bottom-color: rgba(255,140,0,0.2); }
+
+  /* 코드 블록 */
+  pre {
+    background: #080810;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    margin: 0.75rem 0 1rem;
+    position: relative;
+  }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: #c9d1d9;
+    line-height: 1.8;
+  }
+  pre code { display: block; }
+  /* 인라인 코드 */
+  p code, li code, td code {
+    background: rgba(255,140,0,0.08);
+    border: 1px solid rgba(255,140,0,0.15);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+
+  /* 커맨드 라벨 */
+  .code-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+    margin-top: 1rem;
+  }
+
+  /* 요구사항 그리드 */
+  .req-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .req-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+  }
+  .req-item .req-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .req-item .req-name { font-weight: 600; color: var(--text); }
+  .req-item .req-ver { color: var(--text-muted); font-size: 0.75rem; }
+
+  /* 옵션 탭 */
+  .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .option-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  .option-card.active { border-color: rgba(62,207,142,0.3); background: rgba(62,207,142,0.04); }
+  .option-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .badge-rec {
+    font-size: 0.6rem;
+    padding: 0.15em 0.5em;
+    background: rgba(62,207,142,0.15);
+    color: var(--green);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-prod {
+    font-size: 0.6rem;
+    padding: 0.15em 0.5em;
+    background: rgba(255,140,0,0.12);
+    color: var(--accent);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* 환경변수 테이블 */
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+  th {
+    background: rgba(255,140,0,0.08);
+    color: var(--accent);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+  td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--blue); white-space: nowrap; }
+  td.required { color: var(--red); font-size: 0.72rem; text-align: center; }
+  tr:last-child td { border-bottom: none; }
+
+  /* 스텝 리스트 */
+  .steps { list-style: none; counter-reset: step; }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+    align-items: flex-start;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .steps li::before {
+    content: counter(step);
+    min-width: 24px;
+    height: 24px;
+    background: rgba(255,140,0,0.12);
+    color: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1em;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* 노트/경고 박스 */
+  .note {
+    background: rgba(255,140,0,0.06);
+    border-left: 3px solid var(--accent);
+    padding: 0.75rem 1rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .note strong { color: var(--accent); }
+  .warn {
+    background: rgba(255,107,107,0.06);
+    border-left: 3px solid var(--red);
+    padding: 0.75rem 1rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .warn strong { color: var(--red); }
+  .tip {
+    background: rgba(62,207,142,0.06);
+    border-left: 3px solid var(--green);
+    padding: 0.75rem 1rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .tip strong { color: var(--green); }
+
+  /* 에러 섹션 */
+  .error-list { display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0; }
+  .error-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+  }
+  .error-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--red);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .error-cause {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .error-fix {
+    font-size: 0.82rem;
+    color: var(--green);
+  }
+
+  /* 목차 */
+  .toc {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .toc-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .toc ol { padding-left: 1.25rem; }
+  .toc li { font-size: 0.85rem; margin-bottom: 0.3rem; }
+  .toc a { color: var(--text-muted); }
+  .toc a:hover { color: var(--accent); }
+
+  /* 헤더 메타 */
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .meta-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.25em 0.7em;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+    flex-wrap: wrap;
+  }
+  .flow-box {
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .flow-arrow { color: var(--text-muted); font-size: 1rem; }
+  .fb-db { background: rgba(255,107,107,0.12); border: 1px solid rgba(255,107,107,0.25); color: var(--red); }
+  .fb-back { background: rgba(62,207,142,0.12); border: 1px solid rgba(62,207,142,0.25); color: var(--green); }
+  .fb-front { background: rgba(255,140,0,0.12); border: 1px solid rgba(255,140,0,0.25); color: var(--accent); }
+  .fb-ext { background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25); color: var(--purple); }
+
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+  .footer a { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    body { padding: 1.25rem; }
+    .option-grid { grid-template-columns: 1fr; }
+    .req-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back">&larr; 문서 목록으로</a>
+
+<h1>&#128196; 삼바웨이브 설치 가이드</h1>
+<div class="header-meta">
+  <span class="meta-tag">Install Guide</span>
+  <span class="meta-tag">v1.0</span>
+  <span class="meta-tag">2026-04-16</span>
+</div>
+<p>프로젝트 파일을 받은 후 로컬 개발 환경부터 프로덕션 레벨까지 단계별로 설정하는 완전 가이드입니다.</p>
+
+<!-- 배포 순서 요약 -->
+<div class="flow-row">
+  <span class="flow-box fb-db">DB 마이그레이션</span>
+  <span class="flow-arrow">&#8594;</span>
+  <span class="flow-box fb-back">백엔드 서버</span>
+  <span class="flow-arrow">&#8594;</span>
+  <span class="flow-box fb-front">프론트엔드</span>
+  <span class="flow-arrow">&#8594;</span>
+  <span class="flow-box fb-ext">확장앱</span>
+</div>
+<p style="margin-top:0.5rem;">이 순서를 반드시 지킬 것. 역순으로 배포하면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.</p>
+
+<!-- 목차 -->
+<div class="toc">
+  <div class="toc-title">// 목차</div>
+  <ol>
+    <li><a href="#req">시스템 요구사항</a></li>
+    <li><a href="#clone">프로젝트 클론 &amp; 구조 이해</a></li>
+    <li><a href="#backend">백엔드 로컬 환경 설정</a></li>
+    <li><a href="#db">DB 설정 옵션</a></li>
+    <li><a href="#migration">DB 마이그레이션</a></li>
+    <li><a href="#run-backend">백엔드 서버 실행</a></li>
+    <li><a href="#frontend">프론트엔드 설정</a></li>
+    <li><a href="#extension">Chrome 확장앱 설치</a></li>
+    <li><a href="#init">초기 설정 (최초 1회)</a></li>
+    <li><a href="#production">프로덕션 배포</a></li>
+    <li><a href="#troubleshoot">문제 해결</a></li>
+  </ol>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 0. 시스템 요구사항 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="req">
+  <h2>&#9881; 0. 시스템 요구사항</h2>
+
+  <h3>필수 도구</h3>
+  <div class="req-grid">
+    <div class="req-item">
+      <span class="req-icon">&#128013;</span>
+      <div>
+        <div class="req-name">Python</div>
+        <div class="req-ver">3.12.3 이상</div>
+      </div>
+    </div>
+    <div class="req-item">
+      <span class="req-icon">&#9679;</span>
+      <div>
+        <div class="req-name">Node.js</div>
+        <div class="req-ver">20 LTS 이상</div>
+      </div>
+    </div>
+    <div class="req-item">
+      <span class="req-icon">&#128230;</span>
+      <div>
+        <div class="req-name">pnpm</div>
+        <div class="req-ver">9.x 이상</div>
+      </div>
+    </div>
+    <div class="req-item">
+      <span class="req-icon">&#9889;</span>
+      <div>
+        <div class="req-name">uv</div>
+        <div class="req-ver">최신 버전</div>
+      </div>
+    </div>
+    <div class="req-item">
+      <span class="req-icon">&#127807;</span>
+      <div>
+        <div class="req-name">Git</div>
+        <div class="req-ver">2.x 이상</div>
+      </div>
+    </div>
+    <div class="req-item">
+      <span class="req-icon">&#128030;</span>
+      <div>
+        <div class="req-name">Chrome</div>
+        <div class="req-ver">최신 버전 (확장앱용)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>클라우드 계정 (프로덕션)</h3>
+  <div class="req-grid">
+    <div class="req-item">
+      <span class="req-icon">&#9729;</span>
+      <div>
+        <div class="req-name">GCP 계정</div>
+        <div class="req-ver">Cloud Run + Cloud SQL</div>
+      </div>
+    </div>
+    <div class="req-item">
+      <span class="req-icon">&#128057;</span>
+      <div>
+        <div class="req-name">GitHub 계정</div>
+        <div class="req-ver">CI/CD Actions 사용</div>
+      </div>
+    </div>
+    <div class="req-item">
+      <span class="req-icon">&#9651;</span>
+      <div>
+        <div class="req-name">Vercel 계정</div>
+        <div class="req-ver">프론트엔드 배포</div>
+      </div>
+    </div>
+    <div class="req-item">
+      <span class="req-icon">&#9728;</span>
+      <div>
+        <div class="req-name">Cloudflare 계정</div>
+        <div class="req-ver">R2 이미지 저장소</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>지원 OS</h3>
+  <div class="req-grid">
+    <div class="req-item"><span class="req-icon">&#127968;</span><div><div class="req-name">Windows 11</div></div></div>
+    <div class="req-item"><span class="req-icon">&#127822;</span><div><div class="req-name">macOS 13+</div></div></div>
+    <div class="req-item"><span class="req-icon">&#128039;</span><div><div class="req-name">Ubuntu 22.04+</div></div></div>
+  </div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 1. 프로젝트 클론 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="clone">
+  <h2>&#128190; 1. 프로젝트 클론 &amp; 구조 이해</h2>
+
+  <div class="code-label">// 저장소 클론</div>
+  <pre><code>git clone &lt;repo-url&gt; samba-wave
+cd samba-wave</code></pre>
+
+  <h3>디렉토리 구조</h3>
+  <pre><code>samba-wave/
+├── backend/                    # Python FastAPI 백엔드
+│   ├── backend/
+│   │   ├── api/v1/routers/    # API 라우터 (도메인별)
+│   │   ├── core/config.py     # 환경변수 설정 (Pydantic BaseSettings)
+│   │   ├── db/orm.py          # Read/Write DB 세션 팩토리
+│   │   ├── domain/samba/      # 핵심 비즈니스 로직 (DDD)
+│   │   │   ├── collector/     # 상품 수집
+│   │   │   ├── policy/        # 가격 정책
+│   │   │   ├── shipment/      # 발송 처리
+│   │   │   ├── order/         # 주문 관리
+│   │   │   ├── proxy/         # 마켓 API 연동
+│   │   │   └── plugins/       # 소싱사이트별 수집 플러그인
+│   │   └── dtos/              # Request/Response DTO
+│   ├── alembic/               # DB 마이그레이션
+│   └── pyproject.toml
+├── frontend/                   # Next.js 15 프론트엔드
+│   ├── src/app/               # App Router 페이지
+│   │   └── samba/             # Samba Wave 메인 기능
+│   ├── src/components/
+│   ├── src/lib/
+│   │   ├── api.ts             # API 클라이언트
+│   │   └── samba/api.ts       # Samba 도메인 API
+│   └── src/hooks/
+└── .github/workflows/
+    └── deploy-cloudrun.yml    # CI/CD 파이프라인</code></pre>
+
+  <div class="note"><strong>핵심 원칙:</strong> 백엔드는 각 도메인 디렉토리마다 <code>model.py</code> / <code>service.py</code> / <code>repository.py</code> 3-레이어 구조입니다. 새 기능 추가 시 DTO → Repository → Service → Router 순서로 작성하세요.</div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 2. 백엔드 로컬 환경 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="backend">
+  <h2>&#128013; 2. 백엔드 로컬 환경 설정</h2>
+
+  <div class="code-label">// 가상환경 생성 및 패키지 설치</div>
+  <pre><code>cd backend
+
+# 가상환경 생성
+uv venv
+
+# 가상환경 활성화
+# Windows:
+.venv\Scripts\activate
+# Mac/Linux:
+source .venv/bin/activate
+
+# 패키지 설치
+uv pip install -e .
+uv pip install -e .[dev]
+
+# .env 파일 생성
+cp .env.example .env</code></pre>
+
+  <div class="warn"><strong>주의:</strong> <code>.env</code> 파일은 절대 Git에 커밋하지 마세요. <code>.gitignore</code>에 포함되어 있지만, 반드시 확인하세요.</div>
+
+  <h3>.env 필수 설정값</h3>
+  <table>
+    <tr><th>키</th><th>설명</th><th style="text-align:center;width:60px">필수</th></tr>
+    <tr>
+      <td>write_db_host</td>
+      <td>Write DB 호스트 (예: <code>localhost</code>)</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>write_db_port</td>
+      <td>Write DB 포트 (기본: <code>5432</code>)</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>write_db_name</td>
+      <td>Write DB 이름</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>write_db_user</td>
+      <td>Write DB 사용자명</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>write_db_password</td>
+      <td>Write DB 비밀번호</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>read_db_host</td>
+      <td>Read DB 호스트 (로컬에서는 write와 동일)</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>read_db_port</td>
+      <td>Read DB 포트</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>read_db_name</td>
+      <td>Read DB 이름</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>read_db_user</td>
+      <td>Read DB 사용자명</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>read_db_password</td>
+      <td>Read DB 비밀번호</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>jwt_secret_key</td>
+      <td>JWT 서명 키 (임의의 긴 문자열)</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>environment</td>
+      <td>실행 환경: <code>development</code> 또는 <code>production</code></td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>gemini_api_key</td>
+      <td>Google Gemini API 키 (AI 이미지/태그)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>r2_account_id</td>
+      <td>Cloudflare R2 Account ID</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>r2_access_key_id</td>
+      <td>Cloudflare R2 Access Key</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>r2_secret_access_key</td>
+      <td>Cloudflare R2 Secret Key</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>r2_bucket_name</td>
+      <td>R2 버킷 이름</td>
+      <td></td>
+    </tr>
+  </table>
+
+  <div class="note"><strong>로컬 개발 팁:</strong> <code>environment=development</code>로 설정하면 디버그 로그가 활성화됩니다. <code>read_db_*</code>는 로컬에서 write DB와 동일하게 설정해도 무방합니다.</div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 3. DB 설정 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="db">
+  <h2>&#128451; 3. DB 설정 옵션</h2>
+  <p>로컬 개발 환경에서는 두 가지 방법 중 하나를 선택하세요.</p>
+
+  <div class="option-grid">
+    <div class="option-card active">
+      <div class="option-title">&#128010; 옵션 A: 로컬 PostgreSQL <span class="badge-rec">추천</span></div>
+      <p>Docker로 PostgreSQL을 로컬에 실행합니다. 프로덕션 데이터와 완전히 분리되어 안전합니다.</p>
+    </div>
+    <div class="option-card">
+      <div class="option-title">&#9729; 옵션 B: Cloud SQL 직접 연결 <span class="badge-prod">프로덕션</span></div>
+      <p>실제 프로덕션 DB에 연결합니다. 데이터 변경 위험이 있으니 주의하세요.</p>
+    </div>
+  </div>
+
+  <h3>옵션 A: Docker로 로컬 PostgreSQL 실행</h3>
+  <div class="code-label">// Docker로 PostgreSQL 16 실행</div>
+  <pre><code>docker run -d \
+  --name samba-db \
+  -e POSTGRES_USER=samba \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=sambawave \
+  -p 5432:5432 \
+  postgres:16</code></pre>
+
+  <p>위 명령 실행 후 <code>.env</code> 파일 설정:</p>
+  <pre><code>write_db_host=localhost
+write_db_port=5432
+write_db_name=sambawave
+write_db_user=samba
+write_db_password=password
+read_db_host=localhost
+read_db_port=5432
+read_db_name=sambawave
+read_db_user=samba
+read_db_password=password</code></pre>
+
+  <h3>옵션 B: Cloud SQL Proxy 사용 (프로덕션 연결)</h3>
+  <div class="code-label">// Cloud SQL Proxy 설치 및 실행 (Mac/Linux)</div>
+  <pre><code># Cloud SQL Proxy 다운로드
+curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.9.0/cloud-sql-proxy.linux.amd64
+chmod +x cloud-sql-proxy
+
+# 프록시 실행 (GCP 프로젝트 ID, 리전, 인스턴스명으로 교체)
+./cloud-sql-proxy --port 5432 &lt;PROJECT_ID&gt;:&lt;REGION&gt;:&lt;INSTANCE_NAME&gt;</code></pre>
+
+  <div class="warn"><strong>주의:</strong> Cloud SQL에 직접 연결하는 경우, 실제 프로덕션 데이터가 존재합니다. 마이그레이션 테스트는 반드시 로컬 DB에서 먼저 검증하세요.</div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 4. DB 마이그레이션 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="migration">
+  <h2>&#128260; 4. DB 마이그레이션</h2>
+
+  <div class="code-label">// DB 스키마 생성 (최초 설치 시)</div>
+  <pre><code>cd backend
+
+# 모든 마이그레이션 적용
+alembic upgrade head</code></pre>
+
+  <div class="tip"><strong>성공 확인:</strong> <code>INFO [alembic.runtime.migration] Running upgrade ... -&gt; ...</code> 메시지가 출력되면 정상입니다.</div>
+
+  <h3>마이그레이션 관련 추가 명령어</h3>
+  <div class="code-label">// 마이그레이션 파일 생성 (모델 변경 후)</div>
+  <pre><code># 변경 감지 후 마이그레이션 파일 자동 생성
+alembic revision --autogenerate -m "변경 내용 설명"
+
+# 생성된 파일 검토 후 적용
+alembic upgrade head
+
+# 이전 버전으로 롤백
+alembic downgrade -1</code></pre>
+
+  <div class="note"><strong>DB 컬럼 추가 체크리스트:</strong> model.py 필드 추가 → <code>alembic revision --autogenerate</code> → 마이그레이션 파일 검토 → 로컬 <code>alembic upgrade head</code> 확인 → push (CI/CD가 프로덕션에 자동 적용)</div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 5. 백엔드 서버 실행 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="run-backend">
+  <h2>&#127381; 5. 백엔드 서버 실행</h2>
+
+  <div class="code-label">// 개발 서버 실행 (권장)</div>
+  <pre><code>cd backend
+.venv\Scripts\python.exe run.py</code></pre>
+
+  <div class="code-label">// 또는 uvicorn 직접 실행</div>
+  <pre><code>uvicorn backend.main:app --reload --port 28080</code></pre>
+
+  <div class="warn"><strong>주의:</strong> <code>uvicorn app.main:app</code> 형태는 사용 금지입니다. 반드시 <code>backend.main:app</code>으로 실행하세요.</div>
+
+  <p>서버가 정상 실행되면 아래 URL에서 확인할 수 있습니다:</p>
+  <ul>
+    <li style="margin-bottom:0.4rem;">API 문서 (Swagger): <a href="http://localhost:28080/docs" target="_blank">http://localhost:28080/docs</a></li>
+    <li>ReDoc: <a href="http://localhost:28080/redoc" target="_blank">http://localhost:28080/redoc</a></li>
+  </ul>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 6. 프론트엔드 설정 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="frontend">
+  <h2>&#9651; 6. 프론트엔드 설정</h2>
+
+  <div class="code-label">// 패키지 설치 및 환경변수 설정</div>
+  <pre><code>cd frontend
+pnpm install
+cp .env.example .env.local</code></pre>
+
+  <h3>.env.local 필수 설정값</h3>
+  <table>
+    <tr><th>키</th><th>설명</th><th style="text-align:center;width:60px">필수</th></tr>
+    <tr>
+      <td>NEXT_PUBLIC_API_URL</td>
+      <td>백엔드 API URL (로컬: <code>http://localhost:28080</code>)</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>NEXTAUTH_SECRET</td>
+      <td>NextAuth 서명 키</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
+      <td>NEXTAUTH_URL</td>
+      <td>로컬: <code>http://localhost:3000</code></td>
+      <td class="required">●</td>
+    </tr>
+  </table>
+
+  <div class="code-label">// 개발 서버 실행</div>
+  <pre><code>pnpm dev</code></pre>
+
+  <p>실행 후 브라우저에서 <a href="http://localhost:3000/samba" target="_blank">http://localhost:3000/samba</a> 접속</p>
+
+  <div class="note"><strong>중요:</strong> 로컬 접속 주소는 항상 <code>http://localhost:3000/samba</code>입니다. <code>http://localhost:3000</code>으로 접속하면 리디렉션됩니다.</div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 7. Chrome 확장앱 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="extension">
+  <h2>&#128030; 7. Chrome 확장앱 설치</h2>
+
+  <ol class="steps">
+    <li>Chrome 브라우저에서 <code>chrome://extensions</code> 접속</li>
+    <li>우상단 <strong>개발자 모드</strong> 토글 ON</li>
+    <li><strong>압축해제된 확장 프로그램 로드</strong> 클릭</li>
+    <li>프로젝트 루트의 <code>extension/</code> 폴더 선택</li>
+    <li>확장앱 아이콘 클릭 후 <strong>백엔드 URL</strong> 설정: <code>http://localhost:28080</code></li>
+  </ol>
+
+  <div class="tip"><strong>디버깅 팁:</strong> Chrome을 <code>--remote-debugging-port=9222</code> 옵션으로 실행하면 확장앱 내부 상태를 디버깅할 수 있습니다.</div>
+
+  <div class="note"><strong>설계 원칙:</strong> 확장앱은 얇은 클라이언트입니다. DOM 읽기와 서버 전송만 담당하며, 비즈니스 로직은 백엔드에 위치합니다.</div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 8. 초기 설정 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="init">
+  <h2>&#128272; 8. 초기 설정 (최초 1회)</h2>
+  <p>서비스를 처음 사용하기 전 설정 페이지(<code>/samba/settings</code>)에서 아래 항목을 순서대로 설정하세요.</p>
+
+  <ol class="steps">
+    <li>
+      <div>
+        <strong>관리자 계정 생성</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">처음 가입한 계정이 자동으로 관리자 권한을 갖습니다.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>마켓 계정 연결</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">스마트스토어, 쿠팡, 11번가 등 판매처 API Key를 설정 페이지에서 입력합니다.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>소싱처 쿠키 수집</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">Chrome 확장앱으로 무신사, KREAM 등 소싱처에 로그인 후 쿠키를 전송합니다.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Cloudflare R2 설정</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">AI 배경제거 이미지가 저장될 R2 버킷 정보를 입력합니다 (Account ID, Access Key, Bucket Name).</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Gemini / Claude API 키 설정</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">AI 이미지 처리(Gemini)와 카테고리 매핑(Claude)에 사용되는 API 키를 입력합니다.</span>
+      </div>
+    </li>
+  </ol>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 9. 프로덕션 배포 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="production">
+  <h2>&#9650; 9. 프로덕션 배포</h2>
+  <p>상세 내용은 <a href="deploy-guide.html">배포 가이드</a>를 참조하세요. 핵심 단계만 요약합니다.</p>
+
+  <ol class="steps">
+    <li>
+      <div>
+        <strong>GitHub Secrets 등록</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GCP_SA_KEY, DB 연결 정보, JWT_SECRET_KEY 등을 GitHub 저장소 Settings &gt; Secrets에 등록합니다.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Cloud SQL 인스턴스 생성</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GCP Console에서 PostgreSQL 16 Cloud SQL 인스턴스를 생성합니다. Read Replica 분리를 권장합니다.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Cloud Run 서비스 생성</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">백엔드 컨테이너를 Cloud Run에 배포합니다. 메모리 2Gi 이상 권장.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Vercel 프론트엔드 연결</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GitHub 저장소를 Vercel에 연결하고 <code>NEXT_PUBLIC_API_URL</code>을 Cloud Run URL로 설정합니다.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>GitHub Actions 자동 배포 확인</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;"><code>main</code> 브랜치에 push하면 Actions가 자동으로 빌드·배포합니다. 완료까지 약 3~5분 소요.</span>
+      </div>
+    </li>
+  </ol>
+
+  <div class="warn"><strong>배포 순서 필수 준수:</strong> DB 마이그레이션 → 백엔드 → 프론트엔드 순서를 반드시 지키세요. 역순 배포 시 서비스 장애가 발생합니다.</div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━ 10. 문제 해결 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="troubleshoot">
+  <h2>&#128293; 10. 문제 해결</h2>
+
+  <div class="error-list">
+    <div class="error-item">
+      <div class="error-title">&#10005; DB 연결 실패: connection refused</div>
+      <div class="error-cause">원인: PostgreSQL이 실행되지 않았거나 .env의 포트/호스트가 잘못됨</div>
+      <div class="error-fix">해결: <code>docker ps</code>로 컨테이너 상태 확인 → <code>docker start samba-db</code> 재실행. .env의 write_db_host/port 재확인</div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-title">&#10005; alembic upgrade head 실패: relation does not exist</div>
+      <div class="error-cause">원인: 마이그레이션 파일 순서 충돌 또는 누락된 파일</div>
+      <div class="error-fix">해결: <code>alembic history</code>로 마이그레이션 히스토리 확인 → <code>alembic stamp head</code>로 상태 초기화 후 재시도. 또는 DB를 초기화 후 <code>alembic upgrade head</code> 재실행</div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-title">&#10005; 확장앱 쿠키 전송 실패</div>
+      <div class="error-cause">원인: 백엔드 서버가 실행되지 않았거나 확장앱 URL 설정이 잘못됨</div>
+      <div class="error-fix">해결: 확장앱 팝업에서 백엔드 URL을 <code>http://localhost:28080</code>으로 재설정. <code>chrome://extensions</code>에서 확장앱 오류 로그 확인</div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-title">&#10005; 마켓 API 인증 실패: 401 Unauthorized</div>
+      <div class="error-cause">원인: 마켓 API 키가 만료되었거나 설정이 잘못됨</div>
+      <div class="error-fix">해결: 설정 페이지에서 마켓 API Key를 재입력. 각 마켓 개발자 센터에서 키 유효성 확인. 쿠팡은 Vendor ID도 함께 확인 필요</div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-title">&#10005; pnpm install 실패: engine incompatibility</div>
+      <div class="error-cause">원인: Node.js 버전이 요구사항(20+)보다 낮음</div>
+      <div class="error-fix">해결: <code>node --version</code> 확인 후 nvm 또는 공식 사이트에서 Node.js 20 LTS 설치</div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-title">&#10005; uvicorn 실행 시 ModuleNotFoundError</div>
+      <div class="error-cause">원인: 가상환경이 활성화되지 않았거나 패키지가 설치되지 않음</div>
+      <div class="error-fix">해결: <code>.venv\Scripts\activate</code> (Windows) 또는 <code>source .venv/bin/activate</code> (Mac/Linux)로 가상환경 활성화 후 재시도</div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-title">&#10005; ruff format 실패로 CI 빌드 실패</div>
+      <div class="error-cause">원인: Python 파일을 수정 후 ruff format 실행 없이 push함</div>
+      <div class="error-fix">해결: <code>cd backend && .venv/Scripts/python.exe -m ruff format .</code> 실행 후 다시 커밋·push. <code>ruff check --fix .</code>도 함께 실행할 것</div>
+    </div>
+  </div>
+
+  <div class="note"><strong>더 많은 정보:</strong> 추가 문제는 <a href="samba-dev-guide.html">개발 가이드</a> 또는 <a href="team-dev-guide.html">팀 개발 가이드</a>를 참조하세요.</div>
+</div>
+
+
+<div class="footer">
+  SambaWave &copy; 2026 &middot; 마지막 업데이트: 2026-04-16 &middot; <a href="index.html">문서 목록</a>
+</div>
+
+</body>
+</html>

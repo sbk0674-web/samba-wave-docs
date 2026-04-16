@@ -120,13 +120,13 @@
 <h2>1. 전체 구조 (한눈에 보기)</h2>
 
 <div class="diagram">
-<svg width="900" height="620" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans KR', sans-serif">
-  <!-- 배경 그리드 -->
+<svg width="900" height="640" viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans KR', sans-serif">
   <defs>
     <marker id="arrow" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#555"/></marker>
     <marker id="arrowGreen" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#3ecf8e"/></marker>
     <marker id="arrowOrange" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#ff8c00"/></marker>
     <marker id="arrowPink" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#f472b6"/></marker>
+    <marker id="arrowGray" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#7a7a94"/></marker>
   </defs>
 
   <!-- 사용자 -->
@@ -142,12 +142,12 @@
   <text x="450" y="121" text-anchor="middle" fill="#ff8c00" font-size="14" font-weight="600">▲ Vercel (프론트엔드)</text>
 
   <!-- GitHub -->
-  <rect x="680" y="90" width="180" height="50" rx="12" fill="#1a1a2e" stroke="#7a7a94" stroke-width="2"/>
-  <text x="770" y="121" text-anchor="middle" fill="#e4e4ec" font-size="14" font-weight="600">🐙 GitHub</text>
+  <rect x="660" y="90" width="200" height="50" rx="12" fill="#1a1a2e" stroke="#7a7a94" stroke-width="2"/>
+  <text x="760" y="121" text-anchor="middle" fill="#e4e4ec" font-size="14" font-weight="600">🐙 GitHub + Actions</text>
 
-  <!-- Railway 백엔드 (큰 박스) -->
+  <!-- Cloud Run 백엔드 (큰 박스) -->
   <rect x="220" y="190" width="460" height="130" rx="16" fill="#0a1a0a" stroke="#3ecf8e" stroke-width="2"/>
-  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">🚂 Railway (백엔드 FastAPI)</text>
+  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">☁️ Google Cloud Run (FastAPI, 2Gi)</text>
   <!-- 내부 모듈 -->
   <rect x="240" y="235" width="120" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
   <text x="300" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">상품수집/관리</text>
@@ -158,96 +158,103 @@
   <rect x="240" y="280" width="420" height="25" rx="6" fill="rgba(62,207,142,0.05)" stroke="rgba(62,207,142,0.15)"/>
   <text x="450" y="297" text-anchor="middle" fill="rgba(62,207,142,0.6)" font-size="10">프록시 계층: 쿠키관리, API인증, 이미지업로드, 브랜드검색</text>
 
-  <!-- DB -->
-  <rect x="30" y="210" width="160" height="50" rx="12" fill="#1a0a0a" stroke="#ff6b6b" stroke-width="2"/>
-  <text x="110" y="241" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="600">🗄️ PostgreSQL</text>
-  <text x="110" y="256" text-anchor="middle" fill="#7a7a94" font-size="10">(Railway DB)</text>
+  <!-- Cloud SQL Write DB -->
+  <rect x="20" y="200" width="170" height="55" rx="12" fill="#1a0a0a" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="105" y="225" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="600">🗄️ Cloud SQL (쓰기)</text>
+  <text x="105" y="244" text-anchor="middle" fill="#7a7a94" font-size="10">PostgreSQL — Write 인스턴스</text>
+
+  <!-- Cloud SQL Read DB -->
+  <rect x="20" y="270" width="170" height="55" rx="12" fill="#1a0a0a" stroke="#ff9966" stroke-width="2"/>
+  <text x="105" y="295" text-anchor="middle" fill="#ff9966" font-size="13" font-weight="600">🗄️ Cloud SQL (읽기)</text>
+  <text x="105" y="314" text-anchor="middle" fill="#7a7a94" font-size="10">PostgreSQL — Read 인스턴스</text>
 
   <!-- 외부 서비스들 (하단) -->
   <!-- Gemini -->
-  <rect x="30" y="380" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
-  <text x="110" y="406" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">🤖 Google Gemini</text>
-  <text x="110" y="424" text-anchor="middle" fill="#7a7a94" font-size="10">AI 이미지 변환</text>
+  <rect x="30" y="390" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
+  <text x="110" y="416" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">🤖 Google Gemini</text>
+  <text x="110" y="434" text-anchor="middle" fill="#7a7a94" font-size="10">AI 이미지 변환</text>
 
   <!-- Claude -->
-  <rect x="210" y="380" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
-  <text x="290" y="406" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">🧠 Claude API</text>
-  <text x="290" y="424" text-anchor="middle" fill="#7a7a94" font-size="10">카테고리/상품명 AI</text>
+  <rect x="210" y="390" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
+  <text x="290" y="416" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">🧠 Claude API</text>
+  <text x="290" y="434" text-anchor="middle" fill="#7a7a94" font-size="10">카테고리/상품명 AI</text>
 
   <!-- R2 -->
-  <rect x="390" y="380" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
-  <text x="470" y="406" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">☁️ Cloudflare R2</text>
-  <text x="470" y="424" text-anchor="middle" fill="#7a7a94" font-size="10">AI 이미지 저장소</text>
+  <rect x="390" y="390" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
+  <text x="470" y="416" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">☁️ Cloudflare R2</text>
+  <text x="470" y="434" text-anchor="middle" fill="#7a7a94" font-size="10">AI 이미지 저장소</text>
 
   <!-- Aligo -->
-  <rect x="570" y="380" width="140" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
-  <text x="640" y="406" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">📱 Aligo SMS</text>
-  <text x="640" y="424" text-anchor="middle" fill="#7a7a94" font-size="10">알림톡/문자</text>
+  <rect x="570" y="390" width="140" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
+  <text x="640" y="416" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">📱 Aligo SMS</text>
+  <text x="640" y="434" text-anchor="middle" fill="#7a7a94" font-size="10">알림톡/문자</text>
 
   <!-- 마켓 (가장 하단) -->
-  <rect x="60" y="500" width="120" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="120" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">스마트스토어</text>
-  <rect x="195" y="500" width="100" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="245" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">쿠팡</text>
-  <rect x="310" y="500" width="100" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="360" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">11번가</text>
-  <rect x="425" y="500" width="100" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="475" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">롯데ON</text>
-  <rect x="540" y="500" width="80" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="580" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">SSG</text>
-  <rect x="635" y="500" width="80" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="675" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">GS샵</text>
-  <rect x="730" y="500" width="100" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="780" y="528" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="600">+15개 마켓</text>
+  <rect x="30" y="515" width="115" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="87" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">스마트스토어</text>
+  <rect x="158" y="515" width="90" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="203" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">쿠팡</text>
+  <rect x="261" y="515" width="90" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="306" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">11번가</text>
+  <rect x="364" y="515" width="90" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="409" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">롯데ON</text>
+  <rect x="467" y="515" width="70" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="502" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">SSG</text>
+  <rect x="550" y="515" width="70" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="585" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">GS샵</text>
+  <rect x="633" y="515" width="110" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="688" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">+17개 마켓</text>
 
-  <!-- 소싱처 (좌측) -->
-  <rect x="720" y="210" width="150" height="50" rx="12" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="795" y="237" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="600">🛒 소싱처</text>
-  <text x="795" y="254" text-anchor="middle" fill="#7a7a94" font-size="10">무신사/KREAM/나이키...</text>
+  <!-- 소싱처 (우측) -->
+  <rect x="720" y="210" width="160" height="55" rx="12" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="800" y="237" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="600">🛒 소싱처 (16개)</text>
+  <text x="800" y="255" text-anchor="middle" fill="#7a7a94" font-size="10">무신사/KREAM/나이키/아디다스...</text>
 
   <!-- 화살표 연결 -->
   <!-- 사용자 → Vercel -->
   <line x1="450" y1="60" x2="450" y2="88" stroke="#ff8c00" stroke-width="2" marker-end="url(#arrowOrange)"/>
   <!-- 사용자 → 확장앱 -->
   <path d="M370 35 L120 88" stroke="#a78bfa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <!-- Vercel → Railway -->
+  <!-- Vercel → Cloud Run -->
   <line x1="450" y1="140" x2="450" y2="188" stroke="#3ecf8e" stroke-width="2" marker-end="url(#arrowGreen)"/>
   <text x="460" y="170" fill="#7a7a94" font-size="9">API 호출</text>
-  <!-- 확장앱 → Railway -->
+  <!-- 확장앱 → Cloud Run -->
   <path d="M180 140 L280 188" stroke="#a78bfa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="200" y="165" fill="#7a7a94" font-size="9">쿠키 전송</text>
-  <!-- Railway → DB -->
-  <line x1="220" y1="255" x2="192" y2="240" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <!-- Railway → Gemini -->
-  <line x1="320" y1="320" x2="130" y2="378" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
-  <!-- Railway → Claude -->
-  <line x1="400" y1="320" x2="310" y2="378" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
-  <!-- Railway → R2 -->
-  <line x1="450" y1="320" x2="460" y2="378" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
-  <!-- Railway → Aligo -->
-  <line x1="550" y1="320" x2="620" y2="378" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
-  <!-- Railway → 마켓 -->
-  <line x1="450" y1="320" x2="450" y2="498" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
-  <text x="460" y="470" fill="#7a7a94" font-size="9">상품등록/주문조회</text>
-  <!-- Railway → 소싱처 -->
-  <line x1="680" y1="255" x2="718" y2="240" stroke="#ffd700" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="700" y="268" fill="#7a7a94" font-size="9">수집</text>
+  <text x="185" y="165" fill="#7a7a94" font-size="9">쿠키/데이터 전송</text>
+  <!-- Cloud Run → Cloud SQL Write -->
+  <line x1="220" y1="240" x2="192" y2="235" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Cloud Run → Cloud SQL Read -->
+  <line x1="220" y1="280" x2="192" y2="295" stroke="#ff9966" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Cloud Run → Gemini -->
+  <line x1="320" y1="320" x2="130" y2="388" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
+  <!-- Cloud Run → Claude -->
+  <line x1="400" y1="320" x2="310" y2="388" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
+  <!-- Cloud Run → R2 -->
+  <line x1="450" y1="320" x2="460" y2="388" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
+  <!-- Cloud Run → Aligo -->
+  <line x1="550" y1="320" x2="620" y2="388" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
+  <!-- Cloud Run → 마켓 -->
+  <line x1="450" y1="320" x2="450" y2="513" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+  <text x="460" y="480" fill="#7a7a94" font-size="9">상품등록/주문조회</text>
+  <!-- Cloud Run → 소싱처 -->
+  <line x1="680" y1="255" x2="718" y2="248" stroke="#ffd700" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="694" y="270" fill="#7a7a94" font-size="9">수집</text>
   <!-- GitHub → Vercel -->
-  <path d="M680 115 L552 115" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
-  <text x="620" y="108" fill="#7a7a94" font-size="9">자동배포</text>
-  <!-- GitHub → Railway -->
-  <path d="M720 140 L620 190" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
-  <text x="680" y="168" fill="#7a7a94" font-size="9">자동배포</text>
+  <path d="M660 110 L552 110" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="598" y="103" fill="#7a7a94" font-size="9">자동배포</text>
+  <!-- GitHub Actions → Cloud Run -->
+  <path d="M710 140 L640 190" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="688" y="165" fill="#7a7a94" font-size="9">Docker 배포</text>
 
   <!-- 범례 -->
-  <rect x="30" y="570" width="840" height="40" rx="8" fill="rgba(255,255,255,0.02)" stroke="var(--border)"/>
-  <circle cx="60" cy="590" r="6" fill="#5c9aff"/><text x="75" y="594" fill="#7a7a94" font-size="10">사용자</text>
-  <circle cx="140" cy="590" r="6" fill="#a78bfa"/><text x="155" y="594" fill="#7a7a94" font-size="10">확장앱</text>
-  <circle cx="220" cy="590" r="6" fill="#ff8c00"/><text x="235" y="594" fill="#7a7a94" font-size="10">프론트</text>
-  <circle cx="300" cy="590" r="6" fill="#3ecf8e"/><text x="315" y="594" fill="#7a7a94" font-size="10">백엔드</text>
-  <circle cx="380" cy="590" r="6" fill="#ff6b6b"/><text x="395" y="594" fill="#7a7a94" font-size="10">DB</text>
-  <circle cx="440" cy="590" r="6" fill="#f472b6"/><text x="455" y="594" fill="#7a7a94" font-size="10">외부API</text>
-  <circle cx="530" cy="590" r="6" fill="#ffd700"/><text x="545" y="594" fill="#7a7a94" font-size="10">마켓/소싱처</text>
+  <rect x="30" y="585" width="840" height="40" rx="8" fill="rgba(255,255,255,0.02)" stroke="#1a1a24"/>
+  <circle cx="60" cy="605" r="6" fill="#5c9aff"/><text x="75" y="609" fill="#7a7a94" font-size="10">사용자</text>
+  <circle cx="140" cy="605" r="6" fill="#a78bfa"/><text x="155" y="609" fill="#7a7a94" font-size="10">확장앱</text>
+  <circle cx="220" cy="605" r="6" fill="#ff8c00"/><text x="235" y="609" fill="#7a7a94" font-size="10">프론트</text>
+  <circle cx="300" cy="605" r="6" fill="#3ecf8e"/><text x="315" y="609" fill="#7a7a94" font-size="10">Cloud Run</text>
+  <circle cx="400" cy="605" r="6" fill="#ff6b6b"/><text x="415" y="609" fill="#7a7a94" font-size="10">Cloud SQL</text>
+  <circle cx="490" cy="605" r="6" fill="#f472b6"/><text x="505" y="609" fill="#7a7a94" font-size="10">외부API</text>
+  <circle cx="570" cy="605" r="6" fill="#ffd700"/><text x="585" y="609" fill="#7a7a94" font-size="10">마켓/소싱처</text>
 </svg>
 </div>
 
@@ -258,20 +265,20 @@
 <div class="flow-row">
   <span class="flow-box fb-ext">🧩 확장앱</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">쿠키 전송</span>
+  <span class="flow-box fb-back">쿠키/데이터 전송</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🚂 백엔드</span>
+  <span class="flow-box fb-back">☁️ Cloud Run</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-market">🛒 무신사 API</span>
+  <span class="flow-box fb-market">🛒 소싱처 API</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-db">🗄️ DB 저장</span>
+  <span class="flow-box fb-db">🗄️ Cloud SQL 저장</span>
 </div>
 
 <h3>AI 이미지 변환 흐름</h3>
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🚂 백엔드</span>
+  <span class="flow-box fb-back">☁️ Cloud Run</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext-svc">🤖 Gemini</span>
   <span class="flow-arrow">→</span>
@@ -284,7 +291,7 @@
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🚂 백엔드 (룰→유사도→AI)</span>
+  <span class="flow-box fb-back">☁️ Cloud Run (룰→유사도→AI)</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext-svc">🧠 Claude</span>
   <span class="flow-arrow">→</span>
@@ -295,7 +302,7 @@
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🚂 백엔드 (소싱처 최신화)</span>
+  <span class="flow-box fb-back">☁️ Cloud Run (소싱처 최신화)</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-back">상세HTML 생성</span>
   <span class="flow-arrow">→</span>
@@ -308,11 +315,24 @@
 <div class="flow-row">
   <span class="flow-box fb-market">🏪 마켓 (주문발생)</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🚂 백엔드 동기화</span>
+  <span class="flow-box fb-back">☁️ Cloud Run 동기화</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-db">🗄️ DB 저장</span>
+  <span class="flow-box fb-db">🗄️ Cloud SQL 저장</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext-svc">📱 SMS 알림</span>
+</div>
+
+<h3>배포 흐름</h3>
+<div class="flow-row">
+  <span class="flow-box fb-user">git push main</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box" style="background:rgba(255,255,255,0.05); border:1px solid #555; color:#e4e4ec">GitHub Actions</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">Docker Build → Artifact Registry</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">☁️ Cloud Run 배포</span>
+  <span style="color:var(--text-muted); font-size:0.85rem;">+</span>
+  <span class="flow-box fb-front">▲ Vercel 자동배포</span>
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━ 요금 구조 ━━━━━━━━━━━━━━━━ -->
@@ -326,9 +346,15 @@
   </div>
 
   <div class="price-card">
-    <div class="name"><span class="dot" style="background:#3ecf8e"></span> Railway (백엔드+DB)</div>
-    <div class="cost paid">~$5~20/월</div>
-    <div class="desc">사용량 기반 과금<br>CPU: $0.000463/min, RAM: $0.000231/GB/min<br>DB: PostgreSQL 포함, 별도 과금<br><strong>팁:</strong> 안 쓸 때 슬립 설정하면 절약</div>
+    <div class="name"><span class="dot" style="background:#3ecf8e"></span> Google Cloud Run (백엔드)</div>
+    <div class="cost paid">~$30~50/월</div>
+    <div class="desc">2Gi 메모리 컨테이너<br>vCPU 사용량 기반 과금<br>최소 인스턴스 1개 유지 시 고정 비용 발생<br><strong>무료 티어:</strong> 월 180,000 vCPU·초</div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#ff6b6b"></span> Cloud SQL PostgreSQL (DB)</div>
+    <div class="cost paid">~$30/월</div>
+    <div class="desc">Read/Write 인스턴스 2개 운영<br>db-f1-micro 기준 약 $15/인스턴스/월<br>스토리지: 10GB SSD 기본 포함<br><strong>백업 보관:</strong> 7일 자동 백업</div>
   </div>
 
   <div class="price-card">
@@ -370,8 +396,8 @@
 
 <div class="note">
   <strong>💡 월간 예상 비용 요약:</strong>
-  Railway $5~20 + Gemini ₩30,000 + Claude ₩5,000 + Aligo ₩10,000 ≈ <strong>총 ₩70,000~100,000/월</strong><br>
-  (상품 수, AI 사용량에 따라 크게 달라짐. AI 안 쓰면 Railway만 나감)
+  Cloud Run ~$40 + Cloud SQL ~$30 + Gemini ₩30,000 + Claude ₩5,000 + Aligo ₩10,000 ≈ <strong>총 ₩120,000~160,000/월</strong><br>
+  (상품 수, AI 사용량, Cloud Run 트래픽에 따라 달라짐. AI 안 쓰면 Cloud Run + Cloud SQL만 나감)
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━ 서비스별 역할 ━━━━━━━━━━━━━━━━ -->
@@ -381,15 +407,27 @@
   <tr><th>서비스</th><th>역할</th><th>저장 데이터</th><th>관리 페이지</th></tr>
   <tr>
     <td>▲ Vercel</td>
-    <td>프론트엔드 웹앱 호스팅</td>
+    <td>프론트엔드 웹앱 호스팅 (Next.js 15)</td>
     <td>없음 (정적 파일만)</td>
     <td>vercel.com 대시보드</td>
   </tr>
   <tr>
-    <td>🚂 Railway</td>
-    <td>백엔드 API 서버 + DB 호스팅</td>
+    <td>☁️ Google Cloud Run</td>
+    <td>백엔드 FastAPI 서버 (2Gi 메모리)</td>
+    <td>없음 (Stateless 컨테이너)</td>
+    <td>console.cloud.google.com → Cloud Run</td>
+  </tr>
+  <tr>
+    <td>🗄️ Cloud SQL (쓰기)</td>
+    <td>INSERT/UPDATE/DELETE 전용 DB 인스턴스</td>
     <td>모든 상품/주문/설정 데이터</td>
-    <td>railway.app 대시보드</td>
+    <td>console.cloud.google.com → Cloud SQL</td>
+  </tr>
+  <tr>
+    <td>🗄️ Cloud SQL (읽기)</td>
+    <td>SELECT 전용 Read Replica 인스턴스</td>
+    <td>쓰기 인스턴스와 동기화</td>
+    <td>console.cloud.google.com → Cloud SQL</td>
   </tr>
   <tr>
     <td>☁️ Cloudflare R2</td>
@@ -416,21 +454,38 @@
     <td>aligo.in 대시보드</td>
   </tr>
   <tr>
-    <td>🐙 GitHub</td>
-    <td>소스코드 저장 + CI/CD + 문서</td>
-    <td>소스코드, 배포 설정</td>
+    <td>🐙 GitHub + Actions</td>
+    <td>소스코드 저장 + CI/CD 파이프라인</td>
+    <td>소스코드, 배포 설정, Secrets</td>
     <td>github.com 리포</td>
   </tr>
   <tr>
     <td>🧩 크롬 확장앱</td>
-    <td>무신사/KREAM 쿠키 수집, KREAM 자동 수집</td>
-    <td>쿠키 (로컬)</td>
+    <td>소싱처 쿠키 수집 → 서버 전달, KREAM 자동 수집</td>
+    <td>쿠키 (로컬 일시 보관 후 서버 전송)</td>
     <td>chrome://extensions</td>
   </tr>
 </table>
 
+<!-- ━━━━━━━━━━━━━━━━ 플러그인 현황 ━━━━━━━━━━━━━━━━ -->
+<h2>5. 플러그인 현황</h2>
+
+<table>
+  <tr><th>구분</th><th>수량</th><th>목록</th></tr>
+  <tr>
+    <td>마켓 플러그인</td>
+    <td>17개</td>
+    <td style="color:var(--text-muted)">스마트스토어, 쿠팡, 11번가, 롯데ON, SSG, GS샵, G마켓, 옥션, 카페24, 로텐, 아마존, 부이마, KREAM, 롯데홈쇼핑, TOSS, stub, PlayAuto</td>
+  </tr>
+  <tr>
+    <td>소싱처 플러그인</td>
+    <td>16개</td>
+    <td style="color:var(--text-muted)">무신사, KREAM, 나이키, 아디다스, ABC마트, 올리브영, SSG, 롯데ON, G마켓, 스마트스토어, 네이버스토어, GS샵, 패션플러스, 그랜드스테이지, 다나와, stub</td>
+  </tr>
+</table>
+
 <!-- ━━━━━━━━━━━━━━━━ API 키 관리 ━━━━━━━━━━━━━━━━ -->
-<h2>5. API 키 어디서 관리하는지</h2>
+<h2>6. API 키 어디서 관리하는지</h2>
 
 <table>
   <tr><th>서비스</th><th>키 이름</th><th>저장 위치</th><th>설정 방법</th></tr>
@@ -441,32 +496,47 @@
   <tr><td>스마트스토어</td><td>Client ID/Secret</td><td>DB (마켓 계정)</td><td>설정 페이지 → 스토어 연결</td></tr>
   <tr><td>쿠팡</td><td>Access/Secret Key</td><td>DB (마켓 계정)</td><td>설정 페이지 → 스토어 연결</td></tr>
   <tr><td>무신사</td><td>쿠키 (자동)</td><td>DB (samba_settings.musinsa_cookie)</td><td>확장앱이 자동 전송</td></tr>
+  <tr><td>GCP_SA_KEY</td><td>서비스 계정 JSON</td><td>GitHub Secrets</td><td>GitHub → Settings → Secrets</td></tr>
+  <tr><td>DB 연결정보</td><td>HOST/USER/PASSWORD (R/W 각각)</td><td>GitHub Secrets</td><td>GitHub → Settings → Secrets</td></tr>
+  <tr><td>JWT_SECRET_KEY</td><td>JWT 서명 키</td><td>GitHub Secrets → Cloud Run 환경변수</td><td>GitHub → Settings → Secrets</td></tr>
 </table>
 
 <div class="note">
-  <strong>핵심:</strong> 모든 API 키는 <strong>설정 페이지</strong>에서 관리됩니다. 서버 환경변수나 코드에 직접 넣지 않습니다.<br>
-  Railway/Vercel 대시보드에는 DB 연결 정보와 JWT 시크릿만 설정하면 됩니다.
+  <strong>핵심:</strong> 비즈니스 API 키는 <strong>설정 페이지(DB)</strong>에서 관리합니다. 인프라 키(GCP, DB, JWT)는 <strong>GitHub Secrets</strong>에 저장하고 Cloud Run에 환경변수로 주입합니다.<br>
+  Cloud Run 대시보드에는 DB 연결 정보와 JWT 시크릿만 설정하면 됩니다.
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━ 배포 흐름 ━━━━━━━━━━━━━━━━ -->
-<h2>6. 배포는 어떻게 되는지</h2>
+<h2>7. 배포는 어떻게 되는지</h2>
 
 <div class="flow-row">
   <span class="flow-box fb-user">코드 수정</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext">git push main</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box" style="background:rgba(255,255,255,0.05); border:1px solid #555; color:#e4e4ec">GitHub Actions (CI)</span>
+  <span class="flow-box" style="background:rgba(255,255,255,0.05); border:1px solid #555; color:#e4e4ec">GitHub Actions (deploy-cloudrun.yml)</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-front">Vercel 자동배포</span>
-  <span style="color:var(--text-muted); font-size:0.85rem;">+</span>
-  <span class="flow-box fb-back">Railway 자동배포</span>
+  <span class="flow-box fb-back">Docker Build → Artifact Registry</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">Cloud Run 배포</span>
+</div>
+<div class="flow-row">
+  <span class="flow-box fb-ext">git push main</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-front">▲ Vercel 자동 감지</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-front">프론트엔드 자동 배포</span>
+  <span style="color:var(--text-muted); font-size:0.85rem; margin-left:0.5rem;">(GitHub Actions 불필요)</span>
 </div>
 
-<p style="margin-top:0.5rem;">push 한 번이면 프론트+백엔드 동시에 자동 배포됩니다. 별도 작업 불필요.</p>
+<p style="margin-top:0.5rem;">push 한 번이면 프론트+백엔드 동시에 자동 배포됩니다. 백엔드는 약 3~5분, 프론트는 약 1~2분 소요.</p>
+
+<div class="note">
+  <strong>배포 순서 주의:</strong> DB 마이그레이션 → 백엔드(Cloud Run) → 프론트엔드(Vercel) 순서로 배포해야 합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.
+</div>
 
 <br><br>
-<p style="color:#555; font-size:0.75rem; text-align:center;">마지막 업데이트: 2026-03-26 | SambaWave Infrastructure Map</p>
+<p style="color:#555; font-size:0.75rem; text-align:center;">마지막 업데이트: 2026-04-16 | SambaWave Infrastructure Map</p>
 
 </body>
 </html>

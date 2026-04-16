@@ -261,10 +261,39 @@
     <a href="index.html">SambaWave Docs</a> &gt; 주문관리 매뉴얼
   </div>
 
+  <!-- 섹션 0: PlayAuto 연동 -->
+  <div class="manual-section">
+    <h2>1. PlayAuto 연동 주문 동기화</h2>
+    <p>PlayAuto를 통해 여러 마켓의 주문을 삼바웨이브 한 곳에서 자동으로 동기화합니다.</p>
+
+    <h3>PlayAuto 연동 개요</h3>
+    <ul>
+      <li>PlayAuto에 연결된 모든 마켓 주문이 자동으로 수집됩니다.</li>
+      <li>주문 상태 변경(발주확인, 송장등록 등)이 PlayAuto를 통해 마켓에 반영됩니다.</li>
+      <li>반품/교환 정보도 PlayAuto를 통해 동기화됩니다.</li>
+    </ul>
+
+    <h3>PlayAuto 지원 마켓</h3>
+    <ul>
+      <li>스마트스토어, 쿠팡, 11번가, 롯데ON, SSG, GS샵, G마켓/옥션(ESMPlus), 카페24 등 PlayAuto 연동 마켓 전체</li>
+    </ul>
+
+    <div class="note-box">
+      <strong>참고</strong>
+      PlayAuto 계정 연동은 설정 페이지에서 완료해야 합니다. PlayAuto 연동 후 주문 동기화 주기는 설정에서 조정할 수 있습니다.
+    </div>
+  </div>
+
   <!-- 섹션 1: 주문 가져오기 -->
   <div class="manual-section">
-    <h2>1. 주문 가져오기</h2>
+    <h2>2. 주문 가져오기</h2>
     <p>각 마켓에서 새로운 주문을 가져옵니다.</p>
+
+    <h3>지원 마켓</h3>
+    <ul>
+      <li>스마트스토어, 쿠팡, 11번가, 롯데ON, SSG, GS샵, G마켓/옥션(ESMPlus), 카페24</li>
+      <li>PlayAuto 연동 마켓 전체 (PlayAuto를 통해 일괄 수집 가능)</li>
+    </ul>
 
     <h3>개별 마켓 가져오기</h3>
     <ol class="step-list">
@@ -299,7 +328,7 @@
 
   <!-- 섹션 2: 주문 목록 -->
   <div class="manual-section">
-    <h2>2. 주문 목록</h2>
+    <h2>3. 주문 목록</h2>
     <p>가져온 주문을 목록으로 확인합니다.</p>
 
     <h3>필터 옵션</h3>
@@ -382,7 +411,7 @@
 
   <!-- 섹션 3: 주문 상세 -->
   <div class="manual-section">
-    <h2>3. 주문 상세</h2>
+    <h2>4. 주문 상세</h2>
     <p>개별 주문의 상세 정보를 확인합니다.</p>
 
     <h3>상세 정보 항목</h3>
@@ -429,7 +458,7 @@
 
   <!-- 섹션 4: 주문 처리 -->
   <div class="manual-section">
-    <h2>4. 주문 처리</h2>
+    <h2>5. 주문 처리</h2>
     <p>주문을 단계별로 처리합니다.</p>
 
     <h3>주문 처리 흐름</h3>
@@ -438,12 +467,27 @@
       <div class="status-arrow">&rarr;</div>
       <div class="status-step">발주확인</div>
       <div class="status-arrow">&rarr;</div>
-      <div class="status-step">송장등록</div>
+      <div class="status-step">발주확정</div>
+      <div class="status-arrow">&rarr;</div>
+      <div class="status-step">배송준비중</div>
       <div class="status-arrow">&rarr;</div>
       <div class="status-step">배송중</div>
       <div class="status-arrow">&rarr;</div>
       <div class="status-step">배송완료</div>
     </div>
+
+    <h3>주문 상태 설명</h3>
+    <ul>
+      <li><strong>신규주문</strong> — 마켓에서 수집된 미처리 주문</li>
+      <li><strong>발주확인</strong> — 소싱처에 주문 접수 완료</li>
+      <li><strong>발주확정</strong> — 소싱처에서 주문 확정 처리</li>
+      <li><strong>배송준비중</strong> — 소싱처 출고 준비 단계</li>
+      <li><strong>배송중</strong> — 송장 등록 및 배송 진행 중</li>
+      <li><strong>배송완료</strong> — 고객 수령 완료</li>
+      <li><strong>취소요청</strong> — 고객 또는 마켓의 취소 요청</li>
+      <li><strong>취소완료</strong> — 취소 처리 완료</li>
+      <li><strong>반품요청</strong> — 고객 반품 요청 접수</li>
+    </ul>
 
     <h3>발주확인</h3>
     <ol class="step-list">
@@ -469,9 +513,34 @@
     </div>
   </div>
 
-  <!-- 섹션 5: 외부 링크 -->
+  <!-- 섹션 5: 인증 오류 해결 -->
   <div class="manual-section">
-    <h2>5. 외부 링크 활용</h2>
+    <h2>6. 인증 오류 해결</h2>
+    <p>마켓 쿠키 또는 API 인증이 만료된 경우 주문 수집이 실패할 수 있습니다.</p>
+
+    <h3>쿠키 만료 시 해결 방법</h3>
+    <ol class="step-list">
+      <li>크롬 확장앱을 통해 해당 마켓에 로그인합니다.</li>
+      <li>확장앱이 자동으로 쿠키를 갱신합니다.</li>
+      <li>주문 가져오기를 다시 실행합니다.</li>
+    </ol>
+
+    <h3>API 키 만료 시 해결 방법</h3>
+    <ol class="step-list">
+      <li>설정 페이지에서 해당 마켓의 API 연결 설정으로 이동합니다.</li>
+      <li>마켓 판매자센터에서 새 API 키를 발급받습니다.</li>
+      <li>설정 페이지에서 API 키를 업데이트합니다.</li>
+    </ol>
+
+    <div class="tip-box">
+      <strong>TIP</strong>
+      마켓 로그인 세션은 일정 기간 후 만료됩니다. 주기적으로 확장앱을 통해 마켓에 접속하여 세션을 유지하세요.
+    </div>
+  </div>
+
+  <!-- 섹션 6: 외부 링크 -->
+  <div class="manual-section">
+    <h2>7. 외부 링크 활용</h2>
     <p>주문과 관련된 외부 사이트로 바로 이동할 수 있습니다.</p>
 
     <h3>링크 종류</h3>
@@ -493,9 +562,9 @@
     </div>
   </div>
 
-  <!-- 섹션 6: 메시지 발송 -->
+  <!-- 섹션 7: 메시지 발송 -->
   <div class="manual-section">
-    <h2>6. SMS / 카카오 메시지 발송</h2>
+    <h2>8. SMS / 카카오 메시지 발송</h2>
     <p>고객에게 주문 관련 알림 메시지를 발송합니다.</p>
 
     <h3>SMS 발송</h3>
@@ -519,7 +588,7 @@
 </div>
 
 <footer>
-  SambaWave &mdash; 주문관리 매뉴얼 &mdash; 2026.03.25
+  SambaWave &mdash; 주문관리 매뉴얼 &mdash; 2026.04.16
 </footer>
 
 </body>

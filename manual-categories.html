@@ -299,6 +299,23 @@
       <strong>참고</strong>
       카테고리 매핑이 완료되지 않은 상품은 마켓에 전송할 수 없습니다. 전송 전 반드시 매핑을 완료하세요.
     </div>
+
+    <h3>AI 카테고리 자동 매핑 (3단계 처리)</h3>
+    <p>삼바웨이브는 Claude API를 활용한 3단계 자동 매핑을 지원합니다.</p>
+    <ol class="step-list">
+      <li><strong>룰 기반 매핑</strong> — 기존에 저장된 매핑 규칙을 먼저 적용합니다. 이미 매핑된 카테고리는 즉시 처리됩니다.</li>
+      <li><strong>유사도 기반 매핑</strong> — 카테고리명 유사도를 계산하여 가장 유사한 마켓 카테고리를 추천합니다.</li>
+      <li><strong>AI 매핑 (Claude API)</strong> — 룰과 유사도로 처리되지 않은 경우 Claude AI가 상품 정보를 분석하여 가장 적합한 마켓 카테고리를 선택합니다.</li>
+    </ol>
+
+    <h3>지원 마켓 목록 (17개)</h3>
+    <ul>
+      <li><strong>국내 오픈마켓</strong> — 스마트스토어, 쿠팡, 11번가, G마켓(ESMPlus), 옥션(ESMPlus)</li>
+      <li><strong>국내 종합몰</strong> — 롯데ON, SSG, GS샵, 롯데홈쇼핑, 카페24</li>
+      <li><strong>국내 기타</strong> — KREAM, Toss</li>
+      <li><strong>해외</strong> — Amazon, Rakuten, Buyma</li>
+      <li><strong>자동 연동</strong> — PlayAuto (주문/CS 전용), Stub (개발용)</li>
+    </ul>
   </div>
 
   <!-- 섹션 2: 소싱처 → 마켓 카테고리 연결 -->
@@ -448,7 +465,7 @@
 </div>
 
 <footer>
-  SambaWave &mdash; 카테고리매핑 매뉴얼 &mdash; 2026.03.25
+  SambaWave &mdash; 카테고리매핑 매뉴얼 &mdash; 2026.04.16
 </footer>
 
 </body>

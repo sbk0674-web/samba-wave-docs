@@ -388,6 +388,7 @@
     <li><a href="#init">초기 설정 (최초 1회)</a></li>
     <li><a href="#production">프로덕션 배포</a></li>
     <li><a href="#troubleshoot">문제 해결</a></li>
+    <li><a href="#cost-saving">&#128176; GCP 요금 절약</a></li>
   </ol>
 </div>
 
@@ -930,6 +931,51 @@ cp .env.example .env.local</code></pre>
   <div class="note"><strong>더 많은 정보:</strong> 추가 문제는 <a href="samba-dev-guide.html">개발 가이드</a> 또는 <a href="team-dev-guide.html">팀 개발 가이드</a>를 참조하세요.</div>
 </div>
 
+
+
+<!-- ━━━━━━━━━━━━━━━━ 11. GCP 요금 절약 ━━━━━━━━━━━━━━━━ -->
+<div class="section-card" id="cost-saving">
+  <h2>&#128176; 11. GCP 요금 절약 필수 설정</h2>
+
+  <div class="warn"><strong>&#9888;&#65039; 설치 직후 반드시 해야 하는 것 (안 하면 이미지 1TB 누적)</strong></div>
+
+  <h3>Artifact Registry Cleanup Policy 설정 (필수)</h3>
+  <p>push할 때마다 Docker 이미지가 쌓여서 방치하면 한 달 만에 1TB, 월 &#8361;140,000 과금됩니다.</p>
+  <pre><code>cat &gt; cleanup-policy.json &lt;&lt; 'EOF'
+[
+  {"name": "keep-latest-3", "action": {"type": "Keep"}, "mostRecentVersions": {"keepCount": 3}},
+  {"name": "delete-old", "action": {"type": "Delete"}, "condition": {"tagState": "ANY"}}
+]
+EOF
+
+gcloud artifacts repositories set-cleanup-policies cloud-run-source-deploy   --project=YOUR_PROJECT_ID   --location=asia-northeast3   --policy=cleanup-policy.json   --no-dry-run</code></pre>
+
+  <h3>&#9989; 이미 코드에 반영된 최적화 (클론하면 자동 적용)</h3>
+  <ul>
+    <li><code>--no-cpu-throttling</code> 제거 → 유휴 시 CPU 과금 없음</li>
+    <li>VPC Connector 없음 → Cloud SQL은 Auth Proxy 소켓으로 직접 연결</li>
+    <li>CLIP 모델 미포함 Dockerfile → 빌드 시간 단축 + 이미지 크기 감소</li>
+  </ul>
+
+  <h3>&#127183; GCP 무료 크레딧 $300 활용 (신규 계정 한정)</h3>
+  <ul>
+    <li>GCP 신규 계정 생성 시 $300 크레딧 90일 제공 (계정당 1회)</li>
+    <li>console.cloud.google.com → 무료로 시작하기</li>
+    <li>&#9888;&#65039; 기존 GCP 계정은 해당 없음 (1회 제공 후 재신청 불가)</li>
+  </ul>
+
+  <h3>Cloud SQL 인스턴스 생성 시 최소 티어 선택</h3>
+  <ul>
+    <li>권장: <code>db-g1-small</code> (약 $15/월) 또는 <code>db-f1-micro</code> (약 $8/월)</li>
+    <li>고가용성(HA) 설정 시 비용 2배 — 개발 초기에는 ZONAL 선택</li>
+  </ul>
+
+  <h3>예산 알림 설정</h3>
+  <ul>
+    <li>GCP 콘솔 → 청구 → 예산 및 알림 → 월 $50 기준 알림 권장</li>
+    <li>이상 과금 조기 발견 가능</li>
+  </ul>
+</div>
 
 <div class="footer">
   SambaWave &copy; 2026 &middot; 마지막 업데이트: 2026-04-16 &middot; <a href="index.html">문서 목록</a>

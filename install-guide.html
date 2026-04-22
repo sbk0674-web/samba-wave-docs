@@ -930,6 +930,24 @@ cp .env.example .env.local</code></pre>
         <span style="color:var(--text-muted);font-size:0.85rem;">Cloud Build는 DB를 자동으로 마이그레이션하지 않습니다. 모델 변경 시 Cloud SQL Proxy를 통해 직접 <code>alembic upgrade head</code>를 실행해야 합니다.</span>
       </div>
     </li>
+    <li>
+      <div>
+        <strong>Cloud NAT 최소 포트 설정 <span style="color:var(--red);font-size:0.8rem;">필수</span></strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">
+          <code>--vpc-egress=all-traffic</code> 설정 시 모든 아웃바운드 트래픽이 Cloud NAT를 경유합니다.
+          기본값(64포트)으로는 오토튠 대량 요청 시 포트가 소진되어 접속 실패가 발생합니다.
+        </span>
+        <ol style="margin-top:0.5rem;padding-left:1.2rem;color:var(--text-muted);font-size:0.85rem;">
+          <li style="margin-bottom:0.3rem;">GCP Console → <strong>네트워크 서비스</strong> → <strong>Cloud NAT</strong></li>
+          <li style="margin-bottom:0.3rem;"><strong>samba-wave-nat</strong> 클릭 → 상단 <strong>수정</strong> 클릭</li>
+          <li style="margin-bottom:0.3rem;"><strong>고급 구성</strong> 펼치기 → <strong>VM 인스턴스당 최소 포트 수</strong> <code>64</code> → <code>512</code> 변경</li>
+          <li>저장 — 재시작 없이 즉시 반영</li>
+        </ol>
+        <div style="margin-top:0.5rem;padding:0.5rem 0.75rem;background:#1a1a24;border-radius:6px;font-size:0.8rem;color:var(--text-muted);">
+          추가 비용 없음. Cloud NAT는 포트 수로 과금하지 않습니다.
+        </div>
+      </div>
+    </li>
   </ol>
 
   <div class="warn"><strong>배포 순서 필수 준수:</strong> DB 마이그레이션 → 백엔드(Cloud Build) → 프론트엔드(Vercel) 순서를 반드시 지키세요. 역순 배포 시 서비스 장애가 발생합니다.</div>
@@ -993,6 +1011,20 @@ cp .env.example .env.local</code></pre>
       <div class="error-title">&#10005; 마이그레이션 autogenerate 시 의도치 않은 DROP 발생</div>
       <div class="error-cause">원인: alembic/env.py에 모델 import가 누락되어 전체 테이블 삭제 감지</div>
       <div class="error-fix">해결: <code>alembic/env.py</code>에 새로 추가한 모델의 import 구문 추가 후 재생성. <code>op.drop_table</code> 라인이 있으면 반드시 육안 확인 후 삭제</div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-title">&#10005; 오토튠 대량 실패: All connection attempts failed / 소싱처 상세 조회 실패</div>
+      <div class="error-cause">원인: <code>--vpc-egress=all-traffic</code> 설정 시 모든 아웃바운드 트래픽이 Cloud NAT를 경유하는데, 오토튠 대량 요청(수천 건 단기 TCP 연결)으로 Cloud NAT 포트가 소진됨. MUSINSA는 "All connection attempts failed", 롯데ON·ABCmart는 상세 조회 결과 None 반환으로 나타남</div>
+      <div class="error-fix">
+        해결: Cloud NAT 최소 포트 수 증가 (추가 비용 없음)
+        <ol style="margin-top:0.4rem;padding-left:1.2rem;">
+          <li style="margin-bottom:0.3rem;">GCP Console → <strong>네트워크 서비스</strong> → <strong>Cloud NAT</strong></li>
+          <li style="margin-bottom:0.3rem;"><strong>samba-wave-nat</strong> → <strong>수정</strong></li>
+          <li style="margin-bottom:0.3rem;"><strong>고급 구성</strong> → <strong>VM 인스턴스당 최소 포트 수</strong>: <code>64</code> → <code>512</code></li>
+          <li>저장 — 즉시 반영, 재시작 불필요</li>
+        </ol>
+      </div>
     </div>
   </div>
 

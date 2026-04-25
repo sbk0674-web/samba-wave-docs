@@ -147,7 +147,7 @@
 
   <!-- Cloud Run 백엔드 (큰 박스) -->
   <rect x="220" y="190" width="460" height="130" rx="16" fill="#0a1a0a" stroke="#3ecf8e" stroke-width="2"/>
-  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">☁️ Google Cloud Run (FastAPI, 2Gi)</text>
+  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">☁️ Cloud Run + 🖥️ GCE VM (FastAPI, 병행 운영)</text>
   <!-- 내부 모듈 -->
   <rect x="240" y="235" width="120" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
   <text x="300" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">상품수집/관리</text>
@@ -156,7 +156,7 @@
   <rect x="510" y="235" width="150" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
   <text x="585" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">마켓 전송/주문</text>
   <rect x="240" y="280" width="420" height="25" rx="6" fill="rgba(62,207,142,0.05)" stroke="rgba(62,207,142,0.15)"/>
-  <text x="450" y="297" text-anchor="middle" fill="rgba(62,207,142,0.6)" font-size="10">프록시 계층: 쿠키관리, API인증, 이미지업로드, 브랜드검색</text>
+  <text x="450" y="297" text-anchor="middle" fill="rgba(62,207,142,0.6)" font-size="10">samba-wave-vm(e2-small, 서울) · Caddy + FastAPI + Cloud SQL Auth Proxy 사이드카</text>
 
   <!-- Cloud SQL Write DB -->
   <rect x="20" y="200" width="170" height="55" rx="12" fill="#1a0a0a" stroke="#ff6b6b" stroke-width="2"/>
@@ -203,11 +203,11 @@
   <rect x="550" y="515" width="70" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
   <text x="585" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">GS샵</text>
   <rect x="633" y="515" width="110" height="45" rx="10" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="688" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">+17개 마켓</text>
+  <text x="688" y="543" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="600">총 17개 마켓</text>
 
   <!-- 소싱처 (우측) -->
   <rect x="720" y="210" width="160" height="55" rx="12" fill="#1a1a10" stroke="#ffd700" stroke-width="1.5"/>
-  <text x="800" y="237" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="600">🛒 소싱처 (16개)</text>
+  <text x="800" y="237" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="600">🛒 소싱처 (14개)</text>
   <text x="800" y="255" text-anchor="middle" fill="#7a7a94" font-size="10">무신사/KREAM/나이키/아디다스...</text>
 
   <!-- 화살표 연결 -->
@@ -346,9 +346,15 @@
   </div>
 
   <div class="price-card">
-    <div class="name"><span class="dot" style="background:#3ecf8e"></span> Google Cloud Run (백엔드)</div>
-    <div class="cost paid">~$30~50/월</div>
-    <div class="desc">2Gi 메모리 컨테이너<br>vCPU 사용량 기반 과금<br>최소 인스턴스 1개 유지 시 고정 비용 발생<br><strong>무료 티어:</strong> 월 180,000 vCPU·초</div>
+    <div class="name"><span class="dot" style="background:#3ecf8e"></span> Google Cloud Run (백엔드 · legacy)</div>
+    <div class="cost paid">~₩40만/월</div>
+    <div class="desc">2Gi 메모리 컨테이너<br>vCPU 사용량 기반 과금<br>최소 인스턴스 1개 유지 시 고정 비용 발생<br><strong>현행 운영 경로</strong>, 점진적으로 VM으로 전환 중</div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#3ecf8e"></span> 🖥️ GCE VM (samba-wave-vm)</div>
+    <div class="cost paid">~₩10만/월 (목표)</div>
+    <div class="desc">e2-small · asia-northeast3-a<br>도메인: <code>api.samba-wave.co.kr</code><br>Caddy + FastAPI + Cloud SQL Auth Proxy 사이드카<br>docker compose 스택, Cloud Run과 병행 운영<br><strong>전환 완료 시 ₩30만/월 절감</strong></div>
   </div>
 
   <div class="price-card">
@@ -395,9 +401,10 @@
 </div>
 
 <div class="note">
-  <strong>💡 월간 예상 비용 요약:</strong>
-  Cloud Run ~$40 + Cloud SQL ~$30 + Gemini ₩30,000 + Claude ₩5,000 + Aligo ₩10,000 ≈ <strong>총 ₩120,000~160,000/월</strong><br>
-  (상품 수, AI 사용량, Cloud Run 트래픽에 따라 달라짐. AI 안 쓰면 Cloud Run + Cloud SQL만 나감)
+  <strong>💡 월간 예상 비용 요약 (현재):</strong>
+  Cloud Run ~₩40만 + Cloud SQL ~₩4만 + Gemini ₩3만 + Claude ₩5천 + Aligo ₩1만 ≈ <strong>총 ~₩48만/월</strong><br>
+  <strong>VM 전환 완료 시:</strong> Cloud Run ₩40만 → GCE VM ₩10만으로 대체 → <strong>~₩18만/월</strong>까지 인하 목표<br>
+  (상품 수, AI 사용량, 트래픽에 따라 달라짐)
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━ 서비스별 역할 ━━━━━━━━━━━━━━━━ -->
@@ -413,9 +420,15 @@
   </tr>
   <tr>
     <td>☁️ Google Cloud Run</td>
-    <td>백엔드 FastAPI 서버 (2Gi 메모리)</td>
+    <td>백엔드 FastAPI 서버 (2Gi, legacy 경로 — 현재 운영 중)</td>
     <td>없음 (Stateless 컨테이너)</td>
     <td>console.cloud.google.com → Cloud Run</td>
+  </tr>
+  <tr>
+    <td>🖥️ GCE VM (samba-wave-vm)</td>
+    <td>백엔드 FastAPI (Caddy + FastAPI + Cloud SQL Auth Proxy 사이드카, docker compose). 도메인 <code>api.samba-wave.co.kr</code>. Cloud Run 대체 목적, 점진 전환</td>
+    <td>없음 (DB는 Cloud SQL 그대로)</td>
+    <td>console.cloud.google.com → Compute Engine</td>
   </tr>
   <tr>
     <td>🗄️ Cloud SQL (쓰기)</td>
@@ -461,7 +474,7 @@
   </tr>
   <tr>
     <td>🧩 크롬 확장앱</td>
-    <td>소싱처 쿠키 수집 → 서버 전달, KREAM 자동 수집</td>
+    <td>소싱처 쿠키 수집 → 서버 전달, KREAM 자동 수집. host_permissions에 <code>api.samba-wave.co.kr</code> + 기존 Cloud Run URL 병행 등록</td>
     <td>쿠키 (로컬 일시 보관 후 서버 전송)</td>
     <td>chrome://extensions</td>
   </tr>
@@ -475,12 +488,12 @@
   <tr>
     <td>마켓 플러그인</td>
     <td>17개</td>
-    <td style="color:var(--text-muted)">스마트스토어, 쿠팡, 11번가, 롯데ON, SSG, GS샵, G마켓, 옥션, 카페24, 로텐, 아마존, 부이마, KREAM, 롯데홈쇼핑, TOSS, stub, PlayAuto</td>
+    <td style="color:var(--text-muted)">amazon, auction, buyma, cafe24, coupang, ebay, elevenst, gmarket, gsshop, kream, lottehome, lotteon, playauto, rakuten, smartstore, ssg, toss</td>
   </tr>
   <tr>
     <td>소싱처 플러그인</td>
-    <td>16개</td>
-    <td style="color:var(--text-muted)">무신사, KREAM, 나이키, 아디다스, ABC마트, 올리브영, SSG, 롯데ON, G마켓, 스마트스토어, 네이버스토어, GS샵, 패션플러스, 그랜드스테이지, 다나와, stub</td>
+    <td>14개</td>
+    <td style="color:var(--text-muted)">abcmart, adidas, danawa, fashionplus, gmarket, grandstage, gsshop, kream, lotteon, musinsa, naverstore, nike, oliveyoung, ssg</td>
   </tr>
 </table>
 
@@ -509,34 +522,48 @@
 <!-- ━━━━━━━━━━━━━━━━ 배포 흐름 ━━━━━━━━━━━━━━━━ -->
 <h2>7. 배포는 어떻게 되는지</h2>
 
+<h3>현행 (Cloud Run, 자동)</h3>
 <div class="flow-row">
   <span class="flow-box fb-user">코드 수정</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext">git push main</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box" style="background:rgba(255,255,255,0.05); border:1px solid #555; color:#e4e4ec">GitHub Actions (deploy-cloudrun.yml)</span>
+  <span class="flow-box" style="background:rgba(255,255,255,0.05); border:1px solid #555; color:#e4e4ec">Cloud Build 트리거 (자동)</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-back">Docker Build → Artifact Registry</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">Cloud Run 배포</span>
+  <span class="flow-box fb-back">☁️ Cloud Run revision</span>
 </div>
+
+<h3>VM 경로 (수동 워크플로우)</h3>
+<div class="flow-row">
+  <span class="flow-box fb-user">코드 수정</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-ext">VM SSH</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">git pull + docker compose up -d</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">🖥️ samba-wave-vm 반영 (api.samba-wave.co.kr)</span>
+</div>
+
+<h3>프론트엔드</h3>
 <div class="flow-row">
   <span class="flow-box fb-ext">git push main</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-front">▲ Vercel 자동 감지</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-front">프론트엔드 자동 배포</span>
-  <span style="color:var(--text-muted); font-size:0.85rem; margin-left:0.5rem;">(GitHub Actions 불필요)</span>
 </div>
 
-<p style="margin-top:0.5rem;">push 한 번이면 프론트+백엔드 동시에 자동 배포됩니다. 백엔드는 약 3~5분, 프론트는 약 1~2분 소요.</p>
+<p style="margin-top:0.5rem;">main 푸시 시 Cloud Build가 Cloud Run으로 자동 배포(legacy), VM 경로는 수동으로 동기화. Vercel은 push 즉시 자동 배포.</p>
 
 <div class="note">
-  <strong>배포 순서 주의:</strong> DB 마이그레이션 → 백엔드(Cloud Run) → 프론트엔드(Vercel) 순서로 배포해야 합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.
+  <strong>배포 순서 주의:</strong> DB 마이그레이션 → 백엔드(Cloud Run / VM) → 프론트엔드(Vercel) 순서로 배포해야 합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.<br>
+  <strong>네트워크 변경:</strong> 기존 VPC Connector 경유 → <strong>Cloud SQL Auth Proxy 직접 연결</strong>로 전환 완료(VPC Connector 제거).
 </div>
 
 <br><br>
-<p style="color:#555; font-size:0.75rem; text-align:center;">마지막 업데이트: 2026-04-16 | SambaWave Infrastructure Map</p>
+<p style="color:#555; font-size:0.75rem; text-align:center;">2026-04-25 | SambaWave Infrastructure Map</p>
 
 </body>
 </html>

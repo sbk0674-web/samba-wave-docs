@@ -159,10 +159,13 @@
   .fb-cloudrun { background: rgba(62,207,142,0.15); border: 1px solid rgba(62,207,142,0.3); color: var(--green); }
   .fb-vercel { background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3); color: var(--accent); }
   .fb-db { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--red); }
+  .fb-vm { background: rgba(167,139,250,0.15); border: 1px solid rgba(167,139,250,0.3); color: var(--purple); }
 
   .emoji { font-size: 1.2rem; }
   .tag-required { display: inline-block; background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--red); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
   .tag-auto { display: inline-block; background: rgba(62,207,142,0.15); border: 1px solid rgba(62,207,142,0.3); color: var(--green); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
+  .tag-new { display: inline-block; background: rgba(167,139,250,0.15); border: 1px solid rgba(167,139,250,0.3); color: var(--purple); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
+  .tag-legacy { display: inline-block; background: rgba(122,122,148,0.15); border: 1px solid rgba(122,122,148,0.3); color: var(--text-muted); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
 </style>
 </head>
 <body>
@@ -170,9 +173,13 @@
 <a href="index.html" class="back">&larr; 문서 목록으로</a>
 
 <h1><span class="emoji">🚀</span> 삼바웨이브 배포 가이드</h1>
-<p>Google Cloud Run + Vercel + Cloud SQL 기반 프로덕션 배포 전체 절차</p>
+<p>Vercel(프론트) + Cloud Run / GCE VM(백엔드) + Cloud SQL + R2 — 프로덕션 배포 절차</p>
 
-<!-- ━━━━━━━━━━━━━━━━ 배포 구조 개요 ━━━━━━━━━━━━━━━━ -->
+<div class="note">
+  <strong>현재 전환기:</strong> 백엔드는 Cloud Run(legacy)와 GCE VM(신규)이 <strong>병행 운영</strong> 중입니다. 신규 트래픽은 <code style="font-family:monospace;color:var(--purple)">api.samba-wave.co.kr</code> (VM)로 이전하고, 안정화 후 Cloud Run을 단계적으로 정리합니다. 인프라 전체 그림은 <a href="infra-map.html">infra-map.html</a> 참고.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 1. 배포 구조 개요 ━━━━━━━━━━━━━━━━ -->
 <h2>1. 배포 구조 개요</h2>
 
 <div class="arch-grid">
@@ -180,599 +187,550 @@
     <div class="icon">▲</div>
     <div class="title">프론트엔드</div>
     <div class="sub">Next.js 15 · App Router</div>
-    <div class="badge badge-orange">Vercel (무료)</div>
+    <div class="badge badge-orange">Vercel (자동배포)</div>
+  </div>
+  <div class="arch-card">
+    <div class="icon">🖥️</div>
+    <div class="title">백엔드 (신규)</div>
+    <div class="sub">GCE e2-small · docker compose</div>
+    <div class="badge" style="background:rgba(167,139,250,0.15);color:var(--purple);border:1px solid rgba(167,139,250,0.3);padding:0.2rem 0.75rem;border-radius:20px;font-size:0.78rem;font-weight:600;">samba-wave-vm</div>
   </div>
   <div class="arch-card">
     <div class="icon">☁️</div>
-    <div class="title">백엔드</div>
-    <div class="sub">FastAPI · Python 3.12 · 2Gi</div>
-    <div class="badge badge-green">Google Cloud Run</div>
+    <div class="title">백엔드 (legacy)</div>
+    <div class="sub">FastAPI · Cloud Run 2Gi</div>
+    <div class="badge badge-green">Cloud Run (병행)</div>
   </div>
   <div class="arch-card">
     <div class="icon">🗄️</div>
     <div class="title">데이터베이스</div>
-    <div class="sub">PostgreSQL · Read/Write 분리</div>
-    <div class="badge badge-red">Cloud SQL (2 인스턴스)</div>
+    <div class="sub">PostgreSQL · Cloud SQL Auth Proxy</div>
+    <div class="badge badge-red">Cloud SQL</div>
   </div>
   <div class="arch-card">
-    <div class="icon">🐙</div>
-    <div class="title">CI/CD</div>
-    <div class="sub">deploy-cloudrun.yml</div>
-    <div class="badge badge-green">GitHub Actions</div>
+    <div class="icon">📦</div>
+    <div class="title">파일 스토리지</div>
+    <div class="sub">상품 이미지 / 자산</div>
+    <div class="badge badge-orange">Cloudflare R2</div>
   </div>
+  <div class="arch-card">
+    <div class="icon">🐳</div>
+    <div class="title">이미지 레지스트리</div>
+    <div class="sub">Artifact Registry · asia-northeast3</div>
+    <div class="badge badge-green">cloud-run-source-deploy</div>
+  </div>
+</div>
+
+<div class="card card-purple">
+  <h3>비용 목표</h3>
+  <p style="color:var(--text);">Cloud Run 월 <strong>₩40만</strong> → GCE VM 월 <strong>₩10만</strong> 으로 약 75% 절감. e2-small + Cloud SQL Auth Proxy 사이드카로 VPC Connector 비용 제거.</p>
 </div>
 
 <div class="note">
-  <strong>배포 순서 원칙:</strong> 반드시 <strong>① DB 마이그레이션 → ② 백엔드(Cloud Run) → ③ 프론트엔드(Vercel)</strong> 순서로 배포합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.
+  <strong>배포 순서 원칙 [최우선]:</strong> 반드시 <strong>① DB 마이그레이션 → ② 백엔드 → ③ 프론트엔드(Vercel)</strong> 순. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.
 </div>
 
-<!-- ━━━━━━━━━━━━━━━━ 사전 준비 ━━━━━━━━━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━ 2. 배포 경로 3종 ━━━━━━━━━━━━━━━━ -->
 <div class="step-header">
   <div class="step-num">1</div>
+  <h2>배포 경로 3종 (백엔드)</h2>
+</div>
+
+<p>현재 백엔드 배포는 다음 3가지 경로로 운영됩니다. GitHub Actions의 <code>push</code> 트리거는 <strong>비활성화</strong>되어 있고, <code>workflow_dispatch</code> 수동 트리거만 살아 있습니다.</p>
+
+<div class="card card-green">
+  <h3>(a) Cloud Build 자동 트리거 <span class="tag-legacy">legacy</span></h3>
+  <div class="flow-row">
+    <span class="flow-box fb-github">git push main</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-actions">Cloud Build 트리거</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-docker">Artifact Registry</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-cloudrun">Cloud Run 새 revision</span>
+  </div>
+  <p>main 브랜치 push 시 Cloud Build가 자동으로 빌드 → Cloud Run에 새 revision을 띄웁니다. <strong>현재 병행 운영 중이며 VM 전환 안정화 후 비활성화 예정</strong>입니다.</p>
+</div>
+
+<div class="card card-purple">
+  <h3>(b) GCE VM 배포 — <code>deploy-vm.yml</code> 수동 트리거 <span class="tag-new">신규</span></h3>
+  <div class="flow-row">
+    <span class="flow-box fb-github">workflow_dispatch</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-docker">Docker 빌드/푸시</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-vm">SSH → VM</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-vm">docker compose pull/up</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-box fb-cloudrun">헬스체크</span>
+  </div>
+  <p>GitHub Actions <code>Deploy to GCE VM</code> 워크플로우를 <strong>수동으로</strong> 실행합니다. push 트리거 없음 — 모바일 등 PC 접속 불가 상황 또는 협업자 트리거용.</p>
+</div>
+
+<div class="card card-orange">
+  <h3>(c) 로컬 수동 배포 — <code>scripts/deploy-cloudrun.sh</code></h3>
+  <p>본인 로컬에서 직접 빌드 → Cloud Run 배포. 긴급 패치 또는 GitHub Actions 미가용 시 사용. VM 배포는 <code>gcloud compute ssh samba-wave-vm</code>로 접속해 <code>sudo docker compose pull/up -d samba-api</code>를 직접 실행해도 됩니다.</p>
+</div>
+
+<div class="note-red">
+  <strong>주의:</strong> <code>git push origin main</code>은 <strong>Vercel(프론트) + Cloud Build(백엔드 legacy)</strong>만 자동 트리거합니다. VM에는 자동 반영되지 않으니 <code>deploy-vm.yml</code>을 수동 실행하거나 SSH로 직접 pull 해야 합니다.
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 3. 사전 준비 ━━━━━━━━━━━━━━━━ -->
+<div class="step-header">
+  <div class="step-num">2</div>
   <h2>사전 준비</h2>
 </div>
 
 <div class="card card-blue">
   <h3>필요한 계정 및 도구</h3>
   <ul class="checklist">
-    <li>GCP(Google Cloud Platform) 계정 — 결제 수단 등록 필수</li>
-    <li>GitHub 계정 — 리포지토리 push 권한 보유</li>
+    <li>GCP 계정 — 결제 수단 등록 필수, 프로젝트 ID <code style="font-family:monospace;color:var(--blue)">fresh-sanctuary-489804-v4</code></li>
+    <li>GitHub 계정 — samba-wave 리포지토리 push 권한</li>
     <li>Vercel 계정 — vercel.com에서 GitHub으로 로그인</li>
-    <li>gcloud CLI 설치 — <code style="font-family:monospace; color:var(--blue)">https://cloud.google.com/sdk/docs/install</code></li>
-    <li>Docker Desktop 설치 (로컬 빌드 테스트용)</li>
-    <li>uv 설치 — Python 패키지 관리자 <code style="font-family:monospace; color:var(--blue)">pip install uv</code></li>
+    <li>gcloud CLI 설치 — <code style="font-family:monospace;color:var(--blue)">https://cloud.google.com/sdk/docs/install</code></li>
+    <li>Docker Desktop (로컬 빌드 테스트용)</li>
+    <li>uv — Python 패키지 관리자 <code style="font-family:monospace;color:var(--blue)">pip install uv</code></li>
+    <li>SSH 키 — VM 접속용 (deploy-vm.yml 시크릿에 등록)</li>
   </ul>
 </div>
 
 <div class="card card-blue">
   <h3>GCP 초기 설정 (최초 1회)</h3>
   <div class="code-block">
-<span class="comment"># GCP 로그인</span>
+<span class="comment"># GCP 로그인 및 프로젝트 설정</span>
 <span class="cmd">gcloud auth login</span>
-
-<span class="comment"># 프로젝트 설정 (프로젝트 ID 확인 후 입력)</span>
-<span class="cmd">gcloud config set project</span> <span class="val">YOUR_PROJECT_ID</span>
+<span class="cmd">gcloud config set project</span> <span class="val">fresh-sanctuary-489804-v4</span>
 
 <span class="comment"># 필요한 API 활성화</span>
-<span class="cmd">gcloud services enable</span> <span class="val">run.googleapis.com</span>
-<span class="cmd">gcloud services enable</span> <span class="val">sqladmin.googleapis.com</span>
-<span class="cmd">gcloud services enable</span> <span class="val">artifactregistry.googleapis.com</span>
-<span class="cmd">gcloud services enable</span> <span class="val">secretmanager.googleapis.com</span>
+<span class="cmd">gcloud services enable</span> <span class="val">run.googleapis.com</span> \
+  <span class="val">sqladmin.googleapis.com</span> \
+  <span class="val">artifactregistry.googleapis.com</span> \
+  <span class="val">secretmanager.googleapis.com</span> \
+  <span class="val">compute.googleapis.com</span>          <span class="comment"># VM 신규</span>
 
-<span class="comment"># Artifact Registry 저장소 생성 (Docker 이미지 저장소)</span>
-<span class="cmd">gcloud artifacts repositories create</span> <span class="val">samba-wave</span> \
-  --repository-format=docker \
-  --location=asia-northeast3 \
-  --description="SambaWave Docker images"</div>
+<span class="comment"># Artifact Registry 저장소 (이미 존재: cloud-run-source-deploy)</span>
+<span class="cmd">gcloud artifacts repositories list</span> --location=asia-northeast3</div>
 </div>
 
-<!-- ━━━━━━━━━━━━━━━━ Cloud SQL 설정 ━━━━━━━━━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━ 4. Cloud SQL 설정 ━━━━━━━━━━━━━━━━ -->
 <div class="step-header">
-  <div class="step-num">2</div>
-  <h2>Cloud SQL 설정 (Read/Write 2개 인스턴스)</h2>
-</div>
-
-<div class="card card-red">
-  <h3>쓰기 인스턴스 생성</h3>
-  <div class="code-block">
-<span class="comment"># 쓰기 전용 인스턴스 생성</span>
-<span class="cmd">gcloud sql instances create</span> <span class="val">samba-wave-write</span> \
-  --database-version=POSTGRES_15 \
-  --tier=db-f1-micro \
-  --region=asia-northeast3 \
-  --storage-size=10GB \
-  --storage-type=SSD \
-  --backup \
-  --backup-start-time=03:00
-
-<span class="comment"># 데이터베이스 생성</span>
-<span class="cmd">gcloud sql databases create</span> <span class="val">sambawave</span> \
-  --instance=samba-wave-write
-
-<span class="comment"># 사용자 생성</span>
-<span class="cmd">gcloud sql users create</span> <span class="val">samba_write_user</span> \
-  --instance=samba-wave-write \
-  --password=<span class="string">YOUR_STRONG_PASSWORD</span></div>
-</div>
-
-<div class="card card-red">
-  <h3>읽기 전용 인스턴스 생성 (Read Replica)</h3>
-  <div class="code-block">
-<span class="comment"># 쓰기 인스턴스의 Read Replica 생성</span>
-<span class="cmd">gcloud sql instances create</span> <span class="val">samba-wave-read</span> \
-  --master-instance-name=samba-wave-write \
-  --region=asia-northeast3 \
-  --tier=db-f1-micro
-
-<span class="comment"># Read Replica용 사용자 생성 (쓰기 인스턴스에서 복제됨)</span>
-<span class="cmd">gcloud sql users create</span> <span class="val">samba_read_user</span> \
-  --instance=samba-wave-read \
-  --password=<span class="string">YOUR_READ_PASSWORD</span></div>
-</div>
-
-<div class="card card-red">
-  <h3>Cloud SQL 연결 정보 확인</h3>
-  <div class="code-block">
-<span class="comment"># 인스턴스 연결 이름 확인 (Cloud Run 연결 시 필요)</span>
-<span class="cmd">gcloud sql instances describe</span> <span class="val">samba-wave-write</span> \
-  --format="value(connectionName)"
-<span class="comment"># 출력 예: my-project:asia-northeast3:samba-wave-write</span>
-
-<span class="comment"># IP 주소 확인</span>
-<span class="cmd">gcloud sql instances describe</span> <span class="val">samba-wave-write</span> \
-  --format="value(ipAddresses[0].ipAddress)"</div>
+  <div class="step-num">3</div>
+  <h2>Cloud SQL 설정 (Cloud SQL Auth Proxy 사용)</h2>
 </div>
 
 <div class="note-red">
-  <strong>주의:</strong> Cloud SQL IP를 직접 사용하지 말고 Cloud SQL Auth Proxy 또는 Cloud Run의 Cloud SQL 직접 연결을 사용하세요. 연결 이름(connectionName)을 GitHub Secrets에 저장합니다.
+  <strong>중요:</strong> Cloud SQL은 <strong>퍼블릭 IP 직접 연결 금지</strong>. 반드시 <strong>Cloud SQL Auth Proxy</strong>를 통해 접근합니다. VM에서는 <code>cloud-sql-proxy</code> 컨테이너가 사이드카로 동작하며, 앱 컨테이너는 컨테이너명(<code>cloud-sql-proxy</code>)을 host로 지정합니다.
 </div>
 
-<!-- ━━━━━━━━━━━━━━━━ GitHub Secrets 등록 ━━━━━━━━━━━━━━━━ -->
+<div class="card card-red">
+  <h3>인스턴스 정보</h3>
+  <table>
+    <tr><th>항목</th><th>값</th></tr>
+    <tr><td>인스턴스 연결명</td><td><code>fresh-sanctuary-489804-v4:asia-northeast3:samba-wave-db</code></td></tr>
+    <tr><td>DB 이름</td><td><code>railway</code></td></tr>
+    <tr><td>사용자</td><td><code>postgres</code></td></tr>
+    <tr><td>VM 내 host</td><td><code>cloud-sql-proxy</code> (docker compose 서비스명)</td></tr>
+    <tr><td>포트</td><td><code>5432</code></td></tr>
+    <tr><td>DB_SSL_REQUIRED</td><td><code>false</code> (Proxy 사용 시)</td></tr>
+  </table>
+</div>
+
+<div class="card card-red">
+  <h3>로컬에서 마이그레이션할 때 — Cloud SQL Auth Proxy</h3>
+  <div class="code-block">
+<span class="comment"># Auth Proxy 다운로드 후 실행 (Windows)</span>
+<span class="cmd">cloud-sql-proxy.exe</span> <span class="val">fresh-sanctuary-489804-v4:asia-northeast3:samba-wave-db</span>
+
+<span class="comment"># 환경변수 (예시)</span>
+<span class="cmd">set</span> WRITE_DB_HOST=127.0.0.1
+<span class="cmd">set</span> WRITE_DB_PORT=5432
+<span class="cmd">set</span> WRITE_DB_NAME=railway
+<span class="cmd">set</span> WRITE_DB_USER=postgres
+<span class="cmd">set</span> WRITE_DB_PASSWORD=<span class="string">YOUR_PASSWORD</span>
+
+<span class="cmd">cd</span> backend && <span class="cmd">alembic upgrade head</span></div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 5. GitHub Secrets ━━━━━━━━━━━━━━━━ -->
 <div class="step-header">
-  <div class="step-num">3</div>
+  <div class="step-num">4</div>
   <h2>GitHub Secrets 등록</h2>
 </div>
 
-<p>GitHub 리포지토리 → Settings → Secrets and variables → Actions에서 아래 시크릿을 등록합니다.</p>
+<p>리포지토리 → Settings → Secrets and variables → Actions에서 등록합니다. <strong>VM 워크플로우(<code>deploy-vm.yml</code>) 기준</strong>으로 갱신되었습니다.</p>
 
 <div class="card card-purple">
   <table>
-    <tr><th>Secret 이름</th><th>값</th><th>설명</th></tr>
+    <tr><th>Secret 이름</th><th>용도</th><th>설명</th></tr>
     <tr>
       <td><code>GCP_SA_KEY</code> <span class="tag-required">필수</span></td>
-      <td>서비스 계정 JSON 전체</td>
-      <td>Cloud Run/Artifact Registry 배포 권한</td>
+      <td>GCP 서비스 계정 JSON</td>
+      <td>Artifact Registry 빌드/푸시, gcloud 인증</td>
     </tr>
     <tr>
-      <td><code>DB_WRITE_HOST</code> <span class="tag-required">필수</span></td>
-      <td>쓰기 인스턴스 IP 또는 연결명</td>
-      <td>Cloud SQL 쓰기 인스턴스 호스트</td>
+      <td><code>VM_SSH_PRIVATE_KEY</code> <span class="tag-required">필수</span></td>
+      <td>SSH 개인키</td>
+      <td>Actions → VM SSH 접속용 (대응되는 공개키는 VM <code>~/.ssh/authorized_keys</code>에 등록)</td>
     </tr>
     <tr>
-      <td><code>DB_WRITE_USER</code> <span class="tag-required">필수</span></td>
-      <td>samba_write_user</td>
-      <td>쓰기 DB 사용자명</td>
+      <td><code>VM_HOST</code> <span class="tag-required">필수</span></td>
+      <td>VM 도메인/IP</td>
+      <td><code>api.samba-wave.co.kr</code> 또는 외부 IP</td>
     </tr>
     <tr>
-      <td><code>DB_WRITE_PASSWORD</code> <span class="tag-required">필수</span></td>
-      <td>(설정한 비밀번호)</td>
-      <td>쓰기 DB 비밀번호</td>
+      <td><code>VM_USER</code> <span class="tag-required">필수</span></td>
+      <td>SSH 사용자명</td>
+      <td>일반적으로 <code>ubuntu</code></td>
     </tr>
     <tr>
-      <td><code>DB_READ_HOST</code> <span class="tag-required">필수</span></td>
-      <td>읽기 인스턴스 IP 또는 연결명</td>
-      <td>Cloud SQL 읽기 인스턴스 호스트</td>
+      <td><code>KAKAO_API_KEY</code></td>
+      <td>카카오 알림</td>
+      <td>배포 성공/실패 카톡 전송 (선택)</td>
     </tr>
     <tr>
-      <td><code>DB_READ_USER</code> <span class="tag-required">필수</span></td>
-      <td>samba_read_user</td>
-      <td>읽기 DB 사용자명</td>
-    </tr>
-    <tr>
-      <td><code>DB_READ_PASSWORD</code> <span class="tag-required">필수</span></td>
-      <td>(설정한 비밀번호)</td>
-      <td>읽기 DB 비밀번호</td>
-    </tr>
-    <tr>
-      <td><code>JWT_SECRET_KEY</code> <span class="tag-required">필수</span></td>
-      <td>긴 랜덤 문자열 (32자 이상)</td>
-      <td>JWT 토큰 서명 키</td>
+      <td><code>KAKAO_REFRESH_TOKEN</code></td>
+      <td>카카오 알림</td>
+      <td>액세스 토큰 갱신 (선택)</td>
     </tr>
   </table>
 </div>
 
-<div class="card card-purple">
-  <h3>GCP 서비스 계정 생성 및 키 발급</h3>
-  <div class="code-block">
-<span class="comment"># 서비스 계정 생성</span>
-<span class="cmd">gcloud iam service-accounts create</span> <span class="val">samba-wave-deployer</span> \
-  --display-name="SambaWave GitHub Actions Deployer"
-
-<span class="comment"># 필요한 IAM 권한 부여</span>
-<span class="cmd">gcloud projects add-iam-policy-binding</span> <span class="val">YOUR_PROJECT_ID</span> \
-  --member="serviceAccount:samba-wave-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-  --role="roles/run.admin"
-
-<span class="cmd">gcloud projects add-iam-policy-binding</span> <span class="val">YOUR_PROJECT_ID</span> \
-  --member="serviceAccount:samba-wave-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-  --role="roles/artifactregistry.writer"
-
-<span class="cmd">gcloud projects add-iam-policy-binding</span> <span class="val">YOUR_PROJECT_ID</span> \
-  --member="serviceAccount:samba-wave-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-  --role="roles/iam.serviceAccountUser"
-
-<span class="comment"># JSON 키 파일 생성 → 이 내용을 GCP_SA_KEY 시크릿에 등록</span>
-<span class="cmd">gcloud iam service-accounts keys create</span> <span class="val">gcp-sa-key.json</span> \
-  --iam-account=samba-wave-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com</div>
+<div class="note">
+  Cloud Build (legacy) 경로는 별도 시크릿이 필요 없습니다. Cloud Build가 GCP 내부에서 직접 인증하기 때문. <code>WRITE_DB_*</code> 등 런타임 시크릿은 <strong>Secret Manager</strong>에 보관하고 Cloud Run 환경변수로 주입합니다.
 </div>
 
-<div class="note-red">
-  <strong>보안 주의:</strong> <code>gcp-sa-key.json</code> 파일은 GitHub Secrets에 등록 후 즉시 삭제하세요. 절대 Git 커밋 금지입니다.
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ GitHub Actions 워크플로우 ━━━━━━━━━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━ 6. GCE VM 배포 (NEW) ━━━━━━━━━━━━━━━━ -->
 <div class="step-header">
-  <div class="step-num">4</div>
-  <h2>GitHub Actions 워크플로우 (deploy-cloudrun.yml)</h2>
+  <div class="step-num">5</div>
+  <h2>GCE VM 배포 <span class="tag-new">신규</span></h2>
 </div>
 
-<p>파일 위치: <code style="font-family:monospace; color:var(--blue)">.github/workflows/deploy-cloudrun.yml</code></p>
-
-<div class="card card-green">
-  <h3>워크플로우 동작 순서</h3>
+<div class="card card-purple">
+  <h3>스택 구성</h3>
   <div class="flow-row">
-    <span class="flow-box fb-github">git push main</span>
+    <span class="flow-box fb-github">Internet</span>
     <span class="flow-arrow">→</span>
-    <span class="flow-box fb-actions">Actions 트리거</span>
+    <span class="flow-box fb-cloudrun">Caddy (HTTPS, Let's Encrypt 자동)</span>
     <span class="flow-arrow">→</span>
-    <span class="flow-box fb-actions">GCP 인증</span>
+    <span class="flow-box fb-docker">samba-api (FastAPI:8080)</span>
     <span class="flow-arrow">→</span>
-    <span class="flow-box fb-docker">Docker Build</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-docker">Artifact Registry Push</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-cloudrun">Cloud Run 배포</span>
+    <span class="flow-box fb-db">cloud-sql-proxy → Cloud SQL</span>
+  </div>
+  <p>도메인: <code style="font-family:monospace;color:var(--purple)">api.samba-wave.co.kr</code> · 인스턴스: <code>samba-wave-vm</code> (asia-northeast3-a, e2-small) · OS: Ubuntu 24.04 LTS · 디스크: 30GB pd-balanced</p>
+</div>
+
+<div class="card card-purple">
+  <h3>Phase 1 — VM 생성</h3>
+  <div class="code-block">
+<span class="cmd">gcloud compute instances create</span> <span class="val">samba-wave-vm</span> \
+  --project=fresh-sanctuary-489804-v4 \
+  --zone=asia-northeast3-a \
+  --machine-type=e2-small \
+  --image-family=ubuntu-2404-lts-amd64 \
+  --image-project=ubuntu-os-cloud \
+  --boot-disk-size=30GB --boot-disk-type=pd-balanced \
+  --tags=http-server,https-server \
+  --metadata-from-file=startup-script=deploy/vm/startup.sh \
+  --service-account=github-deploy@fresh-sanctuary-489804-v4.iam.gserviceaccount.com \
+  --scopes=cloud-platform
+
+<span class="comment"># 방화벽 (포트 80/443)</span>
+<span class="cmd">gcloud compute firewall-rules create</span> <span class="val">allow-http-https</span> \
+  --direction=INGRESS --action=ALLOW \
+  --rules=tcp:80,tcp:443 --source-ranges=0.0.0.0/0 \
+  --target-tags=http-server,https-server</div>
+  <p><code>startup.sh</code>가 Docker, gcloud CLI, Artifact Registry 인증, <code>samba-stack.service</code> systemd 유닛을 자동 설정합니다.</p>
+</div>
+
+<div class="card card-purple">
+  <h3>Phase 2 — Cloud SQL 서비스 계정 키 + 파일 업로드</h3>
+  <div class="code-block">
+<span class="comment"># Cloud SQL 접근용 서비스계정 + 키</span>
+<span class="cmd">gcloud iam service-accounts create</span> <span class="val">samba-vm-sql</span> \
+  --project=fresh-sanctuary-489804-v4
+<span class="cmd">gcloud projects add-iam-policy-binding</span> fresh-sanctuary-489804-v4 \
+  --member=serviceAccount:samba-vm-sql@fresh-sanctuary-489804-v4.iam.gserviceaccount.com \
+  --role=roles/cloudsql.client
+<span class="cmd">gcloud iam service-accounts keys create</span> <span class="val">sa-key.json</span> \
+  --iam-account=samba-vm-sql@fresh-sanctuary-489804-v4.iam.gserviceaccount.com
+
+<span class="comment"># VM에 docker-compose / Caddyfile / sa-key.json 업로드</span>
+<span class="cmd">gcloud compute scp</span> deploy/vm/docker-compose.yml deploy/vm/Caddyfile sa-key.json \
+  samba-wave-vm:/tmp --zone=asia-northeast3-a
+<span class="cmd">gcloud compute ssh</span> samba-wave-vm --zone=asia-northeast3-a \
+  --command='sudo mv /tmp/{docker-compose.yml,Caddyfile,sa-key.json} /opt/samba/'</div>
+</div>
+
+<div class="card card-purple">
+  <h3>Phase 3 — <code>/opt/samba/.env</code> 배치</h3>
+  <div class="code-block">
+<span class="comment"># 실행 환경</span>
+<span class="key">ENVIRONMENT</span>=<span class="val">production</span>
+<span class="key">DB_SSL_REQUIRED</span>=<span class="val">false</span>          <span class="comment"># Cloud SQL Proxy 쓰면 false</span>
+<span class="key">COMMIT_SHA</span>=                     <span class="comment"># CI가 자동 세팅</span>
+<span class="key">WEB_CONCURRENCY</span>=<span class="val">1</span>
+<span class="key">GUNICORN_CMD_ARGS</span>=<span class="string">"--timeout 300 --graceful-timeout 300"</span>
+<span class="key">TERMINATION_GRACE_HACK</span>=<span class="val">1</span>
+
+<span class="comment"># DB (Cloud SQL Auth Proxy 컨테이너 host로 접속)</span>
+<span class="key">WRITE_DB_HOST</span>=<span class="val">cloud-sql-proxy</span>
+<span class="key">WRITE_DB_PORT</span>=<span class="val">5432</span>
+<span class="key">WRITE_DB_NAME</span>=<span class="val">railway</span>
+<span class="key">WRITE_DB_USER</span>=<span class="val">postgres</span>
+<span class="key">WRITE_DB_PASSWORD</span>=<span class="string">&lt;시크릿&gt;</span>
+<span class="key">READ_DB_HOST</span>=<span class="val">cloud-sql-proxy</span>
+<span class="key">READ_DB_PORT</span>=<span class="val">5432</span>
+<span class="key">READ_DB_NAME</span>=<span class="val">railway</span>
+<span class="key">READ_DB_USER</span>=<span class="val">postgres</span>
+<span class="key">READ_DB_PASSWORD</span>=<span class="string">&lt;시크릿&gt;</span>
+
+<span class="comment"># 인증/시크릿</span>
+<span class="key">JWT_SECRET_KEY</span>=<span class="string">&lt;시크릿&gt;</span>
+<span class="key">API_GATEWAY_KEY</span>=<span class="string">&lt;시크릿&gt;</span>
+
+<span class="comment"># ESMPlus / 카카오 알림 등 도메인 시크릿</span>
+<span class="key">ESMPLUS_HOSTING_ID</span>=<span class="val">hlccorp</span>
+<span class="key">ESMPLUS_SECRET_KEY</span>=<span class="string">&lt;시크릿&gt;</span>
+<span class="key">KAKAO_API_KEY</span>=<span class="string">&lt;시크릿&gt;</span>
+<span class="key">KAKAO_REFRESH_TOKEN</span>=<span class="string">&lt;시크릿&gt;</span>
+<span class="key">LOTTEON_FULL_PAGING_ENABLED</span>=<span class="val">1</span></div>
+  <div class="note-red">
+    <strong>주의:</strong> <code>PROXY_URLS</code> / <code>COLLECT_PROXY_URL</code>은 <strong>불필요</strong>. DB <code>proxy_config</code> 단일 소스로 전환 완료(2026-04-24). Secret 값은 Secret Manager에서 수동 조회 후 복사.
   </div>
 </div>
 
-<div class="card card-green">
-  <h3>워크플로우 핵심 설정 항목</h3>
+<div class="card card-purple">
+  <h3>Phase 4 — 스택 시작 + Caddy 자동 HTTPS</h3>
   <div class="code-block">
-<span class="comment"># .github/workflows/deploy-cloudrun.yml 주요 설정</span>
-
-<span class="key">on:</span>
-  <span class="key">push:</span>
-    <span class="key">branches:</span> [<span class="val">main</span>]
-    <span class="key">paths:</span>
-      - <span class="string">'backend/**'</span>  <span class="comment"># 백엔드 변경 시에만 트리거</span>
-
-<span class="key">env:</span>
-  <span class="key">PROJECT_ID:</span> <span class="val">YOUR_GCP_PROJECT_ID</span>
-  <span class="key">REGION:</span> <span class="val">asia-northeast3</span>
-  <span class="key">SERVICE_NAME:</span> <span class="val">samba-wave-backend</span>
-  <span class="key">REGISTRY:</span> <span class="val">asia-northeast3-docker.pkg.dev</span>
-
-<span class="comment"># Cloud Run 배포 시 환경변수 주입</span>
-<span class="key">gcloud run deploy</span> $SERVICE_NAME \
-  --set-env-vars <span class="val">DB_WRITE_HOST</span>=${{ secrets.DB_WRITE_HOST }} \
-  --set-env-vars <span class="val">DB_WRITE_USER</span>=${{ secrets.DB_WRITE_USER }} \
-  --set-env-vars <span class="val">DB_WRITE_PASSWORD</span>=${{ secrets.DB_WRITE_PASSWORD }} \
-  --set-env-vars <span class="val">DB_READ_HOST</span>=${{ secrets.DB_READ_HOST }} \
-  --set-env-vars <span class="val">DB_READ_USER</span>=${{ secrets.DB_READ_USER }} \
-  --set-env-vars <span class="val">DB_READ_PASSWORD</span>=${{ secrets.DB_READ_PASSWORD }} \
-  --set-env-vars <span class="val">JWT_SECRET_KEY</span>=${{ secrets.JWT_SECRET_KEY }} \
-  --memory=2Gi \
-  --min-instances=1 \
-  --allow-unauthenticated</div>
+<span class="cmd">gcloud compute ssh</span> samba-wave-vm --zone=asia-northeast3-a \
+  --command='sudo systemctl start samba-stack \
+  && sudo docker compose -f /opt/samba/docker-compose.yml logs -f samba-api'</div>
+  <p>Caddy가 도메인 DNS A 레코드(VM 외부 IP)를 검증하고 Let's Encrypt 인증서를 <strong>자동 발급/갱신</strong>합니다. 사람이 손댈 일 없습니다.</p>
 </div>
 
-<div class="note">
-  <strong>프론트엔드는 Actions 불필요:</strong> Vercel은 GitHub push를 감지해 자동 배포합니다. 백엔드 전용 변경 시 Actions만 실행되도록 <code>paths</code> 필터를 설정해 Actions 비용을 절약합니다.
+<div class="card card-purple">
+  <h3>운영 명령어</h3>
+  <div class="code-block">
+<span class="comment"># 로그</span>
+<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml logs -f samba-api
+
+<span class="comment"># 재시작 (env 변경 후 등)</span>
+<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml restart samba-api
+
+<span class="comment"># 수동 배포 (이미지 pull + 재기동)</span>
+<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml pull samba-api
+<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml up -d samba-api
+
+<span class="comment"># 자원/디스크 점검</span>
+<span class="cmd">sudo docker stats</span>
+<span class="cmd">sudo docker system df</span>
+<span class="cmd">sudo docker system prune -af</span>   <span class="comment"># 미사용 이미지 정리</span></div>
 </div>
 
-<!-- ━━━━━━━━━━━━━━━━ DB 마이그레이션 ━━━━━━━━━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━ 7. DB 마이그레이션 ━━━━━━━━━━━━━━━━ -->
 <div class="step-header">
-  <div class="step-num">5</div>
+  <div class="step-num">6</div>
   <h2>DB 마이그레이션 (배포 전 필수)</h2>
 </div>
 
 <div class="note-red">
-  <strong>최우선 규칙:</strong> CI/CD는 DB를 건드리지 않습니다. 마이그레이션은 반드시 수동으로 실행해야 합니다. 백엔드 배포 전에 반드시 먼저 실행하세요.
+  <strong>최우선 규칙:</strong> CI/CD는 DB를 건드리지 않습니다. 마이그레이션은 <strong>반드시 수동</strong>으로 실행해야 합니다. 백엔드 배포 전에 먼저 적용하세요.
 </div>
 
 <div class="card card-red">
   <h3>마이그레이션 파일 생성 (모델 변경 시)</h3>
   <div class="code-block">
-<span class="comment"># 백엔드 디렉토리에서 실행</span>
 <span class="cmd">cd</span> backend
 
-<span class="comment"># 마이그레이션 누락 여부 검증 (모델 변경 후 반드시 실행)</span>
+<span class="comment"># 모델 변경 후 누락 검증 (최우선)</span>
 <span class="cmd">.venv/Scripts/python.exe</span> scripts/check_migrations.py
 
-<span class="comment"># 마이그레이션 파일 자동 생성</span>
+<span class="comment"># 자동 생성</span>
 <span class="cmd">alembic revision --autogenerate</span> -m <span class="string">"컬럼 추가 설명"</span>
 
-<span class="comment"># 생성된 파일 검토 (alembic/versions/ 폴더)</span>
-<span class="comment"># upgrade/downgrade 함수가 올바른지 확인</span></div>
+<span class="comment"># 산출물 육안 검토 — op.drop_table / op.drop_index 라인이 있으면</span>
+<span class="comment"># 의도된 것인지 100% 확인. 의도 외 DROP이면 alembic/env.py 모델 import</span>
+<span class="comment"># 누락을 먼저 의심할 것.</span></div>
 </div>
 
 <div class="card card-red">
-  <h3>프로덕션 DB에 마이그레이션 적용</h3>
+  <h3>프로덕션 DB에 적용</h3>
   <div class="code-block">
-<span class="comment"># 방법 1: Cloud SQL Auth Proxy를 통한 로컬 연결</span>
-<span class="comment"># Cloud SQL Auth Proxy 다운로드 후 실행</span>
-<span class="cmd">./cloud-sql-proxy</span> YOUR_PROJECT_ID:asia-northeast3:samba-wave-write &
+<span class="comment"># 1) Cloud SQL Auth Proxy 기동</span>
+<span class="cmd">cloud-sql-proxy</span> fresh-sanctuary-489804-v4:asia-northeast3:samba-wave-db &amp;
 
-<span class="comment"># 로컬 5432 포트로 연결되므로 localhost를 HOST로 사용</span>
+<span class="comment"># 2) 환경변수 후 alembic upgrade</span>
 <span class="cmd">set</span> WRITE_DB_HOST=127.0.0.1
-<span class="cmd">set</span> WRITE_DB_USER=samba_write_user
-<span class="cmd">set</span> WRITE_DB_PASSWORD=<span class="string">YOUR_PASSWORD</span>
-<span class="cmd">set</span> WRITE_DB_NAME=sambawave
+<span class="cmd">set</span> WRITE_DB_PORT=5432
+<span class="cmd">set</span> WRITE_DB_NAME=railway
+<span class="cmd">set</span> WRITE_DB_USER=postgres
+<span class="cmd">set</span> WRITE_DB_PASSWORD=<span class="string">&lt;시크릿&gt;</span>
 
 <span class="cmd">alembic upgrade head</span>
-
-<span class="comment"># 방법 2: Cloud Shell에서 직접 실행</span>
-<span class="comment"># GCP Console → Cloud Shell → 리포 클론 후 실행</span></div>
+<span class="cmd">alembic current</span>     <span class="comment"># 적용 결과 확인</span></div>
 </div>
 
 <div class="note-green">
-  <strong>성공 확인:</strong> "Running upgrade ... -> head" 메시지가 출력되면 성공입니다. 마이그레이션 이력은 DB의 <code>alembic_version</code> 테이블에서 확인할 수 있습니다.
+  <strong>성공 확인:</strong> "Running upgrade ... -> head" 출력 + <code>alembic_version</code> 테이블의 head 일치.
 </div>
 
-<!-- ━━━━━━━━━━━━━━━━ Vercel 프론트엔드 배포 ━━━━━━━━━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━ 8. Vercel ━━━━━━━━━━━━━━━━ -->
 <div class="step-header">
-  <div class="step-num">6</div>
-  <h2>Vercel 프론트엔드 배포 (최초 1회 설정)</h2>
+  <div class="step-num">7</div>
+  <h2>프론트엔드 Vercel 배포</h2>
 </div>
 
 <div class="card card-orange">
-  <h3>Vercel 프로젝트 최초 연결</h3>
+  <h3>Vercel 프로젝트 최초 연결 (1회)</h3>
   <ul class="checklist">
-    <li>vercel.com 접속 → GitHub으로 로그인</li>
-    <li>Add New Project → samba-wave 리포지토리 선택</li>
-    <li>Root Directory: <code style="font-family:monospace; color:var(--blue)">frontend</code> 로 설정</li>
-    <li>Framework Preset: Next.js (자동 감지됨)</li>
-    <li>Environment Variables 섹션에서 아래 변수 추가</li>
-    <li>Deploy 클릭 → 2~3분 후 배포 완료</li>
+    <li>vercel.com → GitHub으로 로그인</li>
+    <li>Add New Project → samba-wave 리포 선택</li>
+    <li>Root Directory: <code style="font-family:monospace;color:var(--blue)">frontend</code></li>
+    <li>Framework Preset: Next.js (자동 감지)</li>
+    <li>Environment Variables 추가 후 Deploy</li>
   </ul>
 </div>
 
 <div class="card card-orange">
-  <h3>Vercel 환경변수 설정</h3>
+  <h3>Vercel 환경변수</h3>
   <div class="code-block">
-<span class="comment"># Vercel 대시보드 → 프로젝트 → Settings → Environment Variables</span>
-
-<span class="key">NEXT_PUBLIC_API_URL</span> = <span class="val">https://samba-wave-backend-XXXX-an.a.run.app</span>
-<span class="comment"># Cloud Run 배포 후 발급되는 서비스 URL</span></div>
+<span class="comment"># Vercel → 프로젝트 → Settings → Environment Variables</span>
+<span class="key">NEXT_PUBLIC_API_URL</span> = <span class="val">https://api.samba-wave.co.kr</span>
+<span class="comment"># VM 도메인 사용. legacy Cloud Run URL을 쓰던 시절은 한시적으로 병행 가능.</span></div>
 </div>
 
 <div class="note">
-  이후에는 <code>git push main</code>만 하면 Vercel이 자동으로 감지해서 재배포합니다. 별도 작업 불필요.
+  이후 <code>git push origin main</code>만 하면 Vercel이 감지해 자동 재배포합니다. 별도 작업 불필요. 프론트만 수정 시 GitHub Actions는 실행되지 않습니다(비용 절약).
 </div>
 
-<!-- ━━━━━━━━━━━━━━━━ 배포 후 확인 ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">7</div>
-  <h2>배포 후 확인 방법</h2>
-</div>
-
-<div class="card card-green">
-  <h3>백엔드 Health Check</h3>
-  <div class="code-block">
-<span class="comment"># Cloud Run 서비스 URL 확인</span>
-<span class="cmd">gcloud run services describe</span> <span class="val">samba-wave-backend</span> \
-  --region=asia-northeast3 \
-  --format="value(status.url)"
-
-<span class="comment"># 헬스체크 엔드포인트 (브라우저 또는 curl)</span>
-https://samba-wave-backend-XXXX-an.a.run.app/docs
-https://samba-wave-backend-XXXX-an.a.run.app/health
-
-<span class="comment"># Cloud Run 최신 배포 로그 확인</span>
-<span class="cmd">gcloud run services logs read</span> <span class="val">samba-wave-backend</span> \
-  --region=asia-northeast3 \
-  --limit=50</div>
-</div>
-
-<div class="card card-green">
-  <h3>GitHub Actions 배포 상태 확인</h3>
-  <ul class="checklist">
-    <li>GitHub 리포지토리 → Actions 탭 → 최신 워크플로우 실행 확인</li>
-    <li>각 Step (Build, Push, Deploy) 녹색 체크 확인</li>
-    <li>실패 시 해당 Step 클릭 → 상세 로그 확인</li>
-    <li>Cloud Run Console → 서비스 → 최신 리비전 상태 확인 (녹색 = 정상)</li>
-  </ul>
-</div>
-
-<div class="card card-green">
-  <h3>프론트엔드 확인</h3>
-  <ul class="checklist">
-    <li>Vercel 대시보드 → 프로젝트 → 최신 배포 Status 확인 (Ready = 성공)</li>
-    <li>배포 URL 접속 → <code style="font-family:monospace; color:var(--blue)">https://your-app.vercel.app/samba</code></li>
-    <li>로그인 후 기본 페이지 로딩 확인</li>
-    <li>브라우저 개발자도구 → Network → API 호출 응답 200 확인</li>
-  </ul>
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 롤백 방법 ━━━━━━━━━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━ 9. 헬스체크 / 운영 ━━━━━━━━━━━━━━━━ -->
 <div class="step-header">
   <div class="step-num">8</div>
-  <h2>롤백 방법</h2>
+  <h2>헬스체크 / 운영</h2>
 </div>
 
-<div class="card card-red">
-  <h3>Cloud Run 롤백 (백엔드)</h3>
+<div class="card card-green">
+  <h3>헬스체크 엔드포인트</h3>
   <div class="code-block">
-<span class="comment"># 현재 서비스의 리비전 목록 확인</span>
-<span class="cmd">gcloud run revisions list</span> \
-  --service=samba-wave-backend \
-  --region=asia-northeast3
+<span class="comment"># VM (신규)</span>
+<span class="cmd">curl</span> https://api.samba-wave.co.kr/api/v1/health
+<span class="cmd">curl</span> https://api.samba-wave.co.kr/healthz
 
-<span class="comment"># 이전 리비전으로 트래픽 100% 전환</span>
-<span class="cmd">gcloud run services update-traffic</span> <span class="val">samba-wave-backend</span> \
-  --region=asia-northeast3 \
-  --to-revisions=<span class="val">samba-wave-backend-PREVIOUS_REVISION</span>=100
-
-<span class="comment"># 확인</span>
-<span class="cmd">gcloud run services describe</span> <span class="val">samba-wave-backend</span> \
-  --region=asia-northeast3 \
-  --format="value(spec.traffic)"</div>
-</div>
-
-<div class="card card-red">
-  <h3>Vercel 롤백 (프론트엔드)</h3>
+<span class="comment"># Cloud Run (legacy, 병행)</span>
+<span class="cmd">curl</span> https://samba-wave-api-XXXX-an.a.run.app/healthz</div>
+  <p><code>/healthz</code> 응답에는 다음이 노출됩니다:</p>
   <ul class="checklist">
-    <li>Vercel 대시보드 → 프로젝트 → Deployments 탭</li>
-    <li>롤백할 이전 배포 항목 찾기</li>
-    <li>해당 배포의 점 세 개 메뉴(⋯) → Promote to Production 클릭</li>
-    <li>즉시 적용됨 (빌드 재실행 없음)</li>
+    <li><strong>commit_sha</strong> — 현재 배포된 커밋 해시 (배포 검증용)</li>
+    <li><strong>deployed_at</strong> — 배포 시각 (UTC)</li>
+    <li><strong>cancel_paused</strong> — 작업취소 일시정지 상태 (true면 일괄 일시중지 중)</li>
   </ul>
 </div>
 
-<div class="card card-red">
-  <h3>DB 마이그레이션 롤백</h3>
+<div class="card card-green">
+  <h3>로그 확인</h3>
   <div class="code-block">
-<span class="comment"># 한 단계 이전으로 되돌리기</span>
-<span class="cmd">alembic downgrade</span> <span class="val">-1</span>
+<span class="comment"># VM</span>
+<span class="cmd">gcloud compute ssh</span> samba-wave-vm --zone=asia-northeast3-a
+<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml logs -f samba-api
 
-<span class="comment"># 특정 리비전으로 되돌리기</span>
-<span class="cmd">alembic downgrade</span> <span class="val">REVISION_ID</span>
+<span class="comment"># Cloud Run (legacy)</span>
+<span class="cmd">gcloud run services logs read</span> <span class="val">samba-wave-api</span> \
+  --region=asia-northeast3 --limit=50
 
-<span class="comment"># 현재 리비전 확인</span>
-<span class="cmd">alembic current</span>
-
-<span class="comment"># 리비전 히스토리 확인</span>
-<span class="cmd">alembic history</span></div>
+<span class="comment"># GitHub Actions 워크플로우</span>
+<span class="comment">GitHub → Actions → Deploy to GCE VM → 최신 run</span></div>
 </div>
 
-<div class="note-red">
-  <strong>주의:</strong> DB 롤백은 데이터 손실 가능성이 있습니다. downgrade 함수가 올바르게 작성되어 있는지 먼저 확인하고, 가능하면 DB 스냅샷 백업 후 진행하세요.
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 환경변수 전체 목록 ━━━━━━━━━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━ 10. 배포 순서 / 트러블슈팅 ━━━━━━━━━━━━━━━━ -->
 <div class="step-header">
   <div class="step-num">9</div>
-  <h2>환경변수 전체 목록</h2>
+  <h2>배포 순서 · 트러블슈팅</h2>
+</div>
+
+<div class="card card-red">
+  <h3>표준 배포 순서</h3>
+  <ol class="checklist">
+    <li><strong>① DB 마이그레이션</strong> — 로컬에서 Auth Proxy로 <code>alembic upgrade head</code></li>
+    <li><strong>② 백엔드</strong> — Cloud Build 자동 (push) 또는 deploy-vm.yml 수동 트리거</li>
+    <li><strong>③ /healthz 검증</strong> — commit_sha가 현재 커밋과 일치하는지 확인</li>
+    <li><strong>④ 프론트엔드</strong> — Vercel은 push 시 자동 배포 (별도 액션 없음)</li>
+  </ol>
 </div>
 
 <div class="card">
-  <h3>백엔드 환경변수 (Cloud Run + GitHub Secrets)</h3>
+  <h3>자주 발생하는 문제</h3>
   <table>
-    <tr><th>변수명</th><th>예시값</th><th>설명</th><th>저장 위치</th></tr>
+    <tr><th>증상</th><th>원인</th><th>해결</th></tr>
     <tr>
-      <td><code>ENVIRONMENT</code></td>
-      <td>production</td>
-      <td>실행 환경 구분</td>
-      <td>Cloud Run 직접 설정</td>
+      <td>VM 배포 후 502 / 헬스체크 실패</td>
+      <td>이미지 pull 실패 또는 .env 누락</td>
+      <td><code>sudo docker compose ps</code> + <code>logs samba-api</code> 확인. <code>/opt/samba/.env</code> 존재 여부 점검</td>
     </tr>
     <tr>
-      <td><code>WRITE_DB_HOST</code></td>
-      <td>10.X.X.X</td>
-      <td>Cloud SQL 쓰기 인스턴스 IP</td>
-      <td>GitHub Secrets</td>
+      <td>DB 연결 실패 (cloud-sql-proxy)</td>
+      <td><code>sa-key.json</code> 권한 부족 또는 누락</td>
+      <td>서비스계정에 <code>roles/cloudsql.client</code> 부여. <code>logs cloud-sql-proxy</code> 확인</td>
     </tr>
     <tr>
-      <td><code>WRITE_DB_PORT</code></td>
-      <td>5432</td>
-      <td>PostgreSQL 기본 포트</td>
-      <td>Cloud Run 직접 설정</td>
-    </tr>
-    <tr>
-      <td><code>WRITE_DB_USER</code></td>
-      <td>samba_write_user</td>
-      <td>쓰기 DB 사용자</td>
-      <td>GitHub Secrets</td>
-    </tr>
-    <tr>
-      <td><code>WRITE_DB_PASSWORD</code></td>
-      <td>(비밀번호)</td>
-      <td>쓰기 DB 비밀번호</td>
-      <td>GitHub Secrets</td>
-    </tr>
-    <tr>
-      <td><code>WRITE_DB_NAME</code></td>
-      <td>sambawave</td>
-      <td>쓰기 DB 이름</td>
-      <td>Cloud Run 직접 설정</td>
-    </tr>
-    <tr>
-      <td><code>READ_DB_HOST</code></td>
-      <td>10.X.X.X</td>
-      <td>Cloud SQL 읽기 인스턴스 IP</td>
-      <td>GitHub Secrets</td>
-    </tr>
-    <tr>
-      <td><code>READ_DB_PORT</code></td>
-      <td>5432</td>
-      <td>PostgreSQL 기본 포트</td>
-      <td>Cloud Run 직접 설정</td>
-    </tr>
-    <tr>
-      <td><code>READ_DB_USER</code></td>
-      <td>samba_read_user</td>
-      <td>읽기 DB 사용자</td>
-      <td>GitHub Secrets</td>
-    </tr>
-    <tr>
-      <td><code>READ_DB_PASSWORD</code></td>
-      <td>(비밀번호)</td>
-      <td>읽기 DB 비밀번호</td>
-      <td>GitHub Secrets</td>
-    </tr>
-    <tr>
-      <td><code>READ_DB_NAME</code></td>
-      <td>sambawave</td>
-      <td>읽기 DB 이름</td>
-      <td>Cloud Run 직접 설정</td>
-    </tr>
-    <tr>
-      <td><code>JWT_SECRET_KEY</code></td>
-      <td>(긴 랜덤 문자열)</td>
-      <td>JWT 토큰 서명 키</td>
-      <td>GitHub Secrets</td>
-    </tr>
-    <tr>
-      <td><code>CORS_EXTRA_ORIGINS</code></td>
-      <td>https://xxx.vercel.app</td>
-      <td>CORS 허용 출처</td>
-      <td>Cloud Run 직접 설정</td>
-    </tr>
-  </table>
-</div>
-
-<div class="card">
-  <h3>프론트엔드 환경변수 (Vercel)</h3>
-  <table>
-    <tr><th>변수명</th><th>예시값</th><th>설명</th></tr>
-    <tr>
-      <td><code>NEXT_PUBLIC_API_URL</code></td>
-      <td>https://samba-wave-backend-XXXX-an.a.run.app</td>
-      <td>Cloud Run 백엔드 URL</td>
-    </tr>
-  </table>
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 문제 해결 ━━━━━━━━━━━━━━━━ -->
-<h2>10. 자주 발생하는 문제</h2>
-
-<div class="card">
-  <table>
-    <tr><th>증상</th><th>원인</th><th>해결 방법</th></tr>
-    <tr>
-      <td>Cloud Run 배포 실패</td>
-      <td>Dockerfile 빌드 오류 또는 메모리 부족</td>
-      <td>Actions 로그 확인 → Docker 빌드 단계 오류 메시지 확인</td>
-    </tr>
-    <tr>
-      <td>DB 연결 실패</td>
-      <td>Secrets 값 오류 또는 Cloud SQL IP 방화벽</td>
-      <td>Cloud Run 로그 확인 → DB_HOST 값 검증</td>
+      <td>Caddy HTTPS 발급 실패</td>
+      <td>도메인 DNS A 레코드가 VM IP를 가리키지 않음</td>
+      <td>DNS 전파 확인 후 <code>docker compose restart caddy</code></td>
     </tr>
     <tr>
       <td>마이그레이션 컬럼 없음 오류</td>
       <td>배포 전 마이그레이션 미실행</td>
-      <td>alembic upgrade head 실행 후 Cloud Run 재배포</td>
+      <td><code>alembic upgrade head</code> 후 백엔드 재배포</td>
+    </tr>
+    <tr>
+      <td>Cloud Build 실패</td>
+      <td>Dockerfile 오류 / 메모리 부족</td>
+      <td>Cloud Build 콘솔 → 빌드 로그 확인</td>
     </tr>
     <tr>
       <td>CORS 에러</td>
-      <td>CORS_EXTRA_ORIGINS 미설정</td>
-      <td>Cloud Run 환경변수에 Vercel URL 추가 (https:// 포함)</td>
+      <td><code>CORS_EXTRA_ORIGINS</code> 미설정</td>
+      <td>VM <code>/opt/samba/.env</code>에 Vercel URL 추가 후 <code>restart samba-api</code></td>
     </tr>
     <tr>
       <td>Vercel 빌드 실패</td>
-      <td>TypeScript 타입 오류 또는 환경변수 누락</td>
-      <td>Vercel 대시보드 → 해당 배포 → Build Logs 확인</td>
+      <td>TypeScript 타입 오류 / 환경변수 누락</td>
+      <td>Vercel → 해당 배포 → Build Logs 확인</td>
     </tr>
     <tr>
-      <td>Cold Start 지연</td>
-      <td>Cloud Run 최소 인스턴스 0개 설정</td>
-      <td>min-instances=1 로 설정 (비용 증가 감수)</td>
+      <td>VM 디스크 가득 참</td>
+      <td>이미지 누적</td>
+      <td><code>sudo docker system prune -af</code></td>
+    </tr>
+    <tr>
+      <td>재부팅 후 스택 미기동</td>
+      <td>최초 1회는 수동 시작 필요</td>
+      <td><code>sudo systemctl start samba-stack</code></td>
     </tr>
   </table>
 </div>
 
+<div class="card card-red">
+  <h3>롤백</h3>
+  <p><strong>VM:</strong> Artifact Registry의 이전 태그(SHA)로 <code>image</code>를 변경 후 <code>docker compose up -d samba-api</code>. <code>:latest</code> 대신 특정 SHA 태그로 명시적 롤백 권장.</p>
+  <p><strong>Cloud Run:</strong> <code>gcloud run services update-traffic samba-wave-api --to-revisions=&lt;PREVIOUS&gt;=100 --region=asia-northeast3</code></p>
+  <p><strong>Vercel:</strong> Deployments 탭 → 이전 배포 ⋯ → Promote to Production (재빌드 없음)</p>
+  <p><strong>DB:</strong> <code>alembic downgrade -1</code> — 단, downgrade 함수 검증 필수. 데이터 손실 가능성 있음.</p>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ 관련 문서 ━━━━━━━━━━━━━━━━ -->
+<h2>관련 문서</h2>
+<div class="card card-blue">
+  <ul class="checklist">
+    <li><a href="install-guide.html">install-guide.html</a> — 로컬 개발 환경 설치 가이드</li>
+    <li><a href="infra-map.html">infra-map.html</a> — 인프라 전체 지도</li>
+    <li><a href="index.html">index.html</a> — 문서 목록</li>
+  </ul>
+</div>
+
 <br><br>
-<p style="color:#555; font-size:0.75rem; text-align:center;">마지막 업데이트: 2026-04-16 | SambaWave Deploy Guide — Google Cloud Run + Vercel</p>
+<p style="color:#555; font-size:0.75rem; text-align:center;">마지막 업데이트: 2026-04-25 | Cloud Build + Cloud Run / GCE VM 병행</p>
 
 </body>
 </html>

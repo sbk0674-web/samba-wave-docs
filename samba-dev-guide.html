@@ -1224,7 +1224,7 @@
           <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">Amazon</span><span class="plugin-chip-type">GL</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">Rakuten</span><span class="plugin-chip-type">JP</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">BUYMA</span><span class="plugin-chip-type">JP</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">Qoo10</span><span class="plugin-chip-type">GL</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">eBay</span><span class="plugin-chip-type">GL</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">Cafe24</span><span class="plugin-chip-type">SOL</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">PlayAuto</span><span class="plugin-chip-type">SOL</span></div>
         </div>
@@ -1236,7 +1236,7 @@
       </div>
 
       <div class="plugin-section">
-        <div class="plugin-title">소싱처 <span class="plugin-count">16개</span></div>
+        <div class="plugin-title">소싱처 <span class="plugin-count">14개</span></div>
         <div class="plugin-grid">
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">무신사</span><span class="plugin-chip-type">MUSINSA</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">KREAM</span><span class="plugin-chip-type">KREAM</span></div>
@@ -1246,14 +1246,12 @@
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">나이키</span><span class="plugin-chip-type">NIKE</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">GS샵</span><span class="plugin-chip-type">GSSHOP</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">패션플러스</span><span class="plugin-chip-type">FASHIONPLUS</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">올리브영</span><span class="plugin-chip-type">OLIVEYOUNG</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">아디다스</span><span class="plugin-chip-type">ADIDAS</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">지마켓</span><span class="plugin-chip-type">GMARKET</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">스마트스토어</span><span class="plugin-chip-type">SMARTSTORE</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">네이버스토어</span><span class="plugin-chip-type">NAVERSTORE</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">그랜드스테이지</span><span class="plugin-chip-type">GRANDSTAGE</span></div>
           <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">다나와</span><span class="plugin-chip-type">DANAWA</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">올리브영</span><span class="plugin-chip-type">OLIVEYOUNG</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">아디다스</span><span class="plugin-chip-type">ADIDAS</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">11번가</span><span class="plugin-chip-type">ELEVENST</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">쿠팡</span><span class="plugin-chip-type">COUPANG</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">스텁(예비)</span><span class="plugin-chip-type">_STUB</span></div>
         </div>
         <p style="font-size:0.75rem;color:var(--text-dim);margin-top:0.75rem;">소싱처 <code>site_name</code>은 반드시 <strong>대문자</strong>로 작성</p>
       </div>
@@ -1277,7 +1275,7 @@
 <span class="kw">policy/</span>        <span class="cm"># 가격 정책 + 상세 템플릿 + 네이밍 규칙</span>
 <span class="kw">category/</span>      <span class="cm"># 카테고리 매핑 (AI 벌크 매핑 포함)</span>
 <span class="kw">shipment/</span>      <span class="cm"># 마켓 전송 + 삭제 관리</span>
-<span class="kw">plugins/</span>       <span class="cm"># 마켓(17) + 소싱(16) 플러그인</span>
+<span class="kw">plugins/</span>       <span class="cm"># 마켓(17) + 소싱(14) 플러그인</span>
 
 <span class="cm">## 운영 도메인</span>
 <span class="kw">order/</span>         <span class="cm"># 주문 관리 + 클레임 감지</span>
@@ -1332,11 +1330,13 @@
         </div>
         <div class="stack-group">
           <div class="stack-group-title" style="color:var(--green)">Infrastructure</div>
-          <div class="stack-item"><span class="stack-item-name">Google Cloud Run</span><span class="stack-item-version">Backend Deploy</span></div>
+          <div class="stack-item"><span class="stack-item-name">Google Cloud Run</span><span class="stack-item-version">현행 백엔드 (legacy)</span></div>
+          <div class="stack-item"><span class="stack-item-name">GCE VM (e2-small)</span><span class="stack-item-version">신규 백엔드 (전환중)</span></div>
           <div class="stack-item"><span class="stack-item-name">Vercel</span><span class="stack-item-version">Frontend Deploy</span></div>
-          <div class="stack-item"><span class="stack-item-name">Cloud SQL (PostgreSQL)</span><span class="stack-item-version">R/W 2개 분리</span></div>
+          <div class="stack-item"><span class="stack-item-name">Cloud SQL (PostgreSQL)</span><span class="stack-item-version">R/W 2개 + Auth Proxy</span></div>
           <div class="stack-item"><span class="stack-item-name">Cloudflare R2</span><span class="stack-item-version">Image Storage</span></div>
-          <div class="stack-item"><span class="stack-item-name">GitHub Actions</span><span class="stack-item-version">CI/CD</span></div>
+          <div class="stack-item"><span class="stack-item-name">Cloud Build</span><span class="stack-item-version">main 푸시 자동 빌드</span></div>
+          <div class="stack-item"><span class="stack-item-name">deploy-vm.yml</span><span class="stack-item-version">VM 수동 트리거</span></div>
         </div>
         <div class="stack-group">
           <div class="stack-group-title" style="color:var(--purple)">Tools</div>
@@ -1396,7 +1396,7 @@
     </section>
 
     <footer>
-      SambaWave Developer Guide v2.0 &mdash; Last updated 2026-04-16
+      SambaWave Developer Guide v2.1 &mdash; Last updated 2026-04-25
     </footer>
 
   </main>

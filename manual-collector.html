@@ -252,7 +252,7 @@
     <h2>1. 소싱처 선택</h2>
     <p>상품수집 페이지 상단에 소싱처 버튼이 나열되어 있습니다. 원하는 소싱처를 클릭하여 해당 사이트의 상품을 수집할 수 있습니다.</p>
 
-    <h3>지원 소싱처 목록 (16개)</h3>
+    <h3>지원 소싱처 목록 (14개)</h3>
     <ul>
       <li><strong>무신사 (MUSINSA)</strong> — 국내 패션 플랫폼, 의류/신발/액세서리</li>
       <li><strong>KREAM</strong> — 한정판 스니커즈/리셀 플랫폼 (확장앱 큐 방식)</li>
@@ -263,14 +263,22 @@
       <li><strong>SSG (신세계몰)</strong> — 종합 쇼핑몰</li>
       <li><strong>롯데ON</strong> — 종합 쇼핑몰</li>
       <li><strong>G마켓</strong> — 오픈마켓 소싱</li>
-      <li><strong>스마트스토어</strong> — 네이버 스마트스토어 소싱</li>
-      <li><strong>네이버스토어</strong> — 네이버 브랜드스토어/네이버스토어 소싱</li>
+      <li><strong>네이버스토어</strong> — 네이버 브랜드스토어/스마트스토어 통합 소싱</li>
       <li><strong>GS샵</strong> — 홈쇼핑 소싱</li>
-      <li><strong>패션플러스</strong> — 패션 전문 소싱처</li>
+      <li><strong>패션플러스</strong> — 패션 전문 소싱처 (검색 API + 상세 HTML, 배송비 원가 가산)</li>
       <li><strong>그랜드스테이지</strong> — 패션 전문 소싱처</li>
       <li><strong>다나와</strong> — 전자제품 가격비교 사이트</li>
-      <li><strong>Stub</strong> — 개발/테스트 전용 소싱처</li>
     </ul>
+
+    <div class="tip-box">
+      <strong>TIP — 1상품 URL 직접 수집</strong>
+      검색 결과 페이지가 아닌 단일 상품 상세 페이지 URL을 붙여 넣으면 검색 API를 스킵하고 detail API를 직접 호출하여 빠르게 수집합니다 (1상품 수집 모드).
+    </div>
+
+    <div class="tip-box">
+      <strong>TIP — 요청상품수 정책</strong>
+      요청상품수 입력값과 무관하게 내부 큐는 <code>FIXED_REQUESTED_COUNT=1000</code> 단위로 페이지를 요청합니다. 수집 요청 수를 1000으로 강제하여 서버 부하/속도를 일관되게 유지합니다.
+    </div>
 
     <div style="background:#111;border:1px solid #2D2D2D;border-radius:8px;padding:1rem;margin:16px 0">
       <div style="font-size:11px;color:#666;margin-bottom:8px">소싱처 선택</div>

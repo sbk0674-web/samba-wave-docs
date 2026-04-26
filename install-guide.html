@@ -449,7 +449,7 @@
       <span class="req-icon">&#9729;</span>
       <div>
         <div class="req-name">GCP 계정</div>
-        <div class="req-ver">Cloud Run + Cloud SQL + Cloud Build</div>
+        <div class="req-ver">GCE VM + Cloud SQL + Artifact Registry</div>
       </div>
     </div>
     <div class="req-item">
@@ -939,20 +939,20 @@ cp .env.example .env.local</code></pre>
     </li>
     <li>
       <div>
-        <strong>Cloud Run 서비스 생성</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">백엔드 컨테이너를 Cloud Run에 배포합니다. 메모리 2Gi 이상 권장.</span>
+        <strong>GCE VM 설정 및 배포</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GCP에서 e2-medium VM(Ubuntu 22.04)을 생성하고 Docker + docker-compose를 설치합니다. <code>/opt/samba/.env</code>와 <code>sa-key.json</code>을 VM에 업로드한 뒤 <code>bash deploy/deploy.sh</code>로 첫 배포를 실행합니다.</span>
       </div>
     </li>
     <li>
       <div>
         <strong>Vercel 프론트엔드 연결</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">GitHub 저장소를 Vercel에 연결하고 <code>NEXT_PUBLIC_API_URL</code>을 Cloud Run URL로 설정합니다. main 브랜치 push 시 Vercel이 자동 배포합니다.</span>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GitHub 저장소를 Vercel에 연결하고 <code>NEXT_PUBLIC_API_URL</code>을 VM API 도메인(예: <code>https://api.yourdomain.com</code>)으로 설정합니다. main 브랜치 push 시 Vercel이 자동 배포합니다.</span>
       </div>
     </li>
     <li>
       <div>
-        <strong>Cloud Build 자동 배포 확인</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;"><code>main</code> 브랜치에 push하면 Cloud Build가 자동으로 백엔드 이미지 빌드·Cloud Run 배포를 진행합니다. 완료까지 약 3~5분 소요.</span>
+        <strong>백엔드 배포 (수동)</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">백엔드 변경 후 로컬에서 <code>bash deploy/deploy.sh</code>를 실행합니다. Docker 빌드 → Artifact Registry push → VM Blue/Green 무중단 배포가 자동 진행됩니다. 완료까지 약 3~5분 소요.</span>
       </div>
     </li>
     <li>
@@ -981,7 +981,7 @@ cp .env.example .env.local</code></pre>
     </li>
   </ol>
 
-  <div class="warn"><strong>배포 순서 필수 준수:</strong> DB 마이그레이션 → 백엔드(Cloud Build) → 프론트엔드(Vercel) 순서를 반드시 지키세요. 역순 배포 시 서비스 장애가 발생합니다.</div>
+  <div class="warn"><strong>배포 순서 필수 준수:</strong> DB 마이그레이션(alembic) → 백엔드(deploy.sh) → 프론트엔드(Vercel) 순서를 반드시 지키세요. 역순 배포 시 서비스 장애가 발생합니다.</div>
 </div>
 
 

@@ -4,733 +4,622 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>삼바웨이브 배포 가이드</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #06060a;
-    --bg-card: #0e0e14;
-    --border: #1a1a24;
-    --text: #e4e4ec;
-    --text-muted: #7a7a94;
-    --accent: #ff8c00;
-    --green: #3ecf8e;
-    --blue: #5c9aff;
-    --purple: #a78bfa;
-    --pink: #f472b6;
-    --red: #ff6b6b;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-    padding: 2rem;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
-  h2 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); }
-  h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--text); }
-  p, li { color: var(--text-muted); font-size: 0.9rem; }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .back { display: inline-block; margin-bottom: 1.5rem; font-size: 0.85rem; }
-
-  /* 스텝 헤더 */
-  .step-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin: 2.5rem 0 1rem;
-  }
-  .step-num {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 800;
-    flex-shrink: 0;
-  }
-  .step-header h2 { margin: 0; color: var(--text); font-size: 1.2rem; }
-
-  /* 카드 */
-  .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin: 1rem 0;
-  }
-  .card-green { border-left: 3px solid var(--green); }
-  .card-blue { border-left: 3px solid var(--blue); }
-  .card-orange { border-left: 3px solid var(--accent); }
-  .card-red { border-left: 3px solid var(--red); }
-  .card-purple { border-left: 3px solid var(--purple); }
-
-  /* 코드 블록 */
-  .code-block {
-    background: #0a0a10;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
-    line-height: 1.8;
-    overflow-x: auto;
-    margin: 0.75rem 0;
-    color: #c9d1d9;
-  }
-  .code-block .comment { color: #555; }
-  .code-block .key { color: var(--blue); }
-  .code-block .val { color: var(--green); }
-  .code-block .cmd { color: var(--accent); }
-  .code-block .string { color: #f5c518; }
-
-  /* 체크리스트 */
-  .checklist { list-style: none; padding: 0; margin: 0.75rem 0; }
-  .checklist li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.9rem;
-    color: var(--text-muted);
-  }
-  .checklist li:last-child { border-bottom: none; }
-  .checklist li::before {
-    content: "☐";
-    color: var(--accent);
-    font-size: 1rem;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  /* 노트 */
-  .note { background: rgba(255,140,0,0.06); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.85rem; color: var(--text-muted); }
-  .note-red { background: rgba(255,107,107,0.06); border-left: 3px solid var(--red); padding: 0.75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.85rem; color: var(--text-muted); }
-  .note-green { background: rgba(62,207,142,0.06); border-left: 3px solid var(--green); padding: 0.75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.85rem; color: var(--text-muted); }
-
-  /* 테이블 */
-  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
-  th { background: rgba(255,140,0,0.08); color: var(--accent); text-align: left; padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
-  td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-muted); }
-  td:first-child { color: var(--text); font-weight: 500; }
-  td code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; color: var(--blue); }
-
-  /* 구조 개요 그리드 */
-  .arch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0; }
-  .arch-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.25rem;
-    text-align: center;
-  }
-  .arch-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
-  .arch-card .title { font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
-  .arch-card .sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; }
-  .arch-card .badge {
-    display: inline-block;
-    padding: 0.2rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.78rem;
-    font-weight: 600;
-  }
-  .badge-orange { background: rgba(255,140,0,0.15); color: var(--accent); border: 1px solid rgba(255,140,0,0.3); }
-  .badge-green { background: rgba(62,207,142,0.15); color: var(--green); border: 1px solid rgba(62,207,142,0.3); }
-  .badge-red { background: rgba(255,107,107,0.15); color: var(--red); border: 1px solid rgba(255,107,107,0.3); }
-
-  /* 플로우 */
-  .flow-row { display: flex; align-items: center; gap: 0.5rem; margin: 0.75rem 0; flex-wrap: wrap; }
-  .flow-box { padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600; white-space: nowrap; }
-  .flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
-  .fb-github { background: rgba(255,255,255,0.07); border: 1px solid #444; color: #e4e4ec; }
-  .fb-actions { background: rgba(92,154,255,0.15); border: 1px solid rgba(92,154,255,0.3); color: var(--blue); }
-  .fb-docker { background: rgba(92,154,255,0.1); border: 1px solid rgba(92,154,255,0.2); color: var(--blue); }
-  .fb-cloudrun { background: rgba(62,207,142,0.15); border: 1px solid rgba(62,207,142,0.3); color: var(--green); }
-  .fb-vercel { background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3); color: var(--accent); }
-  .fb-db { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--red); }
-  .fb-vm { background: rgba(167,139,250,0.15); border: 1px solid rgba(167,139,250,0.3); color: var(--purple); }
-
-  .emoji { font-size: 1.2rem; }
-  .tag-required { display: inline-block; background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--red); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
-  .tag-auto { display: inline-block; background: rgba(62,207,142,0.15); border: 1px solid rgba(62,207,142,0.3); color: var(--green); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
-  .tag-new { display: inline-block; background: rgba(167,139,250,0.15); border: 1px solid rgba(167,139,250,0.3); color: var(--purple); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
-  .tag-legacy { display: inline-block; background: rgba(122,122,148,0.15); border: 1px solid rgba(122,122,148,0.3); color: var(--text-muted); font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
-</style>
 </head>
-<body>
+<body style="margin:0; padding:0; background:#F5F5F5; font-family:'Malgun Gothic','맑은 고딕',sans-serif; color:#333; line-height:1.8;">
 
-<a href="index.html" class="back">&larr; 문서 목록으로</a>
-
-<h1><span class="emoji">🚀</span> 삼바웨이브 배포 가이드</h1>
-<p>Vercel(프론트) + Cloud Run / GCE VM(백엔드) + Cloud SQL + R2 — 프로덕션 배포 절차</p>
-
-<div class="note">
-  <strong>현재 전환기:</strong> 백엔드는 Cloud Run(legacy)와 GCE VM(신규)이 <strong>병행 운영</strong> 중입니다. 신규 트래픽은 <code style="font-family:monospace;color:var(--purple)">api.samba-wave.co.kr</code> (VM)로 이전하고, 안정화 후 Cloud Run을 단계적으로 정리합니다. 인프라 전체 그림은 <a href="infra-map.html">infra-map.html</a> 참고.
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 1. 배포 구조 개요 ━━━━━━━━━━━━━━━━ -->
-<h2>1. 배포 구조 개요</h2>
-
-<div class="arch-grid">
-  <div class="arch-card">
-    <div class="icon">▲</div>
-    <div class="title">프론트엔드</div>
-    <div class="sub">Next.js 15 · App Router</div>
-    <div class="badge badge-orange">Vercel (자동배포)</div>
-  </div>
-  <div class="arch-card">
-    <div class="icon">🖥️</div>
-    <div class="title">백엔드 (신규)</div>
-    <div class="sub">GCE e2-small · docker compose</div>
-    <div class="badge" style="background:rgba(167,139,250,0.15);color:var(--purple);border:1px solid rgba(167,139,250,0.3);padding:0.2rem 0.75rem;border-radius:20px;font-size:0.78rem;font-weight:600;">samba-wave-vm</div>
-  </div>
-  <div class="arch-card">
-    <div class="icon">☁️</div>
-    <div class="title">백엔드 (legacy)</div>
-    <div class="sub">FastAPI · Cloud Run 2Gi</div>
-    <div class="badge badge-green">Cloud Run (병행)</div>
-  </div>
-  <div class="arch-card">
-    <div class="icon">🗄️</div>
-    <div class="title">데이터베이스</div>
-    <div class="sub">PostgreSQL · Cloud SQL Auth Proxy</div>
-    <div class="badge badge-red">Cloud SQL</div>
-  </div>
-  <div class="arch-card">
-    <div class="icon">📦</div>
-    <div class="title">파일 스토리지</div>
-    <div class="sub">상품 이미지 / 자산</div>
-    <div class="badge badge-orange">Cloudflare R2</div>
-  </div>
-  <div class="arch-card">
-    <div class="icon">🐳</div>
-    <div class="title">이미지 레지스트리</div>
-    <div class="sub">Artifact Registry · asia-northeast3</div>
-    <div class="badge badge-green">cloud-run-source-deploy</div>
+<!-- 헤더 -->
+<div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); padding:48px 20px; text-align:center;">
+  <div style="max-width:720px; margin:0 auto;">
+    <div style="font-size:14px; color:#e94560; font-weight:700; letter-spacing:3px; margin-bottom:12px;">SAMBA WAVE</div>
+    <h1 style="margin:0 0 16px; font-size:32px; color:#fff; font-weight:800;">무재고 위탁판매 솔루션<br>배포 가이드</h1>
+    <p style="margin:0; font-size:15px; color:rgba(255,255,255,0.6);">Google Cloud (GCE VM + Cloud SQL) + Vercel 기반 프로덕션 배포</p>
+    <div style="margin-top:16px; display:inline-block; background:rgba(233,69,96,0.15); border:1px solid rgba(233,69,96,0.4); border-radius:8px; padding:8px 20px; font-size:13px; color:#e94560;">
+      ⚙️ 이 가이드는 실제 운영 중인 동일한 인프라 기준입니다
+    </div>
   </div>
 </div>
 
-<div class="card card-purple">
-  <h3>비용 목표</h3>
-  <p style="color:var(--text);">Cloud Run 월 <strong>₩40만</strong> → GCE VM 월 <strong>₩10만</strong> 으로 약 75% 절감. e2-small + Cloud SQL Auth Proxy 사이드카로 VPC Connector 비용 제거.</p>
-</div>
+<!-- 본문 컨테이너 -->
+<div style="max-width:720px; margin:0 auto; padding:32px 20px;">
 
-<div class="note">
-  <strong>배포 순서 원칙 [최우선]:</strong> 반드시 <strong>① DB 마이그레이션 → ② 백엔드 → ③ 프론트엔드(Vercel)</strong> 순. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.
-</div>
+  <!-- 전체 구조 -->
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">🏗️ 인프라 구조</h2>
+    <p style="margin:0 0 20px; font-size:14px; color:#888;">4개 컴포넌트가 다음 순서로 연결됩니다.</p>
 
-<!-- ━━━━━━━━━━━━━━━━ 2. 배포 경로 3종 ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">1</div>
-  <h2>배포 경로 3종 (백엔드)</h2>
-</div>
+    <!-- 인프라 도식 -->
+    <div style="background:#0f0f1a; border-radius:12px; padding:24px; color:#e0e0f0; font-family:'Courier New',monospace; font-size:13px; line-height:2.2;">
+      <!-- 사용자 -->
+      <div style="text-align:center; margin-bottom:8px;">
+        <span style="background:#2a2a42; border:1px solid #3a3a5a; border-radius:8px; padding:6px 20px; color:#aaaacc;">👤 사용자 브라우저</span>
+      </div>
+      <div style="text-align:center; color:#4facfe; margin:4px 0;">↓ HTTPS</div>
 
-<p>현재 백엔드 배포는 다음 3가지 경로로 운영됩니다. GitHub Actions의 <code>push</code> 트리거는 <strong>비활성화</strong>되어 있고, <code>workflow_dispatch</code> 수동 트리거만 살아 있습니다.</p>
+      <!-- Vercel -->
+      <div style="text-align:center; margin-bottom:4px;">
+        <span style="background:rgba(100,116,255,0.15); border:1px solid rgba(100,116,255,0.4); border-radius:8px; padding:6px 20px; color:#a0a8ff;">
+          🖥️ Vercel — 프론트엔드 (Next.js 15)<br>
+          <span style="font-size:11px; color:#7070aa;">push 시 자동 배포 · 무료</span>
+        </span>
+      </div>
+      <div style="text-align:center; color:#4facfe; margin:4px 0;">↓ API 호출 (HTTPS)</div>
 
-<div class="card card-green">
-  <h3>(a) Cloud Build 자동 트리거 <span class="tag-legacy">legacy</span></h3>
-  <div class="flow-row">
-    <span class="flow-box fb-github">git push main</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-actions">Cloud Build 트리거</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-docker">Artifact Registry</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-cloudrun">Cloud Run 새 revision</span>
+      <!-- GCE VM -->
+      <div style="border:2px solid rgba(249,115,22,0.4); border-radius:12px; padding:16px; margin:4px 0; background:rgba(249,115,22,0.05);">
+        <div style="text-align:center; color:#fb923c; font-weight:700; margin-bottom:12px;">☁️ GCE VM (Google Compute Engine)</div>
+        <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+          <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:8px 14px; text-align:center;">
+            <div style="color:#4ade80; font-size:12px;">Caddy</div>
+            <div style="color:#555; font-size:10px;">HTTPS 자동화</div>
+          </div>
+          <div style="color:#555; display:flex; align-items:center;">→</div>
+          <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:8px 14px; text-align:center;">
+            <div style="color:#4facfe; font-size:12px;">samba-api</div>
+            <div style="color:#555; font-size:10px;">FastAPI (포트 8080)</div>
+          </div>
+          <div style="color:#555; display:flex; align-items:center;">→</div>
+          <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:8px 14px; text-align:center;">
+            <div style="color:#f472b6; font-size:12px;">cloud-sql-proxy</div>
+            <div style="color:#555; font-size:10px;">DB 터널</div>
+          </div>
+        </div>
+        <div style="text-align:center; margin-top:8px;">
+          <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:6px 14px; display:inline-block; color:#a78bfa; font-size:12px;">+ samba-bg-worker (배경제거 워커)</div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin:4px 8px;">
+        <div style="color:#4facfe;">↓ 이미지 pull</div>
+        <div style="color:#4facfe;">↓ Cloud SQL 연결</div>
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <!-- Artifact Registry -->
+        <div style="flex:1; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.3); border-radius:8px; padding:12px; text-align:center;">
+          <div style="color:#60a5fa; font-weight:700; font-size:12px;">📦 Artifact Registry</div>
+          <div style="color:#555; font-size:11px; margin-top:4px;">Docker 이미지 저장<br>asia-northeast3</div>
+        </div>
+        <!-- Cloud SQL -->
+        <div style="flex:1; background:rgba(52,211,153,0.08); border:1px solid rgba(52,211,153,0.3); border-radius:8px; padding:12px; text-align:center;">
+          <div style="color:#34d399; font-weight:700; font-size:12px;">🗄️ Cloud SQL</div>
+          <div style="color:#555; font-size:11px; margin-top:4px;">PostgreSQL 14<br>asia-northeast3</div>
+        </div>
+      </div>
+
+      <!-- 로컬 deploy -->
+      <div style="margin-top:16px; border-top:1px dashed #333; padding-top:12px; text-align:center;">
+        <span style="color:#fbbf24; font-size:12px;">💻 로컬 PC →  <code style="background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:4px;">bash deploy/deploy.sh</code>  → Docker build → AR push → VM 무중단 배포</span>
+      </div>
+    </div>
   </div>
-  <p>main 브랜치 push 시 Cloud Build가 자동으로 빌드 → Cloud Run에 새 revision을 띄웁니다. <strong>현재 병행 운영 중이며 VM 전환 안정화 후 비활성화 예정</strong>입니다.</p>
-</div>
 
-<div class="card card-purple">
-  <h3>(b) GCE VM 배포 — <code>deploy-vm.yml</code> 수동 트리거 <span class="tag-new">신규</span></h3>
-  <div class="flow-row">
-    <span class="flow-box fb-github">workflow_dispatch</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-docker">Docker 빌드/푸시</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-vm">SSH → VM</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-vm">docker compose pull/up</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-cloudrun">헬스체크</span>
+  <!-- 준비물 -->
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">📋 시작 전 준비물</h2>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
+        <span style="font-size:20px;">✅</span>
+        <span style="font-size:14px;"><b>Google Cloud 계정</b> — cloud.google.com (결제 수단 등록 필요)</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
+        <span style="font-size:20px;">✅</span>
+        <span style="font-size:14px;"><b>gcloud CLI</b> — cloud.google.com/sdk 설치</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
+        <span style="font-size:20px;">✅</span>
+        <span style="font-size:14px;"><b>Docker Desktop</b> — docker.com/products/docker-desktop (로컬 빌드용)</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
+        <span style="font-size:20px;">✅</span>
+        <span style="font-size:14px;"><b>Vercel 계정</b> — vercel.com (GitHub 연동, 무료)</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
+        <span style="font-size:20px;">✅</span>
+        <span style="font-size:14px;"><b>도메인</b> — API 서버 주소로 사용할 도메인 (예: api.yourdomain.com)</span>
+      </div>
+    </div>
+    <div style="background:#fff3cd; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#856404;">
+      💰 <b>예상 월 비용:</b> GCE VM e2-medium ~$24 + Cloud SQL db-f1-micro ~$7 + Artifact Registry ~$1 = 약 <b>$32/월</b>
+    </div>
   </div>
-  <p>GitHub Actions <code>Deploy to GCE VM</code> 워크플로우를 <strong>수동으로</strong> 실행합니다. push 트리거 없음 — 모바일 등 PC 접속 불가 상황 또는 협업자 트리거용.</p>
-</div>
 
-<div class="card card-orange">
-  <h3>(c) 로컬 수동 배포 — <code>scripts/deploy-cloudrun.sh</code></h3>
-  <p>본인 로컬에서 직접 빌드 → Cloud Run 배포. 긴급 패치 또는 GitHub Actions 미가용 시 사용. VM 배포는 <code>gcloud compute ssh samba-wave-vm</code>로 접속해 <code>sudo docker compose pull/up -d samba-api</code>를 직접 실행해도 됩니다.</p>
-</div>
-
-<div class="note-red">
-  <strong>주의:</strong> <code>git push origin main</code>은 <strong>Vercel(프론트) + Cloud Build(백엔드 legacy)</strong>만 자동 트리거합니다. VM에는 자동 반영되지 않으니 <code>deploy-vm.yml</code>을 수동 실행하거나 SSH로 직접 pull 해야 합니다.
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 3. 사전 준비 ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">2</div>
-  <h2>사전 준비</h2>
-</div>
-
-<div class="card card-blue">
-  <h3>필요한 계정 및 도구</h3>
-  <ul class="checklist">
-    <li>GCP 계정 — 결제 수단 등록 필수, 프로젝트 ID <code style="font-family:monospace;color:var(--blue)">fresh-sanctuary-489804-v4</code></li>
-    <li>GitHub 계정 — samba-wave 리포지토리 push 권한</li>
-    <li>Vercel 계정 — vercel.com에서 GitHub으로 로그인</li>
-    <li>gcloud CLI 설치 — <code style="font-family:monospace;color:var(--blue)">https://cloud.google.com/sdk/docs/install</code></li>
-    <li>Docker Desktop (로컬 빌드 테스트용)</li>
-    <li>uv — Python 패키지 관리자 <code style="font-family:monospace;color:var(--blue)">pip install uv</code></li>
-    <li>SSH 키 — VM 접속용 (deploy-vm.yml 시크릿에 등록)</li>
-  </ul>
-</div>
-
-<div class="card card-blue">
-  <h3>GCP 초기 설정 (최초 1회)</h3>
-  <div class="code-block">
-<span class="comment"># GCP 로그인 및 프로젝트 설정</span>
-<span class="cmd">gcloud auth login</span>
-<span class="cmd">gcloud config set project</span> <span class="val">fresh-sanctuary-489804-v4</span>
-
-<span class="comment"># 필요한 API 활성화</span>
-<span class="cmd">gcloud services enable</span> <span class="val">run.googleapis.com</span> \
-  <span class="val">sqladmin.googleapis.com</span> \
-  <span class="val">artifactregistry.googleapis.com</span> \
-  <span class="val">secretmanager.googleapis.com</span> \
-  <span class="val">compute.googleapis.com</span>          <span class="comment"># VM 신규</span>
-
-<span class="comment"># Artifact Registry 저장소 (이미 존재: cloud-run-source-deploy)</span>
-<span class="cmd">gcloud artifacts repositories list</span> --location=asia-northeast3</div>
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 4. Cloud SQL 설정 ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">3</div>
-  <h2>Cloud SQL 설정 (Cloud SQL Auth Proxy 사용)</h2>
-</div>
-
-<div class="note-red">
-  <strong>중요:</strong> Cloud SQL은 <strong>퍼블릭 IP 직접 연결 금지</strong>. 반드시 <strong>Cloud SQL Auth Proxy</strong>를 통해 접근합니다. VM에서는 <code>cloud-sql-proxy</code> 컨테이너가 사이드카로 동작하며, 앱 컨테이너는 컨테이너명(<code>cloud-sql-proxy</code>)을 host로 지정합니다.
-</div>
-
-<div class="card card-red">
-  <h3>인스턴스 정보</h3>
-  <table>
-    <tr><th>항목</th><th>값</th></tr>
-    <tr><td>인스턴스 연결명</td><td><code>fresh-sanctuary-489804-v4:asia-northeast3:samba-wave-db</code></td></tr>
-    <tr><td>DB 이름</td><td><code>railway</code></td></tr>
-    <tr><td>사용자</td><td><code>postgres</code></td></tr>
-    <tr><td>VM 내 host</td><td><code>cloud-sql-proxy</code> (docker compose 서비스명)</td></tr>
-    <tr><td>포트</td><td><code>5432</code></td></tr>
-    <tr><td>DB_SSL_REQUIRED</td><td><code>false</code> (Proxy 사용 시)</td></tr>
-  </table>
-</div>
-
-<div class="card card-red">
-  <h3>로컬에서 마이그레이션할 때 — Cloud SQL Auth Proxy</h3>
-  <div class="code-block">
-<span class="comment"># Auth Proxy 다운로드 후 실행 (Windows)</span>
-<span class="cmd">cloud-sql-proxy.exe</span> <span class="val">fresh-sanctuary-489804-v4:asia-northeast3:samba-wave-db</span>
-
-<span class="comment"># 환경변수 (예시)</span>
-<span class="cmd">set</span> WRITE_DB_HOST=127.0.0.1
-<span class="cmd">set</span> WRITE_DB_PORT=5432
-<span class="cmd">set</span> WRITE_DB_NAME=railway
-<span class="cmd">set</span> WRITE_DB_USER=postgres
-<span class="cmd">set</span> WRITE_DB_PASSWORD=<span class="string">YOUR_PASSWORD</span>
-
-<span class="cmd">cd</span> backend && <span class="cmd">alembic upgrade head</span></div>
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 5. GitHub Secrets ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">4</div>
-  <h2>GitHub Secrets 등록</h2>
-</div>
-
-<p>리포지토리 → Settings → Secrets and variables → Actions에서 등록합니다. <strong>VM 워크플로우(<code>deploy-vm.yml</code>) 기준</strong>으로 갱신되었습니다.</p>
-
-<div class="card card-purple">
-  <table>
-    <tr><th>Secret 이름</th><th>용도</th><th>설명</th></tr>
-    <tr>
-      <td><code>GCP_SA_KEY</code> <span class="tag-required">필수</span></td>
-      <td>GCP 서비스 계정 JSON</td>
-      <td>Artifact Registry 빌드/푸시, gcloud 인증</td>
-    </tr>
-    <tr>
-      <td><code>VM_SSH_PRIVATE_KEY</code> <span class="tag-required">필수</span></td>
-      <td>SSH 개인키</td>
-      <td>Actions → VM SSH 접속용 (대응되는 공개키는 VM <code>~/.ssh/authorized_keys</code>에 등록)</td>
-    </tr>
-    <tr>
-      <td><code>VM_HOST</code> <span class="tag-required">필수</span></td>
-      <td>VM 도메인/IP</td>
-      <td><code>api.samba-wave.co.kr</code> 또는 외부 IP</td>
-    </tr>
-    <tr>
-      <td><code>VM_USER</code> <span class="tag-required">필수</span></td>
-      <td>SSH 사용자명</td>
-      <td>일반적으로 <code>ubuntu</code></td>
-    </tr>
-    <tr>
-      <td><code>KAKAO_API_KEY</code></td>
-      <td>카카오 알림</td>
-      <td>배포 성공/실패 카톡 전송 (선택)</td>
-    </tr>
-    <tr>
-      <td><code>KAKAO_REFRESH_TOKEN</code></td>
-      <td>카카오 알림</td>
-      <td>액세스 토큰 갱신 (선택)</td>
-    </tr>
-  </table>
-</div>
-
-<div class="note">
-  Cloud Build (legacy) 경로는 별도 시크릿이 필요 없습니다. Cloud Build가 GCP 내부에서 직접 인증하기 때문. <code>WRITE_DB_*</code> 등 런타임 시크릿은 <strong>Secret Manager</strong>에 보관하고 Cloud Run 환경변수로 주입합니다.
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 6. GCE VM 배포 (NEW) ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">5</div>
-  <h2>GCE VM 배포 <span class="tag-new">신규</span></h2>
-</div>
-
-<div class="card card-purple">
-  <h3>스택 구성</h3>
-  <div class="flow-row">
-    <span class="flow-box fb-github">Internet</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-cloudrun">Caddy (HTTPS, Let's Encrypt 자동)</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-docker">samba-api (FastAPI:8080)</span>
-    <span class="flow-arrow">→</span>
-    <span class="flow-box fb-db">cloud-sql-proxy → Cloud SQL</span>
+  <!-- STEP 1 -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+    <div style="width:48px; height:48px; background:#e94560; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">1</div>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">Google Cloud 프로젝트 설정</h2>
   </div>
-  <p>도메인: <code style="font-family:monospace;color:var(--purple)">api.samba-wave.co.kr</code> · 인스턴스: <code>samba-wave-vm</code> (asia-northeast3-a, e2-small) · OS: Ubuntu 24.04 LTS · 디스크: 30GB pd-balanced</p>
-</div>
 
-<div class="card card-purple">
-  <h3>Phase 1 — VM 생성</h3>
-  <div class="code-block">
-<span class="cmd">gcloud compute instances create</span> <span class="val">samba-wave-vm</span> \
-  --project=fresh-sanctuary-489804-v4 \
-  --zone=asia-northeast3-a \
-  --machine-type=e2-small \
-  --image-family=ubuntu-2404-lts-amd64 \
-  --image-project=ubuntu-os-cloud \
-  --boot-disk-size=30GB --boot-disk-type=pd-balanced \
-  --tags=http-server,https-server \
-  --metadata-from-file=startup-script=deploy/vm/startup.sh \
-  --service-account=github-deploy@fresh-sanctuary-489804-v4.iam.gserviceaccount.com \
-  --scopes=cloud-platform
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
 
-<span class="comment"># 방화벽 (포트 80/443)</span>
-<span class="cmd">gcloud compute firewall-rules create</span> <span class="val">allow-http-https</span> \
-  --direction=INGRESS --action=ALLOW \
-  --rules=tcp:80,tcp:443 --source-ranges=0.0.0.0/0 \
-  --target-tags=http-server,https-server</div>
-  <p><code>startup.sh</code>가 Docker, gcloud CLI, Artifact Registry 인증, <code>samba-stack.service</code> systemd 유닛을 자동 설정합니다.</p>
-</div>
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
+      <div>
+        <b style="font-size:15px;">GCP 프로젝트 생성</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">console.cloud.google.com → 프로젝트 선택 → 새 프로젝트. 프로젝트 ID를 기록해두세요.</div>
+      </div>
+    </div>
 
-<div class="card card-purple">
-  <h3>Phase 2 — Cloud SQL 서비스 계정 키 + 파일 업로드</h3>
-  <div class="code-block">
-<span class="comment"># Cloud SQL 접근용 서비스계정 + 키</span>
-<span class="cmd">gcloud iam service-accounts create</span> <span class="val">samba-vm-sql</span> \
-  --project=fresh-sanctuary-489804-v4
-<span class="cmd">gcloud projects add-iam-policy-binding</span> fresh-sanctuary-489804-v4 \
-  --member=serviceAccount:samba-vm-sql@fresh-sanctuary-489804-v4.iam.gserviceaccount.com \
-  --role=roles/cloudsql.client
-<span class="cmd">gcloud iam service-accounts keys create</span> <span class="val">sa-key.json</span> \
-  --iam-account=samba-vm-sql@fresh-sanctuary-489804-v4.iam.gserviceaccount.com
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
+      <div>
+        <b style="font-size:15px;">필요한 API 활성화</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">터미널에서 실행:</div>
+      </div>
+    </div>
 
-<span class="comment"># VM에 docker-compose / Caddyfile / sa-key.json 업로드</span>
-<span class="cmd">gcloud compute scp</span> deploy/vm/docker-compose.yml deploy/vm/Caddyfile sa-key.json \
-  samba-wave-vm:/tmp --zone=asia-northeast3-a
-<span class="cmd">gcloud compute ssh</span> samba-wave-vm --zone=asia-northeast3-a \
-  --command='sudo mv /tmp/{docker-compose.yml,Caddyfile,sa-key.json} /opt/samba/'</div>
-</div>
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
+      <span style="color:#888;"># gcloud 초기화 (최초 1회)</span><br>
+      <span style="color:#e94560;">gcloud</span> auth login<br>
+      <span style="color:#e94560;">gcloud</span> config set project <span style="color:#00f2fe;">YOUR_PROJECT_ID</span><br><br>
+      <span style="color:#888;"># API 활성화</span><br>
+      <span style="color:#e94560;">gcloud</span> services enable compute.googleapis.com<br>
+      <span style="color:#e94560;">gcloud</span> services enable sqladmin.googleapis.com<br>
+      <span style="color:#e94560;">gcloud</span> services enable artifactregistry.googleapis.com
+    </div>
 
-<div class="card card-purple">
-  <h3>Phase 3 — <code>/opt/samba/.env</code> 배치</h3>
-  <div class="code-block">
-<span class="comment"># 실행 환경</span>
-<span class="key">ENVIRONMENT</span>=<span class="val">production</span>
-<span class="key">DB_SSL_REQUIRED</span>=<span class="val">false</span>          <span class="comment"># Cloud SQL Proxy 쓰면 false</span>
-<span class="key">COMMIT_SHA</span>=                     <span class="comment"># CI가 자동 세팅</span>
-<span class="key">WEB_CONCURRENCY</span>=<span class="val">1</span>
-<span class="key">GUNICORN_CMD_ARGS</span>=<span class="string">"--timeout 300 --graceful-timeout 300"</span>
-<span class="key">TERMINATION_GRACE_HACK</span>=<span class="val">1</span>
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
+      <div>
+        <b style="font-size:15px;">Artifact Registry 저장소 생성</b>
+      </div>
+    </div>
 
-<span class="comment"># DB (Cloud SQL Auth Proxy 컨테이너 host로 접속)</span>
-<span class="key">WRITE_DB_HOST</span>=<span class="val">cloud-sql-proxy</span>
-<span class="key">WRITE_DB_PORT</span>=<span class="val">5432</span>
-<span class="key">WRITE_DB_NAME</span>=<span class="val">railway</span>
-<span class="key">WRITE_DB_USER</span>=<span class="val">postgres</span>
-<span class="key">WRITE_DB_PASSWORD</span>=<span class="string">&lt;시크릿&gt;</span>
-<span class="key">READ_DB_HOST</span>=<span class="val">cloud-sql-proxy</span>
-<span class="key">READ_DB_PORT</span>=<span class="val">5432</span>
-<span class="key">READ_DB_NAME</span>=<span class="val">railway</span>
-<span class="key">READ_DB_USER</span>=<span class="val">postgres</span>
-<span class="key">READ_DB_PASSWORD</span>=<span class="string">&lt;시크릿&gt;</span>
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
+      <span style="color:#e94560;">gcloud</span> artifacts repositories create cloud-run-source-deploy \<br>
+      &nbsp;&nbsp;--repository-format=docker \<br>
+      &nbsp;&nbsp;--location=asia-northeast3 \<br>
+      &nbsp;&nbsp;--description="Samba Wave API"<br><br>
+      <span style="color:#888;"># Docker 인증 설정 (최초 1회)</span><br>
+      <span style="color:#e94560;">gcloud</span> auth configure-docker asia-northeast3-docker.pkg.dev
+    </div>
 
-<span class="comment"># 인증/시크릿</span>
-<span class="key">JWT_SECRET_KEY</span>=<span class="string">&lt;시크릿&gt;</span>
-<span class="key">API_GATEWAY_KEY</span>=<span class="string">&lt;시크릿&gt;</span>
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
+      <div>
+        <b style="font-size:15px;">서비스 계정 생성 (Cloud SQL 접근용)</b>
+      </div>
+    </div>
 
-<span class="comment"># ESMPlus / 카카오 알림 등 도메인 시크릿</span>
-<span class="key">ESMPLUS_HOSTING_ID</span>=<span class="val">hlccorp</span>
-<span class="key">ESMPLUS_SECRET_KEY</span>=<span class="string">&lt;시크릿&gt;</span>
-<span class="key">KAKAO_API_KEY</span>=<span class="string">&lt;시크릿&gt;</span>
-<span class="key">KAKAO_REFRESH_TOKEN</span>=<span class="string">&lt;시크릿&gt;</span>
-<span class="key">LOTTEON_FULL_PAGING_ENABLED</span>=<span class="val">1</span></div>
-  <div class="note-red">
-    <strong>주의:</strong> <code>PROXY_URLS</code> / <code>COLLECT_PROXY_URL</code>은 <strong>불필요</strong>. DB <code>proxy_config</code> 단일 소스로 전환 완료(2026-04-24). Secret 값은 Secret Manager에서 수동 조회 후 복사.
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
+      <span style="color:#888;"># 서비스 계정 생성</span><br>
+      <span style="color:#e94560;">gcloud</span> iam service-accounts create samba-sql-proxy \<br>
+      &nbsp;&nbsp;--display-name="Samba SQL Proxy"<br><br>
+      <span style="color:#888;"># Cloud SQL 권한 부여</span><br>
+      <span style="color:#e94560;">gcloud</span> projects add-iam-policy-binding YOUR_PROJECT_ID \<br>
+      &nbsp;&nbsp;--member="serviceAccount:samba-sql-proxy@YOUR_PROJECT_ID.iam.gserviceaccount.com" \<br>
+      &nbsp;&nbsp;--role="roles/cloudsql.client"<br><br>
+      <span style="color:#888;"># 키 파일 생성 → VM에 올릴 sa-key.json</span><br>
+      <span style="color:#e94560;">gcloud</span> iam service-accounts keys create sa-key.json \<br>
+      &nbsp;&nbsp;--iam-account=samba-sql-proxy@YOUR_PROJECT_ID.iam.gserviceaccount.com
+    </div>
   </div>
+
+  <!-- STEP 2 -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+    <div style="width:48px; height:48px; background:#0f3460; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">2</div>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">Cloud SQL 데이터베이스 생성</h2>
+  </div>
+
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #0f3460;">
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
+      <div>
+        <b style="font-size:15px;">Cloud SQL 인스턴스 생성</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">GCP 콘솔 → SQL → 인스턴스 만들기 → PostgreSQL 선택</div>
+      </div>
+    </div>
+
+    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+      <table style="width:100%; font-size:13px; border-collapse:collapse;">
+        <tr><td style="padding:6px 0; color:#555; width:40%;">인스턴스 ID</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">samba-wave-db</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">리전</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">asia-northeast3 (서울)</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">머신 타입</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">db-f1-micro (최소)</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">PostgreSQL 버전</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">PostgreSQL 14</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">비밀번호</td><td style="padding:6px 0; color:#888;">안전한 비밀번호 설정 후 메모</td></tr>
+      </table>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
+      <div>
+        <b style="font-size:15px;">DB 사용자 및 데이터베이스 생성</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">인스턴스 생성 후 → 데이터베이스 탭 → 데이터베이스 만들기</div>
+      </div>
+    </div>
+
+    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+      <div style="font-size:14px; margin-bottom:8px;">📋 <b>생성할 항목</b></div>
+      <div style="font-size:13px; color:#555; line-height:2;">
+        • 데이터베이스 이름: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">samba-wave</code><br>
+        • 사용자: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">samba-user</code> (비밀번호 설정 필요)<br>
+        • <b>연결 이름</b> 메모: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">YOUR_PROJECT_ID:asia-northeast3:samba-wave-db</code>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
+      <div>
+        <b style="font-size:15px;">로컬에서 DB 마이그레이션 실행</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">Cloud SQL Proxy로 로컬에서 접속해 테이블 생성</div>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
+      <span style="color:#888;"># Cloud SQL Proxy 실행 (별도 터미널)</span><br>
+      <span style="color:#e94560;">cloud-sql-proxy</span> YOUR_PROJECT_ID:asia-northeast3:samba-wave-db<br><br>
+      <span style="color:#888;"># .env에 localhost DB 설정 후 마이그레이션</span><br>
+      <span style="color:#e94560;">cd</span> backend<br>
+      <span style="color:#e94560;">alembic</span> upgrade head
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+    <div style="width:48px; height:48px; background:#e94560; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">3</div>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">GCE VM 인스턴스 생성 및 설정</h2>
+  </div>
+
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
+      <div>
+        <b style="font-size:15px;">VM 인스턴스 생성</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">GCP 콘솔 → Compute Engine → VM 인스턴스 → 만들기</div>
+      </div>
+    </div>
+
+    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+      <table style="width:100%; font-size:13px; border-collapse:collapse;">
+        <tr><td style="padding:6px 0; color:#555; width:40%;">머신 타입</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">e2-medium (2vCPU, 4GB)</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">리전</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">asia-northeast3-a (서울)</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">OS</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">Ubuntu 22.04 LTS</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">부팅 디스크</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">30GB SSD</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">방화벽</td><td style="padding:6px 0; color:#888;">HTTP, HTTPS 트래픽 허용 체크</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">SSH 키</td><td style="padding:6px 0; color:#888;">본인 공개키 등록 (ssh-keygen으로 생성)</td></tr>
+      </table>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
+      <div>
+        <b style="font-size:15px;">VM에 Docker 설치</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">VM SSH 접속 후 실행</div>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:12px; color:#4facfe; line-height:2; margin-bottom:16px; overflow-x:auto;">
+      <span style="color:#888;"># Docker 설치</span><br>
+      curl -fsSL https://get.docker.com | sh<br>
+      sudo usermod -aG docker $USER<br>
+      newgrp docker<br><br>
+      <span style="color:#888;"># 배포 디렉토리 생성</span><br>
+      sudo mkdir -p /opt/samba<br>
+      sudo chown $USER:$USER /opt/samba
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
+      <div>
+        <b style="font-size:15px;">/opt/samba/.env 파일 생성</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">VM SSH에서 환경변수 파일 작성</div>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:12px; color:#e5e5e5; line-height:2.2; overflow-x:auto;">
+      <span style="color:#888;"># /opt/samba/.env</span><br><br>
+      <span style="color:#4facfe;">ENVIRONMENT</span>=<span style="color:#00f2fe;">production</span><br><br>
+      <span style="color:#888;"># DB (cloud-sql-proxy가 같은 Docker 네트워크에서 포트 5432로 터널)</span><br>
+      <span style="color:#4facfe;">WRITE_DB_USER</span>=<span style="color:#00f2fe;">samba-user</span><br>
+      <span style="color:#4facfe;">WRITE_DB_PASSWORD</span>=<span style="color:#00f2fe;">(Cloud SQL에서 설정한 비밀번호)</span><br>
+      <span style="color:#4facfe;">WRITE_DB_HOST</span>=<span style="color:#00f2fe;">cloud-sql-proxy</span><br>
+      <span style="color:#4facfe;">WRITE_DB_PORT</span>=<span style="color:#00f2fe;">5432</span><br>
+      <span style="color:#4facfe;">WRITE_DB_NAME</span>=<span style="color:#00f2fe;">samba-wave</span><br><br>
+      <span style="color:#4facfe;">READ_DB_USER</span>=<span style="color:#00f2fe;">samba-user</span><br>
+      <span style="color:#4facfe;">READ_DB_PASSWORD</span>=<span style="color:#00f2fe;">(위와 동일)</span><br>
+      <span style="color:#4facfe;">READ_DB_HOST</span>=<span style="color:#00f2fe;">cloud-sql-proxy</span><br>
+      <span style="color:#4facfe;">READ_DB_PORT</span>=<span style="color:#00f2fe;">5432</span><br>
+      <span style="color:#4facfe;">READ_DB_NAME</span>=<span style="color:#00f2fe;">samba-wave</span><br><br>
+      <span style="color:#4facfe;">DB_SSL_REQUIRED</span>=<span style="color:#00f2fe;">false</span><br>
+      <span style="color:#4facfe;">JWT_SECRET_KEY</span>=<span style="color:#00f2fe;">(openssl rand -hex 32 로 생성한 값)</span><br>
+      <span style="color:#4facfe;">AWS_EC2_METADATA_DISABLED</span>=<span style="color:#00f2fe;">true</span>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-top:20px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
+      <div>
+        <b style="font-size:15px;">sa-key.json 업로드</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">1단계에서 생성한 서비스 계정 키를 VM에 복사</div>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
+      <span style="color:#888;"># 로컬 터미널에서 실행</span><br>
+      <span style="color:#e94560;">scp</span> -i ~/.ssh/deploy_key sa-key.json \<br>
+      &nbsp;&nbsp;YOUR_VM_USER@YOUR_VM_IP:/opt/samba/sa-key.json
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+    <div style="width:48px; height:48px; background:#0f3460; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">4</div>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">로컬 배포 스크립트 설정</h2>
+  </div>
+
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #0f3460;">
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
+      <div>
+        <b style="font-size:15px;">deploy/deploy.sh 설정 수정</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">본인 프로젝트 ID와 VM 정보로 교체</div>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2.2; overflow-x:auto;">
+      <span style="color:#888;"># deploy/deploy.sh 상단 설정 섹션</span><br>
+      <span style="color:#4facfe;">PROJECT_ID</span>=<span style="color:#00f2fe;">"YOUR_PROJECT_ID"</span><br>
+      <span style="color:#4facfe;">AR_REGION</span>=<span style="color:#00f2fe;">"asia-northeast3"</span><br>
+      <span style="color:#4facfe;">AR_REPO</span>=<span style="color:#00f2fe;">"cloud-run-source-deploy"</span><br>
+      <span style="color:#4facfe;">IMAGE_NAME</span>=<span style="color:#00f2fe;">"samba-wave-api"</span><br>
+      <span style="color:#4facfe;">VM_HOST</span>=<span style="color:#00f2fe;">"api.yourdomain.com"</span>&nbsp;&nbsp;<span style="color:#888;"># VM IP 또는 도메인</span><br>
+      <span style="color:#4facfe;">VM_USER</span>=<span style="color:#00f2fe;">"YOUR_VM_USERNAME"</span><br>
+      <span style="color:#4facfe;">SSH_KEY</span>=<span style="color:#00f2fe;">"$HOME/samba-vm-secrets/ssh/deploy_key"</span>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-top:20px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
+      <div>
+        <b style="font-size:15px;">SSH 키를 지정 경로에 저장</b>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
+      mkdir -p ~/samba-vm-secrets/ssh<br>
+      cp YOUR_PRIVATE_KEY ~/samba-vm-secrets/ssh/deploy_key<br>
+      chmod 600 ~/samba-vm-secrets/ssh/deploy_key
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
+      <div>
+        <b style="font-size:15px;">deploy/vm/docker-compose.yml 수정</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">이미지 경로의 프로젝트 ID를 본인 것으로 교체</div>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2; overflow-x:auto;">
+      <span style="color:#888;"># 아래 YOUR_PROJECT_ID를 실제 프로젝트 ID로 교체</span><br>
+      image: asia-northeast3-docker.pkg.dev/<span style="color:#e94560;">YOUR_PROJECT_ID</span>/cloud-run-source-deploy/samba-wave-api:latest
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-top:20px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
+      <div>
+        <b style="font-size:15px;">deploy/vm/Caddyfile 도메인 수정</b>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; overflow-x:auto;">
+      <span style="color:#888;"># Caddyfile — api.yourdomain.com 으로 교체</span><br>
+      <span style="color:#00f2fe;">api.yourdomain.com</span> &#123;<br>
+      &nbsp;&nbsp;reverse_proxy samba-api:8080<br>
+      &#125;
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+    <div style="width:48px; height:48px; background:#e94560; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">5</div>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">최초 배포 실행</h2>
+  </div>
+
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
+      <div>
+        <b style="font-size:15px;">도메인 DNS 설정</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">도메인 등록업체에서 A 레코드를 VM의 외부 IP로 설정</div>
+      </div>
+    </div>
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#0f3460;">
+      📌 GCP 콘솔 → Compute Engine → VM 인스턴스 → 외부 IP 확인<br>
+      → DNS: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">api.yourdomain.com</code> → A → VM 외부 IP
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
+      <div>
+        <b style="font-size:15px;">배포 스크립트 실행 (로컬 터미널)</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">Docker Desktop이 실행 중인지 확인 후 실행</div>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
+      <span style="color:#888;"># 프로젝트 루트에서 실행</span><br>
+      bash deploy/deploy.sh
+    </div>
+
+    <div style="background:#f8f8f8; border-radius:8px; padding:16px 20px; font-size:13px; color:#555; line-height:2;">
+      <b>배포 순서 (자동):</b><br>
+      ① Docker 이미지 빌드 (backend/ 기준)<br>
+      ② Artifact Registry에 push<br>
+      ③ VM에 docker-compose.yml + Caddyfile 동기화<br>
+      ④ Blue/Green 무중단 배포 (Green 기동 → 헬스체크 → Blue 교체)<br>
+      ⑤ 외부 HTTPS 헬스체크 확인
+    </div>
+
+    <div style="background:#d4edda; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#155724;">
+      ✅ <b>성공 메시지:</b> "🎉 배포 완료 (총 N초)" — 이후 https://api.yourdomain.com/api/v1/health 로 확인
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+    <div style="width:48px; height:48px; background:#0f3460; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">6</div>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">Vercel에 프론트엔드 배포</h2>
+  </div>
+
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #0f3460;">
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
+      <div><b style="font-size:15px;">vercel.com → GitHub으로 로그인 → Add New Project</b></div>
+    </div>
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
+      <div><b style="font-size:15px;">samba-wave 레포 선택</b></div>
+    </div>
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
+      <div>
+        <b style="font-size:15px;">설정 입력</b>
+      </div>
+    </div>
+
+    <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+      <div style="font-size:14px; margin-bottom:8px;">📁 <b>Root Directory</b></div>
+      <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:14px; color:#4facfe;">frontend</div>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
+      <div>
+        <b style="font-size:15px;">Environment Variables 추가</b>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2; margin-bottom:16px;">
+      <span style="color:#4facfe;">NEXT_PUBLIC_API_URL</span> = <span style="color:#00f2fe;">https://api.yourdomain.com</span>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:10px;">
+      <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">5</span>
+      <div>
+        <b style="font-size:15px;">Deploy 클릭!</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">이후 main 브랜치 push 시 자동 배포됩니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 이후 배포 방법 -->
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">🔄 이후 배포 방법</h2>
+    <p style="margin:0 0 16px; font-size:14px; color:#555;">코드 수정 후 배포 순서</p>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px;">
+        <div style="font-size:14px; font-weight:700; color:#0f3460; margin-bottom:8px;">🖥️ 백엔드 (Python/FastAPI) 수정 시</div>
+        <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
+          git add . && git commit -m "수정 내용"<br>
+          git push origin main<br>
+          bash deploy/deploy.sh&nbsp;&nbsp;<span style="color:#888;"># 수동 실행 필수</span>
+        </div>
+      </div>
+      <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px;">
+        <div style="font-size:14px; font-weight:700; color:#0f3460; margin-bottom:8px;">🖥️ 프론트엔드 (Next.js) 수정 시</div>
+        <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
+          git add . && git commit -m "수정 내용"<br>
+          git push origin main&nbsp;&nbsp;<span style="color:#888;"># Vercel 자동 배포 (deploy.sh 불필요)</span>
+        </div>
+      </div>
+      <div style="background:#fff3cd; border-radius:10px; padding:16px 20px;">
+        <div style="font-size:14px; font-weight:700; color:#856404; margin-bottom:8px;">⚠️ DB 모델(model.py) 수정 시 추가 작업</div>
+        <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
+          cd backend<br>
+          alembic revision --autogenerate -m "변경 내용"<br>
+          <span style="color:#888;"># 생성된 파일 확인 후 커밋</span><br>
+          <span style="color:#888;"># 배포 전 Cloud SQL에 수동 alembic upgrade head 실행</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 완료 -->
+  <div style="background:linear-gradient(135deg,#1a1a2e,#0f3460); border-radius:16px; padding:36px 24px; text-align:center; margin-bottom:32px;">
+    <div style="font-size:48px; margin-bottom:12px;">🎉</div>
+    <h2 style="margin:0 0 12px; font-size:24px; color:#fff;">배포 완료!</h2>
+    <p style="margin:0 0 24px; font-size:14px; color:rgba(255,255,255,0.6);">
+      이제 어디서든 브라우저로 접속할 수 있습니다.
+    </p>
+    <div style="display:inline-flex; flex-direction:column; gap:8px;">
+      <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#a0a8ff;">
+        🖥️ 프론트: https://your-samba.vercel.app
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#4facfe;">
+        ⚙️ 백엔드: https://api.yourdomain.com
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#4ade80;">
+        💚 헬스체크: https://api.yourdomain.com/api/v1/health
+      </div>
+    </div>
+  </div>
+
+  <!-- 문제 해결 -->
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">🔧 문제가 생겼을 때</h2>
+
+    <div style="border-bottom:1px solid #eee; padding:12px 0;">
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. deploy.sh 실행 시 "permission denied"</div>
+      <div style="font-size:13px; color:#666;">→ SSH 키 권한 확인: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">chmod 600 ~/samba-vm-secrets/ssh/deploy_key</code></div>
+    </div>
+    <div style="border-bottom:1px solid #eee; padding:12px 0;">
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. Docker push 실패 (unauthorized)</div>
+      <div style="font-size:13px; color:#666;">→ AR 인증 재설정: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">gcloud auth configure-docker asia-northeast3-docker.pkg.dev</code></div>
+    </div>
+    <div style="border-bottom:1px solid #eee; padding:12px 0;">
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 헬스체크 실패 (DB 연결 오류)</div>
+      <div style="font-size:13px; color:#666;">→ VM에서 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker compose logs cloud-sql-proxy</code> 로 프록시 상태 확인. sa-key.json 권한 및 경로 확인.</div>
+    </div>
+    <div style="border-bottom:1px solid #eee; padding:12px 0;">
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. HTTPS 접속 불가 (Caddy 오류)</div>
+      <div style="font-size:13px; color:#666;">→ 도메인 DNS가 VM 외부 IP를 가리키는지 확인. 방화벽에서 443 포트 허용 여부 확인.</div>
+    </div>
+    <div style="padding:12px 0;">
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. VM 컨테이너 상태 확인</div>
+      <div style="font-size:13px; color:#666;">→ <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker compose ps</code> 및 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker compose logs -f samba-api</code></div>
+    </div>
+  </div>
+
+  <!-- 비용 -->
+  <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">💰 월 예상 비용 (서울 리전 기준)</h2>
+    <table style="width:100%; border-collapse:collapse; font-size:14px;">
+      <tr style="background:#f8f9fa;">
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; font-weight:700;">서비스</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; font-weight:700;">플랫폼</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; font-weight:700; text-align:right;">비용/월</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">프론트엔드</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Vercel</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right; color:#155724; font-weight:700;">무료</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">백엔드 VM</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">GCE e2-medium</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">~$24</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">데이터베이스</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Cloud SQL db-f1-micro</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">~$7</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Docker 이미지 저장</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Artifact Registry</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">~$1</td>
+      </tr>
+      <tr style="background:#f0f4ff;">
+        <td style="padding:10px 14px; font-weight:700;" colspan="2">합계</td>
+        <td style="padding:10px 14px; text-align:right; font-weight:700; color:#0f3460; font-size:16px;">~$32/월</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 푸터 -->
+  <div style="text-align:center; padding:20px 0; font-size:12px; color:#aaa;">
+    SAMBA WAVE 배포 가이드 v2.0 | GCE VM + Cloud SQL + Artifact Registry | 2026.04.27
+  </div>
+
 </div>
-
-<div class="card card-purple">
-  <h3>Phase 4 — 스택 시작 + Caddy 자동 HTTPS</h3>
-  <div class="code-block">
-<span class="cmd">gcloud compute ssh</span> samba-wave-vm --zone=asia-northeast3-a \
-  --command='sudo systemctl start samba-stack \
-  && sudo docker compose -f /opt/samba/docker-compose.yml logs -f samba-api'</div>
-  <p>Caddy가 도메인 DNS A 레코드(VM 외부 IP)를 검증하고 Let's Encrypt 인증서를 <strong>자동 발급/갱신</strong>합니다. 사람이 손댈 일 없습니다.</p>
-</div>
-
-<div class="card card-purple">
-  <h3>운영 명령어</h3>
-  <div class="code-block">
-<span class="comment"># 로그</span>
-<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml logs -f samba-api
-
-<span class="comment"># 재시작 (env 변경 후 등)</span>
-<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml restart samba-api
-
-<span class="comment"># 수동 배포 (이미지 pull + 재기동)</span>
-<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml pull samba-api
-<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml up -d samba-api
-
-<span class="comment"># 자원/디스크 점검</span>
-<span class="cmd">sudo docker stats</span>
-<span class="cmd">sudo docker system df</span>
-<span class="cmd">sudo docker system prune -af</span>   <span class="comment"># 미사용 이미지 정리</span></div>
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 7. DB 마이그레이션 ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">6</div>
-  <h2>DB 마이그레이션 (배포 전 필수)</h2>
-</div>
-
-<div class="note-red">
-  <strong>최우선 규칙:</strong> CI/CD는 DB를 건드리지 않습니다. 마이그레이션은 <strong>반드시 수동</strong>으로 실행해야 합니다. 백엔드 배포 전에 먼저 적용하세요.
-</div>
-
-<div class="card card-red">
-  <h3>마이그레이션 파일 생성 (모델 변경 시)</h3>
-  <div class="code-block">
-<span class="cmd">cd</span> backend
-
-<span class="comment"># 모델 변경 후 누락 검증 (최우선)</span>
-<span class="cmd">.venv/Scripts/python.exe</span> scripts/check_migrations.py
-
-<span class="comment"># 자동 생성</span>
-<span class="cmd">alembic revision --autogenerate</span> -m <span class="string">"컬럼 추가 설명"</span>
-
-<span class="comment"># 산출물 육안 검토 — op.drop_table / op.drop_index 라인이 있으면</span>
-<span class="comment"># 의도된 것인지 100% 확인. 의도 외 DROP이면 alembic/env.py 모델 import</span>
-<span class="comment"># 누락을 먼저 의심할 것.</span></div>
-</div>
-
-<div class="card card-red">
-  <h3>프로덕션 DB에 적용</h3>
-  <div class="code-block">
-<span class="comment"># 1) Cloud SQL Auth Proxy 기동</span>
-<span class="cmd">cloud-sql-proxy</span> fresh-sanctuary-489804-v4:asia-northeast3:samba-wave-db &amp;
-
-<span class="comment"># 2) 환경변수 후 alembic upgrade</span>
-<span class="cmd">set</span> WRITE_DB_HOST=127.0.0.1
-<span class="cmd">set</span> WRITE_DB_PORT=5432
-<span class="cmd">set</span> WRITE_DB_NAME=railway
-<span class="cmd">set</span> WRITE_DB_USER=postgres
-<span class="cmd">set</span> WRITE_DB_PASSWORD=<span class="string">&lt;시크릿&gt;</span>
-
-<span class="cmd">alembic upgrade head</span>
-<span class="cmd">alembic current</span>     <span class="comment"># 적용 결과 확인</span></div>
-</div>
-
-<div class="note-green">
-  <strong>성공 확인:</strong> "Running upgrade ... -> head" 출력 + <code>alembic_version</code> 테이블의 head 일치.
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 8. Vercel ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">7</div>
-  <h2>프론트엔드 Vercel 배포</h2>
-</div>
-
-<div class="card card-orange">
-  <h3>Vercel 프로젝트 최초 연결 (1회)</h3>
-  <ul class="checklist">
-    <li>vercel.com → GitHub으로 로그인</li>
-    <li>Add New Project → samba-wave 리포 선택</li>
-    <li>Root Directory: <code style="font-family:monospace;color:var(--blue)">frontend</code></li>
-    <li>Framework Preset: Next.js (자동 감지)</li>
-    <li>Environment Variables 추가 후 Deploy</li>
-  </ul>
-</div>
-
-<div class="card card-orange">
-  <h3>Vercel 환경변수</h3>
-  <div class="code-block">
-<span class="comment"># Vercel → 프로젝트 → Settings → Environment Variables</span>
-<span class="key">NEXT_PUBLIC_API_URL</span> = <span class="val">https://api.samba-wave.co.kr</span>
-<span class="comment"># VM 도메인 사용. legacy Cloud Run URL을 쓰던 시절은 한시적으로 병행 가능.</span></div>
-</div>
-
-<div class="note">
-  이후 <code>git push origin main</code>만 하면 Vercel이 감지해 자동 재배포합니다. 별도 작업 불필요. 프론트만 수정 시 GitHub Actions는 실행되지 않습니다(비용 절약).
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 9. 헬스체크 / 운영 ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">8</div>
-  <h2>헬스체크 / 운영</h2>
-</div>
-
-<div class="card card-green">
-  <h3>헬스체크 엔드포인트</h3>
-  <div class="code-block">
-<span class="comment"># VM (신규)</span>
-<span class="cmd">curl</span> https://api.samba-wave.co.kr/api/v1/health
-<span class="cmd">curl</span> https://api.samba-wave.co.kr/healthz
-
-<span class="comment"># Cloud Run (legacy, 병행)</span>
-<span class="cmd">curl</span> https://samba-wave-api-XXXX-an.a.run.app/healthz</div>
-  <p><code>/healthz</code> 응답에는 다음이 노출됩니다:</p>
-  <ul class="checklist">
-    <li><strong>commit_sha</strong> — 현재 배포된 커밋 해시 (배포 검증용)</li>
-    <li><strong>deployed_at</strong> — 배포 시각 (UTC)</li>
-    <li><strong>cancel_paused</strong> — 작업취소 일시정지 상태 (true면 일괄 일시중지 중)</li>
-  </ul>
-</div>
-
-<div class="card card-green">
-  <h3>로그 확인</h3>
-  <div class="code-block">
-<span class="comment"># VM</span>
-<span class="cmd">gcloud compute ssh</span> samba-wave-vm --zone=asia-northeast3-a
-<span class="cmd">sudo docker compose</span> -f /opt/samba/docker-compose.yml logs -f samba-api
-
-<span class="comment"># Cloud Run (legacy)</span>
-<span class="cmd">gcloud run services logs read</span> <span class="val">samba-wave-api</span> \
-  --region=asia-northeast3 --limit=50
-
-<span class="comment"># GitHub Actions 워크플로우</span>
-<span class="comment">GitHub → Actions → Deploy to GCE VM → 최신 run</span></div>
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 10. 배포 순서 / 트러블슈팅 ━━━━━━━━━━━━━━━━ -->
-<div class="step-header">
-  <div class="step-num">9</div>
-  <h2>배포 순서 · 트러블슈팅</h2>
-</div>
-
-<div class="card card-red">
-  <h3>표준 배포 순서</h3>
-  <ol class="checklist">
-    <li><strong>① DB 마이그레이션</strong> — 로컬에서 Auth Proxy로 <code>alembic upgrade head</code></li>
-    <li><strong>② 백엔드</strong> — Cloud Build 자동 (push) 또는 deploy-vm.yml 수동 트리거</li>
-    <li><strong>③ /healthz 검증</strong> — commit_sha가 현재 커밋과 일치하는지 확인</li>
-    <li><strong>④ 프론트엔드</strong> — Vercel은 push 시 자동 배포 (별도 액션 없음)</li>
-  </ol>
-</div>
-
-<div class="card">
-  <h3>자주 발생하는 문제</h3>
-  <table>
-    <tr><th>증상</th><th>원인</th><th>해결</th></tr>
-    <tr>
-      <td>VM 배포 후 502 / 헬스체크 실패</td>
-      <td>이미지 pull 실패 또는 .env 누락</td>
-      <td><code>sudo docker compose ps</code> + <code>logs samba-api</code> 확인. <code>/opt/samba/.env</code> 존재 여부 점검</td>
-    </tr>
-    <tr>
-      <td>DB 연결 실패 (cloud-sql-proxy)</td>
-      <td><code>sa-key.json</code> 권한 부족 또는 누락</td>
-      <td>서비스계정에 <code>roles/cloudsql.client</code> 부여. <code>logs cloud-sql-proxy</code> 확인</td>
-    </tr>
-    <tr>
-      <td>Caddy HTTPS 발급 실패</td>
-      <td>도메인 DNS A 레코드가 VM IP를 가리키지 않음</td>
-      <td>DNS 전파 확인 후 <code>docker compose restart caddy</code></td>
-    </tr>
-    <tr>
-      <td>마이그레이션 컬럼 없음 오류</td>
-      <td>배포 전 마이그레이션 미실행</td>
-      <td><code>alembic upgrade head</code> 후 백엔드 재배포</td>
-    </tr>
-    <tr>
-      <td>Cloud Build 실패</td>
-      <td>Dockerfile 오류 / 메모리 부족</td>
-      <td>Cloud Build 콘솔 → 빌드 로그 확인</td>
-    </tr>
-    <tr>
-      <td>CORS 에러</td>
-      <td><code>CORS_EXTRA_ORIGINS</code> 미설정</td>
-      <td>VM <code>/opt/samba/.env</code>에 Vercel URL 추가 후 <code>restart samba-api</code></td>
-    </tr>
-    <tr>
-      <td>Vercel 빌드 실패</td>
-      <td>TypeScript 타입 오류 / 환경변수 누락</td>
-      <td>Vercel → 해당 배포 → Build Logs 확인</td>
-    </tr>
-    <tr>
-      <td>VM 디스크 가득 참</td>
-      <td>이미지 누적</td>
-      <td><code>sudo docker system prune -af</code></td>
-    </tr>
-    <tr>
-      <td>재부팅 후 스택 미기동</td>
-      <td>최초 1회는 수동 시작 필요</td>
-      <td><code>sudo systemctl start samba-stack</code></td>
-    </tr>
-  </table>
-</div>
-
-<div class="card card-red">
-  <h3>롤백</h3>
-  <p><strong>VM:</strong> Artifact Registry의 이전 태그(SHA)로 <code>image</code>를 변경 후 <code>docker compose up -d samba-api</code>. <code>:latest</code> 대신 특정 SHA 태그로 명시적 롤백 권장.</p>
-  <p><strong>Cloud Run:</strong> <code>gcloud run services update-traffic samba-wave-api --to-revisions=&lt;PREVIOUS&gt;=100 --region=asia-northeast3</code></p>
-  <p><strong>Vercel:</strong> Deployments 탭 → 이전 배포 ⋯ → Promote to Production (재빌드 없음)</p>
-  <p><strong>DB:</strong> <code>alembic downgrade -1</code> — 단, downgrade 함수 검증 필수. 데이터 손실 가능성 있음.</p>
-</div>
-
-<!-- ━━━━━━━━━━━━━━━━ 관련 문서 ━━━━━━━━━━━━━━━━ -->
-<h2>관련 문서</h2>
-<div class="card card-blue">
-  <ul class="checklist">
-    <li><a href="install-guide.html">install-guide.html</a> — 로컬 개발 환경 설치 가이드</li>
-    <li><a href="infra-map.html">infra-map.html</a> — 인프라 전체 지도</li>
-    <li><a href="index.html">index.html</a> — 문서 목록</li>
-  </ul>
-</div>
-
-<br><br>
-<p style="color:#555; font-size:0.75rem; text-align:center;">마지막 업데이트: 2026-04-25 | Cloud Build + Cloud Run / GCE VM 병행</p>
 
 </body>
 </html>

@@ -145,9 +145,9 @@
   <rect x="660" y="90" width="200" height="50" rx="12" fill="#1a1a2e" stroke="#7a7a94" stroke-width="2"/>
   <text x="760" y="121" text-anchor="middle" fill="#e4e4ec" font-size="14" font-weight="600">🐙 GitHub + Actions</text>
 
-  <!-- Cloud Run 백엔드 (큰 박스) -->
+  <!-- GCE VM 백엔드 (큰 박스) -->
   <rect x="220" y="190" width="460" height="130" rx="16" fill="#0a1a0a" stroke="#3ecf8e" stroke-width="2"/>
-  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">☁️ Cloud Run + 🖥️ GCE VM (FastAPI, 병행 운영)</text>
+  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">🖥️ GCE VM (FastAPI · Docker Compose · Blue/Green 배포)</text>
   <!-- 내부 모듈 -->
   <rect x="240" y="235" width="120" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
   <text x="300" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">상품수집/관리</text>
@@ -242,16 +242,16 @@
   <!-- GitHub → Vercel -->
   <path d="M660 110 L552 110" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
   <text x="598" y="103" fill="#7a7a94" font-size="9">자동배포</text>
-  <!-- GitHub Actions → Cloud Run -->
+  <!-- 로컬 deploy.sh → GCE VM -->
   <path d="M710 140 L640 190" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
-  <text x="688" y="165" fill="#7a7a94" font-size="9">Docker 배포</text>
+  <text x="680" y="165" fill="#7a7a94" font-size="9">deploy.sh</text>
 
   <!-- 범례 -->
   <rect x="30" y="585" width="840" height="40" rx="8" fill="rgba(255,255,255,0.02)" stroke="#1a1a24"/>
   <circle cx="60" cy="605" r="6" fill="#5c9aff"/><text x="75" y="609" fill="#7a7a94" font-size="10">사용자</text>
   <circle cx="140" cy="605" r="6" fill="#a78bfa"/><text x="155" y="609" fill="#7a7a94" font-size="10">확장앱</text>
   <circle cx="220" cy="605" r="6" fill="#ff8c00"/><text x="235" y="609" fill="#7a7a94" font-size="10">프론트</text>
-  <circle cx="300" cy="605" r="6" fill="#3ecf8e"/><text x="315" y="609" fill="#7a7a94" font-size="10">Cloud Run</text>
+  <circle cx="300" cy="605" r="6" fill="#3ecf8e"/><text x="315" y="609" fill="#7a7a94" font-size="10">GCE VM</text>
   <circle cx="400" cy="605" r="6" fill="#ff6b6b"/><text x="415" y="609" fill="#7a7a94" font-size="10">Cloud SQL</text>
   <circle cx="490" cy="605" r="6" fill="#f472b6"/><text x="505" y="609" fill="#7a7a94" font-size="10">외부API</text>
   <circle cx="570" cy="605" r="6" fill="#ffd700"/><text x="585" y="609" fill="#7a7a94" font-size="10">마켓/소싱처</text>
@@ -267,7 +267,7 @@
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-back">쿠키/데이터 전송</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">☁️ Cloud Run</span>
+  <span class="flow-box fb-back">🖥️ GCE VM</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-market">🛒 소싱처 API</span>
   <span class="flow-arrow">→</span>
@@ -278,7 +278,7 @@
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">☁️ Cloud Run</span>
+  <span class="flow-box fb-back">🖥️ GCE VM</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext-svc">🤖 Gemini</span>
   <span class="flow-arrow">→</span>
@@ -291,7 +291,7 @@
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">☁️ Cloud Run (룰→유사도→AI)</span>
+  <span class="flow-box fb-back">🖥️ GCE VM (룰→유사도→AI)</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext-svc">🧠 Claude</span>
   <span class="flow-arrow">→</span>
@@ -302,7 +302,7 @@
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">☁️ Cloud Run (소싱처 최신화)</span>
+  <span class="flow-box fb-back">🖥️ GCE VM (소싱처 최신화)</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-back">상세HTML 생성</span>
   <span class="flow-arrow">→</span>
@@ -315,7 +315,7 @@
 <div class="flow-row">
   <span class="flow-box fb-market">🏪 마켓 (주문발생)</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">☁️ Cloud Run 동기화</span>
+  <span class="flow-box fb-back">🖥️ GCE VM 동기화</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-db">🗄️ Cloud SQL 저장</span>
   <span class="flow-arrow">→</span>
@@ -324,15 +324,18 @@
 
 <h3>배포 흐름</h3>
 <div class="flow-row">
+  <span class="flow-box fb-user">bash deploy/deploy.sh</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">Docker Build → Artifact Registry push</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">SSH → VM Blue/Green 무중단</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-box fb-back">🖥️ GCE VM 헬스체크</span>
+</div>
+<div class="flow-row" style="margin-top:8px">
   <span class="flow-box fb-user">git push main</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box" style="background:rgba(255,255,255,0.05); border:1px solid #555; color:#e4e4ec">GitHub Actions</span>
-  <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">Docker Build → Artifact Registry</span>
-  <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">☁️ Cloud Run 배포</span>
-  <span style="color:var(--text-muted); font-size:0.85rem;">+</span>
-  <span class="flow-box fb-front">▲ Vercel 자동배포</span>
+  <span class="flow-box fb-front">▲ Vercel 자동배포 (프론트만)</span>
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━ 요금 구조 ━━━━━━━━━━━━━━━━ -->
@@ -522,31 +525,20 @@
 <!-- ━━━━━━━━━━━━━━━━ 배포 흐름 ━━━━━━━━━━━━━━━━ -->
 <h2>7. 배포는 어떻게 되는지</h2>
 
-<h3>현행 (Cloud Run, 자동)</h3>
+<h3>백엔드 배포 (수동 — deploy.sh)</h3>
 <div class="flow-row">
   <span class="flow-box fb-user">코드 수정</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-ext">git push main</span>
+  <span class="flow-box fb-ext">bash deploy/deploy.sh</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box" style="background:rgba(255,255,255,0.05); border:1px solid #555; color:#e4e4ec">Cloud Build 트리거 (자동)</span>
+  <span class="flow-box fb-back">Docker Build → Artifact Registry push</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">Docker Build → Artifact Registry</span>
+  <span class="flow-box fb-back">SSH → Blue/Green 무중단</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">☁️ Cloud Run revision</span>
+  <span class="flow-box fb-back">🖥️ GCE VM (api.samba-wave.co.kr)</span>
 </div>
 
-<h3>VM 경로 (수동 워크플로우)</h3>
-<div class="flow-row">
-  <span class="flow-box fb-user">코드 수정</span>
-  <span class="flow-arrow">→</span>
-  <span class="flow-box fb-ext">VM SSH</span>
-  <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">git pull + docker compose up -d</span>
-  <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🖥️ samba-wave-vm 반영 (api.samba-wave.co.kr)</span>
-</div>
-
-<h3>프론트엔드</h3>
+<h3>프론트엔드 (자동)</h3>
 <div class="flow-row">
   <span class="flow-box fb-ext">git push main</span>
   <span class="flow-arrow">→</span>
@@ -555,15 +547,15 @@
   <span class="flow-box fb-front">프론트엔드 자동 배포</span>
 </div>
 
-<p style="margin-top:0.5rem;">main 푸시 시 Cloud Build가 Cloud Run으로 자동 배포(legacy), VM 경로는 수동으로 동기화. Vercel은 push 즉시 자동 배포.</p>
+<p style="margin-top:0.5rem;">백엔드는 <code>bash deploy/deploy.sh</code> 수동 실행으로만 배포됩니다. 프론트엔드는 main push 시 Vercel이 자동 배포합니다.</p>
 
 <div class="note">
-  <strong>배포 순서 주의:</strong> DB 마이그레이션 → 백엔드(Cloud Run / VM) → 프론트엔드(Vercel) 순서로 배포해야 합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.<br>
-  <strong>네트워크 변경:</strong> 기존 VPC Connector 경유 → <strong>Cloud SQL Auth Proxy 직접 연결</strong>로 전환 완료(VPC Connector 제거).
+  <strong>배포 순서 주의:</strong> DB 마이그레이션(alembic) → 백엔드(deploy.sh) → 프론트엔드(Vercel) 순서로 배포해야 합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.<br>
+  <strong>네트워크:</strong> Cloud SQL Auth Proxy가 Docker 내부 네트워크로 DB에 연결합니다.
 </div>
 
 <br><br>
-<p style="color:#555; font-size:0.75rem; text-align:center;">2026-04-25 | SambaWave Infrastructure Map</p>
+<p style="color:#555; font-size:0.75rem; text-align:center;">2026-04-27 | SambaWave Infrastructure Map</p>
 
 </body>
 </html>

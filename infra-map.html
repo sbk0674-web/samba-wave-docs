@@ -349,15 +349,9 @@
   </div>
 
   <div class="price-card">
-    <div class="name"><span class="dot" style="background:#3ecf8e"></span> Google Cloud Run (백엔드 · legacy)</div>
-    <div class="cost paid">~₩40만/월</div>
-    <div class="desc">2Gi 메모리 컨테이너<br>vCPU 사용량 기반 과금<br>최소 인스턴스 1개 유지 시 고정 비용 발생<br><strong>현행 운영 경로</strong>, 점진적으로 VM으로 전환 중</div>
-  </div>
-
-  <div class="price-card">
     <div class="name"><span class="dot" style="background:#3ecf8e"></span> 🖥️ GCE VM (samba-wave-vm)</div>
-    <div class="cost paid">~₩10만/월 (목표)</div>
-    <div class="desc">e2-small · asia-northeast3-a<br>도메인: <code>api.samba-wave.co.kr</code><br>Caddy + FastAPI + Cloud SQL Auth Proxy 사이드카<br>docker compose 스택, Cloud Run과 병행 운영<br><strong>전환 완료 시 ₩30만/월 절감</strong></div>
+    <div class="cost paid">~₩10만/월</div>
+    <div class="desc">e2-medium · asia-northeast3-a<br>도메인: <code>api.samba-wave.co.kr</code><br>Caddy + FastAPI + Cloud SQL Auth Proxy 사이드카<br>docker compose 블루/그린 무중단 배포<br><strong>현행 운영 경로 (Cloud Run 전환 완료)</strong></div>
   </div>
 
   <div class="price-card">
@@ -405,8 +399,8 @@
 
 <div class="note">
   <strong>💡 월간 예상 비용 요약 (현재):</strong>
-  Cloud Run ~₩40만 + Cloud SQL ~₩4만 + Gemini ₩3만 + Claude ₩5천 + Aligo ₩1만 ≈ <strong>총 ~₩48만/월</strong><br>
-  <strong>VM 전환 완료 시:</strong> Cloud Run ₩40만 → GCE VM ₩10만으로 대체 → <strong>~₩18만/월</strong>까지 인하 목표<br>
+  GCE VM ~₩10만 + Cloud SQL ~₩4만 + Gemini ₩3만 + Claude ₩5천 + Aligo ₩1만 ≈ <strong>총 ~₩18만/월</strong><br>
+  (Cloud Run → GCE VM 전환 완료로 월 ~₩30만 절감 달성)<br>
   (상품 수, AI 사용량, 트래픽에 따라 달라짐)
 </div>
 
@@ -422,15 +416,9 @@
     <td>vercel.com 대시보드</td>
   </tr>
   <tr>
-    <td>☁️ Google Cloud Run</td>
-    <td>백엔드 FastAPI 서버 (2Gi, legacy 경로 — 현재 운영 중)</td>
-    <td>없음 (Stateless 컨테이너)</td>
-    <td>console.cloud.google.com → Cloud Run</td>
-  </tr>
-  <tr>
     <td>🖥️ GCE VM (samba-wave-vm)</td>
-    <td>백엔드 FastAPI (Caddy + FastAPI + Cloud SQL Auth Proxy 사이드카, docker compose). 도메인 <code>api.samba-wave.co.kr</code>. Cloud Run 대체 목적, 점진 전환</td>
-    <td>없음 (DB는 Cloud SQL 그대로)</td>
+    <td>백엔드 FastAPI 서버 (Caddy + FastAPI + Cloud SQL Auth Proxy, docker compose 블루/그린). 도메인 <code>api.samba-wave.co.kr</code>. <strong>현행 운영 경로</strong> (Cloud Run 전환 완료)</td>
+    <td>없음 (DB는 Cloud SQL)</td>
     <td>console.cloud.google.com → Compute Engine</td>
   </tr>
   <tr>
@@ -477,7 +465,7 @@
   </tr>
   <tr>
     <td>🧩 크롬 확장앱</td>
-    <td>소싱처 쿠키 수집 → 서버 전달, KREAM 자동 수집. host_permissions에 <code>api.samba-wave.co.kr</code> + 기존 Cloud Run URL 병행 등록</td>
+    <td>소싱처 쿠키 수집 → 서버 전달, KREAM 자동 수집. host_permissions에 <code>api.samba-wave.co.kr</code> 등록</td>
     <td>쿠키 (로컬 일시 보관 후 서버 전송)</td>
     <td>chrome://extensions</td>
   </tr>
@@ -514,12 +502,12 @@
   <tr><td>무신사</td><td>쿠키 (자동)</td><td>DB (samba_settings.musinsa_cookie)</td><td>확장앱이 자동 전송</td></tr>
   <tr><td>GCP_SA_KEY</td><td>서비스 계정 JSON</td><td>GitHub Secrets</td><td>GitHub → Settings → Secrets</td></tr>
   <tr><td>DB 연결정보</td><td>HOST/USER/PASSWORD (R/W 각각)</td><td>GitHub Secrets</td><td>GitHub → Settings → Secrets</td></tr>
-  <tr><td>JWT_SECRET_KEY</td><td>JWT 서명 키</td><td>GitHub Secrets → Cloud Run 환경변수</td><td>GitHub → Settings → Secrets</td></tr>
+  <tr><td>JWT_SECRET_KEY</td><td>JWT 서명 키</td><td>GitHub Secrets → VM .env 파일</td><td>GitHub → Settings → Secrets</td></tr>
 </table>
 
 <div class="note">
-  <strong>핵심:</strong> 비즈니스 API 키는 <strong>설정 페이지(DB)</strong>에서 관리합니다. 인프라 키(GCP, DB, JWT)는 <strong>GitHub Secrets</strong>에 저장하고 Cloud Run에 환경변수로 주입합니다.<br>
-  Cloud Run 대시보드에는 DB 연결 정보와 JWT 시크릿만 설정하면 됩니다.
+  <strong>핵심:</strong> 비즈니스 API 키는 <strong>설정 페이지(DB)</strong>에서 관리합니다. 인프라 키(GCP, DB, JWT)는 <strong>GitHub Secrets</strong>에 저장하고 VM의 .env 파일로 주입합니다.<br>
+  VM의 /opt/samba/.env 파일에 DB 연결 정보와 JWT 시크릿을 설정합니다.
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━ 배포 흐름 ━━━━━━━━━━━━━━━━ -->

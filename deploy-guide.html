@@ -572,9 +572,24 @@
       <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. HTTPS 접속 불가 (Caddy 오류)</div>
       <div style="font-size:13px; color:#666;">→ 도메인 DNS가 VM 외부 IP를 가리키는지 확인. 방화벽에서 443 포트 허용 여부 확인.</div>
     </div>
-    <div style="padding:12px 0;">
+    <div style="padding:12px 0; border-bottom:1px solid #eee;">
       <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. VM 컨테이너 상태 확인</div>
       <div style="font-size:13px; color:#666;">→ <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker compose ps</code> 및 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker compose logs -f samba-api</code></div>
+    </div>
+    <div style="padding:12px 0; border-bottom:1px solid #eee;">
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 마이그레이션 실패 — LockNotAvailableError (alembic_version 잠금)</div>
+      <div style="font-size:13px; color:#666; line-height:1.8;">
+        → idle in transaction 연결이 alembic_version 테이블 lock을 잡고 있는 것.<br>
+        1. <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">kill_idle.py</code>: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">asyncpg.connect → pg_terminate_backend WHERE state='idle in transaction'</code><br>
+        2. <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker cp kill_idle.py samba-samba-api-1:/tmp/kill_idle.py</code><br>
+        3. <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker exec samba-samba-api-1 /app/backend/.venv/bin/python /tmp/kill_idle.py</code><br>
+        4. remaining=0 될 때까지 반복 후 deploy.sh 재실행<br>
+        <strong style="color:#e94560">⚠ docker stop 절대 금지</strong>
+      </div>
+    </div>
+    <div style="padding:12px 0;">
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 배포 후 503 / DB connection pool 고갈</div>
+      <div style="font-size:13px; color:#666;">→ pg_stat_activity 확인. pool_pre_ping=False 설정 확인 (asyncpg 버그 대응). write pool 최대 40개, read pool 최대 15개 한도 확인.</div>
     </div>
   </div>
 
@@ -616,7 +631,7 @@
 
   <!-- 푸터 -->
   <div style="text-align:center; padding:20px 0; font-size:12px; color:#aaa;">
-    SAMBA WAVE 배포 가이드 v2.0 | GCE VM + Cloud SQL + Artifact Registry | 2026.04.27
+    SAMBA WAVE 배포 가이드 v2.1 | GCE VM + Cloud SQL + Artifact Registry | 2026.05.08
   </div>
 
 </div>

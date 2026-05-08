@@ -777,6 +777,8 @@
       <div class="sidebar-section-title">Reference</div>
       <a href="#stack" class="sidebar-link"><span class="icon">10</span> 기술 스택</a>
       <a href="#commands" class="sidebar-link"><span class="icon">11</span> 실행 명령어</a>
+      <a href="#perf-rules" class="sidebar-link"><span class="icon">12</span> 성능 규칙</a>
+      <a href="#price-logic" class="sidebar-link"><span class="icon">13</span> 가격 수집 로직</a>
     </div>
 
     <div class="sidebar-section">
@@ -802,7 +804,7 @@
           <div class="hero-stat-label">판매 마켓</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num" style="color:var(--blue)">4</div>
+          <div class="hero-stat-num" style="color:var(--blue)">14</div>
           <div class="hero-stat-label">소싱처</div>
         </div>
         <div class="hero-stat">
@@ -1213,12 +1215,22 @@
       </div>
 
       <div class="plugin-section">
-        <div class="plugin-title">소싱처 <span class="plugin-count">4개</span></div>
+        <div class="plugin-title">소싱처 <span class="plugin-count">14개</span></div>
         <div class="plugin-grid">
           <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">무신사</span><span class="plugin-chip-type">MUSINSA</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-partial"></span><span class="plugin-chip-name">KREAM</span><span class="plugin-chip-type">KREAM</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">다나와</span><span class="plugin-chip-type">DANAWA</span></div>
-          <div class="plugin-chip"><span class="plugin-dot dot-stub"></span><span class="plugin-chip-name">스텁</span><span class="plugin-chip-type">_STUB</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">KREAM</span><span class="plugin-chip-type">KREAM</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">나이키</span><span class="plugin-chip-type">NIKE</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">아디다스</span><span class="plugin-chip-type">ADIDAS</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">롯데ON</span><span class="plugin-chip-type">LOTTEON</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">SSG</span><span class="plugin-chip-type">SSG</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">GS샵</span><span class="plugin-chip-type">GSSHOP</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">ABC마트</span><span class="plugin-chip-type">ABCMART</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">패션플러스</span><span class="plugin-chip-type">FASHIONPLUS</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">올리브영</span><span class="plugin-chip-type">OLIVEYOUNG</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">그랜드스테이지</span><span class="plugin-chip-type">GRANDSTAGE</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">다나와</span><span class="plugin-chip-type">DANAWA</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">스마트스토어</span><span class="plugin-chip-type">NAVERSTORE</span></div>
+          <div class="plugin-chip"><span class="plugin-dot dot-live"></span><span class="plugin-chip-name">G마켓</span><span class="plugin-chip-type">GMARKET</span></div>
         </div>
       </div>
     </section>
@@ -1241,7 +1253,7 @@
 <span class="kw">policy/</span>        <span class="cm"># 가격 정책 + 상세 템플릿 + 네이밍 규칙</span>
 <span class="kw">category/</span>      <span class="cm"># 카테고리 매핑 (AI 벌크 매핑 포함)</span>
 <span class="kw">shipment/</span>      <span class="cm"># 마켓 전송 + 삭제 관리</span>
-<span class="kw">plugins/</span>       <span class="cm"># 마켓(20) + 소싱(4) 플러그인</span>
+<span class="kw">plugins/</span>       <span class="cm"># 마켓(18) + 소싱(14) 플러그인</span>
 
 <span class="cm">## 운영 도메인</span>
 <span class="kw">order/</span>         <span class="cm"># 주문 관리 + 클레임 감지</span>
@@ -1305,7 +1317,7 @@
         </div>
         <div class="stack-group">
           <div class="stack-group-title" style="color:var(--purple)">Tools</div>
-          <div class="stack-item"><span class="stack-item-name">Chrome Extension</span><span class="stack-item-version">소싱 보조</span></div>
+          <div class="stack-item"><span class="stack-item-name">Chrome Extension</span><span class="stack-item-version">v2.12.31 / 소싱 보조</span></div>
           <div class="stack-item"><span class="stack-item-name">Alembic</span><span class="stack-item-version">DB Migration</span></div>
           <div class="stack-item"><span class="stack-item-name">Ruff + Black</span><span class="stack-item-version">Lint / Format</span></div>
           <div class="stack-item"><span class="stack-item-name">pnpm</span><span class="stack-item-version">Package Mgr</span></div>
@@ -1337,8 +1349,9 @@
 <span class="cm"># 마이그레이션 생성</span>
 <span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">alembic revision --autogenerate -m "설명"</span>
 
-<span class="cm"># 린트 + 포맷</span>
-<span class="kw">cd</span> backend && <span class="fn">ruff</span> check --fix . && <span class="fn">black</span> .
+<span class="cm"># 린트 + 포맷 (push 전 필수)</span>
+<span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">ruff format .</span>
+<span class="kw">cd</span> backend && <span class="fn">.venv/Scripts/python.exe</span> -m <span class="str">ruff check --fix .</span>
 
 <span class="cm"># TypeScript 체크</span>
 <span class="kw">cd</span> frontend && <span class="fn">npx</span> <span class="str">tsc --noEmit</span>
@@ -1349,8 +1362,79 @@
       </div>
     </section>
 
+    <!-- Performance Rules -->
+    <section id="perf-rules">
+      <div class="section-header">
+        <h3>성능 규칙 <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400">(10만+ 상품 환경 기준)</span></h3>
+        <p>대규모 데이터 환경에서 반드시 지켜야 할 DB/쿼리 패턴</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          DB 연결 풀 설계 (2026-05 확정)
+        </div>
+        <div class="code-body">
+<span class="cm"># pool_pre_ping=False — asyncpg 버그: SELECT 1이 idle in transaction 좀비 누적 → 풀 고갈</span>
+<span class="cm"># pool_recycle=300 으로 stale 연결 대응</span>
+<span class="cm"># write pool: pool_size=20, max_overflow=20 (최대 40개)</span>
+<span class="cm"># read  pool: pool_size=5,  max_overflow=10 (최대 15개)</span>
+<span class="cm"># transmit 잡 동시 실행 한도: 5개 (_transmit_semaphore)</span>
+<span class="cm"># 오토튠 write session 상시 점유: ~10개</span>
+        </div>
+      </div>
+
+      <div class="code-block" style="margin-top:1.25rem">
+        <div class="code-header">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          registered_accounts JSONB 패턴 (2026-05-06 마이그레이션 완료)
+        </div>
+        <div class="code-body">
+<span class="cm"># GIN 인덱스: ix_scp_registered_accounts_gin</span>
+<span class="cm"># ✅ 빈 배열: func.jsonb_array_length(col) == 0</span>
+<span class="cm"># ✅ 포함 체크: col.op("@>")(cast('["account_id"]', JSONB))</span>
+<span class="cm"># ❌ 금지: cast(col, String).like('%account_id%')</span>
+        </div>
+      </div>
+
+      <div class="code-block" style="margin-top:1.25rem">
+        <div class="code-header">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          무거운 컬럼 defer (목록/동기화 쿼리 필수)
+        </div>
+        <div class="code-body">
+<span class="cm"># detail_html, detail_images, images, extra_data — 반드시 defer</span>
+<span class="cm"># 미적용 시 전체 스캔이 수십 분짜리 쿼리 → DB 연결 풀 고갈</span>
+query.<span class="fn">options</span>(<span class="fn">defer</span>(CP.detail_html), <span class="fn">defer</span>(CP.detail_images), <span class="fn">defer</span>(CP.images), <span class="fn">defer</span>(CP.extra_data))
+<span class="cm"># 오토튠 폴링: SW 재시작 시 자동 복원 (확장앱 v2.12.31+)</span>
+<span class="cm"># 배경제거 워커: 로컬 PC 전용 — VM 운영 금지</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Price Logic -->
+    <section id="price-logic">
+      <div class="section-header">
+        <h3>소싱처별 가격 수집 로직 <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400">(확정본)</span></h3>
+        <p>각 소싱처의 최대혜택가(원가) 수집 방식 — 변경 시 반드시 검증 후 반영</p>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          소싱처별 확정 로직
+        </div>
+        <div class="code-body">
+<span class="cm">## 무신사: couponPrice 금지, SG/SB 쿠폰만, 선할인교정</span>
+<span class="cm">## SSG: DOM 카드혜택가 > JS bestAmt > fallback (갱신은 확장앱 위임)</span>
+<span class="cm">## 롯데ON: 즉시할인만 반영 (추가할인 금지) — DOM > PBF > HTML</span>
+<span class="cm">## GS샵: renderJson gsPrc + cpnDcAmt 차감 (3중 소스 우선순위)</span>
+<span class="cm">## ABC마트/그랜드스테이지: /product/info?prdtNo={id} (X-Requested-With 필수, in-tab 전용)</span>
+        </div>
+      </div>
+    </section>
+
     <footer>
-      SambaWave Developer Guide &mdash; 2026
+      SambaWave Developer Guide &mdash; v2026.05.08
     </footer>
 
   </main>

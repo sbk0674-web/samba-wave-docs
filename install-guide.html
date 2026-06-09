@@ -639,6 +639,11 @@ cp .env.example .env</code></pre>
       <td class="required">●</td>
     </tr>
     <tr>
+      <td>SAMBA_INVITE_CODE</td>
+      <td>회원가입 초대 코드 — <strong>미설정 시 회원가입 전면 차단</strong>. 소스에 기본값이 없으므로 자기 서버 운영자가 <strong>본인만 아는 강한 값</strong>으로 직접 설정해야 가입이 열림</td>
+      <td class="required">●</td>
+    </tr>
+    <tr>
       <td>environment</td>
       <td>실행 환경: <code>development</code> 또는 <code>production</code></td>
       <td class="required">●</td>
@@ -675,6 +680,7 @@ cp .env.example .env</code></pre>
     </tr>
   </table>
 
+  <div class="warn"><strong>보안 — 초대 코드(자가호스팅 필독):</strong> 이 솔루션은 <strong>자가호스팅</strong>입니다. 본인 서버 + 본인 프론트(Vercel)를 직접 운영해야 하며, <code>SAMBA_INVITE_CODE</code>는 <strong>각자 자기 서버 env에서 직접 설정</strong>합니다(소스에 기본값을 박아두지 않음 — 노출 방지). 이 값을 설정하지 않으면 아무도 회원가입할 수 없고, 설정한 값을 모르는 사람은 당신의 서버에 가입할 수 없습니다. <strong>다른 운영자의 백엔드 URL로는 가입할 수 없습니다(각자 자기 초대 코드).</strong></div>
   <div class="note"><strong>Gemini / Cloudflare R2 설정:</strong> Gemini API 키, R2 버킷 정보는 <strong>서버 환경변수가 아닙니다</strong>. 최초 1회 설정 페이지(<code>/samba/settings</code>)에서 계정별로 입력하여 DB에 저장됩니다.</div>
   <div class="note"><strong>로컬 개발 팁:</strong> <code>environment=development</code>로 설정하면 디버그 로그가 활성화되고 DB SSL이 자동으로 꺼집니다. <code>READ_DB_*</code>는 로컬에서 <code>WRITE_DB_*</code>와 동일하게 설정해도 무방합니다.</div>
 

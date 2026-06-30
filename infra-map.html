@@ -145,28 +145,32 @@
   <rect x="660" y="90" width="200" height="50" rx="12" fill="#1a1a2e" stroke="#7a7a94" stroke-width="2"/>
   <text x="760" y="121" text-anchor="middle" fill="#e4e4ec" font-size="14" font-weight="600">🐙 GitHub + Actions</text>
 
-  <!-- GCE VM 백엔드 (큰 박스) -->
+  <!-- GCP 정적IP/Caddy 프록시 (입구) -->
+  <rect x="350" y="155" width="200" height="28" rx="8" fill="#0a0a1a" stroke="#5c9aff" stroke-width="1.5"/>
+  <text x="450" y="173" text-anchor="middle" fill="#5c9aff" font-size="11" font-weight="600">🌐 GCP 정적IP + Caddy 프록시 (입구)</text>
+
+  <!-- 집PC Docker 백엔드 (큰 박스) -->
   <rect x="220" y="190" width="460" height="130" rx="16" fill="#0a1a0a" stroke="#3ecf8e" stroke-width="2"/>
-  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">🖥️ GCE VM (FastAPI · Docker Compose · Blue/Green 배포)</text>
-  <!-- 내부 모듈 -->
-  <rect x="240" y="235" width="120" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
-  <text x="300" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">상품수집/관리</text>
-  <rect x="375" y="235" width="120" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
-  <text x="435" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">AI 가공/매핑</text>
-  <rect x="510" y="235" width="150" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
-  <text x="585" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">마켓 전송/주문</text>
+  <text x="450" y="218" text-anchor="middle" fill="#3ecf8e" font-size="15" font-weight="700">🏠 집PC Docker (FastAPI · Docker Compose)</text>
+  <!-- 내부 컨테이너 -->
+  <rect x="240" y="235" width="135" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
+  <text x="307" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">samba-api (-w1)</text>
+  <rect x="385" y="235" width="135" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
+  <text x="452" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">samba-worker</text>
+  <rect x="530" y="235" width="130" height="35" rx="8" fill="rgba(62,207,142,0.1)" stroke="rgba(62,207,142,0.3)"/>
+  <text x="595" y="258" text-anchor="middle" fill="#3ecf8e" font-size="11" font-weight="500">samba-reconciler</text>
   <rect x="240" y="280" width="420" height="25" rx="6" fill="rgba(62,207,142,0.05)" stroke="rgba(62,207,142,0.15)"/>
-  <text x="450" y="297" text-anchor="middle" fill="rgba(62,207,142,0.6)" font-size="10">samba-wave-vm(e2-small, 서울) · Caddy + FastAPI + Cloud SQL Auth Proxy 사이드카</text>
+  <text x="450" y="297" text-anchor="middle" fill="rgba(62,207,142,0.6)" font-size="10">자택 PC · docker-compose.tunnel.yml · PostgreSQL + WireGuard 터널 + api + worker + reconciler</text>
 
-  <!-- Cloud SQL Write DB -->
+  <!-- 집 PostgreSQL (진실 source) -->
   <rect x="20" y="200" width="170" height="55" rx="12" fill="#1a0a0a" stroke="#ff6b6b" stroke-width="2"/>
-  <text x="105" y="225" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="600">🗄️ Cloud SQL (쓰기)</text>
-  <text x="105" y="244" text-anchor="middle" fill="#7a7a94" font-size="10">PostgreSQL — Write 인스턴스</text>
+  <text x="105" y="225" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="600">🗄️ 집 PostgreSQL</text>
+  <text x="105" y="244" text-anchor="middle" fill="#7a7a94" font-size="10">진실 source · 매일 R2 백업</text>
 
-  <!-- Cloud SQL Read DB -->
+  <!-- Cloud SQL (롤백용 잔존) -->
   <rect x="20" y="270" width="170" height="55" rx="12" fill="#1a0a0a" stroke="#ff9966" stroke-width="2"/>
-  <text x="105" y="295" text-anchor="middle" fill="#ff9966" font-size="13" font-weight="600">🗄️ Cloud SQL (읽기)</text>
-  <text x="105" y="314" text-anchor="middle" fill="#7a7a94" font-size="10">PostgreSQL — Read 인스턴스</text>
+  <text x="105" y="295" text-anchor="middle" fill="#ff9966" font-size="13" font-weight="600">🗄️ Cloud SQL (잔존)</text>
+  <text x="105" y="314" text-anchor="middle" fill="#7a7a94" font-size="10">롤백용 · 축소 예정</text>
 
   <!-- 외부 서비스들 (하단) -->
   <!-- Gemini -->
@@ -174,10 +178,10 @@
   <text x="110" y="416" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">🤖 Google Gemini</text>
   <text x="110" y="434" text-anchor="middle" fill="#7a7a94" font-size="10">AI 이미지 변환</text>
 
-  <!-- Claude -->
-  <rect x="210" y="390" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
-  <text x="290" y="416" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="600">🧠 Claude API</text>
-  <text x="290" y="434" text-anchor="middle" fill="#7a7a94" font-size="10">카테고리/상품명 AI</text>
+  <!-- Claude (개발 도구) -->
+  <rect x="210" y="390" width="160" height="55" rx="12" fill="#16161e" stroke="#7a7a94" stroke-width="2"/>
+  <text x="290" y="416" text-anchor="middle" fill="#9a9ab4" font-size="13" font-weight="600">🧠 Claude (개발 도구)</text>
+  <text x="290" y="434" text-anchor="middle" fill="#7a7a94" font-size="10">코드 작성용 · 런타임 아님</text>
 
   <!-- R2 -->
   <rect x="390" y="390" width="160" height="55" rx="12" fill="#1a1a2e" stroke="#f472b6" stroke-width="2"/>
@@ -215,44 +219,46 @@
   <line x1="450" y1="60" x2="450" y2="88" stroke="#ff8c00" stroke-width="2" marker-end="url(#arrowOrange)"/>
   <!-- 사용자 → 확장앱 -->
   <path d="M370 35 L120 88" stroke="#a78bfa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <!-- Vercel → Cloud Run -->
-  <line x1="450" y1="140" x2="450" y2="188" stroke="#3ecf8e" stroke-width="2" marker-end="url(#arrowGreen)"/>
-  <text x="460" y="170" fill="#7a7a94" font-size="9">API 호출</text>
-  <!-- 확장앱 → Cloud Run -->
+  <!-- Vercel → GCP 입구 프록시 → 집PC -->
+  <line x1="450" y1="140" x2="450" y2="153" stroke="#3ecf8e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="500" y="150" fill="#7a7a94" font-size="9">api.samba-wave.co.kr</text>
+  <line x1="450" y1="183" x2="450" y2="188" stroke="#3ecf8e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="500" y="195" fill="#7a7a94" font-size="9">WireGuard 터널</text>
+  <!-- 확장앱/데몬 → 집PC api -->
   <path d="M180 140 L280 188" stroke="#a78bfa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="185" y="165" fill="#7a7a94" font-size="9">쿠키/데이터 전송</text>
-  <!-- Cloud Run → Cloud SQL Write -->
+  <text x="185" y="165" fill="#7a7a94" font-size="9">폴링/데이터 전송</text>
+  <!-- api → 집 PostgreSQL -->
   <line x1="220" y1="240" x2="192" y2="235" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <!-- Cloud Run → Cloud SQL Read -->
-  <line x1="220" y1="280" x2="192" y2="295" stroke="#ff9966" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <!-- Cloud Run → Gemini -->
+  <!-- api → Cloud SQL(잔존) -->
+  <line x1="220" y1="280" x2="192" y2="295" stroke="#ff9966" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <!-- api → Gemini -->
   <line x1="320" y1="320" x2="130" y2="388" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
-  <!-- Cloud Run → Claude -->
-  <line x1="400" y1="320" x2="310" y2="388" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
-  <!-- Cloud Run → R2 -->
+  <!-- api → Claude(개발) -->
+  <line x1="400" y1="320" x2="310" y2="388" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <!-- api → R2 -->
   <line x1="450" y1="320" x2="460" y2="388" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
-  <!-- Cloud Run → Aligo -->
+  <!-- api → Aligo -->
   <line x1="550" y1="320" x2="620" y2="388" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrowPink)"/>
-  <!-- Cloud Run → 마켓 -->
+  <!-- api → 마켓 -->
   <line x1="450" y1="320" x2="450" y2="513" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
   <text x="460" y="480" fill="#7a7a94" font-size="9">상품등록/주문조회</text>
-  <!-- Cloud Run → 소싱처 -->
+  <!-- api → 소싱처 -->
   <line x1="680" y1="255" x2="718" y2="248" stroke="#ffd700" stroke-width="1.5" marker-end="url(#arrow)"/>
   <text x="694" y="270" fill="#7a7a94" font-size="9">수집</text>
   <!-- GitHub → Vercel -->
   <path d="M660 110 L552 110" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
   <text x="598" y="103" fill="#7a7a94" font-size="9">자동배포</text>
-  <!-- 로컬 deploy.sh → GCE VM -->
-  <path d="M710 140 L640 190" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
-  <text x="680" y="165" fill="#7a7a94" font-size="9">deploy.sh</text>
+  <!-- 집PC 재빌드 → 백엔드 -->
+  <path d="M710 140 L660 190" stroke="#7a7a94" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="660" y="165" fill="#7a7a94" font-size="9">deploy-local.ps1</text>
 
   <!-- 범례 -->
   <rect x="30" y="585" width="840" height="40" rx="8" fill="rgba(255,255,255,0.02)" stroke="#1a1a24"/>
   <circle cx="60" cy="605" r="6" fill="#5c9aff"/><text x="75" y="609" fill="#7a7a94" font-size="10">사용자</text>
   <circle cx="140" cy="605" r="6" fill="#a78bfa"/><text x="155" y="609" fill="#7a7a94" font-size="10">확장앱</text>
   <circle cx="220" cy="605" r="6" fill="#ff8c00"/><text x="235" y="609" fill="#7a7a94" font-size="10">프론트</text>
-  <circle cx="300" cy="605" r="6" fill="#3ecf8e"/><text x="315" y="609" fill="#7a7a94" font-size="10">GCE VM</text>
-  <circle cx="400" cy="605" r="6" fill="#ff6b6b"/><text x="415" y="609" fill="#7a7a94" font-size="10">Cloud SQL</text>
+  <circle cx="300" cy="605" r="6" fill="#3ecf8e"/><text x="315" y="609" fill="#7a7a94" font-size="10">집PC 백엔드</text>
+  <circle cx="400" cy="605" r="6" fill="#ff6b6b"/><text x="415" y="609" fill="#7a7a94" font-size="10">집 PostgreSQL</text>
   <circle cx="490" cy="605" r="6" fill="#f472b6"/><text x="505" y="609" fill="#7a7a94" font-size="10">외부API</text>
   <circle cx="570" cy="605" r="6" fill="#ffd700"/><text x="585" y="609" fill="#7a7a94" font-size="10">마켓/소싱처</text>
 </svg>
@@ -263,22 +269,22 @@
 
 <h3>상품 수집 흐름</h3>
 <div class="flow-row">
-  <span class="flow-box fb-ext">🧩 확장앱</span>
+  <span class="flow-box fb-ext">🧩 확장앱/데몬</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-back">쿠키/데이터 전송</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🖥️ GCE VM</span>
+  <span class="flow-box fb-back">🏠 집PC 백엔드</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-market">🛒 소싱처 API</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-db">🗄️ Cloud SQL 저장</span>
+  <span class="flow-box fb-db">🗄️ 집 PostgreSQL 저장</span>
 </div>
 
 <h3>AI 이미지 변환 흐름</h3>
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🖥️ GCE VM</span>
+  <span class="flow-box fb-back">🏠 집PC 백엔드</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext-svc">🤖 Gemini</span>
   <span class="flow-arrow">→</span>
@@ -291,9 +297,9 @@
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🖥️ GCE VM (룰→유사도→AI)</span>
+  <span class="flow-box fb-back">🏠 집PC 백엔드 (룰→유사도)</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-ext-svc">🧠 Claude</span>
+  <span class="flow-box fb-ext-svc">🤖 Gemini</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-db">🗄️ 매핑 저장</span>
 </div>
@@ -302,7 +308,7 @@
 <div class="flow-row">
   <span class="flow-box fb-front">▲ 프론트</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🖥️ GCE VM (소싱처 최신화)</span>
+  <span class="flow-box fb-back">🏠 집PC 백엔드 (소싱처 최신화)</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-back">상세HTML 생성</span>
   <span class="flow-arrow">→</span>
@@ -315,22 +321,22 @@
 <div class="flow-row">
   <span class="flow-box fb-market">🏪 마켓 (주문발생)</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🖥️ GCE VM 동기화</span>
+  <span class="flow-box fb-back">🏠 집PC 백엔드 동기화</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-db">🗄️ Cloud SQL 저장</span>
+  <span class="flow-box fb-db">🗄️ 집 PostgreSQL 저장</span>
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-ext-svc">📱 SMS 알림</span>
 </div>
 
 <h3>배포 흐름</h3>
 <div class="flow-row">
-  <span class="flow-box fb-user">bash deploy/deploy.sh</span>
+  <span class="flow-box fb-user">cd deploy/local; .\deploy-local.ps1</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">Docker Build → Artifact Registry push</span>
+  <span class="flow-box fb-back">Docker 이미지 재빌드 (local-samba-api)</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">SSH → VM Blue/Green 무중단</span>
+  <span class="flow-box fb-back">컨테이너 재기동</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🖥️ GCE VM 헬스체크</span>
+  <span class="flow-box fb-back">🏠 집PC 백엔드 헬스체크</span>
 </div>
 <div class="flow-row" style="margin-top:8px">
   <span class="flow-box fb-user">git push main</span>
@@ -349,15 +355,21 @@
   </div>
 
   <div class="price-card">
-    <div class="name"><span class="dot" style="background:#3ecf8e"></span> 🖥️ GCE VM (samba-wave-vm)</div>
-    <div class="cost paid">~₩10만/월</div>
-    <div class="desc">e2-medium · asia-northeast3-a<br>도메인: <code>api.samba-wave.co.kr</code><br>Caddy + FastAPI + Cloud SQL Auth Proxy 사이드카<br>docker compose 블루/그린 무중단 배포<br><strong>현행 운영 경로 (Cloud Run 전환 완료)</strong></div>
+    <div class="name"><span class="dot" style="background:#3ecf8e"></span> 🏠 집PC Docker (백엔드)</div>
+    <div class="cost paid">변동 (전기/인터넷)</div>
+    <div class="desc">자택 PC · Docker Compose<br><code>deploy/local/docker-compose.tunnel.yml</code><br>PostgreSQL + WireGuard + samba-api + samba-worker + samba-reconciler<br><strong>2026-06-29 GCP→집PC 이전 완료</strong></div>
   </div>
 
   <div class="price-card">
-    <div class="name"><span class="dot" style="background:#ff6b6b"></span> Cloud SQL PostgreSQL (DB)</div>
-    <div class="cost paid">~$30/월</div>
-    <div class="desc">Read/Write 인스턴스 2개 운영<br>db-f1-micro 기준 약 $15/인스턴스/월<br>스토리지: 10GB SSD 기본 포함<br><strong>백업 보관:</strong> 7일 자동 백업</div>
+    <div class="name"><span class="dot" style="background:#5c9aff"></span> 🌐 GCP 정적IP + Caddy 프록시</div>
+    <div class="cost paid">변동 (입구 잔존)</div>
+    <div class="desc">입구 리버스프록시 역할만 잔존<br>정적IP(reserved) + Caddy(TLS) + WireGuard 터널<br>도메인: <code>api.samba-wave.co.kr</code><br><strong>실제 백엔드는 집PC</strong></div>
+  </div>
+
+  <div class="price-card">
+    <div class="name"><span class="dot" style="background:#ff6b6b"></span> 집 PostgreSQL (DB)</div>
+    <div class="cost paid">변동 (집PC 내장)</div>
+    <div class="desc">집 PostgreSQL = 진실 source<br>매일 Cloudflare R2로 백업<br>기존 Cloud SQL은 롤백용 잔존(축소 예정)<br><strong>백업 보관:</strong> 로컬 7개 + R2</div>
   </div>
 
   <div class="price-card">
@@ -373,9 +385,9 @@
   </div>
 
   <div class="price-card">
-    <div class="name"><span class="dot" style="background:#f472b6"></span> Claude API (AI 텍스트)</div>
-    <div class="cost usage">사용량 과금</div>
-    <div class="desc">Sonnet 4: $3/M입력 + $15/M출력<br>카테고리 매핑 1건 ≈ ₩15<br>벌크 매핑 100건 ≈ ₩1,500<br><strong>평상시 거의 안 씀</strong></div>
+    <div class="name"><span class="dot" style="background:#7a7a94"></span> Claude (개발 도구)</div>
+    <div class="cost free">제품 런타임 아님</div>
+    <div class="desc">코드 작성/개발 보조용 도구<br>서비스 런타임에서 호출하지 않음<br>제품 비용 구조에 포함 안 됨<br><strong>인프라 비용 아님</strong></div>
   </div>
 
   <div class="price-card">
@@ -398,10 +410,10 @@
 </div>
 
 <div class="note">
-  <strong>💡 월간 예상 비용 요약 (현재):</strong>
-  GCE VM ~₩10만 + Cloud SQL ~₩4만 + Gemini ₩3만 + Claude ₩5천 + Aligo ₩1만 ≈ <strong>총 ~₩18만/월</strong><br>
-  (Cloud Run → GCE VM 전환 완료로 월 ~₩30만 절감 달성)<br>
-  (상품 수, AI 사용량, 트래픽에 따라 달라짐)
+  <strong>💡 월간 비용 구조 요약 (현재):</strong>
+  백엔드/DB는 <strong>집PC Docker</strong>로 이전(2026-06-29 완료) → GCP 풀 호스팅 비용은 더 이상 주 비용이 아님.<br>
+  현 구성: 집PC(전기/인터넷, 변동) + GCP 정적IP·Caddy 프록시(입구 잔존) + Vercel(무료) + R2(거의 무료) + Gemini(사용량) + Aligo(선불).<br>
+  (정확한 합계 금액은 변동 — 상품 수, AI 사용량, 트래픽에 따라 달라짐. Cloud SQL/큰 VM은 안정 후 축소 예정.)
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━ 서비스별 역할 ━━━━━━━━━━━━━━━━ -->
@@ -416,21 +428,27 @@
     <td>vercel.com 대시보드</td>
   </tr>
   <tr>
-    <td>🖥️ GCE VM (samba-wave-vm)</td>
-    <td>백엔드 FastAPI 서버 (Caddy + FastAPI + Cloud SQL Auth Proxy, docker compose 블루/그린). 도메인 <code>api.samba-wave.co.kr</code>. <strong>현행 운영 경로</strong> (Cloud Run 전환 완료)</td>
-    <td>없음 (DB는 Cloud SQL)</td>
-    <td>console.cloud.google.com → Compute Engine</td>
+    <td>🏠 집PC Docker (백엔드)</td>
+    <td>백엔드 FastAPI 서버. <code>docker-compose.tunnel.yml</code> 5개 컨테이너 — PostgreSQL + WireGuard + samba-api(-w1, HTTP+오토튠+폴러) + samba-worker(전송 전담) + samba-reconciler(유지보수 루프). <strong>2026-06-29 GCP→집PC 이전 완료</strong></td>
+    <td>없음 (DB는 집 PostgreSQL)</td>
+    <td>집PC 로컬 Docker</td>
   </tr>
   <tr>
-    <td>🗄️ Cloud SQL (쓰기)</td>
-    <td>INSERT/UPDATE/DELETE 전용 DB 인스턴스</td>
+    <td>🌐 GCP 정적IP + Caddy</td>
+    <td>입구 리버스프록시. <code>api.samba-wave.co.kr</code> → 정적IP + Caddy(TLS) → WireGuard 터널 → 집PC samba-api</td>
+    <td>없음 (프록시만)</td>
+    <td>console.cloud.google.com</td>
+  </tr>
+  <tr>
+    <td>🗄️ 집 PostgreSQL</td>
+    <td>모든 읽기/쓰기 DB (진실 source). 매일 Cloudflare R2로 백업</td>
     <td>모든 상품/주문/설정 데이터</td>
-    <td>console.cloud.google.com → Cloud SQL</td>
+    <td>집PC 로컬 Docker</td>
   </tr>
   <tr>
-    <td>🗄️ Cloud SQL (읽기)</td>
-    <td>SELECT 전용 Read Replica 인스턴스</td>
-    <td>쓰기 인스턴스와 동기화</td>
+    <td>🗄️ Cloud SQL (잔존)</td>
+    <td>롤백용으로만 잔존 (안정 후 축소 예정). 현재 진실 source 아님</td>
+    <td>컷오버 시점 stale 데이터</td>
     <td>console.cloud.google.com → Cloud SQL</td>
   </tr>
   <tr>
@@ -446,10 +464,10 @@
     <td>Google AI Studio</td>
   </tr>
   <tr>
-    <td>🧠 Claude API</td>
-    <td>카테고리 매핑, 상품명 가공</td>
-    <td>없음 (호출만)</td>
-    <td>Anthropic Console</td>
+    <td>🧠 Claude (개발 도구)</td>
+    <td>코드 작성/개발 보조 도구 (서비스 런타임 호출 아님)</td>
+    <td>없음</td>
+    <td>개발 환경 (제품 인프라 아님)</td>
   </tr>
   <tr>
     <td>📱 Aligo</td>
@@ -494,36 +512,34 @@
 <table>
   <tr><th>서비스</th><th>키 이름</th><th>저장 위치</th><th>설정 방법</th></tr>
   <tr><td>Gemini</td><td>API Key</td><td>DB (samba_settings.gemini)</td><td>설정 페이지 → AI 설정</td></tr>
-  <tr><td>Claude</td><td>API Key</td><td>DB (samba_settings.claude)</td><td>설정 페이지 → AI 설정</td></tr>
   <tr><td>R2</td><td>Access/Secret Key</td><td>DB (samba_settings.cloudflare_r2)</td><td>설정 페이지 → 스토리지</td></tr>
   <tr><td>Aligo</td><td>API Key + User ID</td><td>DB (samba_settings.aligo_sms)</td><td>설정 페이지 → 알림</td></tr>
   <tr><td>스마트스토어</td><td>Client ID/Secret</td><td>DB (마켓 계정)</td><td>설정 페이지 → 스토어 연결</td></tr>
   <tr><td>쿠팡</td><td>Access/Secret Key</td><td>DB (마켓 계정)</td><td>설정 페이지 → 스토어 연결</td></tr>
   <tr><td>무신사</td><td>쿠키 (자동)</td><td>DB (samba_settings.musinsa_cookie)</td><td>확장앱이 자동 전송</td></tr>
-  <tr><td>GCP_SA_KEY</td><td>서비스 계정 JSON</td><td>GitHub Secrets</td><td>GitHub → Settings → Secrets</td></tr>
-  <tr><td>DB 연결정보</td><td>HOST/USER/PASSWORD (R/W 각각)</td><td>GitHub Secrets</td><td>GitHub → Settings → Secrets</td></tr>
-  <tr><td>JWT_SECRET_KEY</td><td>JWT 서명 키</td><td>GitHub Secrets → VM .env 파일</td><td>GitHub → Settings → Secrets</td></tr>
+  <tr><td>DB 연결정보</td><td>HOST/USER/PASSWORD</td><td>집PC <code>local.env</code> (gitignore)</td><td>집PC deploy/local 디렉토리</td></tr>
+  <tr><td>JWT_SECRET_KEY</td><td>JWT 서명 키</td><td>집PC <code>local.env</code> (gitignore)</td><td>집PC deploy/local 디렉토리</td></tr>
 </table>
 
 <div class="note">
-  <strong>핵심:</strong> 비즈니스 API 키는 <strong>설정 페이지(DB)</strong>에서 관리합니다. 인프라 키(GCP, DB, JWT)는 <strong>GitHub Secrets</strong>에 저장하고 VM의 .env 파일로 주입합니다.<br>
-  VM의 /opt/samba/.env 파일에 DB 연결 정보와 JWT 시크릿을 설정합니다.
+  <strong>핵심:</strong> 비즈니스 API 키는 <strong>설정 페이지(DB)</strong>에서 관리합니다. 인프라 키(DB, JWT)는 집PC의 <strong><code>deploy/local/local.env</code></strong> 파일(gitignore)에 저장하고 Docker 컨테이너로 주입합니다.<br>
+  이 파일에 DB 연결 정보와 JWT 시크릿을 설정합니다.
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━ 배포 흐름 ━━━━━━━━━━━━━━━━ -->
 <h2>7. 배포는 어떻게 되는지</h2>
 
-<h3>백엔드 배포 (수동 — deploy.sh)</h3>
+<h3>백엔드 배포 (수동 — 집PC 재빌드)</h3>
 <div class="flow-row">
   <span class="flow-box fb-user">코드 수정</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-ext">bash deploy/deploy.sh</span>
+  <span class="flow-box fb-ext">cd deploy/local; .\deploy-local.ps1</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">Docker Build → Artifact Registry push</span>
+  <span class="flow-box fb-back">Docker 이미지 재빌드 (local-samba-api)</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">SSH → Blue/Green 무중단</span>
+  <span class="flow-box fb-back">컨테이너 재기동</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🖥️ GCE VM (api.samba-wave.co.kr)</span>
+  <span class="flow-box fb-back">🏠 집PC 백엔드 (api.samba-wave.co.kr)</span>
 </div>
 
 <h3>프론트엔드 (자동)</h3>
@@ -535,15 +551,15 @@
   <span class="flow-box fb-front">프론트엔드 자동 배포</span>
 </div>
 
-<p style="margin-top:0.5rem;">백엔드는 <code>bash deploy/deploy.sh</code> 수동 실행으로만 배포됩니다. 프론트엔드는 main push 시 Vercel이 자동 배포합니다.</p>
+<p style="margin-top:0.5rem;">백엔드는 집PC에서 <code>cd deploy/local; .\deploy-local.ps1</code> 재빌드로만 배포됩니다 (라이브=빌드 이미지, 볼륨 마운트·--reload 없음 → 재시작만으론 코드 반영 안 됨). 프론트엔드는 main push 시 Vercel이 자동 배포합니다.</p>
 
 <div class="note">
-  <strong>배포 순서 주의:</strong> DB 마이그레이션(alembic) → 백엔드(deploy.sh) → 프론트엔드(Vercel) 순서로 배포해야 합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.<br>
-  <strong>네트워크:</strong> Cloud SQL Auth Proxy가 Docker 내부 네트워크로 DB에 연결합니다.
+  <strong>배포 순서 주의:</strong> DB 마이그레이션(alembic) → 백엔드(집PC 재빌드) → 프론트엔드(Vercel) 순서로 배포해야 합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.<br>
+  <strong>네트워크:</strong> 인바운드는 <code>api.samba-wave.co.kr</code> → GCP 정적IP/Caddy → WireGuard 터널 → 집PC samba-api 컨테이너로 들어옵니다.
 </div>
 
 <br><br>
-<p style="color:#555; font-size:0.75rem; text-align:center;">2026-04-27 | SambaWave Infrastructure Map</p>
+<p style="color:#555; font-size:0.75rem; text-align:center;">2026-06-30 | SambaWave Infrastructure Map</p>
 
 </body>
 </html>

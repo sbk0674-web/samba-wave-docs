@@ -1005,7 +1005,7 @@ p.desc {
     <p>
       10명이 동시에 코드를 수정해도 충돌 없이 개발하는 방법.<br>
       처음 개발하는 분도 이 가이드만 따라하면 됩니다.<br>
-      <span style="color:var(--text-dim);font-size:0.85rem">기준: 프로덕션 환경 (GCE VM + Vercel)</span>
+      <span style="color:var(--text-dim);font-size:0.85rem">기준: 프로덕션 환경 (집 PC Docker + Vercel)</span>
     </p>
   </div>
 
@@ -2553,12 +2553,12 @@ p.desc {
         <tbody>
           <tr><td><strong>백엔드 프레임워크</strong></td><td>FastAPI (async/await)</td><td>Python 3.12.3</td></tr>
           <tr><td><strong>ORM</strong></td><td>SQLModel + SQLAlchemy (asyncpg)</td><td></td></tr>
-          <tr><td><strong>DB</strong></td><td>PostgreSQL (Cloud SQL)</td><td>Read/Write 2개 인스턴스 분리</td></tr>
+          <tr><td><strong>DB</strong></td><td>PostgreSQL (집 PC)</td><td>진실 소스, Read/Write 분리 (R2 일일백업)</td></tr>
           <tr><td><strong>프론트엔드</strong></td><td>Next.js 15 (App Router)</td><td>React 19</td></tr>
           <tr><td><strong>스타일링</strong></td><td>Tailwind CSS 4</td><td>MUI Material 병용</td></tr>
           <tr><td><strong>인증</strong></td><td>JWT</td><td>서버사이드 검증</td></tr>
           <tr><td><strong>파일 스토리지</strong></td><td>Cloudflare R2</td><td>이미지 업로드</td></tr>
-          <tr><td><strong>백엔드 배포</strong></td><td>GCE VM</td><td>로컬 <code>bash deploy/deploy.sh</code> 수동 실행</td></tr>
+          <tr><td><strong>백엔드 배포</strong></td><td>집 PC Docker</td><td>코드 변경 시 <code>cd deploy/local; .\deploy-local.ps1</code> 재빌드 (이미지 라이브, --reload 없음)</td></tr>
           <tr><td><strong>프론트엔드 배포</strong></td><td>Vercel</td><td>push → 자동 배포</td></tr>
           <tr><td><strong>패키지 관리 (BE)</strong></td><td>uv</td><td>Python 가상환경 포함</td></tr>
           <tr><td><strong>패키지 관리 (FE)</strong></td><td>pnpm</td><td></td></tr>

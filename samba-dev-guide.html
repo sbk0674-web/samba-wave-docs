@@ -921,12 +921,12 @@
         <div class="arch-layer">
           <div class="arch-layer-label">Infra</div>
           <div class="arch-layer-content">
-            <span class="arch-box arch-box-infra">Cloud SQL (PostgreSQL)</span>
-            <span class="arch-box arch-box-infra">GCE VM + Docker Compose</span>
-            <span class="arch-box arch-box-infra">Artifact Registry</span>
+            <span class="arch-box arch-box-infra">집 PC PostgreSQL (진실 소스)</span>
+            <span class="arch-box arch-box-infra">집 PC Docker Compose</span>
+            <span class="arch-box arch-box-infra">WireGuard 터널</span>
             <span class="arch-box arch-box-infra">Cloudflare R2</span>
             <span class="arch-box arch-box-infra">Vercel (Frontend)</span>
-            <span class="arch-box arch-box-infra">Caddy (HTTPS)</span>
+            <span class="arch-box arch-box-infra">GCP 정적IP + Caddy (HTTPS 입구)</span>
             <span class="arch-box arch-box-infra">Chrome Extension</span>
           </div>
         </div>
@@ -1309,11 +1309,11 @@
         <div class="stack-group">
           <div class="stack-group-title" style="color:var(--green)">Infrastructure</div>
           <div class="stack-item"><span class="stack-item-name">Vercel</span><span class="stack-item-version">Frontend Deploy</span></div>
-          <div class="stack-item"><span class="stack-item-name">GCE VM</span><span class="stack-item-version">Backend (Docker)</span></div>
-          <div class="stack-item"><span class="stack-item-name">Cloud SQL</span><span class="stack-item-version">PostgreSQL (GCP)</span></div>
-          <div class="stack-item"><span class="stack-item-name">Artifact Registry</span><span class="stack-item-version">Docker Images</span></div>
+          <div class="stack-item"><span class="stack-item-name">집 PC Docker</span><span class="stack-item-version">Backend (라이브)</span></div>
+          <div class="stack-item"><span class="stack-item-name">집 PC PostgreSQL</span><span class="stack-item-version">진실 소스 (R2 일일백업)</span></div>
+          <div class="stack-item"><span class="stack-item-name">WireGuard</span><span class="stack-item-version">집 PC 인바운드 터널</span></div>
           <div class="stack-item"><span class="stack-item-name">Cloudflare R2</span><span class="stack-item-version">Image Upload</span></div>
-          <div class="stack-item"><span class="stack-item-name">Caddy</span><span class="stack-item-version">Reverse Proxy / HTTPS</span></div>
+          <div class="stack-item"><span class="stack-item-name">GCP 정적IP + Caddy</span><span class="stack-item-version">HTTPS 입구 / 프록시</span></div>
         </div>
         <div class="stack-group">
           <div class="stack-group-title" style="color:var(--purple)">Tools</div>
@@ -1434,7 +1434,7 @@ query.<span class="fn">options</span>(<span class="fn">defer</span>(CP.detail_ht
     </section>
 
     <footer>
-      SambaWave Developer Guide &mdash; v2026.05.08
+      SambaWave Developer Guide &mdash; v2026.06.30
     </footer>
 
   </main>

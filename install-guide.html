@@ -356,8 +356,8 @@
 <h1>&#128196; 삼바웨이브 설치 가이드</h1>
 <div class="header-meta">
   <span class="meta-tag">Install Guide</span>
-  <span class="meta-tag">v2.1</span>
-  <span class="meta-tag">2026-04-25</span>
+  <span class="meta-tag">v3.0</span>
+  <span class="meta-tag">2026-06-30</span>
 </div>
 <p>프로젝트 파일을 받은 후 로컬 개발 환경부터 프로덕션 레벨까지 단계별로 설정하는 완전 가이드입니다.</p>
 
@@ -388,7 +388,7 @@
     <li><a href="#init">초기 설정 (최초 1회)</a></li>
     <li><a href="#production">프로덕션 배포</a></li>
     <li><a href="#troubleshoot">문제 해결</a></li>
-    <li><a href="#cost-saving">&#128176; GCP 요금 절약</a></li>
+    <li><a href="#cost-saving">&#128176; 비용 구조 (집PC 이전 후)</a></li>
   </ol>
 </div>
 
@@ -446,17 +446,24 @@
   <h3>클라우드 계정 (프로덕션)</h3>
   <div class="req-grid">
     <div class="req-item">
+      <span class="req-icon">&#128187;</span>
+      <div>
+        <div class="req-name">집(자택) PC</div>
+        <div class="req-ver">백엔드 Docker 상시 구동 (8C/31GB 권장)</div>
+      </div>
+    </div>
+    <div class="req-item">
       <span class="req-icon">&#9729;</span>
       <div>
-        <div class="req-name">GCP 계정</div>
-        <div class="req-ver">GCE VM + Cloud SQL + Artifact Registry</div>
+        <div class="req-name">GCP 정적IP + Caddy</div>
+        <div class="req-ver">인바운드 프록시 + WireGuard 터널</div>
       </div>
     </div>
     <div class="req-item">
       <span class="req-icon">&#128057;</span>
       <div>
         <div class="req-name">GitHub 계정</div>
-        <div class="req-ver">소스 저장소 (빌드 트리거 연동)</div>
+        <div class="req-ver">소스 저장소 (Vercel 연동)</div>
       </div>
     </div>
     <div class="req-item">
@@ -728,8 +735,8 @@ cp .env.example .env</code></pre>
       <p>Docker로 PostgreSQL을 로컬에 실행합니다. 프로덕션 데이터와 완전히 분리되어 안전합니다.</p>
     </div>
     <div class="option-card">
-      <div class="option-title">&#9729; 옵션 B: Cloud SQL 직접 연결 <span class="badge-prod">프로덕션</span></div>
-      <p>실제 프로덕션 DB에 연결합니다. 데이터 변경 위험이 있으니 주의하세요.</p>
+      <div class="option-title">&#9729; 옵션 B: 집 PostgreSQL 직접 연결 <span class="badge-prod">프로덕션</span></div>
+      <p>실제 프로덕션(집 PostgreSQL) DB에 연결합니다. 데이터 변경 위험이 있으니 주의하세요.</p>
     </div>
   </div>
 
@@ -756,16 +763,17 @@ READ_DB_USER=test_user
 READ_DB_PASSWORD=test_password
 DB_SSL_REQUIRED=false</code></pre>
 
-  <h3>옵션 B: Cloud SQL Proxy 사용 (프로덕션 연결)</h3>
-  <div class="code-label">// Cloud SQL Proxy 설치 및 실행 (Mac/Linux)</div>
-  <pre><code># Cloud SQL Proxy 다운로드
-curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.9.0/cloud-sql-proxy.linux.amd64
-chmod +x cloud-sql-proxy
+  <h3>옵션 B: 집 PostgreSQL 직접 연결 (프로덕션 연결)</h3>
+  <div class="code-label">// .env에 집 PostgreSQL 접속정보 입력</div>
+  <pre><code># 프로덕션 DB는 집(자택) PC Docker의 PostgreSQL 컨테이너입니다 (진실 source).
+# WireGuard 터널 내부망 또는 집PC 로컬에서만 접근 가능합니다.
+WRITE_DB_HOST=&lt;집 PostgreSQL 호스트&gt;
+WRITE_DB_PORT=5432
+WRITE_DB_NAME=samba-wave
+WRITE_DB_USER=samba-user
+WRITE_DB_PASSWORD=&lt;집 PostgreSQL 비밀번호&gt;</code></pre>
 
-# 프록시 실행 (GCP 프로젝트 ID, 리전, 인스턴스명으로 교체)
-./cloud-sql-proxy --port 5432 &lt;PROJECT_ID&gt;:&lt;REGION&gt;:&lt;INSTANCE_NAME&gt;</code></pre>
-
-  <div class="warn"><strong>주의:</strong> Cloud SQL에 직접 연결하는 경우, 실제 프로덕션 데이터가 존재합니다. 마이그레이션 테스트는 반드시 로컬 DB에서 먼저 검증하세요. 개발 환경(<code>environment=development</code>)에서 운영 DB 호스트 접속 시 서버가 자동으로 차단합니다.</div>
+  <div class="warn"><strong>주의:</strong> 집 PostgreSQL(프로덕션)에 직접 연결하는 경우, 실제 프로덕션 데이터가 존재합니다. 매일 Cloudflare R2로 백업되지만, 마이그레이션 테스트는 반드시 로컬 DB에서 먼저 검증하세요. 개발 환경(<code>environment=development</code>)에서 운영 DB 호스트 접속 시 서버가 자동으로 차단합니다.</div>
 </div>
 
 
@@ -796,7 +804,7 @@ alembic upgrade head
 alembic downgrade -1</code></pre>
 
   <div class="note"><strong>마이그레이션 누락 검증:</strong> model.py 필드 추가/변경 시 <code>cd backend && python scripts/check_migrations.py</code> 실행으로 누락 여부를 사전 확인하세요.</div>
-  <div class="note"><strong>DB 컬럼 추가 체크리스트:</strong> model.py 필드 추가 → <code>alembic revision --autogenerate</code> → 마이그레이션 파일 검토 → 로컬 <code>alembic upgrade head</code> 확인 → push (Cloud Build 빌드 후 수동 마이그레이션 적용)</div>
+  <div class="note"><strong>DB 컬럼 추가 체크리스트:</strong> model.py 필드 추가 → <code>alembic revision --autogenerate</code> → 마이그레이션 파일 검토 → 로컬 <code>alembic upgrade head</code> 확인 → push → 집PC 재빌드(<code>deploy-local.ps1</code>) 전 집 PostgreSQL에 수동 마이그레이션 적용</div>
 </div>
 
 
@@ -930,64 +938,64 @@ cp .env.example .env.local</code></pre>
   <h2>&#9650; 9. 프로덕션 배포</h2>
   <p>상세 내용은 <a href="deploy-guide.html">배포 가이드</a>를 참조하세요. 핵심 단계만 요약합니다.</p>
 
+  <div class="warn"><strong>2026-06-29 백엔드 이전 완료:</strong> 백엔드가 GCP(GCE VM/Cloud SQL)에서 <strong>집(자택) PC Docker</strong>로 완전 이전되었습니다. <code>deploy/deploy.sh</code>(옛 GCE 배포)는 <strong>폐기 — 절대 실행 금지</strong>입니다.</div>
+
   <ol class="steps">
     <li>
       <div>
-        <strong>GitHub Secrets 등록</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">GCP_SA_KEY, DB 연결 정보, JWT_SECRET_KEY 등을 GitHub 저장소 Settings &gt; Secrets에 등록합니다.</span>
+        <strong>집 PostgreSQL 구성</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">집PC Docker의 PostgreSQL 컨테이너가 진실 source(원본)입니다. <code>deploy/local/docker-compose.tunnel.yml</code>에 포함되어 함께 기동되며, 매일 Cloudflare R2로 백업됩니다.</span>
       </div>
     </li>
     <li>
       <div>
-        <strong>Cloud SQL 인스턴스 생성</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">GCP Console에서 PostgreSQL 16 Cloud SQL 인스턴스를 생성합니다. Read Replica 분리를 권장합니다.</span>
+        <strong>GCP 인바운드 프록시 + WireGuard 터널</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GCP 정적IP + Caddy가 외부 인바운드(<code>api.samba-wave.co.kr</code>)를 받아 WireGuard 터널을 통해 집PC samba-api로 전달합니다. GCP는 "현관" 역할만 합니다.</span>
       </div>
     </li>
     <li>
       <div>
-        <strong>GCE VM 설정 및 배포</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">GCP에서 e2-medium VM(Ubuntu 22.04)을 생성하고 Docker + docker-compose를 설치합니다. <code>/opt/samba/.env</code>와 <code>sa-key.json</code>을 VM에 업로드한 뒤 <code>bash deploy/deploy.sh</code>로 첫 배포를 실행합니다.</span>
+        <strong>집PC Docker 환경 설정</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">집PC(8C/31GB 권장, Windows + Docker Desktop)에 <code>deploy/local/.env</code>를 작성하고 <code>docker-compose.tunnel.yml</code> 스택(postgres + wireguard + samba-api + samba-worker + samba-reconciler)을 기동합니다.</span>
       </div>
     </li>
     <li>
       <div>
         <strong>Vercel 프론트엔드 연결</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">GitHub 저장소를 Vercel에 연결하고 <code>NEXT_PUBLIC_API_URL</code>을 VM API 도메인(예: <code>https://api.yourdomain.com</code>)으로 설정합니다. main 브랜치 push 시 Vercel이 자동 배포합니다.</span>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GitHub 저장소를 Vercel에 연결하고 <code>NEXT_PUBLIC_API_URL</code>을 API 도메인(<code>https://api.samba-wave.co.kr</code>)으로 설정합니다. main 브랜치 push 시 Vercel이 자동 배포합니다. (프론트는 변경 없음)</span>
       </div>
     </li>
     <li>
       <div>
-        <strong>백엔드 배포 (수동)</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">백엔드 변경 후 로컬에서 <code>bash deploy/deploy.sh</code>를 실행합니다. Docker 빌드 → Artifact Registry push → VM Blue/Green 무중단 배포가 자동 진행됩니다. 완료까지 약 3~5분 소요.</span>
+        <strong>백엔드 배포 (수동 재빌드)</strong><br>
+        <span style="color:var(--text-muted);font-size:0.85rem;">라이브는 빌드된 이미지(<code>local-samba-api</code>)로 돕니다. 소스 볼륨마운트·<code>--reload</code> 없음. 백엔드 .py 변경은 집PC PowerShell에서 <code>cd deploy/local; .\deploy-local.ps1</code>로 <strong>반드시 재빌드</strong>해야 반영됩니다. 컨테이너 재시작만으로는 옛 이미지가 재사용됩니다.</span>
       </div>
     </li>
     <li>
       <div>
         <strong>DB 마이그레이션 수동 적용</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">Cloud Build는 DB를 자동으로 마이그레이션하지 않습니다. 모델 변경 시 Cloud SQL Proxy를 통해 직접 <code>alembic upgrade head</code>를 실행해야 합니다.</span>
+        <span style="color:var(--text-muted);font-size:0.85rem;">자동 마이그레이션은 없습니다. 모델 변경 시 재빌드 전에 집 PostgreSQL에 직접 <code>alembic upgrade head</code>를 실행해야 합니다.</span>
       </div>
     </li>
     <li>
       <div>
-        <strong>Cloud NAT 최소 포트 설정 <span style="color:var(--red);font-size:0.8rem;">필수</span></strong><br>
+        <strong>프로세스 역할 분리 이해</strong><br>
         <span style="color:var(--text-muted);font-size:0.85rem;">
-          <code>--vpc-egress=all-traffic</code> 설정 시 모든 아웃바운드 트래픽이 Cloud NAT를 경유합니다.
-          기본값(64포트)으로는 오토튠 대량 요청 시 포트가 소진되어 접속 실패가 발생합니다.
+          백엔드는 3개 프로세스로 분리되어 돕니다.
         </span>
         <ol style="margin-top:0.5rem;padding-left:1.2rem;color:var(--text-muted);font-size:0.85rem;">
-          <li style="margin-bottom:0.3rem;">GCP Console → <strong>네트워크 서비스</strong> → <strong>Cloud NAT</strong></li>
-          <li style="margin-bottom:0.3rem;"><strong>samba-wave-nat</strong> 클릭 → 상단 <strong>수정</strong> 클릭</li>
-          <li style="margin-bottom:0.3rem;"><strong>고급 구성</strong> 펼치기 → <strong>VM 인스턴스당 최소 포트 수</strong> <code>64</code> → <code>512</code> 변경</li>
-          <li>저장 — 재시작 없이 즉시 반영</li>
+          <li style="margin-bottom:0.3rem;"><strong>samba-api</strong> (gunicorn -w1): HTTP 서빙 + 오토튠 + 주문폴러</li>
+          <li style="margin-bottom:0.3rem;"><strong>samba-worker</strong> (gunicorn 다중 워커): 마켓 전송 전담</li>
+          <li><strong>samba-reconciler</strong> (gunicorn -w1): 주기 유지보수 루프 전담</li>
         </ol>
         <div style="margin-top:0.5rem;padding:0.5rem 0.75rem;background:#1a1a24;border-radius:6px;font-size:0.8rem;color:var(--text-muted);">
-          추가 비용 없음. Cloud NAT는 포트 수로 과금하지 않습니다.
+          롤백 절차: GCP 컨테이너 start + Caddyfile.gcp.bak 복원. Cloud SQL은 롤백용으로만 잔존(추후 축소 예정).
         </div>
       </div>
     </li>
   </ol>
 
-  <div class="warn"><strong>배포 순서 필수 준수:</strong> DB 마이그레이션(alembic) → 백엔드(deploy.sh) → 프론트엔드(Vercel) 순서를 반드시 지키세요. 역순 배포 시 서비스 장애가 발생합니다.</div>
+  <div class="warn"><strong>배포 순서 필수 준수:</strong> DB 마이그레이션(alembic) → 백엔드(deploy-local.ps1 재빌드) → 프론트엔드(Vercel) 순서를 반드시 지키세요. 역순 배포 시 서비스 장애가 발생합니다.</div>
 </div>
 
 
@@ -1039,7 +1047,7 @@ cp .env.example .env.local</code></pre>
     </div>
 
     <div class="error-item">
-      <div class="error-title">&#10005; ruff format 실패로 Cloud Build 빌드 실패</div>
+      <div class="error-title">&#10005; ruff format 실패로 CI 빌드 실패</div>
       <div class="error-cause">원인: Python 파일을 수정 후 ruff format 실행 없이 push함</div>
       <div class="error-fix">해결: <code>cd backend && .venv/Scripts/python.exe -m ruff format .</code> 실행 후 다시 커밋·push. <code>ruff check --fix .</code>도 함께 실행할 것</div>
     </div>
@@ -1051,17 +1059,15 @@ cp .env.example .env.local</code></pre>
     </div>
 
     <div class="error-item">
-      <div class="error-title">&#10005; 오토튠 대량 실패: All connection attempts failed / 소싱처 상세 조회 실패</div>
-      <div class="error-cause">원인: <code>--vpc-egress=all-traffic</code> 설정 시 모든 아웃바운드 트래픽이 Cloud NAT를 경유하는데, 오토튠 대량 요청(수천 건 단기 TCP 연결)으로 Cloud NAT 포트가 소진됨. MUSINSA는 "All connection attempts failed", 롯데ON·ABCmart는 상세 조회 결과 None 반환으로 나타남</div>
-      <div class="error-fix">
-        해결: Cloud NAT 최소 포트 수 증가 (추가 비용 없음)
-        <ol style="margin-top:0.4rem;padding-left:1.2rem;">
-          <li style="margin-bottom:0.3rem;">GCP Console → <strong>네트워크 서비스</strong> → <strong>Cloud NAT</strong></li>
-          <li style="margin-bottom:0.3rem;"><strong>samba-wave-nat</strong> → <strong>수정</strong></li>
-          <li style="margin-bottom:0.3rem;"><strong>고급 구성</strong> → <strong>VM 인스턴스당 최소 포트 수</strong>: <code>64</code> → <code>512</code></li>
-          <li>저장 — 즉시 반영, 재시작 불필요</li>
-        </ol>
-      </div>
+      <div class="error-title">&#10005; 백엔드 코드 수정이 반영되지 않음</div>
+      <div class="error-cause">원인: 라이브는 빌드된 이미지(<code>local-samba-api</code>)로 돕니다. 소스 볼륨마운트·<code>--reload</code>가 없어서 컨테이너 재시작만으로는 옛 이미지가 재사용됩니다.</div>
+      <div class="error-fix">해결: 집PC PowerShell에서 <code>cd deploy/local; .\deploy-local.ps1</code>로 이미지를 다시 빌드. <code>deploy/deploy.sh</code>(옛 GCE 배포)는 절대 실행하지 말 것.</div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-title">&#10005; 외부 접속 불가 (인바운드 터널 끊김)</div>
+      <div class="error-cause">원인: 인바운드는 api.samba-wave.co.kr → GCP 정적IP/Caddy → WireGuard 터널 → 집PC 경로입니다. 집PC 전원/인터넷이 끊기거나 WireGuard 터널이 내려가면 전체 접속이 실패합니다.</div>
+      <div class="error-fix">해결: 집PC가 켜져 있고 인터넷에 연결돼 있는지, Docker Desktop·터널 컨테이너가 떠 있는지 확인. <code>docker compose -f deploy/local/docker-compose.tunnel.yml ps</code>로 상태 점검. EMS(ESMPlus) 등 일부 아웃바운드도 이 터널의 GCP 정적IP 출구를 쓰므로 함께 영향받습니다.</div>
     </div>
   </div>
 
@@ -1072,50 +1078,40 @@ cp .env.example .env.local</code></pre>
 
 <!-- ━━━━━━━━━━━━━━━━ 11. GCP 요금 절약 ━━━━━━━━━━━━━━━━ -->
 <div class="section-card" id="cost-saving">
-  <h2>&#128176; 11. GCP 요금 절약 필수 설정</h2>
+  <h2>&#128176; 11. 비용 구조 (집PC 이전 후)</h2>
 
-  <div class="warn"><strong>&#9888;&#65039; 설치 직후 반드시 해야 하는 것 (안 하면 이미지 1TB 누적)</strong></div>
+  <div class="tip"><strong>&#9989; 2026-06-29 백엔드가 GCP에서 집(자택) PC Docker로 완전 이전되었습니다.</strong> 백엔드·DB가 집PC에서 무상으로 돌아 GCP 백엔드 비용이 대폭 절감되었습니다.</div>
 
-  <h3>Artifact Registry Cleanup Policy 설정 (필수)</h3>
-  <p>push할 때마다 Docker 이미지가 쌓여서 방치하면 한 달 만에 1TB, 월 &#8361;140,000 과금됩니다.</p>
-  <pre><code>cat &gt; cleanup-policy.json &lt;&lt; 'EOF'
-[
-  {"name": "keep-latest-3", "action": {"type": "Keep"}, "mostRecentVersions": {"keepCount": 3}},
-  {"name": "delete-old", "action": {"type": "Delete"}, "condition": {"tagState": "ANY"}}
-]
-EOF
+  <h3>현재 비용 구조</h3>
+  <ul>
+    <li><strong>백엔드 + DB</strong> — 집(자택) PC Docker 구동. 전기료 외 비용 없음</li>
+    <li><strong>인바운드 프록시</strong> — GCP 정적IP + Caddy (외부 인바운드 수신 + WireGuard 터널 출구)</li>
+    <li><strong>이미지 저장 / DB 백업</strong> — Cloudflare R2 (집 PostgreSQL 매일 백업)</li>
+    <li><strong>프론트엔드</strong> — Vercel (무료)</li>
+  </ul>
 
-gcloud artifacts repositories set-cleanup-policies cloud-run-source-deploy   --project=YOUR_PROJECT_ID   --location=asia-northeast3   --policy=cleanup-policy.json   --no-dry-run</code></pre>
+  <h3>&#127831; GCP 잔존 자원 (롤백용)</h3>
+  <ul>
+    <li>기존 Cloud SQL은 <strong>롤백용으로만 잔존</strong> — 현재 미사용, 추후 축소 예정(축소 시 큰 비용 절감)</li>
+    <li>롤백 절차: GCP 컨테이너 start + <code>Caddyfile.gcp.bak</code> 복원</li>
+    <li>인바운드 정적IP + Caddy 인스턴스는 계속 유지 필요 (현관 역할)</li>
+  </ul>
 
   <h3>&#9989; 이미 코드에 반영된 최적화 (클론하면 자동 적용)</h3>
   <ul>
-    <li><code>--no-cpu-throttling</code> 제거 → 유휴 시 CPU 과금 없음</li>
-    <li>VPC Connector 없음 → Cloud SQL은 Auth Proxy 소켓으로 직접 연결</li>
     <li>CLIP 모델 미포함 Dockerfile → 빌드 시간 단축 + 이미지 크기 감소</li>
-  </ul>
-
-  <h3>&#127183; GCP 무료 크레딧 $300 활용 (신규 계정 한정)</h3>
-  <ul>
-    <li>GCP 신규 계정 생성 시 $300 크레딧 90일 제공 (계정당 1회)</li>
-    <li>console.cloud.google.com → 무료로 시작하기</li>
-    <li>&#9888;&#65039; 기존 GCP 계정은 해당 없음 (1회 제공 후 재신청 불가)</li>
-  </ul>
-
-  <h3>Cloud SQL 인스턴스 생성 시 최소 티어 선택</h3>
-  <ul>
-    <li>권장: <code>db-g1-small</code> (약 $15/월) 또는 <code>db-f1-micro</code> (약 $8/월)</li>
-    <li>고가용성(HA) 설정 시 비용 2배 — 개발 초기에는 ZONAL 선택</li>
+    <li>AI 이미지 처리는 Google Gemini 사용</li>
   </ul>
 
   <h3>예산 알림 설정</h3>
   <ul>
-    <li>GCP 콘솔 → 청구 → 예산 및 알림 → 월 $50 기준 알림 권장</li>
+    <li>GCP 콘솔 → 청구 → 예산 및 알림 → 잔존 자원 과금 모니터링 권장</li>
     <li>이상 과금 조기 발견 가능</li>
   </ul>
 </div>
 
 <div class="footer">
-  SambaWave &copy; 2026 &middot; 마지막 업데이트: 2026-04-25 &middot; <a href="index.html">문서 목록</a>
+  SambaWave &copy; 2026 &middot; 마지막 업데이트: 2026-06-30 &middot; <a href="index.html">문서 목록</a>
 </div>
 
 </body>

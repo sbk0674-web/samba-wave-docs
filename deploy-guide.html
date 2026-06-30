@@ -12,7 +12,7 @@
   <div style="max-width:720px; margin:0 auto;">
     <div style="font-size:14px; color:#e94560; font-weight:700; letter-spacing:3px; margin-bottom:12px;">SAMBA WAVE</div>
     <h1 style="margin:0 0 16px; font-size:32px; color:#fff; font-weight:800;">무재고 위탁판매 솔루션<br>배포 가이드</h1>
-    <p style="margin:0; font-size:15px; color:rgba(255,255,255,0.6);">Google Cloud (GCE VM + Cloud SQL) + Vercel 기반 프로덕션 배포</p>
+    <p style="margin:0; font-size:15px; color:rgba(255,255,255,0.6);">집(자택) PC Docker + WireGuard 터널 + Vercel 기반 프로덕션 배포</p>
     <div style="margin-top:16px; display:inline-block; background:rgba(233,69,96,0.15); border:1px solid rgba(233,69,96,0.4); border-radius:8px; padding:8px 20px; font-size:13px; color:#e94560;">
       ⚙️ 이 가이드는 실제 운영 중인 동일한 인프라 기준입니다
     </div>
@@ -25,7 +25,7 @@
   <!-- 전체 구조 -->
   <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
     <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">🏗️ 인프라 구조</h2>
-    <p style="margin:0 0 20px; font-size:14px; color:#888;">4개 컴포넌트가 다음 순서로 연결됩니다.</p>
+    <p style="margin:0 0 20px; font-size:14px; color:#888;">2026-06-29 백엔드가 GCP에서 집(자택) PC Docker로 완전 이전되었습니다. 인바운드는 GCP 정적IP+Caddy 프록시 → WireGuard 터널 → 집PC 컨테이너로 연결됩니다.</p>
 
     <!-- 인프라 도식 -->
     <div style="background:#0f0f1a; border-radius:12px; padding:24px; color:#e0e0f0; font-family:'Courier New',monospace; font-size:13px; line-height:2.2;">
@@ -44,51 +44,59 @@
       </div>
       <div style="text-align:center; color:#4facfe; margin:4px 0;">↓ API 호출 (HTTPS)</div>
 
-      <!-- GCE VM -->
+      <!-- GCP 인바운드 (정적IP + Caddy) -->
+      <div style="border:2px solid rgba(96,165,250,0.4); border-radius:12px; padding:14px; margin:4px 0; background:rgba(96,165,250,0.05);">
+        <div style="text-align:center; color:#60a5fa; font-weight:700; margin-bottom:8px;">☁️ GCP 인바운드 — 정적IP + Caddy 리버스프록시</div>
+        <div style="text-align:center; color:#555; font-size:11px;">api.samba-wave.co.kr 수신 → HTTPS 종단 → WireGuard 터널로 전달</div>
+      </div>
+
+      <div style="text-align:center; color:#4facfe; margin:4px 0;">↓ WireGuard 터널</div>
+
+      <!-- 집PC Docker -->
       <div style="border:2px solid rgba(249,115,22,0.4); border-radius:12px; padding:16px; margin:4px 0; background:rgba(249,115,22,0.05);">
-        <div style="text-align:center; color:#fb923c; font-weight:700; margin-bottom:12px;">☁️ GCE VM (Google Compute Engine)</div>
+        <div style="text-align:center; color:#fb923c; font-weight:700; margin-bottom:12px;">💻 집(자택) PC Docker — docker-compose.tunnel.yml</div>
         <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
           <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:8px 14px; text-align:center;">
-            <div style="color:#4ade80; font-size:12px;">Caddy</div>
-            <div style="color:#555; font-size:10px;">HTTPS 자동화</div>
+            <div style="color:#a78bfa; font-size:12px;">WireGuard</div>
+            <div style="color:#555; font-size:10px;">터널 컨테이너</div>
           </div>
           <div style="color:#555; display:flex; align-items:center;">→</div>
           <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:8px 14px; text-align:center;">
             <div style="color:#4facfe; font-size:12px;">samba-api</div>
-            <div style="color:#555; font-size:10px;">FastAPI (포트 8080)</div>
+            <div style="color:#555; font-size:10px;">gunicorn -w1</div>
           </div>
           <div style="color:#555; display:flex; align-items:center;">→</div>
           <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:8px 14px; text-align:center;">
-            <div style="color:#f472b6; font-size:12px;">cloud-sql-proxy</div>
-            <div style="color:#555; font-size:10px;">DB 터널</div>
+            <div style="color:#34d399; font-size:12px;">집 PostgreSQL</div>
+            <div style="color:#555; font-size:10px;">진실 source · 매일 R2 백업</div>
           </div>
         </div>
         <div style="text-align:center; margin-top:8px;">
-          <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:6px 14px; display:inline-block; color:#a78bfa; font-size:12px;">+ samba-bg-worker (배경제거 워커)</div>
+          <div style="background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:6px; padding:6px 14px; display:inline-block; color:#f472b6; font-size:12px;">+ samba-worker (마켓 전송 전담) · samba-reconciler (유지보수 루프)</div>
         </div>
       </div>
 
       <div style="display:flex; justify-content:space-between; margin:4px 8px;">
-        <div style="color:#4facfe;">↓ 이미지 pull</div>
-        <div style="color:#4facfe;">↓ Cloud SQL 연결</div>
+        <div style="color:#4facfe;">↓ 매일 백업</div>
+        <div style="color:#888;">↓ 롤백용 잔존</div>
       </div>
 
       <div style="display:flex; gap:12px;">
-        <!-- Artifact Registry -->
+        <!-- Cloudflare R2 -->
         <div style="flex:1; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.3); border-radius:8px; padding:12px; text-align:center;">
-          <div style="color:#60a5fa; font-weight:700; font-size:12px;">📦 Artifact Registry</div>
-          <div style="color:#555; font-size:11px; margin-top:4px;">Docker 이미지 저장<br>asia-northeast3</div>
+          <div style="color:#60a5fa; font-weight:700; font-size:12px;">📦 Cloudflare R2</div>
+          <div style="color:#555; font-size:11px; margin-top:4px;">이미지 저장소<br>DB 매일 백업</div>
         </div>
-        <!-- Cloud SQL -->
-        <div style="flex:1; background:rgba(52,211,153,0.08); border:1px solid rgba(52,211,153,0.3); border-radius:8px; padding:12px; text-align:center;">
-          <div style="color:#34d399; font-weight:700; font-size:12px;">🗄️ Cloud SQL</div>
-          <div style="color:#555; font-size:11px; margin-top:4px;">PostgreSQL 14<br>asia-northeast3</div>
+        <!-- Cloud SQL (롤백용) -->
+        <div style="flex:1; background:rgba(120,120,120,0.08); border:1px solid rgba(120,120,120,0.3); border-radius:8px; padding:12px; text-align:center;">
+          <div style="color:#999; font-weight:700; font-size:12px;">🗄️ Cloud SQL (롤백용 잔존)</div>
+          <div style="color:#555; font-size:11px; margin-top:4px;">현재 미사용<br>추후 축소 예정</div>
         </div>
       </div>
 
       <!-- 로컬 deploy -->
       <div style="margin-top:16px; border-top:1px dashed #333; padding-top:12px; text-align:center;">
-        <span style="color:#fbbf24; font-size:12px;">💻 로컬 PC →  <code style="background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:4px;">bash deploy/deploy.sh</code>  → Docker build → AR push → VM 무중단 배포</span>
+        <span style="color:#fbbf24; font-size:12px;">💻 집PC →  <code style="background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:4px;">cd deploy/local; .\deploy-local.ps1</code>  → Docker 이미지 재빌드(local-samba-api) → 컨테이너 교체</span>
       </div>
     </div>
   </div>
@@ -99,15 +107,19 @@
     <div style="display:flex; flex-direction:column; gap:8px;">
       <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
         <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>Google Cloud 계정</b> — cloud.google.com (결제 수단 등록 필요)</span>
+        <span style="font-size:14px;"><b>집(자택) PC</b> — 백엔드를 상시 구동할 PC (예: 8코어 / 31GB RAM). Windows + Docker Desktop</span>
       </div>
       <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
         <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>gcloud CLI</b> — cloud.google.com/sdk 설치</span>
+        <span style="font-size:14px;"><b>Docker Desktop</b> — docker.com/products/docker-desktop (집PC 이미지 빌드·구동용)</span>
       </div>
       <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
         <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>Docker Desktop</b> — docker.com/products/docker-desktop (로컬 빌드용)</span>
+        <span style="font-size:14px;"><b>GCP 정적IP + Caddy</b> — 외부 인바운드 수신용 (api.samba-wave.co.kr → 집PC 터널)</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
+        <span style="font-size:20px;">✅</span>
+        <span style="font-size:14px;"><b>WireGuard</b> — GCP 정적IP와 집PC를 잇는 터널</span>
       </div>
       <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
         <span style="font-size:20px;">✅</span>
@@ -115,139 +127,118 @@
       </div>
       <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
         <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>도메인</b> — API 서버 주소로 사용할 도메인 (예: api.yourdomain.com)</span>
+        <span style="font-size:14px;"><b>도메인</b> — API 서버 주소로 사용할 도메인 (예: api.samba-wave.co.kr)</span>
       </div>
     </div>
     <div style="background:#fff3cd; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#856404;">
-      💰 <b>예상 월 비용:</b> GCE VM e2-medium ~$24 + Cloud SQL db-f1-micro ~$7 + Artifact Registry ~$1 = 약 <b>$32/월</b>
+      💰 <b>현재 구성:</b> 백엔드는 집PC Docker에서 무상 구동(전기료 외 비용 없음). GCP는 인바운드 정적IP+Caddy 프록시 + 롤백용 Cloud SQL 잔존만 유지(추후 축소 예정). 프론트는 Vercel 무료.
     </div>
   </div>
 
   <!-- STEP 1 -->
   <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
     <div style="width:48px; height:48px; background:#e94560; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">1</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">Google Cloud 프로젝트 설정</h2>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">GCP 인바운드 프록시 + WireGuard 터널</h2>
   </div>
 
   <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
 
+    <div style="background:#fff3cd; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#856404;">
+      ℹ️ 백엔드는 집PC Docker에서 돌고, GCP는 외부 인바운드를 받아 터널로 넘기는 "현관" 역할만 합니다. 외부에서 api.samba-wave.co.kr로 들어온 요청을 GCP 정적IP + Caddy가 받아 WireGuard 터널을 통해 집PC 컨테이너로 전달합니다.
+    </div>
+
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
       <div>
-        <b style="font-size:15px;">GCP 프로젝트 생성</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">console.cloud.google.com → 프로젝트 선택 → 새 프로젝트. 프로젝트 ID를 기록해두세요.</div>
+        <b style="font-size:15px;">GCP 정적 외부 IP 확보</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">인바운드 진입점이 될 고정 IP를 예약합니다. 이 IP에 도메인 A 레코드를 연결합니다.</div>
       </div>
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
       <div>
-        <b style="font-size:15px;">필요한 API 활성화</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">터미널에서 실행:</div>
+        <b style="font-size:15px;">GCP에 Caddy 리버스프록시 구동</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">정적IP의 인스턴스에서 Caddy가 HTTPS를 종단하고, 터널 너머 집PC samba-api로 reverse_proxy 합니다.</div>
       </div>
     </div>
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
-      <span style="color:#888;"># gcloud 초기화 (최초 1회)</span><br>
-      <span style="color:#e94560;">gcloud</span> auth login<br>
-      <span style="color:#e94560;">gcloud</span> config set project <span style="color:#00f2fe;">YOUR_PROJECT_ID</span><br><br>
-      <span style="color:#888;"># API 활성화</span><br>
-      <span style="color:#e94560;">gcloud</span> services enable compute.googleapis.com<br>
-      <span style="color:#e94560;">gcloud</span> services enable sqladmin.googleapis.com<br>
-      <span style="color:#e94560;">gcloud</span> services enable artifactregistry.googleapis.com
+      <span style="color:#888;"># GCP Caddyfile — 터널 너머 집PC 컨테이너로 전달</span><br>
+      <span style="color:#00f2fe;">api.samba-wave.co.kr</span> &#123;<br>
+      &nbsp;&nbsp;reverse_proxy <span style="color:#00f2fe;">(WireGuard 터널 내 집PC samba-api 주소)</span><br>
+      &#125;
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
       <div>
-        <b style="font-size:15px;">Artifact Registry 저장소 생성</b>
+        <b style="font-size:15px;">WireGuard 터널 구성 (GCP ↔ 집PC)</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">GCP 정적IP 측과 집PC 측에 WireGuard 피어를 설정해 양방향 터널을 만듭니다. 집PC 측 WireGuard 컨테이너는 <code style="background:#2a2a42; padding:1px 6px; border-radius:4px; color:#a78bfa;">deploy/local/docker-compose.tunnel.yml</code> 에 포함되어 함께 기동됩니다.</div>
       </div>
     </div>
 
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
-      <span style="color:#e94560;">gcloud</span> artifacts repositories create cloud-run-source-deploy \<br>
-      &nbsp;&nbsp;--repository-format=docker \<br>
-      &nbsp;&nbsp;--location=asia-northeast3 \<br>
-      &nbsp;&nbsp;--description="Samba Wave API"<br><br>
-      <span style="color:#888;"># Docker 인증 설정 (최초 1회)</span><br>
-      <span style="color:#e94560;">gcloud</span> auth configure-docker asia-northeast3-docker.pkg.dev
-    </div>
-
-    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
-      <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
-      <div>
-        <b style="font-size:15px;">서비스 계정 생성 (Cloud SQL 접근용)</b>
-      </div>
-    </div>
-
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
-      <span style="color:#888;"># 서비스 계정 생성</span><br>
-      <span style="color:#e94560;">gcloud</span> iam service-accounts create samba-sql-proxy \<br>
-      &nbsp;&nbsp;--display-name="Samba SQL Proxy"<br><br>
-      <span style="color:#888;"># Cloud SQL 권한 부여</span><br>
-      <span style="color:#e94560;">gcloud</span> projects add-iam-policy-binding YOUR_PROJECT_ID \<br>
-      &nbsp;&nbsp;--member="serviceAccount:samba-sql-proxy@YOUR_PROJECT_ID.iam.gserviceaccount.com" \<br>
-      &nbsp;&nbsp;--role="roles/cloudsql.client"<br><br>
-      <span style="color:#888;"># 키 파일 생성 → VM에 올릴 sa-key.json</span><br>
-      <span style="color:#e94560;">gcloud</span> iam service-accounts keys create sa-key.json \<br>
-      &nbsp;&nbsp;--iam-account=samba-sql-proxy@YOUR_PROJECT_ID.iam.gserviceaccount.com
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin-bottom:8px; font-size:13px; color:#0f3460;">
+      📌 EMS(ESMPlus) 등 일부 마켓 아웃바운드는 터널을 통해 GCP 정적IP를 출구로 사용합니다. 터널이 끊기면 인바운드뿐 아니라 이 아웃바운드 출구도 영향을 받습니다.
     </div>
   </div>
 
   <!-- STEP 2 -->
   <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
     <div style="width:48px; height:48px; background:#0f3460; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">2</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">Cloud SQL 데이터베이스 생성</h2>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">집 PostgreSQL 데이터베이스 구성</h2>
   </div>
 
   <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #0f3460;">
+    <div style="background:#d4edda; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#155724;">
+      ✅ 집 PostgreSQL이 진실 source(원본 데이터)입니다. 매일 Cloudflare R2로 백업됩니다. 기존 Cloud SQL은 롤백용으로만 잔존하며 추후 축소 예정입니다.
+    </div>
+
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
       <div>
-        <b style="font-size:15px;">Cloud SQL 인스턴스 생성</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">GCP 콘솔 → SQL → 인스턴스 만들기 → PostgreSQL 선택</div>
+        <b style="font-size:15px;">집PC PostgreSQL 컨테이너 구동</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;"><code style="background:#f0f4ff; padding:1px 6px; border-radius:4px;">deploy/local/docker-compose.tunnel.yml</code> 에 PostgreSQL이 포함되어 있어 스택과 함께 기동됩니다.</div>
       </div>
     </div>
 
     <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
       <table style="width:100%; font-size:13px; border-collapse:collapse;">
-        <tr><td style="padding:6px 0; color:#555; width:40%;">인스턴스 ID</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">samba-wave-db</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">리전</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">asia-northeast3 (서울)</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">머신 타입</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">db-f1-micro (최소)</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">PostgreSQL 버전</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">PostgreSQL 14</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">비밀번호</td><td style="padding:6px 0; color:#888;">안전한 비밀번호 설정 후 메모</td></tr>
+        <tr><td style="padding:6px 0; color:#555; width:40%;">구동 위치</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">집(자택) PC Docker</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">역할</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">진실 source (원본)</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">백업</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">매일 Cloudflare R2</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">DB 이름</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">samba-wave</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">비밀번호</td><td style="padding:6px 0; color:#888;">.env에 설정한 강한 비밀번호</td></tr>
       </table>
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
       <div>
-        <b style="font-size:15px;">DB 사용자 및 데이터베이스 생성</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">인스턴스 생성 후 → 데이터베이스 탭 → 데이터베이스 만들기</div>
+        <b style="font-size:15px;">DB 사용자 및 데이터베이스 확인</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">컨테이너 환경변수로 사용자/DB가 생성됩니다. .env 값과 일치하는지 확인</div>
       </div>
     </div>
 
     <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-      <div style="font-size:14px; margin-bottom:8px;">📋 <b>생성할 항목</b></div>
+      <div style="font-size:14px; margin-bottom:8px;">📋 <b>확인할 항목</b></div>
       <div style="font-size:13px; color:#555; line-height:2;">
         • 데이터베이스 이름: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">samba-wave</code><br>
         • 사용자: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">samba-user</code> (비밀번호 설정 필요)<br>
-        • <b>연결 이름</b> 메모: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">YOUR_PROJECT_ID:asia-northeast3:samba-wave-db</code>
+        • 접속 호스트: 같은 Docker 네트워크의 <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">postgres</code> 컨테이너
       </div>
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
       <div>
-        <b style="font-size:15px;">로컬에서 DB 마이그레이션 실행</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">Cloud SQL Proxy로 로컬에서 접속해 테이블 생성</div>
+        <b style="font-size:15px;">DB 마이그레이션 실행</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">집 PostgreSQL에 직접 접속해 테이블 생성</div>
       </div>
     </div>
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
-      <span style="color:#888;"># Cloud SQL Proxy 실행 (별도 터미널)</span><br>
-      <span style="color:#e94560;">cloud-sql-proxy</span> YOUR_PROJECT_ID:asia-northeast3:samba-wave-db<br><br>
-      <span style="color:#888;"># .env에 localhost DB 설정 후 마이그레이션</span><br>
+      <span style="color:#888;"># .env에 집 PostgreSQL 접속정보 설정 후 마이그레이션</span><br>
       <span style="color:#e94560;">cd</span> backend<br>
       <span style="color:#e94560;">alembic</span> upgrade head
     </div>
@@ -256,67 +247,62 @@
   <!-- STEP 3 -->
   <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
     <div style="width:48px; height:48px; background:#e94560; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">3</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">GCE VM 인스턴스 생성 및 설정</h2>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">집PC Docker 환경 설정</h2>
   </div>
 
   <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
       <div>
-        <b style="font-size:15px;">VM 인스턴스 생성</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">GCP 콘솔 → Compute Engine → VM 인스턴스 → 만들기</div>
+        <b style="font-size:15px;">집PC 사양 권장</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">백엔드 + 워커 + DB + 터널을 상시 구동할 PC</div>
       </div>
     </div>
 
     <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px; margin-bottom:16px;">
       <table style="width:100%; font-size:13px; border-collapse:collapse;">
-        <tr><td style="padding:6px 0; color:#555; width:40%;">머신 타입</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">e2-medium (2vCPU, 4GB)</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">리전</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">asia-northeast3-a (서울)</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">OS</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">Ubuntu 22.04 LTS</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">부팅 디스크</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">30GB SSD</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">방화벽</td><td style="padding:6px 0; color:#888;">HTTP, HTTPS 트래픽 허용 체크</td></tr>
-        <tr><td style="padding:6px 0; color:#555;">SSH 키</td><td style="padding:6px 0; color:#888;">본인 공개키 등록 (ssh-keygen으로 생성)</td></tr>
+        <tr><td style="padding:6px 0; color:#555; width:40%;">권장 사양</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">8코어 / 31GB RAM 이상</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">OS</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">Windows 11</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">필수 설치</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">Docker Desktop</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">구성 파일</td><td style="padding:6px 0; font-family:'Courier New',monospace; color:#0f3460; font-weight:700;">deploy/local/docker-compose.tunnel.yml</td></tr>
+        <tr><td style="padding:6px 0; color:#555;">전원/네트워크</td><td style="padding:6px 0; color:#888;">상시 켜짐 + 안정적 인터넷 필요</td></tr>
       </table>
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
       <div>
-        <b style="font-size:15px;">VM에 Docker 설치</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">VM SSH 접속 후 실행</div>
+        <b style="font-size:15px;">Docker Desktop 설치 및 실행 확인</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">집PC에 Docker Desktop을 설치하고 실행 상태로 둡니다 (PowerShell에서 작업)</div>
       </div>
     </div>
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:12px; color:#4facfe; line-height:2; margin-bottom:16px; overflow-x:auto;">
-      <span style="color:#888;"># Docker 설치</span><br>
-      curl -fsSL https://get.docker.com | sh<br>
-      sudo usermod -aG docker $USER<br>
-      newgrp docker<br><br>
-      <span style="color:#888;"># 배포 디렉토리 생성</span><br>
-      sudo mkdir -p /opt/samba<br>
-      sudo chown $USER:$USER /opt/samba
+      <span style="color:#888;"># Docker 설치 확인</span><br>
+      docker --version<br>
+      docker compose version
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
       <div>
-        <b style="font-size:15px;">/opt/samba/.env 파일 생성</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">VM SSH에서 환경변수 파일 작성</div>
+        <b style="font-size:15px;">.env 파일 생성</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">deploy/local 의 환경변수 파일 작성</div>
       </div>
     </div>
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:12px; color:#e5e5e5; line-height:2.2; overflow-x:auto;">
-      <span style="color:#888;"># /opt/samba/.env</span><br><br>
+      <span style="color:#888;"># deploy/local/.env</span><br><br>
       <span style="color:#4facfe;">ENVIRONMENT</span>=<span style="color:#00f2fe;">production</span><br><br>
-      <span style="color:#888;"># DB (cloud-sql-proxy가 같은 Docker 네트워크에서 포트 5432로 터널)</span><br>
+      <span style="color:#888;"># DB (같은 Docker 네트워크의 집 PostgreSQL 컨테이너)</span><br>
       <span style="color:#4facfe;">WRITE_DB_USER</span>=<span style="color:#00f2fe;">samba-user</span><br>
-      <span style="color:#4facfe;">WRITE_DB_PASSWORD</span>=<span style="color:#00f2fe;">(Cloud SQL에서 설정한 비밀번호)</span><br>
-      <span style="color:#4facfe;">WRITE_DB_HOST</span>=<span style="color:#00f2fe;">cloud-sql-proxy</span><br>
+      <span style="color:#4facfe;">WRITE_DB_PASSWORD</span>=<span style="color:#00f2fe;">(집 PostgreSQL에 설정한 비밀번호)</span><br>
+      <span style="color:#4facfe;">WRITE_DB_HOST</span>=<span style="color:#00f2fe;">postgres</span><br>
       <span style="color:#4facfe;">WRITE_DB_PORT</span>=<span style="color:#00f2fe;">5432</span><br>
       <span style="color:#4facfe;">WRITE_DB_NAME</span>=<span style="color:#00f2fe;">samba-wave</span><br><br>
       <span style="color:#4facfe;">READ_DB_USER</span>=<span style="color:#00f2fe;">samba-user</span><br>
       <span style="color:#4facfe;">READ_DB_PASSWORD</span>=<span style="color:#00f2fe;">(위와 동일)</span><br>
-      <span style="color:#4facfe;">READ_DB_HOST</span>=<span style="color:#00f2fe;">cloud-sql-proxy</span><br>
+      <span style="color:#4facfe;">READ_DB_HOST</span>=<span style="color:#00f2fe;">postgres</span><br>
       <span style="color:#4facfe;">READ_DB_PORT</span>=<span style="color:#00f2fe;">5432</span><br>
       <span style="color:#4facfe;">READ_DB_NAME</span>=<span style="color:#00f2fe;">samba-wave</span><br><br>
       <span style="color:#4facfe;">DB_SSL_REQUIRED</span>=<span style="color:#00f2fe;">false</span><br>
@@ -328,82 +314,78 @@
     <div style="display:flex; align-items:flex-start; gap:10px; margin-top:20px; margin-bottom:16px;">
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
       <div>
-        <b style="font-size:15px;">sa-key.json 업로드</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">1단계에서 생성한 서비스 계정 키를 VM에 복사</div>
+        <b style="font-size:15px;">WireGuard 터널 설정 파일 배치</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">GCP 정적IP 측과 페어링되는 WireGuard 키/설정을 집PC 터널 컨테이너에 연결합니다 (docker-compose.tunnel.yml에 포함)</div>
       </div>
     </div>
 
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
-      <span style="color:#888;"># 로컬 터미널에서 실행</span><br>
-      <span style="color:#e94560;">scp</span> -i ~/.ssh/deploy_key sa-key.json \<br>
-      &nbsp;&nbsp;YOUR_VM_USER@YOUR_VM_IP:/opt/samba/sa-key.json
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; font-size:13px; color:#0f3460;">
+      📌 인바운드: api.samba-wave.co.kr → GCP 정적IP/Caddy → WireGuard 터널 → 집PC samba-api. 터널 설정이 맞아야 외부에서 접속됩니다.
     </div>
   </div>
 
   <!-- STEP 4 -->
   <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
     <div style="width:48px; height:48px; background:#0f3460; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; flex-shrink:0;">4</div>
-    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">로컬 배포 스크립트 설정</h2>
+    <h2 style="margin:0; font-size:22px; color:#1a1a2e;">집PC 재배포 스크립트 설정</h2>
   </div>
 
   <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #0f3460;">
+
+    <div style="background:#f8d7da; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#721c24;">
+      ⛔ <b>deploy/deploy.sh (옛 GCE VM 배포)는 폐기되었습니다 — 절대 실행 금지.</b> 멈춘 GCP에 배포돼 무의미합니다. 재배포는 집PC에서 <code style="background:#f5c6cb; padding:1px 6px; border-radius:4px;">deploy/local/deploy-local.ps1</code> 로만 합니다.
+    </div>
+
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
       <div>
-        <b style="font-size:15px;">deploy/deploy.sh 설정 수정</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">본인 프로젝트 ID와 VM 정보로 교체</div>
+        <b style="font-size:15px;">deploy/local/docker-compose.tunnel.yml 확인</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">집 PostgreSQL + WireGuard + samba-api + samba-worker + samba-reconciler 컨테이너 구성</div>
       </div>
     </div>
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2.2; overflow-x:auto;">
-      <span style="color:#888;"># deploy/deploy.sh 상단 설정 섹션</span><br>
-      <span style="color:#4facfe;">PROJECT_ID</span>=<span style="color:#00f2fe;">"YOUR_PROJECT_ID"</span><br>
-      <span style="color:#4facfe;">AR_REGION</span>=<span style="color:#00f2fe;">"asia-northeast3"</span><br>
-      <span style="color:#4facfe;">AR_REPO</span>=<span style="color:#00f2fe;">"cloud-run-source-deploy"</span><br>
-      <span style="color:#4facfe;">IMAGE_NAME</span>=<span style="color:#00f2fe;">"samba-wave-api"</span><br>
-      <span style="color:#4facfe;">VM_HOST</span>=<span style="color:#00f2fe;">"api.yourdomain.com"</span>&nbsp;&nbsp;<span style="color:#888;"># VM IP 또는 도메인</span><br>
-      <span style="color:#4facfe;">VM_USER</span>=<span style="color:#00f2fe;">"YOUR_VM_USERNAME"</span><br>
-      <span style="color:#4facfe;">SSH_KEY</span>=<span style="color:#00f2fe;">"$HOME/samba-vm-secrets/ssh/deploy_key"</span>
+      <span style="color:#888;"># docker-compose.tunnel.yml 구성 컨테이너</span><br>
+      <span style="color:#4facfe;">postgres</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#888;"># 집 PostgreSQL (진실 source)</span><br>
+      <span style="color:#4facfe;">wireguard</span>&nbsp;&nbsp;&nbsp;<span style="color:#888;"># GCP 정적IP와의 터널</span><br>
+      <span style="color:#4facfe;">samba-api</span>&nbsp;&nbsp;&nbsp;<span style="color:#888;"># gunicorn -w1: HTTP 서빙 + 오토튠 + 주문폴러</span><br>
+      <span style="color:#4facfe;">samba-worker</span>&nbsp;<span style="color:#888;"># gunicorn 다중 워커: 마켓 전송 전담</span><br>
+      <span style="color:#4facfe;">samba-reconciler</span>&nbsp;<span style="color:#888;"># gunicorn -w1: 주기 유지보수 루프 전담</span>
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-top:20px; margin-bottom:16px;">
       <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
       <div>
-        <b style="font-size:15px;">SSH 키를 지정 경로에 저장</b>
+        <b style="font-size:15px;">deploy/local/.env 값 확인</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">3단계에서 작성한 DB·JWT·초대코드 값이 채워졌는지 확인</div>
       </div>
-    </div>
-
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
-      mkdir -p ~/samba-vm-secrets/ssh<br>
-      cp YOUR_PRIVATE_KEY ~/samba-vm-secrets/ssh/deploy_key<br>
-      chmod 600 ~/samba-vm-secrets/ssh/deploy_key
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">3</span>
       <div>
-        <b style="font-size:15px;">deploy/vm/docker-compose.yml 수정</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">이미지 경로의 프로젝트 ID를 본인 것으로 교체</div>
+        <b style="font-size:15px;">GCP 측 Caddyfile 도메인 확인</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">인바운드를 받는 GCP 정적IP 인스턴스의 Caddyfile (롤백용 백업은 Caddyfile.gcp.bak)</div>
       </div>
     </div>
 
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2; overflow-x:auto;">
-      <span style="color:#888;"># 아래 YOUR_PROJECT_ID를 실제 프로젝트 ID로 교체</span><br>
-      image: asia-northeast3-docker.pkg.dev/<span style="color:#e94560;">YOUR_PROJECT_ID</span>/cloud-run-source-deploy/samba-wave-api:latest
+    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; overflow-x:auto;">
+      <span style="color:#888;"># GCP Caddyfile — 본인 도메인으로 교체</span><br>
+      <span style="color:#00f2fe;">api.samba-wave.co.kr</span> &#123;<br>
+      &nbsp;&nbsp;reverse_proxy <span style="color:#00f2fe;">(WireGuard 터널 내 집PC samba-api 주소)</span><br>
+      &#125;
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-top:20px; margin-bottom:16px;">
       <span style="background:#0f3460; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">4</span>
       <div>
-        <b style="font-size:15px;">deploy/vm/Caddyfile 도메인 수정</b>
+        <b style="font-size:15px;">라이브는 빌드된 이미지로 구동</b>
+        <div style="font-size:13px; color:#888; margin-top:2px;">소스 볼륨마운트 없음 · --reload 없음. 백엔드 .py 변경은 반드시 재빌드해야 반영됩니다.</div>
       </div>
     </div>
 
-    <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; overflow-x:auto;">
-      <span style="color:#888;"># Caddyfile — api.yourdomain.com 으로 교체</span><br>
-      <span style="color:#00f2fe;">api.yourdomain.com</span> &#123;<br>
-      &nbsp;&nbsp;reverse_proxy samba-api:8080<br>
-      &#125;
+    <div style="background:#fff3cd; border-radius:8px; padding:12px 16px; font-size:13px; color:#856404;">
+      ⚠️ "컨테이너 재시작만 하면 반영" 아닙니다. 재시작=옛 이미지 재사용 → 변경 미반영. 코드 변경 후에는 반드시 <code style="background:#ffe69c; padding:1px 6px; border-radius:4px;">deploy-local.ps1</code> 로 이미지(local-samba-api)를 다시 빌드해야 합니다.
     </div>
   </div>
 
@@ -418,38 +400,38 @@
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">1</span>
       <div>
         <b style="font-size:15px;">도메인 DNS 설정</b>
-        <div style="font-size:13px; color:#888; margin-top:2px;">도메인 등록업체에서 A 레코드를 VM의 외부 IP로 설정</div>
+        <div style="font-size:13px; color:#888; margin-top:2px;">도메인 등록업체에서 A 레코드를 GCP 정적 외부 IP(인바운드 진입점)로 설정</div>
       </div>
     </div>
     <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#0f3460;">
-      📌 GCP 콘솔 → Compute Engine → VM 인스턴스 → 외부 IP 확인<br>
-      → DNS: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">api.yourdomain.com</code> → A → VM 외부 IP
+      📌 GCP 콘솔 → VPC 네트워크 → 외부 IP 주소 → 예약한 정적 IP 확인<br>
+      → DNS: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">api.samba-wave.co.kr</code> → A → GCP 정적 IP
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
       <span style="background:#e94560; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px;">2</span>
       <div>
-        <b style="font-size:15px;">배포 스크립트 실행 (로컬 터미널)</b>
+        <b style="font-size:15px;">집PC에서 재배포 스크립트 실행 (PowerShell)</b>
         <div style="font-size:13px; color:#888; margin-top:2px;">Docker Desktop이 실행 중인지 확인 후 실행</div>
       </div>
     </div>
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
-      <span style="color:#888;"># 프로젝트 루트에서 실행</span><br>
-      bash deploy/deploy.sh
+      <span style="color:#888;"># 집PC PowerShell에서 실행</span><br>
+      cd deploy/local; .\deploy-local.ps1
     </div>
 
     <div style="background:#f8f8f8; border-radius:8px; padding:16px 20px; font-size:13px; color:#555; line-height:2;">
       <b>배포 순서 (자동):</b><br>
-      ① Docker 이미지 빌드 (backend/ 기준)<br>
-      ② Artifact Registry에 push<br>
-      ③ VM에 docker-compose.yml + Caddyfile 동기화<br>
-      ④ Blue/Green 무중단 배포 (Green 기동 → 헬스체크 → Blue 교체)<br>
-      ⑤ 외부 HTTPS 헬스체크 확인
+      ① Docker 이미지 재빌드 (backend/ 기준, local-samba-api)<br>
+      ② docker-compose.tunnel.yml 컨테이너 교체 (api · worker · reconciler)<br>
+      ③ 집 PostgreSQL + WireGuard 터널은 유지<br>
+      ④ 컨테이너 기동 확인 → 헬스체크<br>
+      ⑤ GCP 정적IP/Caddy → 터널 경유 외부 HTTPS 헬스체크 확인
     </div>
 
     <div style="background:#d4edda; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#155724;">
-      ✅ <b>성공 메시지:</b> "🎉 배포 완료 (총 N초)" — 이후 https://api.yourdomain.com/api/v1/health 로 확인
+      ✅ <b>확인:</b> 재빌드·컨테이너 교체 완료 후 https://api.samba-wave.co.kr/api/v1/health 로 외부 접속 확인
     </div>
   </div>
 
@@ -488,7 +470,7 @@
     </div>
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2; margin-bottom:16px;">
-      <span style="color:#4facfe;">NEXT_PUBLIC_API_URL</span> = <span style="color:#00f2fe;">https://api.yourdomain.com</span>
+      <span style="color:#4facfe;">NEXT_PUBLIC_API_URL</span> = <span style="color:#00f2fe;">https://api.samba-wave.co.kr</span>
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px;">
@@ -511,14 +493,14 @@
         <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
           git add . && git commit -m "수정 내용"<br>
           git push origin main<br>
-          bash deploy/deploy.sh&nbsp;&nbsp;<span style="color:#888;"># 수동 실행 필수</span>
+          cd deploy/local; .\deploy-local.ps1&nbsp;&nbsp;<span style="color:#888;"># 집PC 재빌드 필수</span>
         </div>
       </div>
       <div style="background:#f0f4ff; border-radius:10px; padding:16px 20px;">
         <div style="font-size:14px; font-weight:700; color:#0f3460; margin-bottom:8px;">🖥️ 프론트엔드 (Next.js) 수정 시</div>
         <div style="background:#1a1a2e; border-radius:6px; padding:8px 14px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2;">
           git add . && git commit -m "수정 내용"<br>
-          git push origin main&nbsp;&nbsp;<span style="color:#888;"># Vercel 자동 배포 (deploy.sh 불필요)</span>
+          git push origin main&nbsp;&nbsp;<span style="color:#888;"># Vercel 자동 배포 (재빌드 불필요)</span>
         </div>
       </div>
       <div style="background:#fff3cd; border-radius:10px; padding:16px 20px;">
@@ -527,7 +509,7 @@
           cd backend<br>
           alembic revision --autogenerate -m "변경 내용"<br>
           <span style="color:#888;"># 생성된 파일 확인 후 커밋</span><br>
-          <span style="color:#888;"># 배포 전 Cloud SQL에 수동 alembic upgrade head 실행</span>
+          <span style="color:#888;"># 배포 전 집 PostgreSQL에 수동 alembic upgrade head 실행</span>
         </div>
       </div>
     </div>
@@ -545,10 +527,10 @@
         🖥️ 프론트: https://your-samba.vercel.app
       </div>
       <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#4facfe;">
-        ⚙️ 백엔드: https://api.yourdomain.com
+        ⚙️ 백엔드: https://api.samba-wave.co.kr
       </div>
       <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#4ade80;">
-        💚 헬스체크: https://api.yourdomain.com/api/v1/health
+        💚 헬스체크: https://api.samba-wave.co.kr/api/v1/health
       </div>
     </div>
   </div>
@@ -558,24 +540,24 @@
     <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">🔧 문제가 생겼을 때</h2>
 
     <div style="border-bottom:1px solid #eee; padding:12px 0;">
-      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. deploy.sh 실행 시 "permission denied"</div>
-      <div style="font-size:13px; color:#666;">→ SSH 키 권한 확인: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">chmod 600 ~/samba-vm-secrets/ssh/deploy_key</code></div>
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 백엔드 코드 고쳤는데 반영이 안 됨</div>
+      <div style="font-size:13px; color:#666;">→ 라이브는 빌드된 이미지(local-samba-api)로 돕니다. 컨테이너 재시작만으로는 옛 이미지가 재사용됩니다. 반드시 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">cd deploy/local; .\deploy-local.ps1</code> 로 재빌드하세요.</div>
     </div>
     <div style="border-bottom:1px solid #eee; padding:12px 0;">
-      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. Docker push 실패 (unauthorized)</div>
-      <div style="font-size:13px; color:#666;">→ AR 인증 재설정: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">gcloud auth configure-docker asia-northeast3-docker.pkg.dev</code></div>
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. deploy-local.ps1 실행 실패 (Docker 미실행)</div>
+      <div style="font-size:13px; color:#666;">→ 집PC에서 Docker Desktop이 실행 중인지 확인: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">docker compose version</code></div>
     </div>
     <div style="border-bottom:1px solid #eee; padding:12px 0;">
       <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 헬스체크 실패 (DB 연결 오류)</div>
-      <div style="font-size:13px; color:#666;">→ VM에서 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker compose logs cloud-sql-proxy</code> 로 프록시 상태 확인. sa-key.json 권한 및 경로 확인.</div>
+      <div style="font-size:13px; color:#666;">→ 집PC에서 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">docker compose -f deploy/local/docker-compose.tunnel.yml logs postgres</code> 로 집 PostgreSQL 상태 확인. .env의 DB 호스트가 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">postgres</code> 인지 확인.</div>
     </div>
     <div style="border-bottom:1px solid #eee; padding:12px 0;">
-      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. HTTPS 접속 불가 (Caddy 오류)</div>
-      <div style="font-size:13px; color:#666;">→ 도메인 DNS가 VM 외부 IP를 가리키는지 확인. 방화벽에서 443 포트 허용 여부 확인.</div>
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 외부 HTTPS 접속 불가 (인바운드 끊김)</div>
+      <div style="font-size:13px; color:#666;">→ 도메인 DNS가 GCP 정적IP를 가리키는지 확인. GCP Caddy 상태와 WireGuard 터널 연결(GCP↔집PC)을 확인. 집PC가 켜져 있고 인터넷에 연결돼 있는지 확인.</div>
     </div>
     <div style="padding:12px 0; border-bottom:1px solid #eee;">
-      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. VM 컨테이너 상태 확인</div>
-      <div style="font-size:13px; color:#666;">→ <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker compose ps</code> 및 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker compose logs -f samba-api</code></div>
+      <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 집PC 컨테이너 상태 확인</div>
+      <div style="font-size:13px; color:#666;">→ <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">docker compose -f deploy/local/docker-compose.tunnel.yml ps</code> 및 <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">docker compose -f deploy/local/docker-compose.tunnel.yml logs -f samba-api</code></div>
     </div>
     <div style="padding:12px 0; border-bottom:1px solid #eee;">
       <div style="font-size:14px; font-weight:700; color:#e94560; margin-bottom:4px;">Q. 마이그레이션 실패 — LockNotAvailableError (alembic_version 잠금)</div>
@@ -584,7 +566,7 @@
         1. <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">kill_idle.py</code>: <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">asyncpg.connect → pg_terminate_backend WHERE state='idle in transaction'</code><br>
         2. <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker cp kill_idle.py samba-samba-api-1:/tmp/kill_idle.py</code><br>
         3. <code style="background:#f0f4ff; padding:2px 8px; border-radius:4px;">sudo docker exec samba-samba-api-1 /app/backend/.venv/bin/python /tmp/kill_idle.py</code><br>
-        4. remaining=0 될 때까지 반복 후 deploy.sh 재실행<br>
+        4. remaining=0 될 때까지 반복 후 deploy-local.ps1 재실행<br>
         <strong style="color:#e94560">⚠ docker stop 절대 금지</strong>
       </div>
     </div>
@@ -596,7 +578,7 @@
 
   <!-- 비용 -->
   <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">💰 월 예상 비용 (서울 리전 기준)</h2>
+    <h2 style="margin:0 0 16px; font-size:20px; color:#1a1a2e;">💰 월 예상 비용 (집PC 이전 후)</h2>
     <table style="width:100%; border-collapse:collapse; font-size:14px;">
       <tr style="background:#f8f9fa;">
         <td style="padding:10px 14px; border-bottom:1px solid #eee; font-weight:700;">서비스</td>
@@ -609,30 +591,30 @@
         <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right; color:#155724; font-weight:700;">무료</td>
       </tr>
       <tr>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">백엔드 VM</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">GCE e2-medium</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">~$24</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">백엔드 + DB</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">집(자택) PC Docker</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right; color:#155724; font-weight:700;">전기료만</td>
       </tr>
       <tr>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">데이터베이스</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Cloud SQL db-f1-micro</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">~$7</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">인바운드 프록시</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">GCP 정적IP + Caddy</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">소액</td>
       </tr>
       <tr>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Docker 이미지 저장</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Artifact Registry</td>
-        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">~$1</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">이미지 저장 / DB 백업</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee;">Cloudflare R2</td>
+        <td style="padding:10px 14px; border-bottom:1px solid #eee; text-align:right;">소액</td>
       </tr>
       <tr style="background:#f0f4ff;">
-        <td style="padding:10px 14px; font-weight:700;" colspan="2">합계</td>
-        <td style="padding:10px 14px; text-align:right; font-weight:700; color:#0f3460; font-size:16px;">~$32/월</td>
+        <td style="padding:10px 14px; font-weight:700;" colspan="2">참고: Cloud SQL은 롤백용 잔존 (추후 축소 시 약 70만원 절감)</td>
+        <td style="padding:10px 14px; text-align:right; font-weight:700; color:#0f3460; font-size:16px;">대폭 절감</td>
       </tr>
     </table>
   </div>
 
   <!-- 푸터 -->
   <div style="text-align:center; padding:20px 0; font-size:12px; color:#aaa;">
-    SAMBA WAVE 배포 가이드 v2.1 | GCE VM + Cloud SQL + Artifact Registry | 2026.05.08
+    SAMBA WAVE 배포 가이드 v3.0 | 집PC Docker + WireGuard 터널 + Vercel | 2026.06.30
   </div>
 
 </div>

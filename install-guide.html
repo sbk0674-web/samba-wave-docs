@@ -360,6 +360,7 @@
   <span class="meta-tag">2026-06-30</span>
 </div>
 <p>프로젝트 파일을 받은 후 로컬 개발 환경부터 프로덕션 레벨까지 단계별로 설정하는 완전 가이드입니다.</p>
+<p style="background:rgba(79,172,254,0.1); border:1px solid rgba(79,172,254,0.3); border-radius:8px; padding:10px 16px; font-size:0.9rem;">📌 문서의 <code>api.example.com</code>은 예시 도메인입니다 — 본인이 보유한 도메인·계정 정보로 전부 교체해서 사용하세요.</p>
 
 <!-- 배포 순서 요약 -->
 <div class="flow-row">
@@ -950,7 +951,7 @@ cp .env.example .env.local</code></pre>
     <li>
       <div>
         <strong>GCP 인바운드 프록시 + WireGuard 터널</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">GCP 정적IP + Caddy가 외부 인바운드(<code>api.samba-wave.co.kr</code>)를 받아 WireGuard 터널을 통해 집PC samba-api로 전달합니다. GCP는 "현관" 역할만 합니다.</span>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GCP 정적IP + Caddy가 외부 인바운드(<code>api.example.com</code>)를 받아 WireGuard 터널을 통해 집PC samba-api로 전달합니다. GCP는 "현관" 역할만 합니다.</span>
       </div>
     </li>
     <li>
@@ -962,7 +963,7 @@ cp .env.example .env.local</code></pre>
     <li>
       <div>
         <strong>Vercel 프론트엔드 연결</strong><br>
-        <span style="color:var(--text-muted);font-size:0.85rem;">GitHub 저장소를 Vercel에 연결하고 <code>NEXT_PUBLIC_API_URL</code>을 API 도메인(<code>https://api.samba-wave.co.kr</code>)으로 설정합니다. main 브랜치 push 시 Vercel이 자동 배포합니다. (프론트는 변경 없음)</span>
+        <span style="color:var(--text-muted);font-size:0.85rem;">GitHub 저장소를 Vercel에 연결하고 <code>NEXT_PUBLIC_API_URL</code>을 API 도메인(<code>https://api.example.com</code>)으로 설정합니다. main 브랜치 push 시 Vercel이 자동 배포합니다. (프론트는 변경 없음)</span>
       </div>
     </li>
     <li>
@@ -1066,7 +1067,7 @@ cp .env.example .env.local</code></pre>
 
     <div class="error-item">
       <div class="error-title">&#10005; 외부 접속 불가 (인바운드 터널 끊김)</div>
-      <div class="error-cause">원인: 인바운드는 api.samba-wave.co.kr → GCP 정적IP/Caddy → WireGuard 터널 → 집PC 경로입니다. 집PC 전원/인터넷이 끊기거나 WireGuard 터널이 내려가면 전체 접속이 실패합니다.</div>
+      <div class="error-cause">원인: 인바운드는 api.example.com → GCP 정적IP/Caddy → WireGuard 터널 → 집PC 경로입니다. 집PC 전원/인터넷이 끊기거나 WireGuard 터널이 내려가면 전체 접속이 실패합니다.</div>
       <div class="error-fix">해결: 집PC가 켜져 있고 인터넷에 연결돼 있는지, Docker Desktop·터널 컨테이너가 떠 있는지 확인. <code>docker compose -f deploy/local/docker-compose.tunnel.yml ps</code>로 상태 점검. EMS(ESMPlus) 등 일부 아웃바운드도 이 터널의 GCP 정적IP 출구를 쓰므로 함께 영향받습니다.</div>
     </div>
   </div>

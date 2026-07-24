@@ -16,6 +16,9 @@
     <div style="margin-top:16px; display:inline-block; background:rgba(233,69,96,0.15); border:1px solid rgba(233,69,96,0.4); border-radius:8px; padding:8px 20px; font-size:13px; color:#e94560;">
       ⚙️ 이 가이드는 실제 운영 중인 동일한 인프라 기준입니다
     </div>
+    <div style="margin-top:12px; display:inline-block; background:rgba(79,172,254,0.12); border:1px solid rgba(79,172,254,0.35); border-radius:8px; padding:8px 20px; font-size:13px; color:#4facfe;">
+      📌 문서의 <code>api.example.com</code>은 예시 도메인입니다 — 본인이 보유한 도메인으로 전부 교체하세요
+    </div>
   </div>
 </div>
 
@@ -47,7 +50,7 @@
       <!-- GCP 인바운드 (정적IP + Caddy) -->
       <div style="border:2px solid rgba(96,165,250,0.4); border-radius:12px; padding:14px; margin:4px 0; background:rgba(96,165,250,0.05);">
         <div style="text-align:center; color:#60a5fa; font-weight:700; margin-bottom:8px;">☁️ GCP 인바운드 — 정적IP + Caddy 리버스프록시</div>
-        <div style="text-align:center; color:#555; font-size:11px;">api.samba-wave.co.kr 수신 → HTTPS 종단 → WireGuard 터널로 전달</div>
+        <div style="text-align:center; color:#555; font-size:11px;">api.example.com 수신 → HTTPS 종단 → WireGuard 터널로 전달</div>
       </div>
 
       <div style="text-align:center; color:#4facfe; margin:4px 0;">↓ WireGuard 터널</div>
@@ -115,7 +118,7 @@
       </div>
       <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
         <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>GCP 정적IP + Caddy</b> — 외부 인바운드 수신용 (api.samba-wave.co.kr → 집PC 터널)</span>
+        <span style="font-size:14px;"><b>GCP 정적IP + Caddy</b> — 외부 인바운드 수신용 (api.example.com → 집PC 터널)</span>
       </div>
       <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
         <span style="font-size:20px;">✅</span>
@@ -127,7 +130,7 @@
       </div>
       <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9fa; border-radius:8px;">
         <span style="font-size:20px;">✅</span>
-        <span style="font-size:14px;"><b>도메인</b> — API 서버 주소로 사용할 도메인 (예: api.samba-wave.co.kr)</span>
+        <span style="font-size:14px;"><b>도메인</b> — API 서버 주소로 사용할 도메인 (예: api.example.com)</span>
       </div>
     </div>
     <div style="background:#fff3cd; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#856404;">
@@ -144,7 +147,7 @@
   <div style="background:#fff; border-radius:16px; padding:28px 24px; margin-bottom:32px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #e94560;">
 
     <div style="background:#fff3cd; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#856404;">
-      ℹ️ 백엔드는 집PC Docker에서 돌고, GCP는 외부 인바운드를 받아 터널로 넘기는 "현관" 역할만 합니다. 외부에서 api.samba-wave.co.kr로 들어온 요청을 GCP 정적IP + Caddy가 받아 WireGuard 터널을 통해 집PC 컨테이너로 전달합니다.
+      ℹ️ 백엔드는 집PC Docker에서 돌고, GCP는 외부 인바운드를 받아 터널로 넘기는 "현관" 역할만 합니다. 외부에서 api.example.com로 들어온 요청을 GCP 정적IP + Caddy가 받아 WireGuard 터널을 통해 집PC 컨테이너로 전달합니다.
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
@@ -165,7 +168,7 @@
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; margin-bottom:16px;">
       <span style="color:#888;"># GCP Caddyfile — 터널 너머 집PC 컨테이너로 전달</span><br>
-      <span style="color:#00f2fe;">api.samba-wave.co.kr</span> &#123;<br>
+      <span style="color:#00f2fe;">api.example.com</span> &#123;<br>
       &nbsp;&nbsp;reverse_proxy <span style="color:#00f2fe;">(WireGuard 터널 내 집PC samba-api 주소)</span><br>
       &#125;
     </div>
@@ -320,7 +323,7 @@
     </div>
 
     <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; font-size:13px; color:#0f3460;">
-      📌 인바운드: api.samba-wave.co.kr → GCP 정적IP/Caddy → WireGuard 터널 → 집PC samba-api. 터널 설정이 맞아야 외부에서 접속됩니다.
+      📌 인바운드: api.example.com → GCP 정적IP/Caddy → WireGuard 터널 → 집PC samba-api. 터널 설정이 맞아야 외부에서 접속됩니다.
     </div>
   </div>
 
@@ -371,7 +374,7 @@
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#4facfe; line-height:2; overflow-x:auto;">
       <span style="color:#888;"># GCP Caddyfile — 본인 도메인으로 교체</span><br>
-      <span style="color:#00f2fe;">api.samba-wave.co.kr</span> &#123;<br>
+      <span style="color:#00f2fe;">api.example.com</span> &#123;<br>
       &nbsp;&nbsp;reverse_proxy <span style="color:#00f2fe;">(WireGuard 터널 내 집PC samba-api 주소)</span><br>
       &#125;
     </div>
@@ -405,7 +408,7 @@
     </div>
     <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#0f3460;">
       📌 GCP 콘솔 → VPC 네트워크 → 외부 IP 주소 → 예약한 정적 IP 확인<br>
-      → DNS: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">api.samba-wave.co.kr</code> → A → GCP 정적 IP
+      → DNS: <code style="background:#e8f0ff; padding:1px 6px; border-radius:4px;">api.example.com</code> → A → GCP 정적 IP
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px;">
@@ -431,7 +434,7 @@
     </div>
 
     <div style="background:#d4edda; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:13px; color:#155724;">
-      ✅ <b>확인:</b> 재빌드·컨테이너 교체 완료 후 https://api.samba-wave.co.kr/api/v1/health 로 외부 접속 확인
+      ✅ <b>확인:</b> 재빌드·컨테이너 교체 완료 후 https://api.example.com/api/v1/health 로 외부 접속 확인
     </div>
   </div>
 
@@ -470,7 +473,7 @@
     </div>
 
     <div style="background:#1a1a2e; border-radius:10px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; color:#e5e5e5; line-height:2; margin-bottom:16px;">
-      <span style="color:#4facfe;">NEXT_PUBLIC_API_URL</span> = <span style="color:#00f2fe;">https://api.samba-wave.co.kr</span>
+      <span style="color:#4facfe;">NEXT_PUBLIC_API_URL</span> = <span style="color:#00f2fe;">https://api.example.com</span>
     </div>
 
     <div style="display:flex; align-items:flex-start; gap:10px;">
@@ -527,10 +530,10 @@
         🖥️ 프론트: https://your-samba.vercel.app
       </div>
       <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#4facfe;">
-        ⚙️ 백엔드: https://api.samba-wave.co.kr
+        ⚙️ 백엔드: https://api.example.com
       </div>
       <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:14px; color:#4ade80;">
-        💚 헬스체크: https://api.samba-wave.co.kr/api/v1/health
+        💚 헬스체크: https://api.example.com/api/v1/health
       </div>
     </div>
   </div>

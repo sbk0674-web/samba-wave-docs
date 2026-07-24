@@ -206,6 +206,16 @@
       color: #fbbf24;
       background: rgba(251, 191, 36, 0.10);
     }
+    .tag-inactive {
+      color: #f87171;
+      background: rgba(248, 113, 113, 0.12);
+    }
+    .card-note {
+      font-size: 11px;
+      color: #777;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
     .tag-esm {
       color: #818cf8;
       background: rgba(129, 140, 248, 0.12);
@@ -279,24 +289,32 @@
   <!-- 요약 통계 -->
   <div class="summary-grid">
     <div class="summary-card">
-      <div class="num">19</div>
-      <div class="label">판매처 (마켓)</div>
-    </div>
-    <div class="summary-card">
       <div class="num">14</div>
-      <div class="label">국내 마켓</div>
+      <div class="label">판매처 (운영중)</div>
     </div>
     <div class="summary-card">
       <div class="num">5</div>
-      <div class="label">해외 마켓</div>
+      <div class="label">판매처 (사용불가)</div>
     </div>
     <div class="summary-card">
-      <div class="num">16</div>
-      <div class="label">소싱처</div>
+      <div class="num">9</div>
+      <div class="label">소싱처 (운영중)</div>
+    </div>
+    <div class="summary-card">
+      <div class="num">7</div>
+      <div class="label">소싱처 (실사용 없음)</div>
     </div>
     <div class="summary-card">
       <div class="num">35</div>
       <div class="label">총 플러그인</div>
+    </div>
+  </div>
+
+  <div class="legend-box">
+    <div class="legend-title">상태 판정 기준</div>
+    <div class="legend-row" style="display:block; line-height:1.9;">
+      <span class="tag tag-active">운영중</span> = 실제 계정 연동 + 상품 등록/수집/주문 실적이 확인된 플러그인<br>
+      <span class="tag tag-inactive">사용불가</span> = 플러그인 코드는 존재하지만 실운영 계정·실적이 없어 <b>검증되지 않은</b> 플러그인. 그대로 쓰면 동작을 보장할 수 없습니다.
     </div>
   </div>
 
@@ -309,7 +327,7 @@
         <div class="section-label">// Section 01</div>
         <h2>판매처 현황</h2>
       </div>
-      <span class="section-count">19개 마켓</span>
+      <span class="section-count">19개 마켓 — 운영중 14 · 사용불가 5</span>
     </div>
 
     <!-- 국내 오픈마켓 -->
@@ -458,8 +476,9 @@
           <div class="card-file">cafe24.py</div>
           <div class="card-tags">
             <span class="tag tag-domestic">국내</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">API 연동 코드는 있으나 실운영 계정·등록·주문 실적 없음 (미검증)</div>
         </div>
 
         <div class="card">
@@ -467,8 +486,9 @@
           <div class="card-file">toss.py</div>
           <div class="card-tags">
             <span class="tag tag-domestic">국내</span>
-            <span class="tag tag-active">운영중 (신규)</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">API 연동 코드는 있으나 실운영 계정·등록·주문 실적 없음 (미검증)</div>
         </div>
 
       </div>
@@ -493,8 +513,9 @@
           <div class="card-file">amazon.py</div>
           <div class="card-tags">
             <span class="tag tag-overseas">해외</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">SP-API 연동 코드는 있으나 실운영 계정·등록·주문 실적 없음 (미검증)</div>
         </div>
 
         <div class="card">
@@ -502,8 +523,9 @@
           <div class="card-file">rakuten.py</div>
           <div class="card-tags">
             <span class="tag tag-overseas">해외</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">API 연동 코드는 있으나 실운영 계정·등록·주문 실적 없음 (미검증)</div>
         </div>
 
         <div class="card">
@@ -511,8 +533,9 @@
           <div class="card-file">buyma.py</div>
           <div class="card-tags">
             <span class="tag tag-overseas">해외</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">API 연동 코드는 있으나 실운영 계정·등록·주문 실적 없음 (미검증)</div>
         </div>
 
         <div class="card">
@@ -540,7 +563,7 @@
         <div class="section-label">// Section 02</div>
         <h2>소싱처 현황</h2>
       </div>
-      <span class="section-count">16개 소싱처</span>
+      <span class="section-count">16개 소싱처 — 운영중 9 · 실사용 없음 7</span>
     </div>
 
     <!-- 패션 -->
@@ -580,8 +603,9 @@
           <div class="card-file">rexmonde.py</div>
           <div class="card-tags">
             <span class="tag tag-fashion">명품 패션</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">수집 코드는 있으나 현재 수집 상품 0건 — 실사용 검증 안 됨</div>
         </div>
 
       </div>
@@ -632,8 +656,9 @@
           <div class="card-file">nike.py</div>
           <div class="card-tags">
             <span class="tag tag-brand">브랜드</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">수집 코드는 있으나 현재 수집 상품 0건 — 실사용 검증 안 됨</div>
         </div>
 
         <div class="card">
@@ -641,8 +666,9 @@
           <div class="card-file">adidas.py</div>
           <div class="card-tags">
             <span class="tag tag-brand">브랜드</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">수집 코드는 있으나 현재 수집 상품 0건 — 실사용 검증 안 됨</div>
         </div>
 
         <div class="card">
@@ -685,8 +711,9 @@
           <div class="card-file">thehyundai.py</div>
           <div class="card-tags">
             <span class="tag tag-general">종합몰</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">수집 코드는 있으나 현재 수집 상품 0건 — 실사용 검증 안 됨</div>
         </div>
 
       </div>
@@ -702,8 +729,9 @@
           <div class="card-file">gmarket.py</div>
           <div class="card-tags">
             <span class="tag tag-open">오픈마켓</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">소싱(수집) 코드는 있으나 현재 수집 상품 0건 — 판매처 연동과 별개</div>
         </div>
 
         <div class="card">
@@ -711,8 +739,9 @@
           <div class="card-file">naverstore.py</div>
           <div class="card-tags">
             <span class="tag tag-open">오픈마켓</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">수집 코드는 있으나 현재 수집 상품 0건 — 실사용 검증 안 됨</div>
         </div>
 
       </div>
@@ -728,8 +757,9 @@
           <div class="card-file">gsshop.py</div>
           <div class="card-tags">
             <span class="tag tag-homeshop">홈쇼핑</span>
-            <span class="tag tag-active">운영중</span>
+            <span class="tag tag-inactive">사용불가</span>
           </div>
+          <div class="card-note">소싱(수집) 코드는 있으나 현재 수집 상품 0건 — 판매처 연동(운영중)과 별개</div>
         </div>
 
       </div>
@@ -754,6 +784,7 @@
       <span class="tag tag-esm">ESMPlus 통합</span>
       <span class="tag tag-order">주문/CS 연동</span>
       <span class="tag tag-active">운영중</span>
+      <span class="tag tag-inactive">사용불가</span>
     </div>
   </div>
 

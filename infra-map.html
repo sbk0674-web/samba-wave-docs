@@ -115,6 +115,7 @@
 
 <h1><span class="emoji">🗺️</span> 삼바웨이브 인프라 전체 도식도</h1>
 <p>서비스별 연결 관계, 데이터 흐름, 요금 구조를 초딩도 이해할 수 있게 정리</p>
+<p style="background:rgba(79,172,254,0.1); border:1px solid rgba(79,172,254,0.3); border-radius:8px; padding:10px 16px; font-size:0.9rem;">📌 문서의 <code>api.example.com</code>은 예시 도메인입니다 — 자가 호스팅 시 본인 도메인으로 교체하세요.</p>
 
 <!-- ━━━━━━━━━━━━━━━━ 전체 구조도 ━━━━━━━━━━━━━━━━ -->
 <h2>1. 전체 구조 (한눈에 보기)</h2>
@@ -221,7 +222,7 @@
   <path d="M370 35 L120 88" stroke="#a78bfa" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
   <!-- Vercel → GCP 입구 프록시 → 집PC -->
   <line x1="450" y1="140" x2="450" y2="153" stroke="#3ecf8e" stroke-width="2" marker-end="url(#arrowGreen)"/>
-  <text x="500" y="150" fill="#7a7a94" font-size="9">api.samba-wave.co.kr</text>
+  <text x="500" y="150" fill="#7a7a94" font-size="9">api.example.com</text>
   <line x1="450" y1="183" x2="450" y2="188" stroke="#3ecf8e" stroke-width="2" marker-end="url(#arrowGreen)"/>
   <text x="500" y="195" fill="#7a7a94" font-size="9">WireGuard 터널</text>
   <!-- 확장앱/데몬 → 집PC api -->
@@ -363,7 +364,7 @@
   <div class="price-card">
     <div class="name"><span class="dot" style="background:#5c9aff"></span> 🌐 GCP 정적IP + Caddy 프록시</div>
     <div class="cost paid">변동 (입구 잔존)</div>
-    <div class="desc">입구 리버스프록시 역할만 잔존<br>정적IP(reserved) + Caddy(TLS) + WireGuard 터널<br>도메인: <code>api.samba-wave.co.kr</code><br><strong>실제 백엔드는 집PC</strong></div>
+    <div class="desc">입구 리버스프록시 역할만 잔존<br>정적IP(reserved) + Caddy(TLS) + WireGuard 터널<br>도메인: <code>api.example.com</code><br><strong>실제 백엔드는 집PC</strong></div>
   </div>
 
   <div class="price-card">
@@ -435,7 +436,7 @@
   </tr>
   <tr>
     <td>🌐 GCP 정적IP + Caddy</td>
-    <td>입구 리버스프록시. <code>api.samba-wave.co.kr</code> → 정적IP + Caddy(TLS) → WireGuard 터널 → 집PC samba-api</td>
+    <td>입구 리버스프록시. <code>api.example.com</code> → 정적IP + Caddy(TLS) → WireGuard 터널 → 집PC samba-api</td>
     <td>없음 (프록시만)</td>
     <td>console.cloud.google.com</td>
   </tr>
@@ -483,7 +484,7 @@
   </tr>
   <tr>
     <td>🧩 크롬 확장앱</td>
-    <td>소싱처 쿠키 수집 → 서버 전달, KREAM 자동 수집. host_permissions에 <code>api.samba-wave.co.kr</code> 등록</td>
+    <td>소싱처 쿠키 수집 → 서버 전달, KREAM 자동 수집. host_permissions에 <code>api.example.com</code> 등록</td>
     <td>쿠키 (로컬 일시 보관 후 서버 전송)</td>
     <td>chrome://extensions</td>
   </tr>
@@ -539,7 +540,7 @@
   <span class="flow-arrow">→</span>
   <span class="flow-box fb-back">컨테이너 재기동</span>
   <span class="flow-arrow">→</span>
-  <span class="flow-box fb-back">🏠 집PC 백엔드 (api.samba-wave.co.kr)</span>
+  <span class="flow-box fb-back">🏠 집PC 백엔드 (api.example.com)</span>
 </div>
 
 <h3>프론트엔드 (자동)</h3>
@@ -555,7 +556,7 @@
 
 <div class="note">
   <strong>배포 순서 주의:</strong> DB 마이그레이션(alembic) → 백엔드(집PC 재빌드) → 프론트엔드(Vercel) 순서로 배포해야 합니다. 순서를 어기면 없는 컬럼/API 참조로 서비스 장애가 발생합니다.<br>
-  <strong>네트워크:</strong> 인바운드는 <code>api.samba-wave.co.kr</code> → GCP 정적IP/Caddy → WireGuard 터널 → 집PC samba-api 컨테이너로 들어옵니다.
+  <strong>네트워크:</strong> 인바운드는 <code>api.example.com</code> → GCP 정적IP/Caddy → WireGuard 터널 → 집PC samba-api 컨테이너로 들어옵니다.
 </div>
 
 <br><br>

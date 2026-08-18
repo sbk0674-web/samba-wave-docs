@@ -182,6 +182,22 @@
       margin-bottom: 4px;
     }
 
+    /* 되돌릴 수 없는 동작·안전장치 안내용 */
+    .warning-box {
+      background: rgba(248, 113, 113, 0.05);
+      border-left: 3px solid #f87171;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .warning-box strong {
+      color: #f87171;
+      display: block;
+      margin-bottom: 4px;
+    }
+
     .note-box {
       background: rgba(59, 130, 246, 0.05);
       border-left: 3px solid #3b82f6;
@@ -470,11 +486,39 @@
     </div>
   </div>
 
+  <div class="section">
+    <h2>7. 휴지통 (2026-08-12 추가)</h2>
+    <p>지운 상품을 곧바로 없애지 않고 휴지통에 담아 둡니다. 잘못 지웠을 때 되살릴 수 있습니다.</p>
+
+    <h3>휴지통으로 보내기</h3>
+    <p>상품 목록에서 상품을 고르고 <strong>휴지통</strong>을 누르면 목록에서 사라지고 휴지통으로 들어갑니다. 상품 정보는 그대로 남아 있습니다.</p>
+
+    <div class="warning-box">
+      <strong>주의</strong>
+      마켓에 등록된 상품은 <strong>마켓에서 먼저 삭제된 뒤</strong> 휴지통으로 들어갑니다. 완전삭제와 같은 안전장치입니다. 마켓에 상품이 남은 채로 우리 쪽에서만 지워지는 일은 없습니다.
+    </div>
+
+    <h3>휴지통에 들어가면 달라지는 것</h3>
+    <ul>
+      <li>상품 목록·검색 결과에 나오지 않습니다.</li>
+      <li><strong>자동화가 전부 멈춥니다</strong> — 오토튠 가격·재고 갱신, 마켓 전송, 테트리스 배정에서 모두 제외됩니다.</li>
+      <li>상품 정보와 등록 이력은 지워지지 않고 보관됩니다.</li>
+    </ul>
+
+    <h3>되살리기 · 완전삭제</h3>
+    <p>휴지통 화면에서 <strong>복구</strong>를 누르면 원래 목록으로 돌아오고 자동화도 다시 시작됩니다. <strong>영구삭제</strong>를 누르면 그때 진짜로 지워지며, 이건 되돌릴 수 없습니다.</p>
+
+    <div class="tip-box">
+      <strong>휴지통과 완전삭제의 차이</strong>
+      휴지통은 "치워두기"이고 완전삭제는 "없애기"입니다. 다시 쓸지 모르겠으면 휴지통에 두세요. 휴지통에 있어도 자동화는 돌지 않으므로 비용이 더 들지 않습니다.
+    </div>
+  </div>
+
   <a href="index.html" class="back-link">&larr; 문서 목록으로</a>
 </div>
 
 <footer>
-  SambaWave &mdash; 상품관리 매뉴얼 &mdash; 2026.04.16
+  SambaWave &mdash; 상품관리 매뉴얼 &mdash; 2026.08.18
 </footer>
 
 </body>

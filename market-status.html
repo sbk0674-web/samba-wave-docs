@@ -210,6 +210,11 @@
       color: #f87171;
       background: rgba(248, 113, 113, 0.12);
     }
+    /* 준비됨 — 구현은 끝났고 실운영 승인·실적만 남은 상태 */
+    .tag-pending {
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.12);
+    }
     .card-note {
       font-size: 11px;
       color: #777;
@@ -278,7 +283,7 @@
 
 <!-- ════════════════════ 히어로 ════════════════════ -->
 <div class="hero">
-  <div class="hero-badge">플러그인 현황 · 2026-07-24 기준</div>
+  <div class="hero-badge">플러그인 현황 · 2026-08-18 기준</div>
   <h1><em>소싱처 · 판매처</em> 현황</h1>
   <p class="hero-sub">실제 플러그인 파일 기반 연동 현황 — plugins/markets/ &amp; plugins/sourcing/</p>
 </div>
@@ -293,8 +298,12 @@
       <div class="label">판매처 (운영중)</div>
     </div>
     <div class="summary-card">
-      <div class="num">5</div>
+      <div class="num">4</div>
       <div class="label">판매처 (사용불가)</div>
+    </div>
+    <div class="summary-card">
+      <div class="num">1</div>
+      <div class="label">판매처 (준비됨)</div>
     </div>
     <div class="summary-card">
       <div class="num">9</div>
@@ -305,7 +314,7 @@
       <div class="label">소싱처 (실사용 없음)</div>
     </div>
     <div class="summary-card">
-      <div class="num">35</div>
+      <div class="num">37</div>
       <div class="label">총 플러그인</div>
     </div>
   </div>
@@ -529,13 +538,13 @@
         </div>
 
         <div class="card">
-          <div class="card-name">Buyma</div>
+          <div class="card-name">Buyma (바이마)</div>
           <div class="card-file">buyma.py</div>
           <div class="card-tags">
             <span class="tag tag-overseas">해외</span>
-            <span class="tag tag-inactive">사용불가</span>
+            <span class="tag tag-pending">준비됨</span>
           </div>
-          <div class="card-note">API 연동 코드는 있으나 실운영 계정·등록·주문 실적 없음 (미검증)</div>
+          <div class="card-note">2026-08-14 통합 사전세팅 완료(설정·정책·일문상품명). 공개 API가 없어 CSV 생성 방식으로 운영하며, 정식 PS-API 승인 시 교체 예정. 상품명은 일문명(name_ja) 필수 — 없으면 자동 번역 후 저장, 번역 실패 시 등록 차단</div>
         </div>
 
         <div class="card">
@@ -632,6 +641,16 @@
             <span class="tag tag-resell">리셀</span>
             <span class="tag tag-active">운영중</span>
           </div>
+        </div>
+
+        <div class="card">
+          <div class="card-name">오니츠카 타이거</div>
+          <div class="card-file">확장앱 경로</div>
+          <div class="card-tags">
+            <span class="tag tag-brand">브랜드</span>
+            <span class="tag tag-inactive">등록 차단</span>
+          </div>
+          <div class="card-note">한국 발행 카드 결제 인증이 계속 실패해 2026-07-20 등록을 영구 차단하고 기존 입찰을 정리했다. 재고 조회 경로만 남아 있으며, 동시 요청은 WAF 차단을 유발하므로 금지</div>
         </div>
 
         <div class="card">
@@ -792,7 +811,7 @@
 </div>
 
 <footer>
-  SambaWave &mdash; 소싱처 · 판매처 현황 &mdash; 마지막 업데이트: 2026-07-24
+  SambaWave &mdash; 소싱처 · 판매처 현황 &mdash; 마지막 업데이트: 2026-08-18
 </footer>
 
 </body>
